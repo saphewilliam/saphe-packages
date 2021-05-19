@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+
+    "incremental": true,
+    "declaration": true,
+    "sourceMap": true,
+    "composite": true,
+    "importHelpers": true,
+
+    "strict": true,
+
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@saphe/react-forms",
+  "version": "0.0.1",
+  "description": "A lightweight, declarative, type-safe form engine for React apps",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saphewilliam/saphe-packages.git",
+    "directory": "packages/react-forms"
+  },
+  "homepage": "https://github.com/saphewilliam/saphe-packages/packages/react-forms#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": ["dist/"]
+}

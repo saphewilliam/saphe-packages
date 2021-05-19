@@ -1,0 +1,9 @@
+{
+  "references": [
+    { "path": "./packages/react-forms/tsconfig.json" },
+    { "path": "./packages/react-forms/tsconfig.esm.json" },
+    { "path": "./packages/react-slider/tsconfig.json" },
+    { "path": "./packages/react-slider/tsconfig.esm.json" },
+  ],
+  "files": []
+}

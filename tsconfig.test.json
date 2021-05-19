@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.settings.json",
+  "compilerOptions": {
+    "target": "ES2018",
+    "rootDir": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@saphe/react-forms": ["./packages/react-forms/src/index.ts"],
+      "@saphe/react-slider": ["./packages/react-slider/src/index.ts"],
+    }
+  },
+  "exclude": ["dist"]
+}

@@ -1,0 +1,42 @@
+{
+  "root": true,
+  "files": ["**/*.{ts,tsx}"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": ".",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript" 
+  ],
+  "rules": {
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "@typescript-eslint/ban-types": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "import/order": ["warn", {
+      "newlines-between": "never",
+      "alphabetize": { 
+        "order": "asc", 
+        "caseInsensitive": true 
+      }
+    }]
+  }
+}
