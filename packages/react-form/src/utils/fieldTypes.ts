@@ -18,12 +18,6 @@ export enum ValidationModes {
   ON_SUBMIT,
 }
 
-export interface RecaptchaConfig {
-  key: string;
-  locale: string;
-  errorMessage: string;
-}
-
 // Unique properties of the fields
 
 interface IText {

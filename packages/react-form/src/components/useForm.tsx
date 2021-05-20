@@ -1,11 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import {
-  RecaptchaConfig,
-  Fields,
-  FormValues,
-  ValidationModes,
-} from '../utils/fieldTypes';
+import { Fields, FormValues, ValidationModes } from '../utils/fieldTypes';
 import FormComponent from './Form';
+import { RecaptchaConfig } from './useRecaptcha';
 
 interface Config<T extends Fields> {
   /** The fields declaration */

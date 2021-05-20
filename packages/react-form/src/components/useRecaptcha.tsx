@@ -1,8 +1,13 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 import RecaptchaComponent from 'react-google-recaptcha';
-import { RecaptchaConfig } from '../utils/fieldTypes';
 
-interface State {
+export interface RecaptchaConfig {
+  siteKey: string;
+  locale: string;
+  errorMessage: string;
+}
+
+export interface State {
   Recaptcha: () => ReactElement;
   recaptchaToken: string | null;
 }
@@ -20,7 +25,7 @@ function useRecaptcha(config?: RecaptchaConfig): State {
       <div className="mb-3">
         {!!config && (
           <RecaptchaComponent
-            sitekey={config.key}
+            sitekey={config.siteKey}
             hl={config.locale}
             onChange={handleChange}
             onExpired={handleExpired}
