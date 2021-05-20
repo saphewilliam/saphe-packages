@@ -9,7 +9,7 @@ const exec = util.promisify(require('child_process').exec);
 const path = require('path');
 const isCI = require('is-ci');
 
-const config = JSON.parse(fs.readFileSync('tsconfig.json').toString());
+const config = JSON.parse(fs.readFileSync('../tsconfig.json').toString());
 config.files = [];
 config.references = [];
 

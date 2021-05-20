@@ -11,7 +11,8 @@
   },
   "author": "saphewilliam <william@saphewebdesign.com>",
   "scripts": {
-    "prepare": "echo 'prepare'",
+    "release": "build && changeset publish",
+    "change": "changeset",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
     "test": "yarn jest --coverage"
