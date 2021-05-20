@@ -8,6 +8,7 @@
     "composite": true,
     "importHelpers": true,
     "strict": true,
+    "strictNullChecks": true,
     "allowJs": false,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,11 +23,13 @@
     "alwaysStrict": true,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "noResolve": false,
     "moduleResolution": "node",
-    "esModuleInterop": true,
+    "esModuleInterop": true,    
+    "typeRoots": ["node_modules/@types"],
   }
 }

@@ -1,5 +1,2 @@
-/.git
-package.json
-
 packages/*/node_modules
 packages/*/dist

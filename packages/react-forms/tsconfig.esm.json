@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "ES2015",
     "outDir": "dist/esm",
+    "declarationDir": "dist/typings",
     "rootDir": "src",
     "baseUrl": ".",
   },
