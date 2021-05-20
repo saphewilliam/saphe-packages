@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.settings.json",
   "compilerOptions": {
     "jsx": "react",
     "baseUrl": "packages",

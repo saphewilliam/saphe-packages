@@ -15,7 +15,7 @@
     "change": "changeset",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
-    "test": "yarn jest --coverage"
+    "test": "yarn jest"
   },
   "devDependencies": {
     "@changesets/cli": "2.16.0",
