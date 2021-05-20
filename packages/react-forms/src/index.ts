@@ -1,5 +1,4 @@
-import { add } from '@saphe/core';
+export { FieldTypes, ValidationModes, FormStyles } from './utils/fieldTypes';
 
-export const new_add = (a: number, b: number, c: number): number => {
-  return add(add(a, b), c);
-};
+import useForm from './components/useForm';
+export default useForm;
