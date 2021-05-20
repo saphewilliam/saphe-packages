@@ -2,15 +2,30 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "CommonJS",
-
     "incremental": true,
     "declaration": true,
     "sourceMap": true,
     "composite": true,
     "importHelpers": true,
-
     "strict": true,
-
+    "allowJs": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "noUncheckedIndexedAccess": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "removeComments": true,
+    "noResolve": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
   }

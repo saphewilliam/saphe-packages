@@ -3,5 +3,5 @@ interface Test {
 }
 
 export const testForms: Test = {
-  hello: 'World'
-}
+  hello: 'World',
+};
