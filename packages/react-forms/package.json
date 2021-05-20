@@ -14,19 +14,16 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "files": ["dist/"],
   "scripts": {
-    "clean": "rimraf dist",
     "prepack": "yarn build",
-    "build": "yarn clean && yarn compile",
-    "compile": "tsc && cp \"./package.json\" ./dist/",
-    "test": "echo 'no test'",
+    "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
     "lint": "eslint --ext .ts,.tsx . --fix"
   },
   "dependencies": {
-    "react": "16.13.1"
+    "@saphe/core": "0.0.0"
   }
 }

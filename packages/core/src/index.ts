@@ -1,7 +1,3 @@
-interface Test {
-  hello: string;
-}
-
-export const testCore: Test = {
-  hello: 'World',
+export const add = (a: number, b: number): number => {
+  return a + b;
 };

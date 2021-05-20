@@ -11,13 +11,14 @@
   },
   "author": "saphewilliam <william@saphewebdesign.com>",
   "scripts": {
-    "prepare": "node ./.scripts/configure-references.js",
+    "prepare": "echo 'prepare'",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
     "test": "yarn jest --coverage"
   },
   "devDependencies": {
     "@changesets/cli": "2.16.0",
+    "@types/jest": "26.0.23",
     "@typescript-eslint/eslint-plugin": "4.24.0",
     "@typescript-eslint/parser": "4.24.0",
     "eslint": "7.26.0",

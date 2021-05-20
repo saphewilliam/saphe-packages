@@ -1,6 +1,7 @@
 # Compiled output
 dist/
 node_modules/
+.coverage/
 
 # Error logs
 yarn-error.log

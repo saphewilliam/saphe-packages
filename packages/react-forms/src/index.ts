@@ -1,7 +1,5 @@
-interface Test {
-  hello: string;
-}
+import { add } from '@saphe/core';
 
-export const testForms: Test = {
-  hello: 'World',
+export const new_add = (a: number, b: number, c: number): number => {
+  return add(add(a, b), c);
 };
