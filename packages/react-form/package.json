@@ -1,5 +1,5 @@
 {
-  "name": "@saphe/react-forms",
+  "name": "@saphe/react-form",
   "license": "Apache-2.0",
   "version": "0.1.0",
   "description": "A lightweight, declarative, type-safe form engine for React apps",

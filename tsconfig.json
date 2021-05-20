@@ -5,7 +5,7 @@
     "baseUrl": "packages",
     "paths": {
       "@saphe/core/*": ["core/src/*"],
-      "@saphe/react-forms/*": ["react-forms/src/*"],
+      "@saphe/react-form/*": ["react-form/src/*"],
     }
   }
 }

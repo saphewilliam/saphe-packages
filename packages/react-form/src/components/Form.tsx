@@ -14,10 +14,9 @@ import {
   ValidationModes,
   FieldValue,
   IField,
-  RecaptchaConfig,
 } from '../utils/fieldTypes';
 import Field from './Field';
-import useRecaptcha from './useRecaptcha';
+import useRecaptcha, { RecaptchaConfig } from './useRecaptcha';
 
 interface FormState<T extends Fields> {
   touched: Record<string, boolean>;
