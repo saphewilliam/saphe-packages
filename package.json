@@ -11,7 +11,7 @@
   },
   "author": "saphewilliam <william@saphewebdesign.com>",
   "scripts": {
-    "release": "build && changeset publish",
+    "release": "yarn build && changeset publish",
     "change": "changeset",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
