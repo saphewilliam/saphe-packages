@@ -1,3 +1,0 @@
-# @saphe/react-slider
-
-// TODO

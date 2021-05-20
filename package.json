@@ -1,7 +1,6 @@
 {
   "name": "saphe-packages",
   "private": true,
-  "version": "0.0.1",
   "license": "Apache-2.0",
   "workspaces": [
     "packages/*"
@@ -12,25 +11,24 @@
   },
   "author": "saphewilliam <william@saphewebdesign.com>",
   "scripts": {
-    "build": "rimraf ./packages/*/dist && tsc -b",
-    "test": "jest",
-    "lint": "eslint --ext .ts,.tsx . --fix",
-    "verify": "yarn build && yarn test && yarn lint",
-    "changeset": "changeset",
-    "release": "yarn verify && changeset publish"
+    "prepare": "node ./.scripts/configure-references.js",
+    "build": "lerna run build --stream",
+    "lint": "lerna run lint --stream --parallel",
+    "test": "yarn jest --coverage"
   },
   "devDependencies": {
     "@changesets/cli": "2.16.0",
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
-    "eslint": "^7.26.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.23.2",
+    "@typescript-eslint/eslint-plugin": "4.24.0",
+    "@typescript-eslint/parser": "4.24.0",
+    "eslint": "7.26.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.23.2",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-react": "7.23.2",
     "jest": "26.6.3",
-    "prettier": "^2.3.0",
+    "lerna": "4.0.0",
+    "prettier": "2.3.0",
     "rimraf": "3.0.2",
     "ts-jest": "26.5.6",
     "tslib": "2.2.0",

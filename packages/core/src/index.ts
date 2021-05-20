@@ -2,6 +2,6 @@ interface Test {
   hello: string;
 }
 
-export const testSlider: Test = {
+export const testCore: Test = {
   hello: 'World',
 };

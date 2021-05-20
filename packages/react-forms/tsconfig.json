@@ -1,9 +1,12 @@
 {
   "extends": "../../tsconfig.settings.json",
   "compilerOptions": {
+    "composite": true,
     "rootDir": "src",
-    "outDir": "dist/cjs",
-    "declarationDir": "dist/typings",
+    "outDir": "dist"
   },
-  "exclude": ["dist"]
+  "references": [
+    { "path": "../core" }
+  ],
+  "include": ["src/**/*"]
 }

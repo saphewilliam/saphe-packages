@@ -1,14 +1,14 @@
 {
-  "name": "@saphe/react-forms",
+  "name": "@saphe/core",
   "version": "0.0.0",
-  "description": "A lightweight, declarative, type-safe form engine for React apps",
-  "keywords": ["typescript", "react", "hook", "forms", "validation"],
+  "description": "description",
+  "keywords": ["keywords"],
   "repository": {
     "type": "git",
     "url": "https://github.com/saphewilliam/saphe-packages.git",
-    "directory": "packages/react-forms"
+    "directory": "packages/core"
   },
-  "homepage": "https://github.com/saphewilliam/saphe-packages/packages/react-forms#readme",
+  "homepage": "https://github.com/saphewilliam/saphe-packages/packages/core#readme",
   "license": "Apache-2.0",
   "sideEffects": false,
   "publishConfig": {
@@ -19,10 +19,10 @@
   "types": "dist/index.d.ts",
   "files": ["dist/"],
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf dist && rimraf tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "yarn clean && yarn compile",
-    "compile": "tsc && cp \"./package.json\" ./dist/",
+    "compile": "tsc -b && cp \"./package.json\" ./dist/",
     "test": "echo 'no test'",
     "lint": "eslint --ext .ts,.tsx . --fix"
   },
