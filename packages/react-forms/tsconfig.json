@@ -3,7 +3,10 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist/cjs",
-    "declarationDir": "dist/typings",
+    "declarationDir": "dist/types"
   },
-  "exclude": ["dist"]
+  "references": [
+    { "path": "../core" }
+  ],
+  "include": ["src/**/*"]
 }

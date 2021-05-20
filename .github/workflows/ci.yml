@@ -10,7 +10,7 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@master
 
-      - name: Set Node.js 12.x
+      - name: Setup Node.js 12.x
         uses: actions/setup-node@master
         with:
           node-version: 12.x
@@ -18,5 +18,11 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Verify
-        run: yarn verify
+      - name: Build
+        run: yarn build
+
+      - name: Test
+        run: yarn test
+
+      - name: Lint
+        run: yarn lint

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "CommonJS",
+    "jsx": "react",
     "incremental": true,
     "declaration": true,
     "sourceMap": true,
@@ -14,7 +15,6 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "noUncheckedIndexedAccess": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
@@ -30,6 +30,6 @@
     "noResolve": false,
     "moduleResolution": "node",
     "esModuleInterop": true,    
-    "typeRoots": ["node_modules/@types"],
+    // "typeRoots": ["node_modules/@types"],
   }
 }

@@ -1,17 +1,23 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils')
-// In the following statement, replace `./tsconfig` with the path to your `tsconfig` file
-// which contains the path mapping (ie the `compilerOptions.paths` option):
-const { compilerOptions } = require('./tsconfig.test')
+const path = require('path');
+const { lstatSync, readdirSync } = require('fs');
+
+// get listing of packages in the mono repo
+const basePath = path.resolve(__dirname, 'packages');
+const packages = readdirSync(basePath).filter(name => {
+  return lstatSync(path.join(basePath, name)).isDirectory();
+});
 
 module.exports = {
   preset: 'ts-jest',
-  modulePathIgnorePatterns: ['dist'],
-  testPathIgnorePatterns: ['node_modules', 'dist'],
-  testRegex: '(\\.(test|spec))\\.(ts|tsx)$',
-  globals: {
-    'ts-jest': {
-      tsConfig: 'tsconfig.test.json',
-    },
+  testEnvironment: 'node',
+  coverageDirectory: '.coverage',
+  moduleNameMapper: {
+    ...packages.reduce(
+      (acc, name) => ({
+        ...acc,
+        [`@saphe/${name}(.*)$`]: `<rootDir>/packages/./${name}/src/$1`,
+      }),
+      {},
+    ),
   },
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
-}
+};
