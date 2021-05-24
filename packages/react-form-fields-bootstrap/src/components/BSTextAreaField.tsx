@@ -1,25 +1,28 @@
-import React from 'react';
-import { TextAreaFieldProps } from '../../../utils/fieldTypes';
+import { FieldProps } from '@saphe/react-form';
+import React, { ReactElement } from 'react';
 
-function BSTextAreaField(props: TextAreaFieldProps): JSX.Element {
+export default function BSTextAreaField(
+  props: FieldProps.TextAreaFieldProps,
+): ReactElement {
   return (
     <div className="mb-3">
-      <label htmlFor={props.name} className="form-label">
+      <label htmlFor={props.id} className="form-label">
         {props.label}
       </label>
       <textarea
         rows={props.rows}
         className={`form-control${props.error ? ' is-invalid' : ''}`}
-        id={props.name}
+        id={props.id}
         name={props.name}
         value={props.value}
         placeholder={props.placeholder}
+        disabled={props.disabled}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        aria-describedby={`${props.name}Description`}
+        aria-describedby={`${props.id}Description`}
       />
       {props.description && (
-        <div id={`${props.name}Description`} className="form-text">
+        <div id={`${props.id}Description`} className="form-text">
           {props.description}
         </div>
       )}
@@ -27,5 +30,3 @@ function BSTextAreaField(props: TextAreaFieldProps): JSX.Element {
     </div>
   );
 }
-
-export default BSTextAreaField;

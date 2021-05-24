@@ -7,14 +7,12 @@ import {
   ITextAreaField,
   ITextField,
   HTMLField,
-  FormStyles,
 } from '../utils/fieldTypes';
 import SelectField from './fields/SelectField';
 import TextAreaField from './fields/TextAreaField';
 import TextField from './fields/TextField';
 
 interface Props<T extends IField> {
-  formStyle: FormStyles;
   field: T;
   name: string;
   error: string;

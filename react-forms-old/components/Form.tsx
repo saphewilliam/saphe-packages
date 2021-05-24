@@ -9,7 +9,6 @@ import {
   Fields,
   FieldTypes,
   FormValues,
-  FormStyles,
   HTMLField,
   ValidationModes,
   FieldValue,
@@ -28,13 +27,12 @@ interface Props<T extends Fields> {
   fields: T;
   onSubmit: (
     formValues: FormValues<T>,
-    recaptchaToken: string,
+    helpers: { recaptchaToken: string },
   ) => void | Promise<void>;
   submitting: boolean;
   setSubmitting: Dispatch<SetStateAction<boolean>>;
   recaptcha?: RecaptchaConfig;
   validationMode?: ValidationModes;
-  formStyle?: FormStyles;
 }
 
 function formatFieldValue<T extends IField>(
@@ -102,7 +100,6 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
     setSubmitting,
     recaptcha,
     validationMode = ValidationModes.AFTER_BLUR,
-    formStyle = FormStyles.BOOTSTRAP,
   } = props;
 
   const [formState, setFormState] = useState<FormState<T>>(
@@ -130,7 +127,9 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
       alert(recaptcha.errorMessage);
     } else {
       setSubmitting(true);
-      await onSubmit(formState.values, recaptchaToken ?? '');
+      await onSubmit(formState.values, {
+        recaptchaToken: recaptchaToken ?? '',
+      });
       setSubmitting(false);
     }
   };
@@ -191,7 +190,6 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
             key={index}
             field={field}
             name={fieldName}
-            formStyle={formStyle}
             error={formState.errors[fieldName] ?? ''}
             value={formState.values[fieldName] ?? getDefaultValue(field)}
             onChange={(e) => handleChange(e, fieldName)}

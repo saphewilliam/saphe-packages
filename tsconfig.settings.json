@@ -30,6 +30,5 @@
     "noResolve": false,
     "moduleResolution": "node",
     "esModuleInterop": true,    
-    // "typeRoots": ["node_modules/@types"],
   }
 }

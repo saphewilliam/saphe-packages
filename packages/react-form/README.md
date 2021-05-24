@@ -12,6 +12,7 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 - [ ] Give the form a name and prefix all id's with that name
 - [ ] Create Bootstrap, MaterialCSS and ChackraUI packs and the ability to create your own pack in the same way
 - [ ] Disallow unkown properties of the useForm config
+- [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 
 ## Getting Started
 
@@ -36,9 +37,9 @@ npm install @saphe/react-form
 - TEXT
 - TEXTAREA
 - SELECT
+- CHECKBOX
 - More to come... 
   - NUMBER
-  - CHECKBOX
   - RADIO
   - DATE
   - DATETIME
@@ -96,6 +97,7 @@ const { Form } = useForm({
     name: {
       type: FieldTypes.TEXT,
       label: 'Name',
+      description: 'Please enter your full name',
       placeholder: 'Enter your name...',
       validation: {
         required: 'Name is a required field',
@@ -121,7 +123,7 @@ const { Form } = useForm({
     message: {
       type: FieldTypes.TEXTAREA,
       label: 'Message',
-      placeholder: 'Enter a message...',
+      initialValue: '5 stars!',
       validation: {
         required: 'Message is a required field',
       },

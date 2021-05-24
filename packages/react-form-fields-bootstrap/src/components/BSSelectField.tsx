@@ -1,23 +1,26 @@
-import React from 'react';
-import { SelectFieldProps } from '../../../utils/fieldTypes';
+import { FieldProps } from '@saphe/react-form';
+import React, { ReactElement } from 'react';
 
-function BSSelectField(props: SelectFieldProps): JSX.Element {
+export default function BSSelectField(
+  props: FieldProps.SelectFieldProps,
+): ReactElement {
   return (
     <div className="mb-3">
       {props.label && (
-        <label htmlFor={props.name} className="form-label">
+        <label htmlFor={props.id} className="form-label">
           {props.label}
         </label>
       )}
 
       <select
         className={`form-select${props.error ? ' is-invalid' : ''}`}
-        id={props.name}
+        id={props.id}
         name={props.name}
         value={props.value}
+        disabled={props.disabled}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        aria-describedby={`${props.name}Description`}
+        aria-describedby={`${props.id}Description`}
       >
         <option value="-1">{props.placeholder ?? ''}</option>
         {props.options.map((option) => (
@@ -27,7 +30,7 @@ function BSSelectField(props: SelectFieldProps): JSX.Element {
         ))}
       </select>
       {props.description && (
-        <div id={`${props.name}Description`} className="form-text">
+        <div id={`${props.id}Description`} className="form-text">
           {props.description}
         </div>
       )}
@@ -35,5 +38,3 @@ function BSSelectField(props: SelectFieldProps): JSX.Element {
     </div>
   );
 }
-
-export default BSSelectField;

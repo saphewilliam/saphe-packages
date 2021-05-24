@@ -10,7 +10,7 @@ interface Config<T extends Fields> {
   /** The void function that fires on a form submission event */
   onSubmit: (
     formValues: FormValues<T>,
-    recaptchaToken: string,
+    helpers: { recaptchaToken: string },
   ) => void | Promise<void>;
 
   /** Add RECAPTCHA validation to the form */
