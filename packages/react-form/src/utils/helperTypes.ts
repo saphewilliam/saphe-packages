@@ -1,14 +1,5 @@
 import { ReactElement } from 'react';
 import {
-  FormFieldContainerProps,
-  SubmitButtonProps,
-  TextFieldProps,
-  TextAreaFieldProps,
-  SelectFieldProps,
-  CheckBoxFieldProps,
-  NumberFieldProps,
-} from './fieldPropTypes';
-import {
   ITextField,
   ITextAreaField,
   ISelectField,
@@ -17,6 +8,15 @@ import {
   IField,
   FieldTypes,
 } from './fieldTypes';
+import {
+  FormFieldContainerProps,
+  SubmitButtonProps,
+  TextFieldProps,
+  TextAreaFieldProps,
+  SelectFieldProps,
+  CheckBoxFieldProps,
+  NumberFieldProps,
+} from './propTypes';
 
 export type HTMLField =
   | HTMLInputElement

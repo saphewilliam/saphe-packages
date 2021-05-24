@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { FormFieldContainerProps } from '../utils/fieldPropTypes';
 import { FieldPack } from '../utils/helperTypes';
+import { FormFieldContainerProps } from '../utils/propTypes';
 
 interface Props extends FormFieldContainerProps {
   fieldPack?: FieldPack;

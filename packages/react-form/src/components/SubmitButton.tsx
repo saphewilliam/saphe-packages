@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { SubmitButtonProps } from '../utils/fieldPropTypes';
 import { FieldPack } from '../utils/helperTypes';
+import { SubmitButtonProps } from '../utils/propTypes';
 
 interface Props extends SubmitButtonProps {
   fieldPack?: FieldPack;

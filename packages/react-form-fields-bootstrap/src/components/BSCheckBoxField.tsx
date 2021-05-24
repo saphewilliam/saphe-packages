@@ -1,8 +1,8 @@
-import { FieldProps } from '@saphe/react-form';
+import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 
 export default function BSCheckBoxField(
-  props: FieldProps.CheckBoxFieldProps,
+  props: Props.CheckBoxFieldProps,
 ): ReactElement {
   return (
     <div className="form-check">

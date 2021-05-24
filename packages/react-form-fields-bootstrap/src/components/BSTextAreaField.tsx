@@ -1,8 +1,8 @@
-import { FieldProps } from '@saphe/react-form';
+import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 
 export default function BSTextAreaField(
-  props: FieldProps.TextAreaFieldProps,
+  props: Props.TextAreaFieldProps,
 ): ReactElement {
   return (
     <div className="mb-3">

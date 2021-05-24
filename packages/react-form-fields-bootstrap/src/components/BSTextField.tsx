@@ -1,9 +1,7 @@
-import { FieldProps } from '@saphe/react-form';
+import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 
-export default function BSTextField(
-  props: FieldProps.TextFieldProps,
-): ReactElement {
+export default function BSTextField(props: Props.TextFieldProps): ReactElement {
   return (
     <div className="mb-3">
       <label htmlFor={props.id} className="form-label">
