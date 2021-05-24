@@ -61,6 +61,7 @@ describe('kitchen sink', () => {
 
       /** Required, the function that fires when the user presses the submit button **/
       onSubmit: async (formValues, { recaptchaToken }) => {
+        // eslint-disable-next-line no-console
         console.log(formValues, recaptchaToken);
       },
     });

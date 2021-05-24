@@ -1,10 +1,12 @@
 import { ReactElement } from 'react';
 import {
+  FormFieldContainerProps,
+  SubmitButtonProps,
+  TextFieldProps,
+  TextAreaFieldProps,
+  SelectFieldProps,
   CheckBoxFieldProps,
   NumberFieldProps,
-  SelectFieldProps,
-  TextAreaFieldProps,
-  TextFieldProps,
 } from './fieldPropTypes';
 import {
   ITextField,
@@ -16,13 +18,20 @@ import {
   FieldTypes,
 } from './fieldTypes';
 
+export type HTMLField =
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement
+  | HTMLSelectElement // FIXME checkbox element
+  | HTMLSelectElement; // FIXME number element
+
 export interface Fields {
   [fieldName: string]: IField;
 }
 
-export type FormValue = string | boolean | number;
+export type FormValue = string | boolean | number | null;
 
-type FieldValue<T extends IField> = T extends ITextField
+export type FieldValue<T extends IField> = T extends ITextField
   ? string
   : T extends ITextAreaField
   ? string
@@ -40,6 +49,8 @@ export type FormValues<T extends Fields> = {
 };
 
 export interface FieldPack {
+  SubmitButton?: (props: SubmitButtonProps) => ReactElement;
+  FormFieldContainer?: (props: FormFieldContainerProps) => ReactElement;
   [FieldTypes.TEXT]?: (props: TextFieldProps) => ReactElement;
   [FieldTypes.TEXTAREA]?: (props: TextAreaFieldProps) => ReactElement;
   [FieldTypes.SELECT]?: (props: SelectFieldProps) => ReactElement;

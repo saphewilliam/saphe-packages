@@ -11,6 +11,7 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 - [ ] Submit should set `touched` on all form items to true
 - [ ] Give the form a name and prefix all id's with that name
 - [ ] Create Bootstrap, MaterialCSS and ChackraUI packs and the ability to create your own pack in the same way
+- [ ] Add FormFieldContainer and SubmitButton as part of a pack
 - [ ] Disallow unkown properties of the useForm config
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 
@@ -38,8 +39,8 @@ npm install @saphe/react-form
 - TEXTAREA
 - SELECT
 - CHECKBOX
+- NUMBER
 - More to come... 
-  - NUMBER
   - RADIO
   - DATE
   - DATETIME
@@ -86,13 +87,16 @@ import BootstrapFieldPack from '@saphe/react-form-fields-bootstrap';
 
 const { Form } = useForm({
 
-  /** Required, necessary for the use of IDs **/
+  /** Required, the name of this form. Necessary for the use of IDs */
   name: 'contactForm',
 
-  /** Required, defines the field pack used for this form **/
+  /** Optional, defines the form fields used for this form */
   fieldPack: BootstrapFieldPack,
 
-  /** Required, declares the fields of the form **/
+  /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
+  validationMode: ValidationModes.AFTER_BLUR,
+
+  /** Required, declares the fields of the form */
   fields: {
     name: {
       type: FieldTypes.TEXT,
@@ -130,17 +134,14 @@ const { Form } = useForm({
     },
   },
 
-  /** Optional, adds a recaptcha check to the form **/
+  /** Optional, adds a recaptcha check to the form */
   recaptcha: {
     siteKey: process.env.RECAPTCHA_SITE_KEY,
     locale: 'en',
     errorMessage: 'Please confirm you are not a robot',
   },
 
-  /** Optional, defines the he global form validation mode **/
-  validationMode: ValidationModes.AFTER_BLUR,
-
-  /** Required, the function that fires when the user presses the submit button **/
+  /** Required, the void function that fires on a form submission event */
   onSubmit: async (formValues, { recaptchaToken }) => {
     console.log(formValues, recaptchaToken);
   },

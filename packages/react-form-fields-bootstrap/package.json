@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
-    "lint": "eslint --ext .ts,.tsx . --fix"
+    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore"
   },
   "dependencies": {
     "@saphe/react-form": "0.2.0"

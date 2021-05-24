@@ -1,13 +1,6 @@
-import { ChangeEvent, FocusEvent } from 'react';
+import { ChangeEvent, FocusEvent, ReactElement } from 'react';
 import { ISelect, IText, ITextArea, ICheckBox, INumber } from './fieldTypes';
-import { FormValue } from './helperTypes';
-
-type HTMLField =
-  | HTMLInputElement
-  | HTMLTextAreaElement
-  | HTMLSelectElement
-  | HTMLSelectElement // FIXME checkbox element
-  | HTMLSelectElement; // FIXME checkbox element
+import { FormValue, HTMLField } from './helperTypes';
 
 interface FieldPropsBase<T extends FormValue, E extends HTMLField> {
   id: string;
@@ -19,6 +12,14 @@ interface FieldPropsBase<T extends FormValue, E extends HTMLField> {
   value: T;
   onChange: (e: ChangeEvent<E>) => void;
   onBlur: (e: FocusEvent<E>) => void;
+}
+
+export interface SubmitButtonProps {
+  isSubmitting: boolean;
+}
+
+export interface FormFieldContainerProps {
+  children: ReactElement;
 }
 
 export type TextFieldProps = IText & FieldPropsBase<string, HTMLInputElement>;
