@@ -47,33 +47,44 @@ export interface INumber {
 // Interfaces used by the user to declare fields in their forms
 
 interface IFieldBase<
-  T extends FieldTypes,
-  U extends FormValue,
-  V extends IValidation,
+  Type extends FieldTypes,
+  Value extends FormValue,
+  Validation extends IValidation,
 > {
-  type: T;
+  type: Type;
   label: string;
   description?: string;
-  initialValue?: U;
-  validation?: V;
+  initialValue?: Value;
+  validation?: Validation;
 }
 
-export interface ITextField
-  extends IFieldBase<FieldTypes.TEXT, string, StringValidation>,
-    IText {}
+export type ITextField = IFieldBase<FieldTypes.TEXT, string, StringValidation> &
+  IText;
 
-export interface ITextAreaField
-  extends IFieldBase<FieldTypes.TEXTAREA, string, StringValidation>,
-    ITextArea {}
+export type ITextAreaField = IFieldBase<
+  FieldTypes.TEXTAREA,
+  string,
+  StringValidation
+> &
+  ITextArea;
 
-export interface ISelectField
-  extends IFieldBase<FieldTypes.SELECT, string, SelectValidation>,
-    ISelect {}
+export type ISelectField = IFieldBase<
+  FieldTypes.SELECT,
+  string,
+  SelectValidation
+> &
+  ISelect;
 
-export interface ICheckBoxField
-  extends IFieldBase<FieldTypes.CHECKBOX, boolean, BooleanValidation>,
-    ICheckBox {}
+export type ICheckBoxField = IFieldBase<
+  FieldTypes.CHECKBOX,
+  boolean,
+  BooleanValidation
+> &
+  ICheckBox;
 
-export interface INumberField
-  extends IFieldBase<FieldTypes.NUMBER, number, NumberValidation>,
-    ICheckBox {}
+export type INumberField = IFieldBase<
+  FieldTypes.NUMBER,
+  number,
+  NumberValidation
+> &
+  ICheckBox;

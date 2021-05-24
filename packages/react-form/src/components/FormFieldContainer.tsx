@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
-import { FieldPack } from '../utils/helperTypes';
+import { AddFieldPack } from '../utils/helperTypes';
 import { FormFieldContainerProps } from '../utils/propTypes';
 
-interface Props extends FormFieldContainerProps {
-  fieldPack?: FieldPack;
-}
-
-export default function FormFieldContainer(props: Props): ReactElement {
+export default function FormFieldContainer(
+  props: AddFieldPack<FormFieldContainerProps>,
+): ReactElement {
   return props.fieldPack?.FormFieldContainer ? (
     <props.fieldPack.FormFieldContainer>
       {props.children}

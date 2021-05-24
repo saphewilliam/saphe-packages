@@ -1,5 +1,12 @@
-import React, { ChangeEvent, FormEvent, ReactElement, useState } from 'react';
-import { Config as Props } from '../hooks/useForm';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  ReactElement,
+  SetStateAction,
+  useState,
+} from 'react';
+import { Config as HookConfig } from '../hooks/useForm';
 import useRecaptcha from '../hooks/useRecaptcha';
 import {
   FormState,
@@ -14,6 +21,11 @@ import Field from './Field';
 import FormFieldContainer from './FormFieldContainer';
 import SubmitButton from './SubmitButton';
 
+interface Props<T extends Fields> extends HookConfig<T> {
+  isSubmitting: boolean;
+  setIsSubmitting: Dispatch<SetStateAction<boolean>>;
+}
+
 export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   const {
     name,
@@ -22,12 +34,13 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     fields,
     recaptcha,
     onSubmit,
+    isSubmitting,
+    setIsSubmitting,
   } = props;
 
   const [formState, setFormState] = useState<FormState<T>>(
     getInitialFormState(fields),
   );
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { Recaptcha, recaptchaToken } = useRecaptcha(recaptcha);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -109,6 +122,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
               1,
             )}`}
             field={field}
+            fieldPack={fieldPack}
             name={fieldName}
             error={formState.errors[fieldName] ?? ''}
             value={formState.values[fieldName] ?? getDefaultFieldValue(field)}

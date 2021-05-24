@@ -1,9 +1,11 @@
 import React, { ChangeEvent, FocusEvent, ReactElement } from 'react';
 import { IField } from '../utils/fieldTypes';
-import { FormValue, HTMLField } from '../utils/helperTypes';
-// import SelectField from './fields/SelectField';
-// import TextAreaField from './fields/TextAreaField';
-// import TextField from './fields/TextField';
+import { AddFieldPack, FormValue, HTMLField } from '../utils/helperTypes';
+import CheckBoxField from './fields/CheckBoxField';
+import NumberField from './fields/NumberField';
+import SelectField from './fields/SelectField';
+import TextAreaField from './fields/TextAreaField';
+import TextField from './fields/TextField';
 
 interface Props<T extends IField> {
   id: string;
@@ -15,7 +17,9 @@ interface Props<T extends IField> {
   onBlur: (e: FocusEvent<HTMLField>) => void;
 }
 
-export default function Field<T extends IField>(props: Props<T>): ReactElement {
+export default function Field<T extends IField>(
+  props: AddFieldPack<Props<T>>,
+): ReactElement {
   return <div>Field</div>;
   // switch (props.field.type) {
   //   case FieldTypes.TEXT:

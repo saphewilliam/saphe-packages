@@ -18,6 +18,8 @@ import {
   NumberFieldProps,
 } from './propTypes';
 
+export type AddFieldPack<T> = T & { fieldPack?: FieldPack };
+
 export type HTMLField =
   | HTMLInputElement
   | HTMLTextAreaElement

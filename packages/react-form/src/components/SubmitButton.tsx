@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
-import { FieldPack } from '../utils/helperTypes';
+import { AddFieldPack } from '../utils/helperTypes';
 import { SubmitButtonProps } from '../utils/propTypes';
 
-interface Props extends SubmitButtonProps {
-  fieldPack?: FieldPack;
-}
-
-export default function SubmitButton(props: Props): ReactElement {
+export default function SubmitButton(
+  props: AddFieldPack<SubmitButtonProps>,
+): ReactElement {
   return props.fieldPack?.SubmitButton ? (
     <props.fieldPack.SubmitButton isSubmitting={props.isSubmitting} />
   ) : (
