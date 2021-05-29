@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 export default function BSTextField(props: Props.TextFieldProps): ReactElement {
   return (
-    <div className="mb-3">
+    <>
       <label htmlFor={props.id} className="form-label">
         {props.label}
       </label>
@@ -25,6 +25,6 @@ export default function BSTextField(props: Props.TextFieldProps): ReactElement {
         </div>
       )}
       {props.error && <div className="invalid-feedback">{props.error}</div>}
-    </div>
+    </>
   );
 }

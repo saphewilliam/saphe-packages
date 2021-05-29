@@ -13,20 +13,20 @@ export interface Config<T extends Fields> {
   /** Required, the name of this form. Necessary for the use of IDs */
   name: string;
 
+  /** Required, declares the fields of the form */
+  fields: T;
+
   /** Optional, defines the form fields used for this form */
   fieldPack?: FieldPack;
 
   /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
   validationMode?: ValidationModes;
 
-  /** Required, declares the fields of the form */
-  fields: T;
-
   /** Optional, adds a recaptcha check to the form */
   recaptcha?: RecaptchaConfig;
 
-  /** Required, the void function that fires on a form submission event */
-  onSubmit: (
+  /** Optional, the void function that fires on a form submission event */
+  onSubmit?: (
     formValues: FormValues<T>,
     helpers: { recaptchaToken?: string },
   ) => void | Promise<void>;

@@ -90,12 +90,6 @@ const { Form } = useForm({
   /** Required, the name of this form. Necessary for the use of IDs */
   name: 'contactForm',
 
-  /** Optional, defines the form fields used for this form */
-  fieldPack: BootstrapFieldPack,
-
-  /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
-  validationMode: ValidationModes.AFTER_BLUR,
-
   /** Required, declares the fields of the form */
   fields: {
     name: {
@@ -134,6 +128,12 @@ const { Form } = useForm({
     },
   },
 
+  /** Optional, defines the form fields used for this form */
+  fieldPack: BootstrapFieldPack,
+
+  /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
+  validationMode: ValidationModes.AFTER_BLUR,
+
   /** Optional, adds a recaptcha check to the form */
   recaptcha: {
     siteKey: process.env.RECAPTCHA_SITE_KEY,
@@ -141,7 +141,7 @@ const { Form } = useForm({
     errorMessage: 'Please confirm you are not a robot',
   },
 
-  /** Required, the void function that fires on a form submission event */
+  /** Optional, the void function that fires on a form submission event */
   onSubmit: async (formValues, { recaptchaToken }) => {
     console.log(formValues, recaptchaToken);
   },

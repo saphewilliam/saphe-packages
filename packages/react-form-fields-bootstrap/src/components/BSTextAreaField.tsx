@@ -5,7 +5,7 @@ export default function BSTextAreaField(
   props: Props.TextAreaFieldProps,
 ): ReactElement {
   return (
-    <div className="mb-3">
+    <>
       <label htmlFor={props.id} className="form-label">
         {props.label}
       </label>
@@ -27,6 +27,6 @@ export default function BSTextAreaField(
         </div>
       )}
       {props.error && <div className="invalid-feedback">{props.error}</div>}
-    </div>
+    </>
   );
 }

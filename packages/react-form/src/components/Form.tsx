@@ -126,7 +126,10 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
             fieldPack={fieldPack}
             name={fieldName}
             error={formState.errors[fieldName] ?? ''}
-            value={formState.values[fieldName]?.toString() ?? getDefaultFieldValue(field).toString()}
+            value={
+              formState.values[fieldName]?.toString() ??
+              getDefaultFieldValue(field).toString()
+            }
             onChange={(e) => handleChange(e, fieldName)}
             onBlur={() => handleBlur(fieldName)}
           />

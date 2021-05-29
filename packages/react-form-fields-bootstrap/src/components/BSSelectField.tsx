@@ -5,7 +5,7 @@ export default function BSSelectField(
   props: Props.SelectFieldProps,
 ): ReactElement {
   return (
-    <div className="mb-3">
+    <>
       {props.label && (
         <label htmlFor={props.id} className="form-label">
           {props.label}
@@ -22,7 +22,7 @@ export default function BSSelectField(
         onBlur={props.onBlur}
         aria-describedby={`${props.id}Description`}
       >
-        <option value="-1">{props.placeholder ?? ''}</option>
+        <option value="-placeholder-" disabled>{props.placeholder ?? ''}</option>
         {props.options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -35,6 +35,6 @@ export default function BSSelectField(
         </div>
       )}
       {props.error && <div className="invalid-feedback">{props.error}</div>}
-    </div>
+    </>
   );
 }
