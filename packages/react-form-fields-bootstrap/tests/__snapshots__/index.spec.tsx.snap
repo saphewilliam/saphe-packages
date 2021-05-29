@@ -145,6 +145,7 @@ exports[`The field pack renders a minimal textarea field 1`] = `
       name="textField"
       onBlur={[Function]}
       onChange={[Function]}
+      rows={6}
       value=""
     />
     

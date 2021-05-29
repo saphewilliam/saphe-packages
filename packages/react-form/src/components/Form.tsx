@@ -115,13 +115,15 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     <form onSubmit={(e) => handleSubmit(e)}>
       {Object.keys(fields).map((fieldName, index) => {
         const field = fields[fieldName];
+        const fieldId = `${name}${fieldName.charAt(0).toUpperCase()}${fieldName.slice(
+          1,
+        )}`
         if (field === undefined) return <div />;
         return (
           <Field
             key={index}
-            id={`${name}${fieldName.charAt(0).toUpperCase()}${fieldName.slice(
-              1,
-            )}`}
+            id={fieldId}
+            describedBy={`${fieldId}Description`}
             field={field}
             fieldPack={fieldPack}
             name={fieldName}

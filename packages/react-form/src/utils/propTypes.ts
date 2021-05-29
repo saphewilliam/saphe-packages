@@ -6,6 +6,7 @@ interface FieldPropsBase<T extends HTMLField> {
   id: string;
   name: string;
   label: string;
+  describedBy: string;
   description?: string;
   disabled?: boolean;
   error: string;

@@ -22,10 +22,10 @@ export default function TextField(
             disabled={props.disabled}
             onChange={props.onChange}
             onBlur={props.onBlur}
-            aria-describedby={`${props.id}Description`}
+            aria-describedby={props.describedBy}
           />
           {props.description && (
-            <div id={`${props.id}Description`}>{props.description}</div>
+            <div id={props.describedBy}>{props.description}</div>
           )}
           {props.error && <div>{props.error}</div>}
         </>

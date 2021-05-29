@@ -20,7 +20,7 @@ export default function SelectField(
             disabled={props.disabled}
             onChange={props.onChange}
             onBlur={props.onBlur}
-            aria-describedby={`${props.id}Description`}
+            aria-describedby={props.describedBy}
           >
             <option value="-placeholder-" disabled>
               {props.placeholder ?? ''}
@@ -32,7 +32,7 @@ export default function SelectField(
             ))}
           </select>
           {props.description && (
-            <div id={`${props.id}Description`}>{props.description}</div>
+            <div id={props.describedBy}>{props.description}</div>
           )}
           {props.error && <div>{props.error}</div>}
         </>

@@ -17,10 +17,10 @@ export default function BSTextField(props: Props.TextFieldProps): ReactElement {
         disabled={props.disabled}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        aria-describedby={`${props.id}Description`}
+        aria-describedby={props.describedBy}
       />
       {props.description && (
-        <div id={`${props.id}Description`} className="form-text">
+        <div id={props.describedBy} className="form-text">
           {props.description}
         </div>
       )}

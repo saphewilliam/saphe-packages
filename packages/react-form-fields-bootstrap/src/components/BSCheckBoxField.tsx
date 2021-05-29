@@ -15,13 +15,13 @@ export default function BSCheckBoxField(
         disabled={props.disabled}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        aria-describedby={`${props.id}Description`}
+        aria-describedby={props.describedBy}
       />
       <label className="form-check-label" htmlFor={props.id}>
         {props.label}
       </label>
       {props.description && (
-        <div id={`${props.id}Description`} className="form-text">
+        <div id={props.describedBy} className="form-text">
           {props.description}
         </div>
       )}
