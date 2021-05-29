@@ -14,7 +14,7 @@ export default function TextAreaField(
         <>
           <label htmlFor={props.id}>{props.label}</label>
           <textarea
-            rows={props.rows}
+            rows={props.rows ?? 6}
             id={props.id}
             name={props.name}
             value={props.value}

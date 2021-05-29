@@ -10,7 +10,7 @@ export default function BSTextAreaField(
         {props.label}
       </label>
       <textarea
-        rows={props.rows}
+        rows={props.rows ?? 6}
         className={`form-control${props.error ? ' is-invalid' : ''}`}
         id={props.id}
         name={props.name}

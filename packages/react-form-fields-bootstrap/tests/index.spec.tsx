@@ -1,9 +1,8 @@
 import useForm, { FieldTypes } from '@saphe/react-form';
 import { renderHook } from '@testing-library/react-hooks';
-import renderer from 'react-test-renderer';
 import React from 'react';
+import renderer from 'react-test-renderer';
 import { BootstrapFieldPack } from '../src/index';
-import { render } from '@testing-library/react';
 
 describe('The field pack', () => {
   it('renders a minimal text field', () => {
@@ -21,11 +20,10 @@ describe('The field pack', () => {
             label: 'Text Field',
           },
         },
-        onSubmit: () => console.log(),
       }),
     );
-    
-    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot()
+
+    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot();
   });
 
   it('renders a minimal textarea field', () => {
@@ -43,11 +41,10 @@ describe('The field pack', () => {
             label: 'Textarea Field',
           },
         },
-        onSubmit: () => console.log(),
       }),
     );
-    
-    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot()
+
+    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot();
   });
 
   it('renders a minimal select field', () => {
@@ -75,11 +72,10 @@ describe('The field pack', () => {
             ],
           },
         },
-        onSubmit: () => console.log(),
       }),
     );
 
-    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot()
+    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot();
   });
 
   it('renders a minimal checkbox field', () => {
@@ -97,10 +93,9 @@ describe('The field pack', () => {
             label: 'Checkbox Field',
           },
         },
-        onSubmit: () => console.log(),
       }),
     );
-    
-    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot()
+
+    expect(renderer.create(<Form />).toJSON()).toMatchSnapshot();
   });
 });

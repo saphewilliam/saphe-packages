@@ -6,14 +6,19 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 
 ## TODOs
 
+### Short term
 - [ ] Better testing suite
+- [x] Give the form a name and prefix all id's with that name
+- [x] Add FormFieldContainer and SubmitButton as part of a pack
+- [x] Support user-created form field packs
 - [ ] Scale recaptcha badge down when viewing on smaller screens like [this](https://geekgoddess.com/how-to-resize-the-google-nocaptcha-recaptcha/) or [this](https://developers.google.com/recaptcha/docs/display#render_param)
 - [ ] Submit should set `touched` on all form items to true
-- [ ] Give the form a name and prefix all id's with that name
-- [ ] Create Bootstrap, MaterialCSS and ChackraUI packs and the ability to create your own pack in the same way
-- [ ] Add FormFieldContainer and SubmitButton as part of a pack
-- [ ] Disallow unkown properties of the useForm config
+
+### Long term
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
+- [ ] Create supported Bootstrap, TailwindCSS, MaterialCSS and ChackraUI packs
+- [ ] Support localization
+
 
 ## Getting Started
 
