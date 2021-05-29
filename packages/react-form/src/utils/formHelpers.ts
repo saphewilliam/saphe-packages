@@ -1,11 +1,11 @@
 import { FieldTypes } from '..';
 import { IField } from './fieldTypes';
-import { FormValue, Fields, FormValues } from './helperTypes';
+import { FormValue, Fields } from './helperTypes';
 
-export interface FormState<T extends Fields> {
+export interface FormState {
   touched: Record<string, boolean>;
   errors: Record<string, string>;
-  values: FormValues<T>;
+  values: Record<string, FormValue>;
 }
 
 export function getDefaultFieldValue(field: IField): FormValue {
@@ -14,15 +14,15 @@ export function getDefaultFieldValue(field: IField): FormValue {
     case FieldTypes.TEXTAREA:
       return '';
     case FieldTypes.SELECT:
-      return '-1';
+      return '-placeholder-';
     case FieldTypes.CHECKBOX:
       return false;
     case FieldTypes.NUMBER:
-      return null;
+      return '';
   }
 }
 
-export function getInitialFormState<T extends Fields>(fields: T): FormState<T> {
+export function getInitialFormState<T extends Fields>(fields: T): FormState {
   const touched: Record<string, boolean> = {};
   const errors: Record<string, string> = {};
   const values: Record<string, FormValue> = {};
@@ -33,7 +33,7 @@ export function getInitialFormState<T extends Fields>(fields: T): FormState<T> {
     errors[fieldName] = '';
   }
 
-  return { touched, errors, values: values as FormValues<T> };
+  return { touched, errors, values };
 }
 
 export function formatFieldValue(

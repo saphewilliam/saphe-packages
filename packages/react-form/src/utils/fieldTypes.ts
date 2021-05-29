@@ -41,7 +41,7 @@ export interface ISelect {
 export interface ICheckBox {}
 
 export interface INumber {
-  placeholder?: number;
+  placeholder?: string;
 }
 
 // Interfaces used by the user to declare fields in their forms

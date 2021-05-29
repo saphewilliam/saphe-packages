@@ -1,6 +1,14 @@
 import React, { ChangeEvent, FocusEvent, ReactElement } from 'react';
-import { IField } from '../utils/fieldTypes';
-import { AddFieldPack, FormValue, HTMLField } from '../utils/helperTypes';
+import {
+  FieldTypes,
+  ICheckBoxField,
+  IField,
+  INumberField,
+  ISelectField,
+  ITextAreaField,
+  ITextField,
+} from '../utils/fieldTypes';
+import { AddFieldPack, HTMLField } from '../utils/helperTypes';
 import CheckBoxField from './fields/CheckBoxField';
 import NumberField from './fields/NumberField';
 import SelectField from './fields/SelectField';
@@ -12,7 +20,7 @@ interface Props<T extends IField> {
   field: T;
   name: string;
   error: string;
-  value: FormValue;
+  value: string;
   onChange: (e: ChangeEvent<HTMLField>) => void;
   onBlur: (e: FocusEvent<HTMLField>) => void;
 }
@@ -20,13 +28,16 @@ interface Props<T extends IField> {
 export default function Field<T extends IField>(
   props: AddFieldPack<Props<T>>,
 ): ReactElement {
-  return <div>Field</div>;
-  // switch (props.field.type) {
-  //   case FieldTypes.TEXT:
-  //     return <TextField {...props} {...(props.field as ITextField)} />;
-  //   case FieldTypes.TEXTAREA:
-  //     return <TextAreaField {...props} {...(props.field as ITextAreaField)} />;
-  //   case FieldTypes.SELECT:
-  //     return <SelectField {...props} {...(props.field as ISelectField)} />;
-  // }
+  switch (props.field.type) {
+    case FieldTypes.TEXT:
+      return <TextField {...props} {...(props.field as ITextField)} />;
+    case FieldTypes.TEXTAREA:
+      return <TextAreaField {...props} {...(props.field as ITextAreaField)} />;
+    case FieldTypes.SELECT:
+      return <SelectField {...props} {...(props.field as ISelectField)} />;
+    case FieldTypes.CHECKBOX:
+      return <CheckBoxField {...props} {...(props.field as ICheckBoxField)} />;
+    case FieldTypes.NUMBER:
+      return <NumberField {...props} {...(props.field as INumberField)} />;
+  }
 }

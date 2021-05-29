@@ -9,7 +9,7 @@ const packages = readdirSync(basePath).filter(name => {
 
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   collectCoverage: true,
   collectCoverageFrom: ['packages/*/src/**'],
   coverageDirectory: '.coverage',

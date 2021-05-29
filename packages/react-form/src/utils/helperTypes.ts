@@ -23,17 +23,15 @@ export type AddFieldPack<T> = T & { fieldPack?: FieldPack };
 export type HTMLField =
   | HTMLInputElement
   | HTMLTextAreaElement
-  | HTMLSelectElement
-  | HTMLSelectElement // FIXME checkbox element
-  | HTMLSelectElement; // FIXME number element
+  | HTMLSelectElement;
 
 export interface Fields {
   [fieldName: string]: IField;
 }
 
-export type FormValue = string | boolean | number | null;
+export type FormValue = string | boolean | number;
 
-export type FieldValue<T extends IField> = T extends ITextField
+type FieldValue<T extends IField> = T extends ITextField
   ? string
   : T extends ITextAreaField
   ? string

@@ -1,9 +1,34 @@
 import React, { ReactElement } from 'react';
 import { AddFieldPack } from '../../utils/helperTypes';
-import { TextFieldProps } from '../../utils/propTypes';
+import { CheckBoxFieldProps } from '../../utils/propTypes';
+import FormFieldContainer from '../FormFieldContainer';
 
-export default function TextField(
-  props: AddFieldPack<TextFieldProps>,
+export default function CheckBoxField(
+  props: AddFieldPack<CheckBoxFieldProps>,
 ): ReactElement {
-  return <div></div>;
+  return (
+    <FormFieldContainer fieldPack={props.fieldPack}>
+      {props.fieldPack?.CHECKBOX ? (
+        <props.fieldPack.CHECKBOX {...props} />
+      ) : (
+        <>
+          <input
+            type="checkbox"
+            id={props.id}
+            name={props.name}
+            value={props.value}
+            disabled={props.disabled}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+            aria-describedby={`${props.id}Description`}
+          />
+          <label htmlFor={props.id}>{props.label}</label>
+          {props.description && (
+            <div id={`${props.id}Description`}>{props.description}</div>
+          )}
+          {props.error && <div>{props.error}</div>}
+        </>
+      )}
+    </FormFieldContainer>
+  );
 }

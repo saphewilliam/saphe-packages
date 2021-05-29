@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, ReactElement } from 'react';
+import { ChangeEvent, FocusEvent, ReactNode } from 'react';
 import { ISelect, IText, ITextArea, ICheckBox, INumber } from './fieldTypes';
 import { HTMLField } from './helperTypes';
 
@@ -19,7 +19,7 @@ export interface SubmitButtonProps {
 }
 
 export interface FormFieldContainerProps {
-  children: ReactElement;
+  children: ReactNode;
 }
 
 export type TextFieldProps = IText & FieldPropsBase<HTMLInputElement>;

@@ -1,9 +1,35 @@
 import React, { ReactElement } from 'react';
 import { AddFieldPack } from '../../utils/helperTypes';
-import { TextFieldProps } from '../../utils/propTypes';
+import { TextAreaFieldProps } from '../../utils/propTypes';
+import FormFieldContainer from '../FormFieldContainer';
 
-export default function TextField(
-  props: AddFieldPack<TextFieldProps>,
+export default function TextAreaField(
+  props: AddFieldPack<TextAreaFieldProps>,
 ): ReactElement {
-  return <div></div>;
+  return (
+    <FormFieldContainer fieldPack={props.fieldPack}>
+      {props.fieldPack?.TEXTAREA ? (
+        <props.fieldPack.TEXTAREA {...props} />
+      ) : (
+        <>
+          <label htmlFor={props.id}>{props.label}</label>
+          <textarea
+            rows={props.rows}
+            id={props.id}
+            name={props.name}
+            value={props.value}
+            placeholder={props.placeholder}
+            disabled={props.disabled}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+            aria-describedby={`${props.id}Description`}
+          />
+          {props.description && (
+            <div id={`${props.id}Description`}>{props.description}</div>
+          )}
+          {props.error && <div>{props.error}</div>}
+        </>
+      )}
+    </FormFieldContainer>
+  );
 }
