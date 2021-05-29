@@ -1,105 +1,90 @@
-import { ChangeEvent, FocusEvent } from 'react';
+import { FormValue } from './helperTypes';
+import {
+  StringValidation,
+  NumberValidation,
+  BooleanValidation,
+  SelectValidation,
+  IValidation,
+} from './validationTypes';
 
 export enum FieldTypes {
-  TEXT,
-  TEXTAREA,
-  SELECT,
+  TEXT = 'TEXT',
+  TEXTAREA = 'TEXTAREA',
+  SELECT = 'SELECT',
+  CHECKBOX = 'CHECKBOX',
+  NUMBER = 'NUMBER',
 }
 
-export enum FormStyles {
-  BOOTSTRAP,
-  MATERIAL,
-}
-
-export enum ValidationModes {
-  ON_CHANGE,
-  ON_BLUR,
-  AFTER_BLUR,
-  ON_SUBMIT,
-}
+export type IField =
+  | ITextField
+  | ITextAreaField
+  | ISelectField
+  | ICheckBoxField
+  | INumberField;
 
 // Unique properties of the fields
 
-interface IText {
-  placeholder?: FieldValue<ITextField>;
+export interface IText {
+  placeholder?: string;
 }
 
-interface ITextArea {
-  placeholder?: FieldValue<ITextAreaField>;
+export interface ITextArea {
+  placeholder?: string;
   rows?: number;
 }
 
-interface ISelect {
-  placeholder?: FieldValue<ISelectField>;
-  options: { label: string; value: FieldValue<ISelectField> }[];
+export interface ISelect {
+  placeholder?: string;
+  options: { label: string; value: string }[];
 }
 
-// Interfaces used by the user to declare fields
+export interface ICheckBox {}
 
-interface IFieldBase {
+export interface INumber {
+  placeholder?: string;
+}
+
+// Interfaces used by the user to declare fields in their forms
+
+interface IFieldBase<
+  Type extends FieldTypes,
+  Value extends FormValue,
+  Validation extends IValidation,
+> {
+  type: Type;
   label: string;
   description?: string;
-  validation?: {
-    // mode?: ValidationModes;
-    required?: string;
-  };
+  initialValue?: Value;
+  validation?: Validation;
 }
 
-export interface ITextField extends IFieldBase, IText {
-  type: FieldTypes.TEXT;
-  initialValue?: FieldValue<ITextField>;
-}
+export type ITextField = IFieldBase<FieldTypes.TEXT, string, StringValidation> &
+  IText;
 
-export interface ITextAreaField extends IFieldBase, ITextArea {
-  type: FieldTypes.TEXTAREA;
-  initialValue?: FieldValue<ITextAreaField>;
-}
+export type ITextAreaField = IFieldBase<
+  FieldTypes.TEXTAREA,
+  string,
+  StringValidation
+> &
+  ITextArea;
 
-export interface ISelectField extends IFieldBase, ISelect {
-  type: FieldTypes.SELECT;
-  initialValue?: FieldValue<ISelectField>;
-}
+export type ISelectField = IFieldBase<
+  FieldTypes.SELECT,
+  string,
+  SelectValidation
+> &
+  ISelect;
 
-// Interfaces used by a developer to develop field components
+export type ICheckBoxField = IFieldBase<
+  FieldTypes.CHECKBOX,
+  boolean,
+  BooleanValidation
+> &
+  ICheckBox;
 
-export interface FieldProps<T extends IField, E extends HTMLField> {
-  name: string;
-  label: string;
-  description?: string;
-  error: string;
-  value: FieldValue<T>;
-  onChange: (e: ChangeEvent<E>) => void;
-  onBlur: (e: FocusEvent<E>) => void;
-}
-
-export type TextFieldProps = IText & FieldProps<ITextField, HTMLInputElement>;
-
-export type TextAreaFieldProps = ITextArea &
-  FieldProps<ITextAreaField, HTMLTextAreaElement>;
-
-export type SelectFieldProps = ISelect &
-  FieldProps<ISelectField, HTMLSelectElement>;
-
-// Helpers
-
-export type HTMLField =
-  | HTMLInputElement
-  | HTMLTextAreaElement
-  | HTMLSelectElement;
-export type IField = ITextField | ITextAreaField | ISelectField;
-
-export interface Fields {
-  [fieldName: string]: IField;
-}
-
-export type FieldValue<T extends IField> = T extends ITextField
-  ? string
-  : T extends ITextAreaField
-  ? string
-  : T extends ISelectField
-  ? string
-  : 'Unkown Form Field';
-
-export type FormValues<T extends Fields> = {
-  [P in keyof T]: FieldValue<T[P]>;
-};
+export type INumberField = IFieldBase<
+  FieldTypes.NUMBER,
+  number,
+  NumberValidation
+> &
+  ICheckBox;

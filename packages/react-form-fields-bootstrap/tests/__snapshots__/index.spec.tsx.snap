@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The field pack renders a minimal checkbox field 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="mb-3"
+  >
+    <div
+      className="form-check"
+    >
+      <input
+        aria-describedby="minimalCheckboxFieldFormTextFieldDescription"
+        className="form-check-input"
+        id="minimalCheckboxFieldFormTextField"
+        name="textField"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="checkbox"
+        value="false"
+      />
+      <label
+        className="form-check-label"
+        htmlFor="minimalCheckboxFieldFormTextField"
+      >
+        Checkbox Field
+      </label>
+      
+    </div>
+  </div>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`The field pack renders a minimal select field 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="mb-3"
+  >
+    <label
+      className="form-label"
+      htmlFor="minimalSelectFieldFormTextField"
+    >
+      Select Field
+    </label>
+    <select
+      aria-describedby="minimalSelectFieldFormTextFieldDescription"
+      className="form-select"
+      id="minimalSelectFieldFormTextField"
+      name="textField"
+      onBlur={[Function]}
+      onChange={[Function]}
+      value="-placeholder-"
+    >
+      <option
+        disabled={true}
+        value="-placeholder-"
+      >
+        
+      </option>
+      <option
+        value="option-1"
+      >
+        Option 1
+      </option>
+      <option
+        value="option-2"
+      >
+        Option 2
+      </option>
+    </select>
+    
+  </div>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`The field pack renders a minimal text field 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="mb-3"
+  >
+    <label
+      className="form-label"
+      htmlFor="minimalTextFieldFormTextField"
+    >
+      Text Field
+    </label>
+    <input
+      aria-describedby="minimalTextFieldFormTextFieldDescription"
+      className="form-control"
+      id="minimalTextFieldFormTextField"
+      name="textField"
+      onBlur={[Function]}
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    
+  </div>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`The field pack renders a minimal textarea field 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="mb-3"
+  >
+    <label
+      className="form-label"
+      htmlFor="minimalTextareaFieldFormTextField"
+    >
+      Textarea Field
+    </label>
+    <textarea
+      aria-describedby="minimalTextareaFieldFormTextFieldDescription"
+      className="form-control"
+      id="minimalTextareaFieldFormTextField"
+      name="textField"
+      onBlur={[Function]}
+      onChange={[Function]}
+      rows={6}
+      value=""
+    />
+    
+  </div>
+  <button
+    className="btn btn-primary"
+    disabled={false}
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;

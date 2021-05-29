@@ -1,14 +1,10 @@
 {
-  "name": "@saphe/react-form",
+  "name": "@saphe/react-form-fields-bootstrap",
   "license": "Apache-2.0",
-  "version": "0.2.0",
-  "description": "A lightweight, declarative, type-safe form engine for React apps",
+  "version": "0.0.0",
+  "description": "Description",
   "keywords": [
-    "typescript",
-    "react",
-    "hook",
-    "forms",
-    "validation"
+    "keywords"
   ],
   "author": {
     "email": "william@saphewebdesign.com",
@@ -17,9 +13,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/saphewilliam/saphe-packages.git",
-    "directory": "packages/react-form"
+    "directory": "packages/react-form-fields-bootstrap"
   },
-  "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-form#readme",
+  "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-form-fields-bootstrap#readme",
   "bugs": "https://github.com/saphewilliam/saphe-packages/issues",
   "sideEffects": false,
   "publishConfig": {
@@ -36,10 +32,7 @@
     "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore"
   },
   "dependencies": {
-    "react-google-recaptcha": "2.1.0"
-  },
-  "devDependencies": {
-    "@types/react-google-recaptcha": "2.1.0"
+    "@saphe/react-form": "0.2.0"
   },
   "peerDependencies": {
     "react": ">=17.0.0",

@@ -1,20 +1,20 @@
 import React, { ReactElement } from 'react';
 import { AddFieldPack } from '../../utils/helperTypes';
-import { TextFieldProps } from '../../utils/propTypes';
+import { NumberFieldProps } from '../../utils/propTypes';
 import FormFieldContainer from '../FormFieldContainer';
 
 export default function TextField(
-  props: AddFieldPack<TextFieldProps>,
+  props: AddFieldPack<NumberFieldProps>,
 ): ReactElement {
   return (
     <FormFieldContainer fieldPack={props.fieldPack}>
-      {props.fieldPack?.TEXT ? (
-        <props.fieldPack.TEXT {...props} />
+      {props.fieldPack?.NUMBER ? (
+        <props.fieldPack.NUMBER {...props} />
       ) : (
         <>
           <label htmlFor={props.id}>{props.label}</label>
           <input
-            type="text"
+            type="number"
             id={props.id}
             name={props.name}
             value={props.value}

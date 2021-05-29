@@ -6,6 +6,7 @@
     "paths": {
       "@saphe/core/*": ["core/src/*"],
       "@saphe/react-form/*": ["react-form/src/*"],
+      "@saphe/react-form-fields-bootstrap/*": ["react-form-fields-bootstrap/src/*"],
     }
   }
 }

@@ -6,12 +6,19 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 
 ## TODOs
 
+### Short term
 - [ ] Better testing suite
+- [x] Give the form a name and prefix all id's with that name
+- [x] Add FormFieldContainer and SubmitButton as part of a pack
+- [x] Support user-created form field packs
 - [ ] Scale recaptcha badge down when viewing on smaller screens like [this](https://geekgoddess.com/how-to-resize-the-google-nocaptcha-recaptcha/) or [this](https://developers.google.com/recaptcha/docs/display#render_param)
 - [ ] Submit should set `touched` on all form items to true
-- [ ] Give the form a name and prefix all id's with that name
-- [ ] Create Bootstrap, MaterialCSS and ChackraUI packs and the ability to create your own pack in the same way
-- [ ] Disallow unkown properties of the useForm config
+
+### Long term
+- [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
+- [ ] Create supported Bootstrap, TailwindCSS, MaterialCSS and ChackraUI packs
+- [ ] Support localization
+
 
 ## Getting Started
 
@@ -36,9 +43,9 @@ npm install @saphe/react-form
 - TEXT
 - TEXTAREA
 - SELECT
+- CHECKBOX
+- NUMBER
 - More to come... 
-  - NUMBER
-  - CHECKBOX
   - RADIO
   - DATE
   - DATETIME
@@ -85,17 +92,15 @@ import BootstrapFieldPack from '@saphe/react-form-fields-bootstrap';
 
 const { Form } = useForm({
 
-  /** Required, necessary for the use of IDs **/
+  /** Required, the name of this form. Necessary for the use of IDs */
   name: 'contactForm',
 
-  /** Required, defines the field pack used for this form **/
-  fieldPack: BootstrapFieldPack,
-
-  /** Required, declares the fields of the form **/
+  /** Required, declares the fields of the form */
   fields: {
     name: {
       type: FieldTypes.TEXT,
       label: 'Name',
+      description: 'Please enter your full name',
       placeholder: 'Enter your name...',
       validation: {
         required: 'Name is a required field',
@@ -121,24 +126,27 @@ const { Form } = useForm({
     message: {
       type: FieldTypes.TEXTAREA,
       label: 'Message',
-      placeholder: 'Enter a message...',
+      initialValue: '5 stars!',
       validation: {
         required: 'Message is a required field',
       },
     },
   },
 
-  /** Optional, adds a recaptcha check to the form **/
+  /** Optional, defines the form fields used for this form */
+  fieldPack: BootstrapFieldPack,
+
+  /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
+  validationMode: ValidationModes.AFTER_BLUR,
+
+  /** Optional, adds a recaptcha check to the form */
   recaptcha: {
     siteKey: process.env.RECAPTCHA_SITE_KEY,
     locale: 'en',
     errorMessage: 'Please confirm you are not a robot',
   },
 
-  /** Optional, defines the he global form validation mode **/
-  validationMode: ValidationModes.AFTER_BLUR,
-
-  /** Required, the function that fires when the user presses the submit button **/
+  /** Optional, the void function that fires on a form submission event */
   onSubmit: async (formValues, { recaptchaToken }) => {
     console.log(formValues, recaptchaToken);
   },
