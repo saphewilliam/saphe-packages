@@ -7,7 +7,7 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 ## TODOs
 
 ### Short term
-- [ ] Better testing suite
+- [x] Better testing suite
 - [x] Give the form a name and prefix all id's with that name
 - [x] Add FormFieldContainer and SubmitButton as part of a pack
 - [x] Support user-created form field packs

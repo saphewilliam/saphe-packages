@@ -46,10 +46,8 @@ describe('Form', () => {
     );
 
     userEvent.click(screen.getByText('Submit'));
+    expect(onSubmitMock.mock.calls.length).toBe(1);
     expect(setIsSubmittingMock.mock.calls.length).toBe(2);
-
-    // TODO uncomment
-    // expect(onSubmitMock.mock.calls.length).toBe(1);
   });
 
   it('supports change events', () => {
