@@ -1,5 +1,17 @@
 # @saphe/react-forms
 
+## 0.3.0
+
+### Minor Changes
+
+- 0748ffe: Update testing coverage
+- d64485f: Complete restructure of the codebase
+- 8365e75: Added describedBy prop to prevent code duplication
+
+### Patch Changes
+
+- 8263ef9: Readme and linting update
+
 ## 0.2.0
 
 ### Minor Changes
