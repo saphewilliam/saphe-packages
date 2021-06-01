@@ -10,6 +10,7 @@ const packages = readdirSync(basePath).filter(name => {
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  testPathIgnorePatterns: ['dist', '<rootDir>/node_modules/'],
   collectCoverage: true,
   collectCoverageFrom: ['packages/*/src/**/*.{ts,tsx}'],
   coverageDirectory: '.coverage',
