@@ -1,4 +1,3 @@
-import { FormValue } from './helperTypes';
 import {
   StringValidation,
   NumberValidation,
@@ -48,7 +47,7 @@ export interface INumber {
 
 interface IFieldBase<
   Type extends FieldTypes,
-  Value extends FormValue,
+  Value extends string | boolean | number,
   Validation extends IValidation,
 > {
   type: Type;

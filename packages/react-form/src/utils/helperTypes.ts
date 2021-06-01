@@ -29,9 +29,7 @@ export interface Fields {
   [fieldName: string]: IField;
 }
 
-export type FormValue = string | boolean | number;
-
-type FieldValue<T extends IField> = T extends ITextField
+export type FieldValue<T extends IField> = T extends ITextField
   ? string
   : T extends ITextAreaField
   ? string

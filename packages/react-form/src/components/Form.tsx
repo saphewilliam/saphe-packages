@@ -15,7 +15,7 @@ import {
   formatFieldValue,
   getDefaultFieldValue,
 } from '../utils/formHelpers';
-import { Fields, HTMLField } from '../utils/helperTypes';
+import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
 import { ValidationModes } from '../utils/validationTypes';
 import Field from './Field';
 import FormFieldContainer from './FormFieldContainer';
@@ -57,10 +57,20 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     if (!canSubmit) setFormState({ ...formState, errors });
     else if (!!recaptcha && !recaptchaToken)
       console.error(recaptcha.errorMessage);
-    else {
+    else if (onSubmit) {
       setIsSubmitting(true);
-      // TODO formState.values parse to desired output format
-      // await onSubmit(formState.values, { recaptchaToken });
+
+      const submitValues: Record<string, string | number | boolean> = {};
+      for (const [fieldName, field] of Object.entries(fields))
+        submitValues[fieldName] = formatFieldValue(
+          field,
+          formState.values[fieldName] ?? '',
+        );
+
+      Promise.resolve(
+        onSubmit(submitValues as FormValues<T>, { recaptchaToken }),
+      );
+
       setIsSubmitting(false);
     }
   };
@@ -72,10 +82,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = validateField(
-        fields[fieldName],
-        formatFieldValue(fields[fieldName], e.target.value),
-      );
+      error = validateField(fields[fieldName], e.target.value);
 
     setFormState({
       ...formState,
@@ -85,7 +92,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       },
       values: {
         ...formState.values,
-        [fieldName]: formatFieldValue(fields[fieldName], e.target.value),
+        [fieldName]: e.target.value,
       },
     });
   };
@@ -115,9 +122,9 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     <form onSubmit={(e) => handleSubmit(e)}>
       {Object.keys(fields).map((fieldName, index) => {
         const field = fields[fieldName];
-        const fieldId = `${name}${fieldName.charAt(0).toUpperCase()}${fieldName.slice(
-          1,
-        )}`
+        const fieldId = `${name}${fieldName
+          .charAt(0)
+          .toUpperCase()}${fieldName.slice(1)}`;
         if (field === undefined) return <div />;
         return (
           <Field
