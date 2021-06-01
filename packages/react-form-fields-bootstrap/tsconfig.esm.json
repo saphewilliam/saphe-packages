@@ -6,5 +6,8 @@
     "outDir": "dist/esm",
     "declarationDir": "dist/types",
   },
-  "include": ["src/**/*"],
+  "references": [
+    { "path": "../react-form" }
+  ],
+  "include": ["src/**/*"]
 }

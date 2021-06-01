@@ -1,31 +1,32 @@
-import React from 'react';
-import { TextAreaFieldProps } from '../../../utils/fieldTypes';
+import { Props } from '@saphe/react-form';
+import React, { ReactElement } from 'react';
 
-function BSTextAreaField(props: TextAreaFieldProps): JSX.Element {
+export default function BSTextAreaField(
+  props: Props.TextAreaFieldProps,
+): ReactElement {
   return (
-    <div className="mb-3">
-      <label htmlFor={props.name} className="form-label">
+    <>
+      <label htmlFor={props.id} className="form-label">
         {props.label}
       </label>
       <textarea
-        rows={props.rows}
+        rows={props.rows ?? 6}
         className={`form-control${props.error ? ' is-invalid' : ''}`}
-        id={props.name}
+        id={props.id}
         name={props.name}
         value={props.value}
         placeholder={props.placeholder}
+        disabled={props.disabled}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        aria-describedby={`${props.name}Description`}
+        aria-describedby={props.describedBy}
       />
       {props.description && (
-        <div id={`${props.name}Description`} className="form-text">
+        <div id={props.describedBy} className="form-text">
           {props.description}
         </div>
       )}
       {props.error && <div className="invalid-feedback">{props.error}</div>}
-    </div>
+    </>
   );
 }
-
-export default BSTextAreaField;

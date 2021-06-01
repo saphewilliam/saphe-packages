@@ -2,111 +2,44 @@ import React, {
   ChangeEvent,
   Dispatch,
   FormEvent,
+  ReactElement,
   SetStateAction,
   useState,
 } from 'react';
+import { Config as HookConfig } from '../hooks/useForm';
+import useRecaptcha from '../hooks/useRecaptcha';
 import {
-  Fields,
-  FieldTypes,
-  FormValues,
-  FormStyles,
-  HTMLField,
-  ValidationModes,
-  FieldValue,
-  IField,
-} from '../utils/fieldTypes';
+  FormState,
+  getInitialFormState,
+  validateField,
+  formatFieldValue,
+  getDefaultFieldValue,
+} from '../utils/formHelpers';
+import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
+import { ValidationModes } from '../utils/validationTypes';
 import Field from './Field';
-import useRecaptcha, { RecaptchaConfig } from './useRecaptcha';
+import FormFieldContainer from './FormFieldContainer';
+import SubmitButton from './SubmitButton';
 
-interface FormState<T extends Fields> {
-  touched: Record<string, boolean>;
-  errors: Record<string, string>;
-  values: FormValues<T>;
+interface Props<T extends Fields> extends HookConfig<T> {
+  isSubmitting: boolean;
+  setIsSubmitting: Dispatch<SetStateAction<boolean>>;
 }
 
-interface Props<T extends Fields> {
-  fields: T;
-  onSubmit: (
-    formValues: FormValues<T>,
-    recaptchaToken: string,
-  ) => void | Promise<void>;
-  submitting: boolean;
-  setSubmitting: Dispatch<SetStateAction<boolean>>;
-  recaptcha?: RecaptchaConfig;
-  validationMode?: ValidationModes;
-  formStyle?: FormStyles;
-}
-
-function formatFieldValue<T extends IField>(
-  field: IField | undefined,
-  stringValue: string,
-): FieldValue<T> {
-  if (field === undefined)
-    throw new Error(`Undefined field could not be decoded`);
-  switch (field.type) {
-    case FieldTypes.TEXT:
-    case FieldTypes.TEXTAREA:
-    case FieldTypes.SELECT:
-      return stringValue as FieldValue<T>;
-  }
-}
-
-function getDefaultValue<T extends IField>(field: IField): FieldValue<T> {
-  switch (field.type) {
-    case FieldTypes.TEXT:
-    case FieldTypes.TEXTAREA:
-      return '' as FieldValue<T>;
-    case FieldTypes.SELECT:
-      return '-1' as FieldValue<T>;
-  }
-}
-
-function getInitialState<T extends Fields>(fields: T): FormState<T> {
-  const touched: Record<string, boolean> = {};
-  const errors: Record<string, string> = {};
-  const values: Record<string, string | number | boolean> = {};
-
-  for (const fieldName in fields) {
-    const field = fields[fieldName] as IField;
-    if (field === undefined) continue;
-
-    values[fieldName] = getDefaultValue(field);
-    touched[fieldName] = false;
-    errors[fieldName] = '';
-  }
-
-  return { touched, errors, values: values as FormValues<T> };
-}
-
-function validateField<T extends IField>(
-  field: IField | undefined,
-  value: FieldValue<T> | undefined,
-): string {
-  if (field === undefined) return '';
-
-  // Check if the field is required
-  if (
-    field.validation?.required !== undefined &&
-    (!value || value === getDefaultValue(field))
-  )
-    return field.validation.required;
-
-  return '';
-}
-
-function Form<T extends Fields>(props: Props<T>): JSX.Element {
+export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   const {
-    fields,
-    onSubmit,
-    submitting,
-    setSubmitting,
-    recaptcha,
+    name,
+    fieldPack,
     validationMode = ValidationModes.AFTER_BLUR,
-    formStyle = FormStyles.BOOTSTRAP,
+    fields,
+    recaptcha,
+    onSubmit,
+    isSubmitting,
+    setIsSubmitting,
   } = props;
 
-  const [formState, setFormState] = useState<FormState<T>>(
-    getInitialState(fields),
+  const [formState, setFormState] = useState<FormState>(
+    getInitialFormState(fields),
   );
   const { Recaptcha, recaptchaToken } = useRecaptcha(recaptcha);
 
@@ -121,17 +54,24 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
       if (error !== '') canSubmit = false;
     }
 
-    if (!canSubmit) {
-      setFormState({
-        ...formState,
-        errors,
-      });
-    } else if (!!recaptcha && !recaptchaToken) {
-      alert(recaptcha.errorMessage);
-    } else {
-      setSubmitting(true);
-      await onSubmit(formState.values, recaptchaToken ?? '');
-      setSubmitting(false);
+    if (!canSubmit) setFormState({ ...formState, errors });
+    else if (!!recaptcha && !recaptchaToken)
+      console.error(recaptcha.errorMessage);
+    else if (onSubmit) {
+      setIsSubmitting(true);
+
+      const submitValues: Record<string, string | number | boolean> = {};
+      for (const [fieldName, field] of Object.entries(fields))
+        submitValues[fieldName] = formatFieldValue(
+          field,
+          formState.values[fieldName] ?? '',
+        );
+
+      Promise.resolve(
+        onSubmit(submitValues as FormValues<T>, { recaptchaToken }),
+      );
+
+      setIsSubmitting(false);
     }
   };
 
@@ -142,10 +82,7 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = validateField(
-        fields[fieldName],
-        formatFieldValue(fields[fieldName], e.target.value),
-      );
+      error = validateField(fields[fieldName], e.target.value);
 
     setFormState({
       ...formState,
@@ -155,7 +92,7 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
       },
       values: {
         ...formState.values,
-        [fieldName]: formatFieldValue(fields[fieldName], e.target.value),
+        [fieldName]: e.target.value,
       },
     });
   };
@@ -185,28 +122,36 @@ function Form<T extends Fields>(props: Props<T>): JSX.Element {
     <form onSubmit={(e) => handleSubmit(e)}>
       {Object.keys(fields).map((fieldName, index) => {
         const field = fields[fieldName];
-        if (field === undefined) return <></>;
+        const fieldId = `${name}${fieldName
+          .charAt(0)
+          .toUpperCase()}${fieldName.slice(1)}`;
+        if (field === undefined) return <div />;
         return (
           <Field
             key={index}
+            id={fieldId}
+            describedBy={`${fieldId}Description`}
             field={field}
+            fieldPack={fieldPack}
             name={fieldName}
-            formStyle={formStyle}
             error={formState.errors[fieldName] ?? ''}
-            value={formState.values[fieldName] ?? getDefaultValue(field)}
+            value={
+              formState.values[fieldName]?.toString() ??
+              getDefaultFieldValue(field).toString()
+            }
             onChange={(e) => handleChange(e, fieldName)}
             onBlur={() => handleBlur(fieldName)}
           />
         );
       })}
 
-      <Recaptcha />
+      {recaptcha && (
+        <FormFieldContainer fieldPack={fieldPack}>
+          <Recaptcha />
+        </FormFieldContainer>
+      )}
 
-      <button type="submit" disabled={submitting} className="btn btn-primary">
-        {submitting ? 'Submitting...' : 'Submit'}
-      </button>
+      <SubmitButton {...{ isSubmitting, fieldPack }} />
     </form>
   );
 }
-
-export default Form;

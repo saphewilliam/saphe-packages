@@ -9,15 +9,16 @@ const packages = readdirSync(basePath).filter(name => {
 
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
+  testPathIgnorePatterns: ['dist', '<rootDir>/node_modules/'],
   collectCoverage: true,
-  collectCoverageFrom: ['packages/*/src/**'],
+  collectCoverageFrom: ['packages/*/src/**/*.{ts,tsx}'],
   coverageDirectory: '.coverage',
   moduleNameMapper: {
     ...packages.reduce(
       (acc, name) => ({
         ...acc,
-        [`@saphe/${name}(.*)$`]: `<rootDir>/packages/./${name}/src/$1`,
+        [`@saphe/${name}(.*)$`]: `<rootDir>/packages/./${name}/$1`,
       }),
       {},
     ),

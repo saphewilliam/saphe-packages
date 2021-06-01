@@ -1,0 +1,268 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field renders a checkbox field correctly 1`] = `
+<div>
+  <input
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="checkbox"
+    value=""
+  />
+  <label
+    htmlFor="id"
+  >
+    Checkbox Field
+  </label>
+  
+</div>
+`;
+
+exports[`Field renders a checkbox field correctly 2`] = `
+<div>
+  <input
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="checkbox"
+    value=""
+  />
+  <label
+    htmlFor="id"
+  >
+    Checkbox Field
+  </label>
+  <div
+    id="idNameDescription"
+  >
+    description
+  </div>
+  <div>
+    error
+  </div>
+</div>
+`;
+
+exports[`Field renders a number field correctly 1`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Number Field
+  </label>
+  <input
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="number"
+    value=""
+  />
+  
+</div>
+`;
+
+exports[`Field renders a number field correctly 2`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Number Field
+  </label>
+  <input
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="number"
+    value=""
+  />
+  <div
+    id="idNameDescription"
+  >
+    description
+  </div>
+  <div>
+    error
+  </div>
+</div>
+`;
+
+exports[`Field renders a select field correctly 1`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Select Field
+  </label>
+  <select
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    value=""
+  >
+    <option
+      disabled={true}
+      value="-placeholder-"
+    >
+      
+    </option>
+    <option
+      value="option1"
+    >
+      Option 1
+    </option>
+    <option
+      value="option2"
+    >
+      Option 2
+    </option>
+  </select>
+  
+</div>
+`;
+
+exports[`Field renders a select field correctly 2`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Select Field
+  </label>
+  <select
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    value=""
+  >
+    <option
+      disabled={true}
+      value="-placeholder-"
+    >
+      placeholder
+    </option>
+    <option
+      value="option1"
+    >
+      Option 1
+    </option>
+    <option
+      value="option2"
+    >
+      Option 2
+    </option>
+  </select>
+  <div
+    id="idNameDescription"
+  >
+    description
+  </div>
+  <div>
+    error
+  </div>
+</div>
+`;
+
+exports[`Field renders a text area field correctly 1`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Text Area Field
+  </label>
+  <textarea
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    rows={6}
+    value=""
+  />
+  
+</div>
+`;
+
+exports[`Field renders a text area field correctly 2`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Text Area Field
+  </label>
+  <textarea
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    rows={12}
+    value=""
+  />
+  <div
+    id="idNameDescription"
+  >
+    description
+  </div>
+  <div>
+    error
+  </div>
+</div>
+`;
+
+exports[`Field renders a text field correctly 1`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Text Field
+  </label>
+  <input
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="text"
+    value=""
+  />
+  
+</div>
+`;
+
+exports[`Field renders a text field correctly 2`] = `
+<div>
+  <label
+    htmlFor="id"
+  >
+    Text Field
+  </label>
+  <input
+    aria-describedby="idNameDescription"
+    id="id"
+    name="idName"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="text"
+    value=""
+  />
+  <div
+    id="idNameDescription"
+  >
+    description
+  </div>
+  <div>
+    error
+  </div>
+</div>
+`;

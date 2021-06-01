@@ -1,18 +1,35 @@
-import React from 'react';
-import { FormStyles, TextAreaFieldProps } from '../../utils/fieldTypes';
-import BSTextAreaField from '../packs/bootstrap/BSTextAreaField';
+import React, { ReactElement } from 'react';
+import { AddFieldPack } from '../../utils/helperTypes';
+import { TextAreaFieldProps } from '../../utils/propTypes';
+import FormFieldContainer from '../FormFieldContainer';
 
-interface Props extends TextAreaFieldProps {
-  formStyle: FormStyles;
+export default function TextAreaField(
+  props: AddFieldPack<TextAreaFieldProps>,
+): ReactElement {
+  return (
+    <FormFieldContainer fieldPack={props.fieldPack}>
+      {props.fieldPack?.TEXTAREA ? (
+        <props.fieldPack.TEXTAREA {...props} />
+      ) : (
+        <>
+          <label htmlFor={props.id}>{props.label}</label>
+          <textarea
+            rows={props.rows ?? 6}
+            id={props.id}
+            name={props.name}
+            value={props.value}
+            placeholder={props.placeholder}
+            disabled={props.disabled}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+            aria-describedby={props.describedBy}
+          />
+          {props.description && (
+            <div id={props.describedBy}>{props.description}</div>
+          )}
+          {props.error && <div>{props.error}</div>}
+        </>
+      )}
+    </FormFieldContainer>
+  );
 }
-
-function TextAreaField(props: Props): JSX.Element {
-  switch (props.formStyle) {
-    case FormStyles.BOOTSTRAP:
-      return <BSTextAreaField {...props} rows={props.rows ?? 6} />;
-    case FormStyles.MATERIAL:
-      return <div></div>;
-  }
-}
-
-export default TextAreaField;
