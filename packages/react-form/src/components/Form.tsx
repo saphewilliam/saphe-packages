@@ -115,9 +115,9 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     <form onSubmit={(e) => handleSubmit(e)}>
       {Object.keys(fields).map((fieldName, index) => {
         const field = fields[fieldName];
-        const fieldId = `${name}${fieldName.charAt(0).toUpperCase()}${fieldName.slice(
-          1,
-        )}`
+        const fieldId = `${name}${fieldName
+          .charAt(0)
+          .toUpperCase()}${fieldName.slice(1)}`;
         if (field === undefined) return <div />;
         return (
           <Field

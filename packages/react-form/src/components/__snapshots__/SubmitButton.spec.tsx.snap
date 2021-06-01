@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Submit Button renders 1`] = `
+<button
+  disabled={false}
+  type="submit"
+>
+  Submit
+</button>
+`;
+
+exports[`Submit Button renders 2`] = `
+<button
+  disabled={true}
+  type="submit"
+>
+  Submitting...
+</button>
+`;

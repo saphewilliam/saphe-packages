@@ -3,7 +3,7 @@ import { AddFieldPack } from '../../utils/helperTypes';
 import { NumberFieldProps } from '../../utils/propTypes';
 import FormFieldContainer from '../FormFieldContainer';
 
-export default function TextField(
+export default function NumberField(
   props: AddFieldPack<NumberFieldProps>,
 ): ReactElement {
   return (

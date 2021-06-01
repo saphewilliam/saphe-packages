@@ -61,7 +61,7 @@ export function validateField(
   if (field === undefined) return '';
 
   // TODO run rules to validate a field
-  console.log(value);
+  // console.log(value);
 
   // Check if the field is required
   // if (
