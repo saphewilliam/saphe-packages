@@ -1,5 +1,3 @@
-import { FormValue } from './helperTypes';
-
 export enum ValidationModes {
   ON_CHANGE = 'ON_CHANGE',
   ON_BLUR = 'ON_BLUR',
@@ -13,13 +11,13 @@ export type IValidation =
   | BooleanValidation
   | SelectValidation;
 
-interface ValidationBase<T extends FormValue> {
+interface ValidationBase {
   mode?: ValidationModes;
   required?: string;
-  validate?: (value: T) => string | Promise<string>;
+  validate?: (value: string) => string | Promise<string>;
 }
 
-export interface StringValidation extends ValidationBase<string> {
+export interface StringValidation extends ValidationBase {
   length?: (
     | { exact: number }
     | { min: number; max: number }
@@ -29,7 +27,7 @@ export interface StringValidation extends ValidationBase<string> {
   matches?: { regex: RegExp; message: string };
 }
 
-export interface NumberValidation extends ValidationBase<number> {
+export interface NumberValidation extends ValidationBase {
   value?: (
     | { exact: number }
     | { min: number; max: number }
@@ -44,6 +42,6 @@ export interface NumberValidation extends ValidationBase<number> {
   integer?: string;
 }
 
-export interface BooleanValidation extends ValidationBase<boolean> {}
+export interface BooleanValidation extends ValidationBase {}
 
-export interface SelectValidation extends ValidationBase<string> {}
+export interface SelectValidation extends ValidationBase {}

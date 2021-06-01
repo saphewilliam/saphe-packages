@@ -60,11 +60,16 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     else if (onSubmit) {
       setIsSubmitting(true);
 
-      let submitValues: Record<string, string | number | boolean> = {}
+      const submitValues: Record<string, string | number | boolean> = {};
       for (const [fieldName, field] of Object.entries(fields))
-        submitValues[fieldName] = formatFieldValue(field, formState.values[fieldName] ?? '')
+        submitValues[fieldName] = formatFieldValue(
+          field,
+          formState.values[fieldName] ?? '',
+        );
 
-      Promise.resolve(onSubmit(submitValues as FormValues<T>, { recaptchaToken }));
+      Promise.resolve(
+        onSubmit(submitValues as FormValues<T>, { recaptchaToken }),
+      );
 
       setIsSubmitting(false);
     }
@@ -77,10 +82,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = validateField(
-        fields[fieldName],
-        e.target.value,
-      );
+      error = validateField(fields[fieldName], e.target.value);
 
     setFormState({
       ...formState,

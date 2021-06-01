@@ -12,7 +12,7 @@ export function getDefaultFieldValue(field: IField): string {
   switch (field.type) {
     case FieldTypes.TEXT:
     case FieldTypes.TEXTAREA:
-      case FieldTypes.NUMBER:
+    case FieldTypes.NUMBER:
       return '';
     case FieldTypes.SELECT:
       return '-placeholder-';
@@ -27,7 +27,8 @@ export function getInitialFormState<T extends Fields>(fields: T): FormState {
   const values: Record<string, string> = {};
 
   for (const [fieldName, field] of Object.entries(fields)) {
-    values[fieldName] = field.initialValue?.toString() ?? getDefaultFieldValue(field);
+    values[fieldName] =
+      field.initialValue?.toString() ?? getDefaultFieldValue(field);
     touched[fieldName] = false;
     errors[fieldName] = '';
   }
