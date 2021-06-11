@@ -18,8 +18,8 @@ import {
 import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
 import { ValidationModes } from '../utils/validationTypes';
 import Field from './Field';
-import FormFieldContainer from './FormFieldContainer';
-import SubmitButton from './SubmitButton';
+import FormFieldContainer from './helpers/FormFieldContainer';
+import SubmitButton from './helpers/SubmitButton';
 
 interface Props<T extends Fields> extends HookConfig<T> {
   isSubmitting: boolean;

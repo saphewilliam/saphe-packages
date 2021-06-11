@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import { AddFieldPack } from '../../utils/helperTypes';
 import { CheckBoxFieldProps } from '../../utils/propTypes';
-import FormFieldContainer from '../FormFieldContainer';
+import FieldText from '../helpers/FieldText';
+import FormFieldContainer from '../helpers/FormFieldContainer';
 
 export default function CheckBoxField(
   props: AddFieldPack<CheckBoxFieldProps>,
@@ -11,7 +12,12 @@ export default function CheckBoxField(
       {props.fieldPack?.CHECKBOX ? (
         <props.fieldPack.CHECKBOX {...props} />
       ) : (
-        <>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
           <input
             type="checkbox"
             id={props.id}
@@ -21,13 +27,11 @@ export default function CheckBoxField(
             onChange={props.onChange}
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
+            style={{ marginRight: '10px' }}
           />
           <label htmlFor={props.id}>{props.label}</label>
-          {props.description && (
-            <div id={props.describedBy}>{props.description}</div>
-          )}
-          {props.error && <div>{props.error}</div>}
-        </>
+          <FieldText {...props} />
+        </div>
       )}
     </FormFieldContainer>
   );

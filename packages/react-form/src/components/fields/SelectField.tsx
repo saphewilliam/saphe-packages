@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import { AddFieldPack } from '../../utils/helperTypes';
 import { SelectFieldProps } from '../../utils/propTypes';
-import FormFieldContainer from '../FormFieldContainer';
+import FieldText from '../helpers/FieldText';
+import FormFieldContainer from '../helpers/FormFieldContainer';
 
 export default function SelectField(
   props: AddFieldPack<SelectFieldProps>,
@@ -31,10 +32,7 @@ export default function SelectField(
               </option>
             ))}
           </select>
-          {props.description && (
-            <div id={props.describedBy}>{props.description}</div>
-          )}
-          {props.error && <div>{props.error}</div>}
+          <FieldText {...props} />
         </>
       )}
     </FormFieldContainer>

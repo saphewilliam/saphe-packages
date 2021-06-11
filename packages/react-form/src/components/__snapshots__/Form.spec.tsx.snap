@@ -4,7 +4,15 @@ exports[`Form renders 1`] = `
 <form
   onSubmit={[Function]}
 >
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "marginBottom": "5px",
+      }
+    }
+  >
     <label
       htmlFor="testFormText"
     >
@@ -21,7 +29,15 @@ exports[`Form renders 1`] = `
     />
     
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "marginBottom": "5px",
+      }
+    }
+  >
     <label
       htmlFor="testFormTextArea"
     >
@@ -38,7 +54,15 @@ exports[`Form renders 1`] = `
     />
     
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "marginBottom": "5px",
+      }
+    }
+  >
     <label
       htmlFor="testFormSelect"
     >
@@ -71,7 +95,15 @@ exports[`Form renders 1`] = `
     </select>
     
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "marginBottom": "5px",
+      }
+    }
+  >
     <input
       aria-describedby="testFormCheckBoxDescription"
       id="testFormCheckBox"
@@ -88,7 +120,15 @@ exports[`Form renders 1`] = `
     </label>
     
   </div>
-  <div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "marginBottom": "5px",
+      }
+    }
+  >
     <label
       htmlFor="testFormNumber"
     >

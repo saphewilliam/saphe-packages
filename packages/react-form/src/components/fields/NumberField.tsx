@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import { AddFieldPack } from '../../utils/helperTypes';
 import { NumberFieldProps } from '../../utils/propTypes';
-import FormFieldContainer from '../FormFieldContainer';
+import FieldText from '../helpers/FieldText';
+import FormFieldContainer from '../helpers/FormFieldContainer';
 
 export default function NumberField(
   props: AddFieldPack<NumberFieldProps>,
@@ -24,10 +25,7 @@ export default function NumberField(
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
           />
-          {props.description && (
-            <div id={props.describedBy}>{props.description}</div>
-          )}
-          {props.error && <div>{props.error}</div>}
+          <FieldText {...props} />
         </>
       )}
     </FormFieldContainer>

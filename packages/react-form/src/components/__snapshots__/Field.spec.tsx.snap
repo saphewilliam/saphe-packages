@@ -1,7 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Field renders a checkbox field correctly 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <input
     aria-describedby="idNameDescription"
     id="id"
@@ -21,7 +29,15 @@ exports[`Field renders a checkbox field correctly 1`] = `
 `;
 
 exports[`Field renders a checkbox field correctly 2`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <input
     aria-describedby="idNameDescription"
     id="id"
@@ -48,7 +64,15 @@ exports[`Field renders a checkbox field correctly 2`] = `
 `;
 
 exports[`Field renders a number field correctly 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -68,7 +92,15 @@ exports[`Field renders a number field correctly 1`] = `
 `;
 
 exports[`Field renders a number field correctly 2`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -95,7 +127,15 @@ exports[`Field renders a number field correctly 2`] = `
 `;
 
 exports[`Field renders a select field correctly 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -131,7 +171,15 @@ exports[`Field renders a select field correctly 1`] = `
 `;
 
 exports[`Field renders a select field correctly 2`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -174,7 +222,15 @@ exports[`Field renders a select field correctly 2`] = `
 `;
 
 exports[`Field renders a text area field correctly 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -194,7 +250,15 @@ exports[`Field renders a text area field correctly 1`] = `
 `;
 
 exports[`Field renders a text area field correctly 2`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -221,7 +285,15 @@ exports[`Field renders a text area field correctly 2`] = `
 `;
 
 exports[`Field renders a text field correctly 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >
@@ -241,7 +313,15 @@ exports[`Field renders a text field correctly 1`] = `
 `;
 
 exports[`Field renders a text field correctly 2`] = `
-<div>
+<div
+  style={
+    Object {
+      "display": "flex",
+      "flexDirection": "column",
+      "marginBottom": "5px",
+    }
+  }
+>
   <label
     htmlFor="id"
   >

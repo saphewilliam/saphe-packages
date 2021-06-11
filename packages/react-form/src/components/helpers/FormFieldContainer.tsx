@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { AddFieldPack } from '../utils/helperTypes';
-import { FormFieldContainerProps } from '../utils/propTypes';
+import { AddFieldPack } from '../../utils/helperTypes';
+import { FormFieldContainerProps } from '../../utils/propTypes';
 
 export default function FormFieldContainer(
   props: AddFieldPack<FormFieldContainerProps>,
@@ -10,6 +10,14 @@ export default function FormFieldContainer(
       {props.children}
     </props.fieldPack.FormFieldContainer>
   ) : (
-    <div>{props.children}</div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        marginBottom: '20px',
+      }}
+    >
+      {props.children}
+    </div>
   );
 }
