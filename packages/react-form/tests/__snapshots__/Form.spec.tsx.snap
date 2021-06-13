@@ -163,8 +163,8 @@ exports[`Form renders 1`] = `
       >
         Checkbox Field
       </label>
-      
     </div>
+    
   </div>
   <div
     style={

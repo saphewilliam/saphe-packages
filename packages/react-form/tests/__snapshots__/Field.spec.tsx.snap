@@ -42,8 +42,8 @@ exports[`Field renders a checkbox field correctly 1`] = `
     >
       Checkbox Field
     </label>
-    
   </div>
+  
 </div>
 `;
 
@@ -89,27 +89,27 @@ exports[`Field renders a checkbox field correctly 2`] = `
     >
       Checkbox Field
     </label>
-    <p
-      style={
-        Object {
-          "color": "red",
-          "margin": 0,
-        }
-      }
-    >
-      error
-    </p>
-    <p
-      id="idNameDescription"
-      style={
-        Object {
-          "margin": 0,
-        }
-      }
-    >
-      description
-    </p>
   </div>
+  <p
+    style={
+      Object {
+        "color": "red",
+        "margin": 0,
+      }
+    }
+  >
+    error
+  </p>
+  <p
+    id="idNameDescription"
+    style={
+      Object {
+        "margin": 0,
+      }
+    }
+  >
+    description
+  </p>
 </div>
 `;
 

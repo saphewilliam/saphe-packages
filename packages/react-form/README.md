@@ -11,9 +11,9 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 - [x] Give the form a name and prefix all id's with that name
 - [x] Add FormFieldContainer and SubmitButton as part of a pack
 - [x] Support user-created form field packs
+- [x] Submit should set `touched` on all form items to true
 - [ ] Show Recaptcha error message in the frontend
 - [ ] Scale recaptcha badge down when viewing on smaller screens like [this](https://geekgoddess.com/how-to-resize-the-google-nocaptcha-recaptcha/) or [this](https://developers.google.com/recaptcha/docs/display#render_param)
-- [ ] Submit should set `touched` on all form items to true
 - [ ] Add star behind required field labels (and option to turn it off in the root)
 - [ ] Eliminate native change and blur events in favor of minimalized custom ones
 

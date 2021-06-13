@@ -15,8 +15,8 @@ import {
   formatFieldValue,
   getDefaultFieldValue,
 } from '../utils/formHelpers';
-import {validateField} from '../utils/validationHelpers';
 import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
+import { validateField } from '../utils/validationHelpers';
 import { ValidationModes } from '../utils/validationTypes';
 import Field from './Field';
 import FormFieldContainer from './helpers/FormFieldContainer';
@@ -51,7 +51,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     const errors: Record<string, string> = {};
     const touched: Record<string, boolean> = {};
     for (const [fieldName, field] of Object.entries(fields)) {
-      const error = await validateField(field, formState.values[fieldName]);
+      const error = validateField(field, formState.values[fieldName]);
       errors[fieldName] = error;
       touched[fieldName] = true;
       if (error !== '') canSubmit = false;
@@ -78,7 +78,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     }
   };
 
-  const handleChange = async (e: ChangeEvent<HTMLField>, fieldName: string) => {
+  const handleChange = (e: ChangeEvent<HTMLField>, fieldName: string) => {
     const targetValue =
       fields[fieldName]?.type === FieldTypes.CHECKBOX
         ? String((e as ChangeEvent<HTMLInputElement>).target.checked)
@@ -90,7 +90,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = await validateField(fields[fieldName], targetValue);
+      error = validateField(fields[fieldName], targetValue);
 
     setFormState({
       ...formState,
@@ -105,13 +105,13 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     });
   };
 
-  const handleBlur = async (fieldName: string) => {
+  const handleBlur = (fieldName: string) => {
     let error = formState.errors[fieldName] ?? '';
     if (
       validationMode === ValidationModes.ON_BLUR ||
       validationMode === ValidationModes.AFTER_BLUR
     )
-      error = await validateField(fields[fieldName], formState.values[fieldName]);
+      error = validateField(fields[fieldName], formState.values[fieldName]);
 
     setFormState({
       ...formState,

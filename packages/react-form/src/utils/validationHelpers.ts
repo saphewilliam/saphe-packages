@@ -3,14 +3,15 @@ import { IField } from './fieldTypes';
 import { getDefaultFieldValue } from './formHelpers';
 import { StringValidation } from './validationTypes';
 
-export async function validateField(
+export function validateField(
   field: IField | undefined,
   value: string | undefined,
-): Promise<string> {
-  if (field === undefined || value === undefined) return '';
+): string {
+  if (field === undefined || value === undefined || !field.validation)
+    return '';
 
   // Required check
-  if (field.validation?.required && value === getDefaultFieldValue(field))
+  if (field.validation.required && value === getDefaultFieldValue(field))
     return field.validation.required;
 
   // Type-specific checks
@@ -31,12 +32,10 @@ export async function validateField(
   if (error) return error;
 
   // Finally, run the custom validate function
-  if (field.validation?.validate) {
-    try {
-      error = await field.validation.validate(value);
-    } catch (e) {
-      error = e;
-    }
+  if (field.validation.validate) {
+    Promise.resolve(field.validation.validate(value))
+      .then((e) => (error = e))
+      .catch((e) => (error = e));
   }
 
   return error;
