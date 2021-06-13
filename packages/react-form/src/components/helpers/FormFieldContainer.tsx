@@ -14,7 +14,7 @@ export default function FormFieldContainer(
       style={{
         display: 'flex',
         flexDirection: 'column',
-        marginBottom: '20px',
+        marginBottom: '25px',
       }}
     >
       {props.children}

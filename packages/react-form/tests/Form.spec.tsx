@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import Form from '../src/components/Form';
 import {
   minimalNumberField,
   minimalCheckBoxField,
@@ -8,8 +9,7 @@ import {
   minimalTextAreaField,
   minimalTextField,
   matchSnapshot,
-} from '../utils/testHelpers';
-import Form from './Form';
+} from './testHelpers';
 
 const fields = {
   text: minimalTextField,

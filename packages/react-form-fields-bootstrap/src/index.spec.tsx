@@ -9,7 +9,7 @@ import {
   renderForm,
 } from './util/testHelpers';
 
-// TODO test states (with/without error)
+// TODO test error state
 describe('The field pack', () => {
   it('renders a minimal text field', () => {
     const Form1 = renderForm(minimalTextFieldForm);

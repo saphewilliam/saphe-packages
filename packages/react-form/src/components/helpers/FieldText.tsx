@@ -9,10 +9,12 @@ interface Props {
 export default function FieldText(props: Props): ReactElement {
   return (
     <>
+      {props.error && <p style={{ margin: 0, color: 'red' }}>{props.error}</p>}
       {props.description && (
-        <div id={props.describedBy}>{props.description}</div>
+        <p style={{ margin: 0 }} id={props.describedBy}>
+          {props.description}
+        </p>
       )}
-      {props.error && <div>{props.error}</div>}
     </>
   );
 }

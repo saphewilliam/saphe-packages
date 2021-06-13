@@ -6,25 +6,44 @@ exports[`Field renders a checkbox field correctly 1`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
-  <input
-    aria-describedby="idNameDescription"
-    id="id"
-    name="idName"
-    onBlur={[MockFunction]}
-    onChange={[MockFunction]}
-    type="checkbox"
-    value=""
-  />
-  <label
-    htmlFor="id"
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
   >
-    Checkbox Field
-  </label>
-  
+    <input
+      aria-describedby="idNameDescription"
+      checked={false}
+      id="id"
+      name="idName"
+      onBlur={[MockFunction]}
+      onChange={[Function]}
+      style={
+        Object {
+          "borderColor": "#767676",
+          "borderRadius": "3px",
+          "borderStyle": "solid",
+          "borderWidth": "1px",
+          "marginBottom": "3px",
+          "marginRight": "10px",
+        }
+      }
+      type="checkbox"
+    />
+    <label
+      htmlFor="id"
+    >
+      Checkbox Field
+    </label>
+    
+  </div>
 </div>
 `;
 
@@ -34,31 +53,62 @@ exports[`Field renders a checkbox field correctly 2`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
-  <input
-    aria-describedby="idNameDescription"
-    id="id"
-    name="idName"
-    onBlur={[MockFunction]}
-    onChange={[MockFunction]}
-    type="checkbox"
-    value=""
-  />
-  <label
-    htmlFor="id"
-  >
-    Checkbox Field
-  </label>
   <div
-    id="idNameDescription"
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
   >
-    description
-  </div>
-  <div>
-    error
+    <input
+      aria-describedby="idNameDescription"
+      checked={false}
+      id="id"
+      name="idName"
+      onBlur={[MockFunction]}
+      onChange={[Function]}
+      style={
+        Object {
+          "borderColor": "red",
+          "borderRadius": "3px",
+          "borderStyle": "solid",
+          "borderWidth": "1px",
+          "marginBottom": "3px",
+          "marginRight": "10px",
+        }
+      }
+      type="checkbox"
+    />
+    <label
+      htmlFor="id"
+    >
+      Checkbox Field
+    </label>
+    <p
+      style={
+        Object {
+          "color": "red",
+          "margin": 0,
+        }
+      }
+    >
+      error
+    </p>
+    <p
+      id="idNameDescription"
+      style={
+        Object {
+          "margin": 0,
+        }
+      }
+    >
+      description
+    </p>
   </div>
 </div>
 `;
@@ -69,7 +119,7 @@ exports[`Field renders a number field correctly 1`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -84,6 +134,15 @@ exports[`Field renders a number field correctly 1`] = `
     name="idName"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
+    style={
+      Object {
+        "borderColor": "#767676",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     type="number"
     value=""
   />
@@ -97,7 +156,7 @@ exports[`Field renders a number field correctly 2`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -112,17 +171,38 @@ exports[`Field renders a number field correctly 2`] = `
     name="idName"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
+    style={
+      Object {
+        "borderColor": "red",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     type="number"
     value=""
   />
-  <div
+  <p
+    style={
+      Object {
+        "color": "red",
+        "margin": 0,
+      }
+    }
+  >
+    error
+  </p>
+  <p
     id="idNameDescription"
+    style={
+      Object {
+        "margin": 0,
+      }
+    }
   >
     description
-  </div>
-  <div>
-    error
-  </div>
+  </p>
 </div>
 `;
 
@@ -132,7 +212,7 @@ exports[`Field renders a select field correctly 1`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -147,6 +227,15 @@ exports[`Field renders a select field correctly 1`] = `
     name="idName"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
+    style={
+      Object {
+        "borderColor": "#767676",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     value=""
   >
     <option
@@ -176,7 +265,7 @@ exports[`Field renders a select field correctly 2`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -191,6 +280,15 @@ exports[`Field renders a select field correctly 2`] = `
     name="idName"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
+    style={
+      Object {
+        "borderColor": "red",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     value=""
   >
     <option
@@ -210,14 +308,26 @@ exports[`Field renders a select field correctly 2`] = `
       Option 2
     </option>
   </select>
-  <div
+  <p
+    style={
+      Object {
+        "color": "red",
+        "margin": 0,
+      }
+    }
+  >
+    error
+  </p>
+  <p
     id="idNameDescription"
+    style={
+      Object {
+        "margin": 0,
+      }
+    }
   >
     description
-  </div>
-  <div>
-    error
-  </div>
+  </p>
 </div>
 `;
 
@@ -227,7 +337,7 @@ exports[`Field renders a text area field correctly 1`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -243,6 +353,15 @@ exports[`Field renders a text area field correctly 1`] = `
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
     rows={6}
+    style={
+      Object {
+        "borderColor": "#767676",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     value=""
   />
   
@@ -255,7 +374,7 @@ exports[`Field renders a text area field correctly 2`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -271,16 +390,37 @@ exports[`Field renders a text area field correctly 2`] = `
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
     rows={12}
+    style={
+      Object {
+        "borderColor": "red",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     value=""
   />
-  <div
+  <p
+    style={
+      Object {
+        "color": "red",
+        "margin": 0,
+      }
+    }
+  >
+    error
+  </p>
+  <p
     id="idNameDescription"
+    style={
+      Object {
+        "margin": 0,
+      }
+    }
   >
     description
-  </div>
-  <div>
-    error
-  </div>
+  </p>
 </div>
 `;
 
@@ -290,7 +430,7 @@ exports[`Field renders a text field correctly 1`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -305,6 +445,15 @@ exports[`Field renders a text field correctly 1`] = `
     name="idName"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
+    style={
+      Object {
+        "borderColor": "#767676",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     type="text"
     value=""
   />
@@ -318,7 +467,7 @@ exports[`Field renders a text field correctly 2`] = `
     Object {
       "display": "flex",
       "flexDirection": "column",
-      "marginBottom": "5px",
+      "marginBottom": "25px",
     }
   }
 >
@@ -333,16 +482,37 @@ exports[`Field renders a text field correctly 2`] = `
     name="idName"
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
+    style={
+      Object {
+        "borderColor": "red",
+        "borderRadius": "3px",
+        "borderStyle": "solid",
+        "borderWidth": "1px",
+        "marginBottom": "3px",
+      }
+    }
     type="text"
     value=""
   />
-  <div
+  <p
+    style={
+      Object {
+        "color": "red",
+        "margin": 0,
+      }
+    }
+  >
+    error
+  </p>
+  <p
     id="idNameDescription"
+    style={
+      Object {
+        "margin": 0,
+      }
+    }
   >
     description
-  </div>
-  <div>
-    error
-  </div>
+  </p>
 </div>
 `;

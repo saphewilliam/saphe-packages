@@ -8,6 +8,14 @@ export interface FormState {
   values: Record<string, string>;
 }
 
+export const getFieldStyle = (error: string): Record<string, string> => ({
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  borderRadius: '3px',
+  borderColor: error ? 'red' : '#767676',
+  marginBottom: '3px',
+});
+
 export function getDefaultFieldValue(field: IField): string {
   switch (field.type) {
     case FieldTypes.TEXT:
@@ -59,6 +67,8 @@ export function validateField(
   value: string | undefined,
 ): string {
   if (field === undefined) return '';
+
+  console.log(`Value: ${value} for field: ${JSON.stringify(field)}`);
 
   // TODO run rules to validate a field
   // console.log(value);

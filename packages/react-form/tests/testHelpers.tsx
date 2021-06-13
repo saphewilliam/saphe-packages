@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+import renderer from 'react-test-renderer';
 import {
   FieldTypes,
   INumberField,
@@ -5,9 +7,7 @@ import {
   ITextAreaField,
   ICheckBoxField,
   ITextField,
-} from '@saphe/react-form/src/utils/fieldTypes';
-import { ReactElement } from 'react';
-import renderer from 'react-test-renderer';
+} from '../src/utils/fieldTypes';
 
 export const matchSnapshot = (component: ReactElement): void =>
   expect(renderer.create(component).toJSON()).toMatchSnapshot();

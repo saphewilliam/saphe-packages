@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { Config as HookConfig } from '../hooks/useForm';
 import useRecaptcha from '../hooks/useRecaptcha';
+import { FieldTypes } from '../utils/fieldTypes';
 import {
   FormState,
   getInitialFormState,
@@ -76,13 +77,18 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   };
 
   const handleChange = (e: ChangeEvent<HTMLField>, fieldName: string) => {
+    const targetValue =
+      fields[fieldName]?.type === FieldTypes.CHECKBOX
+        ? String((e as ChangeEvent<HTMLInputElement>).target.checked)
+        : e.target.value;
     let error = formState.errors[fieldName] ?? '';
+
     if (
       validationMode === ValidationModes.ON_CHANGE ||
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = validateField(fields[fieldName], e.target.value);
+      error = validateField(fields[fieldName], targetValue);
 
     setFormState({
       ...formState,
@@ -92,7 +98,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       },
       values: {
         ...formState.values,
-        [fieldName]: e.target.value,
+        [fieldName]: targetValue,
       },
     });
   };
@@ -134,6 +140,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
             field={field}
             fieldPack={fieldPack}
             name={fieldName}
+            description={field.description}
             error={formState.errors[fieldName] ?? ''}
             value={
               formState.values[fieldName]?.toString() ??

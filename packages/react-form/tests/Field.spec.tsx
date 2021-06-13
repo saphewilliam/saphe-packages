@@ -1,4 +1,5 @@
 import React from 'react';
+import Field from '../src/components/Field';
 import {
   matchSnapshot,
   minimalCheckBoxField,
@@ -6,8 +7,7 @@ import {
   minimalSelectField,
   minimalTextAreaField,
   minimalTextField,
-} from '../utils/testHelpers';
-import Field from './Field';
+} from './testHelpers';
 
 const dummyProps = {
   id: 'id',

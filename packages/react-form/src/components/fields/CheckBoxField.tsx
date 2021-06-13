@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { getFieldStyle } from '../../utils/formHelpers';
 import { AddFieldPack } from '../../utils/helperTypes';
 import { CheckBoxFieldProps } from '../../utils/propTypes';
 import FieldText from '../helpers/FieldText';
@@ -22,12 +23,12 @@ export default function CheckBoxField(
             type="checkbox"
             id={props.id}
             name={props.name}
-            value={props.value}
+            checked={props.value === 'true'}
             disabled={props.disabled}
             onChange={props.onChange}
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
-            style={{ marginRight: '10px' }}
+            style={{ marginRight: '10px', ...getFieldStyle(props.error) }}
           />
           <label htmlFor={props.id}>{props.label}</label>
           <FieldText {...props} />
