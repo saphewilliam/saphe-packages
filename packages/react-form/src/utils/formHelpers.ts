@@ -61,24 +61,3 @@ export function formatFieldValue<T extends IField>(
       return parseFloat(stringValue) as FieldValue<T>;
   }
 }
-
-export function validateField(
-  field: IField | undefined,
-  value: string | undefined,
-): string {
-  if (field === undefined) return '';
-
-  console.log(`Value: ${value} for field: ${JSON.stringify(field)}`);
-
-  // TODO run rules to validate a field
-  // console.log(value);
-
-  // Check if the field is required
-  // if (
-  //   field.validation?.required !== undefined &&
-  //   (!value || value === getDefaultValue(field))
-  // )
-  //   return field.validation.required;
-
-  return '';
-}

@@ -13,26 +13,28 @@ export default function CheckBoxField(
       {props.fieldPack?.CHECKBOX ? (
         <props.fieldPack.CHECKBOX {...props} />
       ) : (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <input
-            type="checkbox"
-            id={props.id}
-            name={props.name}
-            checked={props.value === 'true'}
-            disabled={props.disabled}
-            onChange={props.onChange}
-            onBlur={props.onBlur}
-            aria-describedby={props.describedBy}
-            style={{ marginRight: '10px', ...getFieldStyle(props.error) }}
-          />
-          <label htmlFor={props.id}>{props.label}</label>
+        <>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <input
+              type="checkbox"
+              id={props.id}
+              name={props.name}
+              checked={props.value === 'true'}
+              disabled={props.disabled}
+              onChange={props.onChange}
+              onBlur={props.onBlur}
+              aria-describedby={props.describedBy}
+              style={{ marginRight: '10px', ...getFieldStyle(props.error) }}
+            />
+            <label htmlFor={props.id}>{props.label}</label>
+          </div>
           <FieldText {...props} />
-        </div>
+        </>
       )}
     </FormFieldContainer>
   );

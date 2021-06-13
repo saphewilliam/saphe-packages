@@ -12,10 +12,10 @@ import { FieldTypes } from '../utils/fieldTypes';
 import {
   FormState,
   getInitialFormState,
-  validateField,
   formatFieldValue,
   getDefaultFieldValue,
 } from '../utils/formHelpers';
+import {validateField} from '../utils/validationHelpers';
 import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
 import { ValidationModes } from '../utils/validationTypes';
 import Field from './Field';
@@ -49,13 +49,15 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
 
     let canSubmit = true;
     const errors: Record<string, string> = {};
+    const touched: Record<string, boolean> = {};
     for (const [fieldName, field] of Object.entries(fields)) {
-      const error = validateField(field, formState.values[fieldName]);
+      const error = await validateField(field, formState.values[fieldName]);
       errors[fieldName] = error;
+      touched[fieldName] = true;
       if (error !== '') canSubmit = false;
     }
 
-    if (!canSubmit) setFormState({ ...formState, errors });
+    if (!canSubmit) setFormState({ ...formState, errors, touched });
     else if (!!recaptcha && !recaptchaToken)
       console.error(recaptcha.errorMessage);
     else if (onSubmit) {
@@ -76,7 +78,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLField>, fieldName: string) => {
+  const handleChange = async (e: ChangeEvent<HTMLField>, fieldName: string) => {
     const targetValue =
       fields[fieldName]?.type === FieldTypes.CHECKBOX
         ? String((e as ChangeEvent<HTMLInputElement>).target.checked)
@@ -88,7 +90,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = validateField(fields[fieldName], targetValue);
+      error = await validateField(fields[fieldName], targetValue);
 
     setFormState({
       ...formState,
@@ -103,13 +105,13 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     });
   };
 
-  const handleBlur = (fieldName: string) => {
+  const handleBlur = async (fieldName: string) => {
     let error = formState.errors[fieldName] ?? '';
     if (
       validationMode === ValidationModes.ON_BLUR ||
       validationMode === ValidationModes.AFTER_BLUR
     )
-      error = validateField(fields[fieldName], formState.values[fieldName]);
+      error = await validateField(fields[fieldName], formState.values[fieldName]);
 
     setFormState({
       ...formState,

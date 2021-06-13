@@ -24,7 +24,7 @@ exports[`Field renders a checkbox field correctly 1`] = `
       id="id"
       name="idName"
       onBlur={[MockFunction]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       style={
         Object {
           "borderColor": "#767676",
@@ -71,7 +71,7 @@ exports[`Field renders a checkbox field correctly 2`] = `
       id="id"
       name="idName"
       onBlur={[MockFunction]}
-      onChange={[Function]}
+      onChange={[MockFunction]}
       style={
         Object {
           "borderColor": "red",

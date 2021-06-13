@@ -79,8 +79,22 @@ describe('Form', () => {
     const selectField = screen.getByLabelText(
       'Select Field',
     ) as HTMLTextAreaElement;
+    expect(selectField.value).toBe('-placeholder-');
     userEvent.selectOptions(selectField, 'option2');
     expect(selectField.value).toBe('option2');
+
+    const numberField = screen.getByLabelText(
+      'Number Field',
+    ) as HTMLInputElement;
+    userEvent.type(numberField, '1234d');
+    expect(numberField.value).toBe('1234');
+
+    const checkField = screen.getByLabelText(
+      'Checkbox Field',
+    ) as HTMLInputElement;
+    expect(checkField.checked).toBeFalsy();
+    userEvent.click(checkField);
+    expect(checkField.checked).toBeTruthy();
   });
 
   // it('validates', () => {

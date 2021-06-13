@@ -24,22 +24,22 @@ export interface StringValidation extends ValidationBase {
     | { min: number }
     | { max: number }
   ) & { message: string };
-  matches?: { regex: RegExp; message: string };
+  match?: { regex: RegExp; message: string };
 }
 
 export interface NumberValidation extends ValidationBase {
-  value?: (
-    | { exact: number }
-    | { min: number; max: number }
-    | { min: number; lt: number }
-    | { gt: number; max: number }
-    | { gt: number; lt: number }
-    | { min: number }
-    | { max: number }
-    | { gt: number }
-    | { lt: number }
-  ) & { message: string };
-  integer?: string;
+  // value?: (
+  //   | { exact: number }
+  //   | { min: number; max: number }
+  //   | { min: number; lt: number }
+  //   | { gt: number; max: number }
+  //   | { gt: number; lt: number }
+  //   | { min: number }
+  //   | { max: number }
+  //   | { gt: number }
+  //   | { lt: number }
+  // ) & { message: string };
+  // integer?: string;
 }
 
 export interface BooleanValidation extends ValidationBase {}
