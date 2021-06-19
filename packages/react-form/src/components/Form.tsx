@@ -58,8 +58,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     }
 
     if (!canSubmit) setFormState({ ...formState, errors, touched });
-    else if (!!recaptcha && !recaptchaToken)
-      console.error(recaptcha.errorMessage);
+    else if (!!recaptcha && !recaptchaToken) recaptcha.onError();
     else if (onSubmit) {
       setIsSubmitting(true);
 

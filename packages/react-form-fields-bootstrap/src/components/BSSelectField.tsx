@@ -1,5 +1,6 @@
 import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
+import BSFieldText from './BSFieldText';
 
 export default function BSSelectField(
   props: Props.SelectFieldProps,
@@ -31,12 +32,7 @@ export default function BSSelectField(
           </option>
         ))}
       </select>
-      {props.description && (
-        <div id={props.describedBy} className="form-text">
-          {props.description}
-        </div>
-      )}
-      {props.error && <div className="invalid-feedback">{props.error}</div>}
+      <BSFieldText {...props} />
     </>
   );
 }
