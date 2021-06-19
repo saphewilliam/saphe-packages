@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Form from '../src/components/Form';
@@ -51,14 +51,11 @@ describe('Form', () => {
   });
 
   it('supports change events', () => {
-    const setIsSubmittingMock = jest.fn();
-    const onSubmitMock = jest.fn();
-
     render(
       <Form
         isSubmitting={false}
-        setIsSubmitting={setIsSubmittingMock}
-        onSubmit={onSubmitMock}
+        setIsSubmitting={jest.fn()}
+        onSubmit={jest.fn()}
         name="testForm"
         fields={fields}
       />,
@@ -97,29 +94,38 @@ describe('Form', () => {
     expect(checkField.checked).toBeTruthy();
   });
 
-  // it('validates', () => {
-  //   let isSubmitting = false
-  //   const isSubmittingMock = jest.fn((x) => isSubmitting = x);
-  //   const onSubmitMock = jest.fn();
+  it('validates required fields', () => {
+    const requiredText = 'This field is required';
+    const required = {
+      validation: {
+        required: requiredText,
+      },
+    };
 
-  //   render(
-  //     <Form
-  //       isSubmitting={isSubmitting}
-  //       setIsSubmitting={isSubmittingMock}
-  //       onSubmit={onSubmitMock}
-  //       name="testForm"
-  //       fields={{
-  //         text: minimalTextField,
-  //         textArea: minimalTextAreaField,
-  //         select: minimalSelectField,
-  //         checkBox: minimalCheckBoxField,
-  //         number: minimalNumberField,
-  //       }}
-  //     />,
-  //   );
+    render(
+      <Form
+        isSubmitting={false}
+        setIsSubmitting={jest.fn()}
+        onSubmit={jest.fn()}
+        name="testForm"
+        fields={{
+          text: { ...minimalTextField, ...required },
+          textArea: { ...minimalTextAreaField, ...required },
+          select: { ...minimalSelectField, ...required },
+          checkBox: { ...minimalCheckBoxField, ...required },
+          number: { ...minimalNumberField, ...required },
+        }}
+      />,
+    );
 
-  //   const field = screen.getByLabelText('Text Field')
-  //   fireEvent.change(field, { target: {value: 'test value'} });
-  //   fireEvent.blur(field);
-  // })
+    const textErrorTestId = 'testFormTextError';
+    const textField = screen.getByLabelText('Text Field');
+    expect(screen.queryByTestId(textErrorTestId)).toBeNull();
+    fireEvent.blur(textField);
+    expect(screen.getByTestId(textErrorTestId).innerHTML).toBe(requiredText);
+
+    // TODO other fields
+  });
+
+  it.todo('validates string');
 });

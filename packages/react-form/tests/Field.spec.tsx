@@ -10,9 +10,9 @@ import {
 } from './testHelpers';
 
 const dummyProps = {
-  id: 'id',
-  name: 'idName',
-  describedBy: 'idNameDescription',
+  id: 'formNameFieldName',
+  name: 'fieldName',
+  describedBy: 'formNameFieldNameDescription',
   error: '',
   value: '',
   onChange: jest.fn(),
