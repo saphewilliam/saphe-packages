@@ -1,28 +1,17 @@
 # @saphe/react-form
 
-**⚠️ Currently in development - _Not all functionality described in these docs is implemented yet_**
+**⚠️ Currently in development**
 
 A lightweight, declarative, type-safe form engine for React apps. Best practices are the default. Form validation is built in with the typechecking.
 
 ## TODOs
 
-### Short term
-- [x] Better testing suite
-- [x] Give the form a name and prefix all id's with that name
-- [x] Add FormFieldContainer and SubmitButton as part of a pack
-- [x] Support user-created form field packs
-- [x] Submit should set `touched` on all form items to true
-- [x] Show Recaptcha error message in the frontend
-- [x] Scale recaptcha badge down when viewing on smaller screens like [this](https://geekgoddess.com/how-to-resize-the-google-nocaptcha-recaptcha/) or [this](https://developers.google.com/recaptcha/docs/display#render_param)
-- [ ] Add star behind required field labels (and option to turn it off in the root)
-
-### Long term
+- [ ] Fix naming inconsistencies
 - [ ] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
 - [ ] Support lists of values
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 - [ ] Create supported Bootstrap, TailwindCSS, MaterialCSS and ChackraUI packs
 - [ ] Support localization out of the box
-
 
 ## Getting Started
 
@@ -50,6 +39,7 @@ npm install @saphe/react-form
 - CHECKBOX
 - NUMBER
 - More to come... 
+  - FILE
   - RADIO
   - DATE
   - DATETIME
