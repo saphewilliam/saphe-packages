@@ -1,6 +1,6 @@
 import React from 'react';
-import { matchSnapshot } from '../utils/testHelpers';
-import SubmitButton from './SubmitButton';
+import SubmitButton from '../src/components/helpers/SubmitButton';
+import { matchSnapshot } from './testHelpers';
 
 describe('Submit Button', () => {
   it('renders', () => {

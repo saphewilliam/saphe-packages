@@ -41,10 +41,22 @@ export type FieldValue<T extends IField> = T extends ITextField
   ? number
   : 'Unkown Form Field';
 
-// TODO Make it so that required fields are not optional
+// From https://medium.com/dailyjs/typescript-create-a-condition-based-subset-types-9d902cea5b8c
+type SubType<Base, Condition> = Pick<
+  Base,
+  {
+    [Key in keyof Base]: Base[Key] extends Condition ? Key : never;
+  }[keyof Base]
+>;
+
 export type FormValues<T extends Fields> = {
   [P in keyof T]?: FieldValue<T[P]>;
-};
+} &
+  {
+    [P in keyof SubType<T, { validation: { required: string } }>]: FieldValue<
+      T[P]
+    >;
+  };
 
 export interface FieldPack {
   SubmitButton?: (props: SubmitButtonProps) => ReactElement;

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { AddFieldPack } from '../utils/helperTypes';
-import { SubmitButtonProps } from '../utils/propTypes';
+import { AddFieldPack } from '../../utils/helperTypes';
+import { SubmitButtonProps } from '../../utils/propTypes';
 
 export default function SubmitButton(
   props: AddFieldPack<SubmitButtonProps>,

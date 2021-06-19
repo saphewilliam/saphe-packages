@@ -11,13 +11,17 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 - [x] Give the form a name and prefix all id's with that name
 - [x] Add FormFieldContainer and SubmitButton as part of a pack
 - [x] Support user-created form field packs
+- [x] Submit should set `touched` on all form items to true
+- [x] Show Recaptcha error message in the frontend
 - [ ] Scale recaptcha badge down when viewing on smaller screens like [this](https://geekgoddess.com/how-to-resize-the-google-nocaptcha-recaptcha/) or [this](https://developers.google.com/recaptcha/docs/display#render_param)
-- [ ] Submit should set `touched` on all form items to true
+- [ ] Add star behind required field labels (and option to turn it off in the root)
+- [ ] Eliminate native change and blur events in favor of minimalized custom ones
 
 ### Long term
+- [ ] Support lists of values
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 - [ ] Create supported Bootstrap, TailwindCSS, MaterialCSS and ChackraUI packs
-- [ ] Support localization
+- [ ] Support localization out of the box
 
 
 ## Getting Started
@@ -143,7 +147,7 @@ const { Form } = useForm({
   recaptcha: {
     siteKey: process.env.RECAPTCHA_SITE_KEY,
     locale: 'en',
-    errorMessage: 'Please confirm you are not a robot',
+    onError: () => alert('Please confirm you are not a robot'),
   },
 
   /** Optional, the void function that fires on a form submission event */

@@ -1,4 +1,4 @@
-import useForm, { FieldTypes } from '@saphe/react-form/src';
+import useForm, { FieldTypes } from '@saphe/react-form';
 import { renderHook } from '@testing-library/react-hooks';
 import { ReactElement } from 'react';
 import { BootstrapFieldPack } from '..';

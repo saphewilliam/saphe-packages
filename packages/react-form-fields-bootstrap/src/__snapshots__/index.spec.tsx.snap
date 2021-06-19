@@ -65,13 +65,13 @@ exports[`The field pack renders a minimal checkbox field 2`] = `
       >
         Checkbox Field
       </label>
+      
       <div
         className="form-text"
         id="minimalCheckBoxFieldFormCheckBoxFieldDescription"
       >
         Field description
       </div>
-      
     </div>
   </div>
   <button
@@ -142,13 +142,13 @@ exports[`The field pack renders a minimal number field 2`] = `
       type="number"
       value=""
     />
+    
     <div
       className="form-text"
       id="minimalNumberFieldFormNumberFieldDescription"
     >
       Field description
     </div>
-    
   </div>
   <button
     className="btn btn-primary"
@@ -250,13 +250,13 @@ exports[`The field pack renders a minimal select field 2`] = `
         Option 2
       </option>
     </select>
+    
     <div
       className="form-text"
       id="minimalSelectFieldFormSelectFieldDescription"
     >
       Field description
     </div>
-    
   </div>
   <button
     className="btn btn-primary"
@@ -326,13 +326,13 @@ exports[`The field pack renders a minimal text field 2`] = `
       type="text"
       value=""
     />
+    
     <div
       className="form-text"
       id="minimalTextFieldFormTextFieldDescription"
     >
       Field description
     </div>
-    
   </div>
   <button
     className="btn btn-primary"
@@ -402,13 +402,13 @@ exports[`The field pack renders a minimal textarea field 2`] = `
       rows={6}
       value=""
     />
+    
     <div
       className="form-text"
       id="minimalTextAreaFieldFormTextAreaFieldDescription"
     >
       Field description
     </div>
-    
   </div>
   <button
     className="btn btn-primary"

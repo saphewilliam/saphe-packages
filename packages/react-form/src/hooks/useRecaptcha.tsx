@@ -4,7 +4,7 @@ import RecaptchaComponent from 'react-google-recaptcha';
 export interface Config {
   siteKey: string;
   locale: string;
-  errorMessage: string;
+  onError: () => void;
 }
 
 export interface State {
