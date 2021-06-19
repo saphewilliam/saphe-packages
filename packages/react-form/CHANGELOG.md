@@ -1,5 +1,18 @@
 # @saphe/react-forms
 
+## 0.4.0
+
+### Minor Changes
+
+- 0bf7402: Introduce basic form validation
+- dde2199: Provide onError callback for recaptcha
+- 2b9f8cf: Scale recaptcha badge down when viewing on smaller screens
+- dde2199: FormValues type now takes required inputs into account
+
+### Patch Changes
+
+- 9e5a3fc: Improved default form styling
+
 ## 0.3.0
 
 ### Minor Changes

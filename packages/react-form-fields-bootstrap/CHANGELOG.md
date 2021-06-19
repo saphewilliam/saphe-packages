@@ -1,6 +1,19 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.1.1
+
+### Patch Changes
+
+- dde2199: Fixed checkbox error output not showing
+- Updated dependencies [9e5a3fc]
+- Updated dependencies [0bf7402]
+- Updated dependencies [dde2199]
+- Updated dependencies [2b9f8cf]
+- Updated dependencies [dde2199]
+  - @saphe/react-form@0.4.0
+
 ## 0.1.0
+
 ### Minor Changes
 
 - 0748ffe: Update testing coverage
