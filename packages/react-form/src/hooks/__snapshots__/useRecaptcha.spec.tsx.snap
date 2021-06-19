@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`useRecaptcha doesn't render without config 1`] = `<div />`;
-
-exports[`useRecaptcha renders 1`] = `
-<div>
-  <div />
-</div>
-`;

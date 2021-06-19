@@ -1,7 +1,9 @@
 import React, { ReactElement } from 'react';
+import { getFieldStyle } from '../../utils/formHelpers';
 import { AddFieldPack } from '../../utils/helperTypes';
 import { TextFieldProps } from '../../utils/propTypes';
-import FormFieldContainer from '../FormFieldContainer';
+import FieldText from '../helpers/FieldText';
+import FormFieldContainer from '../helpers/FormFieldContainer';
 
 export default function TextField(
   props: AddFieldPack<TextFieldProps>,
@@ -23,11 +25,9 @@ export default function TextField(
             onChange={props.onChange}
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
+            style={getFieldStyle(props.error)}
           />
-          {props.description && (
-            <div id={props.describedBy}>{props.description}</div>
-          )}
-          {props.error && <div>{props.error}</div>}
+          <FieldText {...props} />
         </>
       )}
     </FormFieldContainer>

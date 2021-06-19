@@ -8,6 +8,14 @@ export interface FormState {
   values: Record<string, string>;
 }
 
+export const getFieldStyle = (error: string): Record<string, string> => ({
+  borderStyle: 'solid',
+  borderWidth: '1px',
+  borderRadius: '3px',
+  borderColor: error ? 'red' : '#767676',
+  marginBottom: '3px',
+});
+
 export function getDefaultFieldValue(field: IField): string {
   switch (field.type) {
     case FieldTypes.TEXT:
@@ -52,23 +60,4 @@ export function formatFieldValue<T extends IField>(
     case FieldTypes.NUMBER:
       return parseFloat(stringValue) as FieldValue<T>;
   }
-}
-
-export function validateField(
-  field: IField | undefined,
-  value: string | undefined,
-): string {
-  if (field === undefined) return '';
-
-  // TODO run rules to validate a field
-  // console.log(value);
-
-  // Check if the field is required
-  // if (
-  //   field.validation?.required !== undefined &&
-  //   (!value || value === getDefaultValue(field))
-  // )
-  //   return field.validation.required;
-
-  return '';
 }

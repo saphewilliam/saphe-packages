@@ -8,18 +8,19 @@ import React, {
 } from 'react';
 import { Config as HookConfig } from '../hooks/useForm';
 import useRecaptcha from '../hooks/useRecaptcha';
+import { FieldTypes } from '../utils/fieldTypes';
 import {
   FormState,
   getInitialFormState,
-  validateField,
   formatFieldValue,
   getDefaultFieldValue,
 } from '../utils/formHelpers';
 import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
+import { validateField } from '../utils/validationHelpers';
 import { ValidationModes } from '../utils/validationTypes';
 import Field from './Field';
-import FormFieldContainer from './FormFieldContainer';
-import SubmitButton from './SubmitButton';
+import FormFieldContainer from './helpers/FormFieldContainer';
+import SubmitButton from './helpers/SubmitButton';
 
 interface Props<T extends Fields> extends HookConfig<T> {
   isSubmitting: boolean;
@@ -48,15 +49,16 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
 
     let canSubmit = true;
     const errors: Record<string, string> = {};
+    const touched: Record<string, boolean> = {};
     for (const [fieldName, field] of Object.entries(fields)) {
       const error = validateField(field, formState.values[fieldName]);
       errors[fieldName] = error;
+      touched[fieldName] = true;
       if (error !== '') canSubmit = false;
     }
 
-    if (!canSubmit) setFormState({ ...formState, errors });
-    else if (!!recaptcha && !recaptchaToken)
-      console.error(recaptcha.errorMessage);
+    if (!canSubmit) setFormState({ ...formState, errors, touched });
+    else if (!!recaptcha && !recaptchaToken) recaptcha.onError();
     else if (onSubmit) {
       setIsSubmitting(true);
 
@@ -76,13 +78,18 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   };
 
   const handleChange = (e: ChangeEvent<HTMLField>, fieldName: string) => {
+    const targetValue =
+      fields[fieldName]?.type === FieldTypes.CHECKBOX
+        ? String((e as ChangeEvent<HTMLInputElement>).target.checked)
+        : e.target.value;
     let error = formState.errors[fieldName] ?? '';
+
     if (
       validationMode === ValidationModes.ON_CHANGE ||
       (validationMode === ValidationModes.AFTER_BLUR &&
         formState.touched[fieldName])
     )
-      error = validateField(fields[fieldName], e.target.value);
+      error = validateField(fields[fieldName], targetValue);
 
     setFormState({
       ...formState,
@@ -92,7 +99,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       },
       values: {
         ...formState.values,
-        [fieldName]: e.target.value,
+        [fieldName]: targetValue,
       },
     });
   };
@@ -134,6 +141,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
             field={field}
             fieldPack={fieldPack}
             name={fieldName}
+            description={field.description}
             error={formState.errors[fieldName] ?? ''}
             value={
               formState.values[fieldName]?.toString() ??

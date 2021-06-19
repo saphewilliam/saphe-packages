@@ -1,5 +1,6 @@
 import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
+import BSFieldText from './BSFieldText';
 
 export default function BSTextField(props: Props.TextFieldProps): ReactElement {
   return (
@@ -19,12 +20,7 @@ export default function BSTextField(props: Props.TextFieldProps): ReactElement {
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       />
-      {props.description && (
-        <div id={props.describedBy} className="form-text">
-          {props.description}
-        </div>
-      )}
-      {props.error && <div className="invalid-feedback">{props.error}</div>}
+      <BSFieldText {...props} />
     </>
   );
 }

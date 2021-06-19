@@ -19,6 +19,7 @@ interface Props<T extends IField> {
   id: string;
   field: T;
   name: string;
+  description?: string;
   describedBy: string;
   error: string;
   value: string;
