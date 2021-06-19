@@ -11,7 +11,7 @@ describe('useRecaptcha', () => {
       },
     } = renderHook(() =>
       useRecaptcha({
-        errorMessage: 'Recaptcha error message',
+        onError: () => alert('Recaptcha error message'),
         locale: 'en',
         siteKey: 'siteKey',
       }),

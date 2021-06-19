@@ -18,13 +18,13 @@ interface ValidationBase {
 }
 
 export interface StringValidation extends ValidationBase {
-  length?: (
-    | { exact: number }
-    | { min: number; max: number }
-    | { min: number }
-    | { max: number }
-  ) & { message: string };
-  match?: { regex: RegExp; message: string };
+  // length?: (
+  //   | { exact: number }
+  //   | { min: number; max: number }
+  //   | { min: number }
+  //   | { max: number }
+  // ) & { message: string };
+  // match?: { regex: RegExp; message: string };
 }
 
 export interface NumberValidation extends ValidationBase {
