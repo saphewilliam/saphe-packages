@@ -1,11 +1,16 @@
-import { FieldTypes } from '..';
-import { IField } from './fieldTypes';
+import { Field } from '..';
+import { FieldType } from './fieldTypes';
 import { getDefaultFieldValue } from './formHelpers';
-import { StringValidation } from './validationTypes';
+import { FieldValue } from './helperTypes';
+import {
+  NumberValidation,
+  NumberValue,
+  StringValidation,
+} from './validationTypes';
 
-export function validateField(
-  field: IField | undefined,
-  value: string | undefined,
+export function validateField<T extends FieldType>(
+  field: FieldType | undefined,
+  value: FieldValue<T> | undefined,
 ): string {
   if (field === undefined || value === undefined || !field.validation)
     return '';
@@ -17,23 +22,29 @@ export function validateField(
   // Type-specific checks
   let error = '';
   switch (field.type) {
-    case FieldTypes.TEXT:
-    case FieldTypes.TEXTAREA:
-      error = validateString(field.validation as StringValidation, value);
+    case Field.TEXT:
+    case Field.TEXT_AREA:
+      error = validateStringField(
+        value as string,
+        field.validation as StringValidation,
+      );
       break;
-    case FieldTypes.NUMBER:
-      // error = validateNumber(field.validation as NumberValidation, value);
-      error = validateNumber();
+    case Field.NUMBER:
+      error = validateNumberField(
+        value as number,
+        field.validation as NumberValidation,
+      );
       break;
-    case FieldTypes.SELECT:
-    case FieldTypes.CHECKBOX:
+    case Field.SELECT:
+    case Field.CHECK:
       break;
   }
   if (error) return error;
 
   // Finally, run the custom validate function
   if (field.validation.validate) {
-    Promise.resolve(field.validation.validate(value))
+    // FIXME Why is value being evaluated to never?
+    Promise.resolve(field.validation.validate(value as never))
       .then((e) => (error = e))
       .catch((e) => (error = e));
   }
@@ -41,28 +52,51 @@ export function validateField(
   return error;
 }
 
-function validateString(validation: StringValidation, value: string): string {
-  // Length check
-  const l = validation.length;
-  if (l)
-    if (
-      ((l as { exact: number }).exact !== undefined &&
-        (l as { exact: number }).exact !== value.length) ||
-      ((l as { min: number }).min !== undefined &&
-        (l as { min: number }).min > value.length) ||
-      ((l as { max: number }).max !== undefined &&
-        (l as { max: number }).max < value.length)
-    )
-      return l.message;
-
-  // Regex check
-  if (validation.match)
-    if (value.match(validation.match.regex)) return validation.match.message;
+function validateNumberValue(n: number, v: NumberValue): string {
+  if (
+    ((v as { exact: number }).exact !== undefined &&
+      n !== (v as { exact: number }).exact) ||
+    ((v as { lt: number }).lt !== undefined && n < (v as { lt: number }).lt) ||
+    ((v as { lte: number }).lte !== undefined &&
+      n <= (v as { lte: number }).lte) ||
+    ((v as { gt: number }).gt !== undefined && n > (v as { gt: number }).gt) ||
+    ((v as { gte: number }).gte !== undefined &&
+      n >= (v as { gte: number }).gte)
+  )
+    return v.message;
 
   return '';
 }
 
-// function validateNumber(validation: NumberValidation, value: string): string {
-function validateNumber(): string {
+function validateStringField(
+  value: string,
+  validation: StringValidation,
+): string {
+  // Length check
+  if (validation.length) {
+    const message = validateNumberValue(value.length, validation.length);
+    if (message !== '') return message;
+  }
+
+  // Regex check
+  if (validation.match && value.match(validation.match.regex))
+    return validation.match.message;
+
+  return '';
+}
+
+function validateNumberField(
+  value: number,
+  validation: NumberValidation,
+): string {
+  // Value check
+  if (validation.value) {
+    const message = validateNumberValue(value, validation.value);
+    if (message !== '') return message;
+  }
+
+  // Integer check
+  if (validation.integer && !Number.isInteger(value)) return validation.integer;
+
   return '';
 }

@@ -1,45 +1,27 @@
 import { ReactElement } from 'react';
+import { Field, FieldType, CheckType, NumberType } from './fieldTypes';
 import {
-  ITextField,
-  ITextAreaField,
-  ISelectField,
-  ICheckBoxField,
-  INumberField,
-  IField,
-  FieldTypes,
-} from './fieldTypes';
-import {
+  TextProps,
+  TextAreaProps,
+  SelectProps,
+  CheckProps,
+  NumberProps,
   FormFieldContainerProps,
   SubmitButtonProps,
-  TextFieldProps,
-  TextAreaFieldProps,
-  SelectFieldProps,
-  CheckBoxFieldProps,
-  NumberFieldProps,
 } from './propTypes';
 
 export type AddFieldPack<T> = T & { fieldPack?: FieldPack };
 
-export type HTMLField =
-  | HTMLInputElement
-  | HTMLTextAreaElement
-  | HTMLSelectElement;
-
 export interface Fields {
-  [fieldName: string]: IField;
+  [fieldName: string]: FieldType;
 }
 
-export type FieldValue<T extends IField> = T extends ITextField
-  ? string
-  : T extends ITextAreaField
-  ? string
-  : T extends ISelectField
-  ? string
-  : T extends ICheckBoxField
+// TODO embed null into this type
+export type FieldValue<T extends FieldType> = T extends CheckType
   ? boolean
-  : T extends INumberField
+  : T extends NumberType
   ? number
-  : 'Unkown Form Field';
+  : string;
 
 // From https://medium.com/dailyjs/typescript-create-a-condition-based-subset-types-9d902cea5b8c
 type SubType<Base, Condition> = Pick<
@@ -61,9 +43,9 @@ export type FormValues<T extends Fields> = {
 export interface FieldPack {
   SubmitButton?: (props: SubmitButtonProps) => ReactElement;
   FormFieldContainer?: (props: FormFieldContainerProps) => ReactElement;
-  [FieldTypes.TEXT]?: (props: TextFieldProps) => ReactElement;
-  [FieldTypes.TEXTAREA]?: (props: TextAreaFieldProps) => ReactElement;
-  [FieldTypes.SELECT]?: (props: SelectFieldProps) => ReactElement;
-  [FieldTypes.CHECKBOX]?: (props: CheckBoxFieldProps) => ReactElement;
-  [FieldTypes.NUMBER]?: (props: NumberFieldProps) => ReactElement;
+  [Field.TEXT]?: (props: TextProps) => ReactElement;
+  [Field.TEXT_AREA]?: (props: TextAreaProps) => ReactElement;
+  [Field.SELECT]?: (props: SelectProps) => ReactElement;
+  [Field.CHECK]?: (props: CheckProps) => ReactElement;
+  [Field.NUMBER]?: (props: NumberProps) => ReactElement;
 }

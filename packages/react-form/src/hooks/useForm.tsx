@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import Form from '../components/Form';
 import { FieldPack, Fields, FormValues } from '../utils/helperTypes';
-import { ValidationModes } from '../utils/validationTypes';
+import { ValidationMode } from '../utils/validationTypes';
 import { Config as RecaptchaConfig } from './useRecaptcha';
 
 export interface Config<T extends Fields> {
@@ -20,7 +20,7 @@ export interface Config<T extends Fields> {
   fieldPack?: FieldPack;
 
   /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
-  validationMode?: ValidationModes;
+  validationMode?: ValidationMode;
 
   /** Optional, adds a recaptcha check to the form */
   recaptcha?: RecaptchaConfig;

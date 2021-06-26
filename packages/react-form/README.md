@@ -6,8 +6,7 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 
 ## TODOs
 
-- [ ] Fix naming inconsistencies
-- [ ] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
+- [x] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
 - [ ] Support lists of values
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 - [ ] Create supported Bootstrap, TailwindCSS, MaterialCSS and ChackraUI packs
@@ -36,9 +35,9 @@ npm install @saphe/react-form
 - TEXT
 - TEXTAREA
 - SELECT
-- CHECKBOX
+- CHECK
 - NUMBER
-- More to come... 
+- More to come...
   - FILE
   - RADIO
   - DATE
@@ -81,7 +80,7 @@ const form = useForm({
 
 ### Kitchen Sink
 ```ts
-import useForm, { FieldTypes, ValidationModes } from '@saphe/react-form';
+import useForm, { Field, ValidationMode } from '@saphe/react-form';
 import BootstrapFieldPack from '@saphe/react-form-fields-bootstrap';
 
 const { Form } = useForm({
@@ -92,7 +91,7 @@ const { Form } = useForm({
   /** Required, declares the fields of the form */
   fields: {
     name: {
-      type: FieldTypes.TEXT,
+      type: Field.TEXT,
       label: 'Name',
       description: 'Please enter your full name',
       placeholder: 'Enter your name...',
@@ -105,7 +104,7 @@ const { Form } = useForm({
       },
     },
     subject: {
-      type: FieldTypes.SELECT,
+      type: Field.SELECT,
       label: 'Subject',
       placeholder: 'Choose a subject from the list...',
       options: [
@@ -118,7 +117,7 @@ const { Form } = useForm({
       },
     },
     message: {
-      type: FieldTypes.TEXTAREA,
+      type: Field.TEXTAREA,
       label: 'Message',
       initialValue: '5 stars!',
       validation: {
@@ -130,8 +129,8 @@ const { Form } = useForm({
   /** Optional, defines the form fields used for this form */
   fieldPack: BootstrapFieldPack,
 
-  /** Optional, defines the global form validation mode. Defaults to `ValidationModes.AFTER_BLUR` */
-  validationMode: ValidationModes.AFTER_BLUR,
+  /** Optional, defines the global form validation mode. Defaults to `ValidationMode.AFTER_BLUR` */
+  validationMode: ValidationMode.AFTER_BLUR,
 
   /** Optional, adds a recaptcha check to the form */
   recaptcha: {
@@ -146,6 +145,11 @@ const { Form } = useForm({
   },
 });
 ```
+
+## Officially maintained form field packs
+
+* `@saphe/react-form-fields-bootstrap`
+<!-- * `@saphe/react-form-fields-tailwindcss` -->
 
 ## Contributing
 // TODO

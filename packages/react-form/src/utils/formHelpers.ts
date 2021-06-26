@@ -1,11 +1,10 @@
-import { FieldTypes } from '..';
-import { IField } from './fieldTypes';
-import { Fields, FieldValue } from './helperTypes';
+import { Field, FieldType } from './fieldTypes';
+import { Fields, FieldValue, FormValues } from './helperTypes';
 
-export interface FormState {
+export interface FormState<T extends Fields> {
   touched: Record<string, boolean>;
   errors: Record<string, string>;
-  values: Record<string, string>;
+  values: FormValues<T>;
 }
 
 export const getFieldStyle = (error: string): Record<string, string> => ({
@@ -16,48 +15,48 @@ export const getFieldStyle = (error: string): Record<string, string> => ({
   marginBottom: '3px',
 });
 
-export function getDefaultFieldValue(field: IField): string {
+export function getDefaultFieldValue<T extends FieldType>(
+  field: T,
+): FieldValue<T> {
   switch (field.type) {
-    case FieldTypes.TEXT:
-    case FieldTypes.TEXTAREA:
-    case FieldTypes.NUMBER:
-      return '';
-    case FieldTypes.SELECT:
-      return '-placeholder-';
-    case FieldTypes.CHECKBOX:
-      return 'false';
+    case Field.TEXT:
+    case Field.TEXT_AREA:
+    case Field.SELECT:
+    case Field.NUMBER:
+      return '' as FieldValue<T>;
+    case Field.CHECK:
+      return false as FieldValue<T>;
   }
 }
 
-export function getInitialFormState<T extends Fields>(fields: T): FormState {
+export function getInitialFormState<T extends Fields>(fields: T): FormState<T> {
   const touched: Record<string, boolean> = {};
   const errors: Record<string, string> = {};
-  const values: Record<string, string> = {};
+  const values: Record<string, string | boolean | number | File> = {};
 
   for (const [fieldName, field] of Object.entries(fields)) {
-    values[fieldName] =
-      field.initialValue?.toString() ?? getDefaultFieldValue(field);
+    values[fieldName] = field.initialValue ?? getDefaultFieldValue(field);
     touched[fieldName] = false;
     errors[fieldName] = '';
   }
 
-  return { touched, errors, values };
+  return { touched, errors, values: values as FormValues<T> };
 }
 
-export function formatFieldValue<T extends IField>(
+export function formatFieldValue<T extends FieldType>(
   field: T | undefined,
   stringValue: string,
 ): FieldValue<T> {
   if (field === undefined)
     throw new Error(`Undefined field could not be decoded`);
   switch (field.type) {
-    case FieldTypes.TEXT:
-    case FieldTypes.TEXTAREA:
-    case FieldTypes.SELECT:
+    case Field.TEXT:
+    case Field.TEXT_AREA:
+    case Field.SELECT:
       return stringValue as FieldValue<T>;
-    case FieldTypes.CHECKBOX:
+    case Field.CHECK:
       return (stringValue === 'true') as FieldValue<T>;
-    case FieldTypes.NUMBER:
+    case Field.NUMBER:
       return parseFloat(stringValue) as FieldValue<T>;
   }
 }

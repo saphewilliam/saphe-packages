@@ -13,6 +13,7 @@ exports[`The field pack renders a minimal checkbox field 1`] = `
       <input
         aria-describedby="minimalCheckBoxFieldFormCheckBoxFieldDescription"
         className="form-check-input"
+        disabled={false}
         id="minimalCheckBoxFieldFormCheckBoxField"
         name="checkBoxField"
         onBlur={[Function]}
@@ -52,6 +53,7 @@ exports[`The field pack renders a minimal checkbox field 2`] = `
       <input
         aria-describedby="minimalCheckBoxFieldFormCheckBoxFieldDescription"
         className="form-check-input"
+        disabled={false}
         id="minimalCheckBoxFieldFormCheckBoxField"
         name="checkBoxField"
         onBlur={[Function]}
@@ -100,6 +102,7 @@ exports[`The field pack renders a minimal number field 1`] = `
     <input
       aria-describedby="minimalNumberFieldFormNumberFieldDescription"
       className="form-control"
+      disabled={false}
       id="minimalNumberFieldFormNumberField"
       name="numberField"
       onBlur={[Function]}
@@ -135,6 +138,7 @@ exports[`The field pack renders a minimal number field 2`] = `
     <input
       aria-describedby="minimalNumberFieldFormNumberFieldDescription"
       className="form-control"
+      disabled={false}
       id="minimalNumberFieldFormNumberField"
       name="numberField"
       onBlur={[Function]}
@@ -176,15 +180,16 @@ exports[`The field pack renders a minimal select field 1`] = `
     <select
       aria-describedby="minimalSelectFieldFormSelectFieldDescription"
       className="form-select"
+      disabled={false}
       id="minimalSelectFieldFormSelectField"
       name="selectField"
       onBlur={[Function]}
       onChange={[Function]}
-      value="-placeholder-"
+      value=""
     >
       <option
         disabled={true}
-        value="-placeholder-"
+        value=""
       >
         
       </option>
@@ -227,15 +232,16 @@ exports[`The field pack renders a minimal select field 2`] = `
     <select
       aria-describedby="minimalSelectFieldFormSelectFieldDescription"
       className="form-select"
+      disabled={false}
       id="minimalSelectFieldFormSelectField"
       name="selectField"
       onBlur={[Function]}
       onChange={[Function]}
-      value="-placeholder-"
+      value=""
     >
       <option
         disabled={true}
-        value="-placeholder-"
+        value=""
       >
         
       </option>
@@ -284,6 +290,7 @@ exports[`The field pack renders a minimal text field 1`] = `
     <input
       aria-describedby="minimalTextFieldFormTextFieldDescription"
       className="form-control"
+      disabled={false}
       id="minimalTextFieldFormTextField"
       name="textField"
       onBlur={[Function]}
@@ -319,6 +326,7 @@ exports[`The field pack renders a minimal text field 2`] = `
     <input
       aria-describedby="minimalTextFieldFormTextFieldDescription"
       className="form-control"
+      disabled={false}
       id="minimalTextFieldFormTextField"
       name="textField"
       onBlur={[Function]}
@@ -360,6 +368,7 @@ exports[`The field pack renders a minimal textarea field 1`] = `
     <textarea
       aria-describedby="minimalTextAreaFieldFormTextAreaFieldDescription"
       className="form-control"
+      disabled={false}
       id="minimalTextAreaFieldFormTextAreaField"
       name="textAreaField"
       onBlur={[Function]}
@@ -395,6 +404,7 @@ exports[`The field pack renders a minimal textarea field 2`] = `
     <textarea
       aria-describedby="minimalTextAreaFieldFormTextAreaFieldDescription"
       className="form-control"
+      disabled={false}
       id="minimalTextAreaFieldFormTextAreaField"
       name="textAreaField"
       onBlur={[Function]}
