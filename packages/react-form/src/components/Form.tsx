@@ -1,5 +1,4 @@
 import React, {
-  ChangeEvent,
   Dispatch,
   FormEvent,
   ReactElement,
@@ -8,17 +7,16 @@ import React, {
 } from 'react';
 import { Config as HookConfig } from '../hooks/useForm';
 import useRecaptcha from '../hooks/useRecaptcha';
-import { FieldTypes } from '../utils/fieldTypes';
+import { FieldType } from '../utils/fieldTypes';
 import {
   FormState,
   getInitialFormState,
-  formatFieldValue,
   getDefaultFieldValue,
 } from '../utils/formHelpers';
-import { Fields, FormValues, HTMLField } from '../utils/helperTypes';
+import { Fields, FieldValue } from '../utils/helperTypes';
 import { validateField } from '../utils/validationHelpers';
-import { ValidationModes } from '../utils/validationTypes';
-import Field from './Field';
+import { ValidationMode } from '../utils/validationTypes';
+import FieldSwitch from './FieldSwitch';
 import FormFieldContainer from './helpers/FormFieldContainer';
 import SubmitButton from './helpers/SubmitButton';
 
@@ -31,7 +29,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   const {
     name,
     fieldPack,
-    validationMode = ValidationModes.AFTER_BLUR,
+    validationMode = ValidationMode.AFTER_BLUR,
     fields,
     recaptcha,
     onSubmit,
@@ -39,7 +37,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     setIsSubmitting,
   } = props;
 
-  const [formState, setFormState] = useState<FormState>(
+  const [formState, setFormState] = useState<FormState<T>>(
     getInitialFormState(fields),
   );
   const { Recaptcha, recaptchaToken } = useRecaptcha(recaptcha);
@@ -62,31 +60,21 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     else if (onSubmit) {
       setIsSubmitting(true);
 
-      const submitValues: Record<string, string | number | boolean> = {};
-      for (const [fieldName, field] of Object.entries(fields))
-        submitValues[fieldName] = formatFieldValue(
-          field,
-          formState.values[fieldName] ?? '',
-        );
-
-      Promise.resolve(
-        onSubmit(submitValues as FormValues<T>, { recaptchaToken }),
-      );
+      Promise.resolve(onSubmit(formState.values, { recaptchaToken }));
 
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLField>, fieldName: string) => {
-    const targetValue =
-      fields[fieldName]?.type === FieldTypes.CHECKBOX
-        ? String((e as ChangeEvent<HTMLInputElement>).target.checked)
-        : e.target.value;
+  const handleChange = <T extends FieldType>(
+    targetValue: FieldValue<T>,
+    fieldName: string,
+  ) => {
     let error = formState.errors[fieldName] ?? '';
 
     if (
-      validationMode === ValidationModes.ON_CHANGE ||
-      (validationMode === ValidationModes.AFTER_BLUR &&
+      validationMode === ValidationMode.ON_CHANGE ||
+      (validationMode === ValidationMode.AFTER_BLUR &&
         formState.touched[fieldName])
     )
       error = validateField(fields[fieldName], targetValue);
@@ -107,8 +95,8 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   const handleBlur = (fieldName: string) => {
     let error = formState.errors[fieldName] ?? '';
     if (
-      validationMode === ValidationModes.ON_BLUR ||
-      validationMode === ValidationModes.AFTER_BLUR
+      validationMode === ValidationMode.ON_BLUR ||
+      validationMode === ValidationMode.AFTER_BLUR
     )
       error = validateField(fields[fieldName], formState.values[fieldName]);
 
@@ -134,20 +122,22 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
           .toUpperCase()}${fieldName.slice(1)}`;
         if (field === undefined) return <div />;
         return (
-          <Field
+          <FieldSwitch
             key={index}
-            id={fieldId}
-            describedBy={`${fieldId}Description`}
             field={field}
             fieldPack={fieldPack}
+            id={fieldId}
             name={fieldName}
-            description={field.description}
+            label={field.label}
+            description={field.description ?? ''}
+            describedBy={`${fieldId}Description`}
+            disabled={false} // TODO make this variable
             error={formState.errors[fieldName] ?? ''}
             value={
               formState.values[fieldName]?.toString() ??
               getDefaultFieldValue(field).toString()
             }
-            onChange={(e) => handleChange(e, fieldName)}
+            onChange={(targetValue) => handleChange(targetValue, fieldName)}
             onBlur={() => handleBlur(fieldName)}
           />
         );

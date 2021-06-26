@@ -1,5 +1,5 @@
 import React from 'react';
-import Field from '../src/components/Field';
+import Field from '../src/components/FieldSwitch';
 import {
   matchSnapshot,
   minimalCheckBoxField,
@@ -12,7 +12,10 @@ import {
 const dummyProps = {
   id: 'formNameFieldName',
   name: 'fieldName',
+  label: 'Field Label',
+  description: '',
   describedBy: 'formNameFieldNameDescription',
+  disabled: false,
   error: '',
   value: '',
   onChange: jest.fn(),
@@ -62,22 +65,28 @@ describe('Field', () => {
   });
 
   it('renders a checkbox field correctly', () => {
-    matchSnapshot(<Field field={minimalCheckBoxField} {...dummyProps} />);
+    matchSnapshot(
+      <Field field={minimalCheckBoxField} {...dummyProps} value={false} />,
+    );
     matchSnapshot(
       <Field
         field={{ ...minimalCheckBoxField, description: 'description' }}
         {...dummyProps}
+        value={false}
         error="error"
       />,
     );
   });
 
   it('renders a number field correctly', () => {
-    matchSnapshot(<Field field={minimalNumberField} {...dummyProps} />);
+    matchSnapshot(
+      <Field field={minimalNumberField} {...dummyProps} value={10} />,
+    );
     matchSnapshot(
       <Field
         field={{ ...minimalNumberField, description: 'description' }}
         {...dummyProps}
+        value={10}
         error="error"
       />,
     );

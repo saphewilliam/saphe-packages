@@ -2,9 +2,7 @@ import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
-export default function BSSelectField(
-  props: Props.SelectFieldProps,
-): ReactElement {
+export default function BSSelectField(props: Props.SelectProps): ReactElement {
   return (
     <>
       {props.label && (
@@ -19,11 +17,11 @@ export default function BSSelectField(
         name={props.name}
         value={props.value}
         disabled={props.disabled}
-        onChange={props.onChange}
+        onChange={(e) => props.onChange(e.target.value)}
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       >
-        <option value="-placeholder-" disabled>
+        <option value="" disabled>
           {props.placeholder ?? ''}
         </option>
         {props.options.map((option) => (

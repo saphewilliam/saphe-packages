@@ -1,47 +1,44 @@
-export enum ValidationModes {
+export enum ValidationMode {
   ON_CHANGE = 'ON_CHANGE',
   ON_BLUR = 'ON_BLUR',
   AFTER_BLUR = 'AFTER_BLUR',
   ON_SUBMIT = 'ON_SUBMIT',
 }
 
-export type IValidation =
+export type ValidationType =
   | StringValidation
   | NumberValidation
   | BooleanValidation
   | SelectValidation;
 
-interface ValidationBase {
-  mode?: ValidationModes;
+interface ValidationBase<T extends string | boolean | number | File> {
+  mode?: ValidationMode;
   required?: string;
-  validate?: (value: string) => string | Promise<string>;
+  validate?: (value: T) => string | Promise<string>;
 }
 
-export interface StringValidation extends ValidationBase {
-  length?: (
-    | { exact: number }
-    | { min: number; max: number }
-    | { min: number }
-    | { max: number }
-  ) & { message: string };
+export type NumberValue = (
+  | { exact: number }
+  | { gte: number }
+  | { lte: number }
+  | { gt: number }
+  | { lt: number }
+  | { gte: number; lte: number }
+  | { gte: number; lt: number }
+  | { gt: number; lte: number }
+  | { gt: number; lt: number }
+) & { message: string };
+
+export interface StringValidation extends ValidationBase<string> {
+  length?: NumberValue;
   match?: { regex: RegExp; message: string };
 }
 
-export interface NumberValidation extends ValidationBase {
-  // value?: (
-  //   | { exact: number }
-  //   | { min: number; max: number }
-  //   | { min: number; lt: number }
-  //   | { gt: number; max: number }
-  //   | { gt: number; lt: number }
-  //   | { min: number }
-  //   | { max: number }
-  //   | { gt: number }
-  //   | { lt: number }
-  // ) & { message: string };
-  // integer?: string;
+export interface NumberValidation extends ValidationBase<number> {
+  value?: NumberValue;
+  integer?: string;
 }
 
-export interface BooleanValidation extends ValidationBase {}
+export interface BooleanValidation extends ValidationBase<boolean> {}
 
-export interface SelectValidation extends ValidationBase {}
+export interface SelectValidation extends ValidationBase<string> {}

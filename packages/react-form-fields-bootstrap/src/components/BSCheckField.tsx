@@ -2,9 +2,7 @@ import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
-export default function BSCheckBoxField(
-  props: Props.CheckBoxFieldProps,
-): ReactElement {
+export default function BSCheckField(props: Props.CheckProps): ReactElement {
   return (
     <div className="form-check">
       <input
@@ -12,9 +10,9 @@ export default function BSCheckBoxField(
         className={`form-check-input${props.error ? ' is-invalid' : ''}`}
         id={props.id}
         name={props.name}
-        value={props.value}
+        value={String(props.value)}
         disabled={props.disabled}
-        onChange={props.onChange}
+        onChange={(e) => props.onChange(e.target.checked)}
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       />
