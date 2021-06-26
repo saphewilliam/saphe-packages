@@ -1,9 +1,10 @@
-# Saphe Suite
-
-[![Codecov Coverage](https://codecov.io/gh/saphewilliam/saphe-packages/branch/develop/graph/badge.svg)](https://codecov.io/gh/saphewilliam/saphe-packages)
-[![LGTM Code quality grade: Typescript](https://img.shields.io/lgtm/grade/javascript/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/context:javascript)
-[![Total LGTM alerts](https://img.shields.io/lgtm/alerts/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/alerts/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
+# Saphe Package Suite
+[![Build Status](https://img.shields.io/github/workflow/status/saphewilliam/saphe-packages/CI?logo=github&logoWidth=18&style=flat-square)](https://github.com/saphewilliam/saphe-packages/actions?query=workflow%3ACI)
+[![Code Coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages.svg?style=flat-square)](https://codecov.io/gh/saphewilliam/saphe-packages)
+[![LGTM Code quality grade: Typescript](https://img.shields.io/lgtm/grade/javascript/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18&style=flat-square)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/context:javascript)
+[![Total LGTM alerts](https://img.shields.io/lgtm/alerts/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18&style=flat-square)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/alerts/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
+[![MIT License](https://img.shields.io/npm/l/@saphe/react-form.svg?style=flat-square)](https://github.com/testing-library/react-hooks-testing-library/blob/main/LICENSE.md)
 
 ## Packages
 name|version|description

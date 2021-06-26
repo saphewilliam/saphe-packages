@@ -1,7 +1,7 @@
 {
   "name": "saphe-packages",
   "private": true,
-  "license": "Apache-2.0",
+  "license": "MIT",
   "workspaces": [
     "packages/*"
   ],
