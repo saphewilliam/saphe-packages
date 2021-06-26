@@ -1,5 +1,6 @@
 # Saphe Suite
 
+[![Codecov Coverage](https://codecov.io/gh/saphewilliam/saphe-packages/branch/develop/graph/badge.svg)](https://codecov.io/gh/saphewilliam/saphe-packages)
 [![LGTM Code quality grade: Typescript](https://img.shields.io/lgtm/grade/javascript/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/context:javascript)
 [![Total LGTM alerts](https://img.shields.io/lgtm/alerts/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/alerts/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
@@ -13,6 +14,9 @@ name|version|description
 ## TODO
 - [ ] Create scripts that can dynamically generate and update packages (tsconfig.json, README.md, package.json)
 - [ ] Test how many of the tsconfig settings can be moved up to tsconfig.settings.json
+
+## Contributing
+// TODO
 
 ## Acknowledgements
 Monorepo structure built according to: 
