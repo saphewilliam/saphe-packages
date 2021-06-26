@@ -8,9 +8,14 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 
 - [x] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
 - [ ] Support lists of values
+- [ ] Support form layouts (advanced form field container with layout grid)
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
-- [ ] Create supported Bootstrap, TailwindCSS, MaterialCSS and ChackraUI packs
 - [ ] Support localization out of the box
+- [ ] Create supported field packs:
+  - [x] Bootstrap
+  - [ ] TailwindCSS
+  - [ ] MaterialCSS
+  - [ ] ChackraUI
 
 ## Getting Started
 
@@ -145,11 +150,6 @@ const { Form } = useForm({
   },
 });
 ```
-
-## Officially maintained form field packs
-
-* `@saphe/react-form-fields-bootstrap`
-<!-- * `@saphe/react-form-fields-tailwindcss` -->
 
 ## Contributing
 // TODO
