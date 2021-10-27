@@ -16,9 +16,10 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 ## TODOs
 
+- [x] Rename `hidden` to `visibility`
+- [ ] Updating default SortOrder
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
-- [ ] Rename `hidden` to `visibility`
 - [ ] Access column configuration through RenderCellProps (mostly for stringify function)
 - [ ] Search debounce
 - [ ] Custom order of SortOrder enum (global and local)
@@ -176,50 +177,50 @@ return (
 
 You can statically hide columns by defining them as `hidden: true` in the column definition. If a column is statically hidden, then it is not present in the `headers` state array. You will need to use `originalHeaders` from the `useTable` state to access it.
 
-You can dynamically hide columns using the `hiddenHelpers` object on the useTable state. It has the following properties: 
+You can dynamically hide columns using the `visibilityHelpers` object on the useTable state. It has the following properties: 
 
 ```ts
-interface hiddenHelpers<T extends ColumnTypes> {
-  /** Object containing information about which columns are hidden */
-  hidden: Hidden<T>;
+interface visibilityHelpers<T extends ColumnTypes> {
+  /** Object containing information about which columns are visible (false == hidden) */
+  visibile: Visible<T>;
   /** Utility function to hide all hideable columns */
   hideAll: () => void;
-  /** Utility function to show all columns */
+  /** Utility function to show all showable columns */
   showAll: () => void;
 }
 ```
 
-You can then toggle column visibility using the `toggleHide` function in the headers.
+You can then toggle column visibility using the `toggleVisibility` function in the headers.
 
-If you want to make it impossible to hide a column, define it as `unhideable: true` in the column definition. An unhideable column does not have a `toggleHide` function.
+If you want to make it impossible to hide a column, define it as `unhideable: true` in the column definition. An unhideable column does not have a `toggleVisibility` function.
 
 ```tsx
-const { headers, originalHeaders, rows, hiddenHelpers } = useTable(columns, data);
+const { headers, originalHeaders, rows, visibilityHelpers } = useTable(columns, data);
 
 return (
   <section>
     <div>
 
-      {/* Map over the original headers to create a checkbox-based dynamic column hide UI element */}
+      {/* Map over the original headers to create a checkbox-based dynamic column visibility UI element */}
       {originalHeaders.map((header, i) => (
-        <label htmlFor={`hideCheckBox${i}`} key={i}>
+        <label htmlFor={`visibilityCheckBox${i}`} key={i}>
           <input
             type="checkbox"
-            name={`hideCheckBox${i}`}
-            id={`hideCheckBox${i}`}
+            name={`visibilityCheckBox${i}`}
+            id={`visibilityCheckBox${i}`}
             
-            {/* If `toggleHide` is undefined, then this column is `unhideable` */}
-            disabled={!header.toggleHide}
+            {/* If `toggleVisibility` is undefined, then this column is `unhideable` */}
+            disabled={!header.toggleVisibility}
             checked={!header.hidden}
-            onChange={() => header.toggleHide && header.toggleHide()}
+            onChange={() => header.toggleVisibility && header.toggleHide()}
           />
           <span>{header.label}</span>
         </label>
       ))}
     </div>
 
-    <button onClick={hiddenHelpers.showAll}>Show All</button>
-    <button onClick={hiddenHelpers.hideAll}>Hide All</button>
+    <button onClick={visibilityHelpers.showAll}>Show All</button>
+    <button onClick={visibilityHelpers.hideAll}>Hide All</button>
 
     <Table {...{ headers, rows }} />
   </section>

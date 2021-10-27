@@ -2,11 +2,11 @@ import { useEffect, useMemo } from 'react';
 import { Columns, ColumnTypes, Data, Options, State } from './types';
 import useColumnType from './useColumnType';
 import useDefaultValues from './useDefaultValues';
-import useHidden from './useHidden';
 import useIntermediateMemo from './useIntermediateMemo';
 import usePagination from './usePagination';
 import useSearch from './useSearch';
 import useSort from './useSort';
+import useVisibility from './useVisibility';
 import { makeHeaders, makeOriginalRows, makeRows } from './util';
 
 export default function useTable<T extends ColumnTypes>(
@@ -18,8 +18,9 @@ export default function useTable<T extends ColumnTypes>(
   const dataMemo = useIntermediateMemo(data);
   const optionsMemo = useIntermediateMemo(options);
 
-  // Calculate which columns should be hidden
-  const { hidden, setHidden, setAllHidden } = useHidden(columnsMemo);
+  // Calculate which columns should be visible
+  const { visibility, setVisibility, setAllVisibility } =
+    useVisibility(columnsMemo);
 
   // Set undefined values to defaultvalue
   const { defaultValuesData } = useDefaultValues(dataMemo, columnsMemo);
@@ -31,7 +32,7 @@ export default function useTable<T extends ColumnTypes>(
   const { searchedData, searchString, setSearchString, highlight } = useSearch(
     columnsMemo,
     defaultValuesData,
-    hidden,
+    visibility,
     columnType,
     optionsMemo,
   );
@@ -56,8 +57,15 @@ export default function useTable<T extends ColumnTypes>(
 
   const { headers, originalHeaders } = useMemo(
     () =>
-      makeHeaders(columnsMemo, hidden, setHidden, sortInfo, sort, optionsMemo),
-    [columnsMemo, hidden, setHidden, sortInfo, sort, optionsMemo],
+      makeHeaders(
+        columnsMemo,
+        visibility,
+        setVisibility,
+        sortInfo,
+        sort,
+        optionsMemo,
+      ),
+    [columnsMemo, visibility, setVisibility, sortInfo, sort, optionsMemo],
   );
 
   const originalRows = useMemo(
@@ -66,8 +74,9 @@ export default function useTable<T extends ColumnTypes>(
   );
 
   const rows = useMemo(
-    () => makeRows(columnsMemo, paginatedData, hidden, highlight, optionsMemo),
-    [columnsMemo, paginatedData, hidden, highlight, optionsMemo],
+    () =>
+      makeRows(columnsMemo, paginatedData, visibility, highlight, optionsMemo),
+    [columnsMemo, paginatedData, visibility, highlight, optionsMemo],
   );
 
   return {
@@ -75,10 +84,10 @@ export default function useTable<T extends ColumnTypes>(
     headers,
     originalRows,
     rows,
-    hiddenHelpers: {
-      hidden,
-      hideAll: () => setAllHidden(true),
-      showAll: () => setAllHidden(false),
+    visibilityHelpers: {
+      visibility,
+      hideAll: () => setAllVisibility(false),
+      showAll: () => setAllVisibility(true),
     },
     paginationHelpers: {
       page: page + 1,
