@@ -12,9 +12,9 @@ import {
   SortOrder,
   State,
 } from './types';
-import { Hidden } from './useHidden';
 import { MatchedText, HighlightFunc } from './useSearch';
 import { SortInfo } from './useSort';
+import { Visibility } from './useVisibility';
 
 export function getRowValue<T extends ColumnTypes>(
   row: Row<T>,
@@ -25,8 +25,8 @@ export function getRowValue<T extends ColumnTypes>(
 
 export function makeHeaders<T extends ColumnTypes>(
   columns: Columns<T>,
-  hidden: Hidden<T>,
-  setHidden: Dispatch<SetStateAction<Hidden<T>>>,
+  visibility: Visibility<T>,
+  setVisibility: Dispatch<SetStateAction<Visibility<T>>>,
   sortInfo: SortInfo,
   sort: (columnName: string) => void,
   options?: Options<T>,
@@ -56,22 +56,22 @@ export function makeHeaders<T extends ColumnTypes>(
       } = args;
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const columnHidden = hidden[name]!;
-      const toggleHide = (value?: boolean) =>
-        setHidden({ ...hidden, [name]: value ?? !columnHidden });
+      const columnVisible = visibility[name]!;
+      const toggleVisibility = (value?: boolean) =>
+        setVisibility({ ...visibility, [name]: value ?? !columnVisible });
 
       const header: RenderHeadProps = {
         name,
         label,
-        hidden: columnHidden,
-        toggleHide: !unhideable ? toggleHide : undefined,
+        hidden: !columnVisible,
+        toggleVisibility: !unhideable ? toggleVisibility : undefined,
         sortOrder:
           sortInfo?.columnName === name ? sortInfo.order : SortOrder.UNSORTED,
         toggleSort: !unsortable ? () => sort(name) : undefined,
       };
 
       originalHeaders.push(header);
-      if (!columnHidden)
+      if (columnVisible)
         headers.push({ ...header, render: () => renderHead(header) });
     }
   }
@@ -84,6 +84,7 @@ function makeRow<T extends ColumnTypes, U>(
     row: Row<T>,
     value: U,
     matchedText: MatchedText,
+    stringValue: string,
     columnsArgs: Column<T>,
     columnName: string,
   ) => U | null,
@@ -100,7 +101,14 @@ function makeRow<T extends ColumnTypes, U>(
         ? columnArgs.stringify(value, row)
         : String(value);
       const matched = highlight(stringValue);
-      const cell = callback(row, value, matched, columnArgs, columnName);
+      const cell = callback(
+        row,
+        value,
+        matched,
+        stringValue,
+        columnArgs,
+        columnName,
+      );
       if (cell) cells.push(cell);
     }
   }
@@ -131,7 +139,7 @@ export function makeOriginalRows<T extends ColumnTypes>(
 export function makeRows<T extends ColumnTypes>(
   columns: Columns<T>,
   data: Data<T>,
-  hidden: Hidden<T>,
+  visibility: Visibility<T>,
   highlight: HighlightFunc,
   options?: Options<T>,
 ): State<T>['rows'] {
@@ -142,16 +150,20 @@ export function makeRows<T extends ColumnTypes>(
       T,
       RenderCellProps<T> & { render: () => ReactElement }
     >(
-      (row, value, matched, columnArgs, columnName) => {
-        if (hidden[columnName]) return null;
+      (row, _, matched, stringValue, columnArgs, columnName) => {
+        if (!visibility[columnName]) return null;
         else {
-          const defaultRenderCell = () => <td>{value}</td>;
+          const defaultRenderCell = () => <td>{stringValue}</td>;
           const renderCell =
             columnArgs.renderCell ??
             options?.style?.renderCell ??
             defaultRenderCell;
 
-          const cell: RenderCellProps<T> = { value, row, matchedText: matched };
+          const cell: RenderCellProps<T> = {
+            value: stringValue,
+            row,
+            matchedText: matched,
+          };
           return { ...cell, render: () => renderCell(cell) };
         }
       },

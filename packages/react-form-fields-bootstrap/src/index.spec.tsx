@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {
-  minimalCheckBoxFieldForm,
+  minimalCheckFieldForm,
   minimalNumberFieldForm,
   minimalSelectFieldForm,
   minimalTextAreaFieldForm,
@@ -41,12 +41,12 @@ describe('The field pack', () => {
     expect(renderer.create(<Form2 />).toJSON()).toMatchSnapshot();
   });
 
-  it('renders a minimal checkbox field', () => {
-    const Form = renderForm(minimalCheckBoxFieldForm);
+  it('renders a minimal check field', () => {
+    const Form = renderForm(minimalCheckFieldForm);
     expect(renderer.create(<Form />).toJSON()).toMatchSnapshot();
 
     const Form2 = renderForm(() =>
-      minimalCheckBoxFieldForm({ description: 'Field description' }),
+      minimalCheckFieldForm({ description: 'Field description' }),
     );
     expect(renderer.create(<Form2 />).toJSON()).toMatchSnapshot();
   });

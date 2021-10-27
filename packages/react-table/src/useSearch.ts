@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { Columns, ColumnTypes, Data, Options, Row, SearchMode } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
-import { Hidden } from './useHidden';
+import { Visibility } from './useVisibility';
 import { getRowValue } from './util';
 
 export type MatchedText = { value: string; highlighted: boolean }[];
@@ -77,11 +77,11 @@ async function prepareData<T extends ColumnTypes>(
 function getSearchableColumnNames<T extends ColumnTypes>(
   columns: Columns<T>,
   columnType: ColumnType<T>,
-  hidden: Hidden<T>,
+  visibility: Visibility<T>,
 ): string[] {
   return Object.entries(columns)
     .filter(([columnName, column]) => {
-      if (hidden[columnName] || column.unsearchable) return false;
+      if (!visibility[columnName] || column.unsearchable) return false;
       if (column.stringify) return true;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       if (columnType[columnName]! === ColumnTypeEnum.COMPLEX) {
@@ -100,7 +100,7 @@ function getSearchableColumnNames<T extends ColumnTypes>(
 export default function useSearch<T extends ColumnTypes>(
   columns: Columns<T>,
   data: Data<T>,
-  hidden: Hidden<T>,
+  visibility: Visibility<T>,
   columnType: ColumnType<T>,
   options?: Options<T>,
 ): SearchState<T> {
@@ -148,7 +148,7 @@ export default function useSearch<T extends ColumnTypes>(
         const columnNames = getSearchableColumnNames(
           columns,
           columnType,
-          hidden,
+          visibility,
         );
         const preparedData = await prepareData(data, columns);
         if (options?.search?.mode === SearchMode.EXACT)
@@ -165,7 +165,7 @@ export default function useSearch<T extends ColumnTypes>(
   }, [
     columns,
     data,
-    hidden,
+    visibility,
     options,
     searchString,
     setSearchedData,

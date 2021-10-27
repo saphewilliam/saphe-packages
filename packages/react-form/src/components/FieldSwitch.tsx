@@ -10,7 +10,7 @@ import {
 } from '../utils/fieldTypes';
 import { AddFieldPack } from '../utils/helperTypes';
 import { PropsBase } from '../utils/propTypes';
-import CheckBoxField from './fields/CheckBoxField';
+import CheckField from './fields/CheckField';
 import NumberField from './fields/NumberField';
 import SelectField from './fields/SelectField';
 import TextAreaField from './fields/TextAreaField';
@@ -48,7 +48,7 @@ export default function FieldSwitch<T extends FieldType>(
       );
     case Field.CHECK:
       return (
-        <CheckBoxField
+        <CheckField
           {...(props as unknown as PropsBase<CheckType>)}
           {...(props.field as CheckType)}
         />

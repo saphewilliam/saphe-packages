@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Columns, ColumnTypes, Data, Row, SortOrder } from './types';
+import { Columns, ColumnTypes, Data, Options, Row, SortOrder } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
 import { getRowValue } from './util';
 
 export type SortInfo = {
   order: SortOrder;
+  orderIndex: number;
   columnName: string;
 } | null;
 
@@ -50,6 +51,7 @@ export default function useSort<T extends ColumnTypes>(
   columns: Columns<T>,
   data: Data<T>,
   columnType: ColumnType<T>,
+  options?: Options<T>,
 ): SortState<T> {
   const [sortInfo, setSortInfo] = useState<SortInfo>(null);
 
@@ -88,14 +90,32 @@ export default function useSort<T extends ColumnTypes>(
     } else return data;
   }, [columns, data, columnType, sortInfo]);
 
-  // TODO make sorting order variable
   const sort = useCallback(
     (columnName: string) => {
-      if (sortInfo?.columnName !== columnName)
-        setSortInfo({ columnName, order: SortOrder.DESC });
-      else if (sortInfo.order === SortOrder.DESC)
-        setSortInfo({ columnName, order: SortOrder.ASC });
-      else if (sortInfo.order === SortOrder.ASC) setSortInfo(null);
+      const orders = options?.sort?.order ?? [
+        SortOrder.DESC,
+        SortOrder.ASC,
+        SortOrder.UNSORTED,
+      ];
+
+      if (orders.length !== 0) {
+        let index = sortInfo?.orderIndex;
+        if (
+          sortInfo?.columnName !== columnName ||
+          index === undefined ||
+          index + 1 === orders.length
+        ) {
+          index = 0;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          setSortInfo({ columnName, orderIndex: index, order: orders[index]! });
+        } else
+          setSortInfo({
+            columnName,
+            orderIndex: index + 1,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            order: orders[index + 1]!,
+          });
+      }
     },
     [sortInfo, setSortInfo],
   );

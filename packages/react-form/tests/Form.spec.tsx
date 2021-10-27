@@ -4,7 +4,7 @@ import React from 'react';
 import Form from '../src/components/Form';
 import {
   minimalNumberField,
-  minimalCheckBoxField,
+  minimalCheckField,
   minimalSelectField,
   minimalTextAreaField,
   minimalTextField,
@@ -15,7 +15,7 @@ const fields = {
   text: minimalTextField,
   textArea: minimalTextAreaField,
   select: minimalSelectField,
-  checkBox: minimalCheckBoxField,
+  check: minimalCheckField,
   number: minimalNumberField,
 };
 
@@ -86,9 +86,7 @@ describe('Form', () => {
     userEvent.type(numberField, '1234d');
     expect(numberField.value).toBe('1234');
 
-    const checkField = screen.getByLabelText(
-      'Checkbox Field',
-    ) as HTMLInputElement;
+    const checkField = screen.getByLabelText('Check Field') as HTMLInputElement;
     expect(checkField.checked).toBeFalsy();
     userEvent.click(checkField);
     expect(checkField.checked).toBeTruthy();
@@ -112,7 +110,7 @@ describe('Form', () => {
           text: { ...minimalTextField, ...required },
           textArea: { ...minimalTextAreaField, ...required },
           select: { ...minimalSelectField, ...required },
-          checkBox: { ...minimalCheckBoxField, ...required },
+          check: { ...minimalCheckField, ...required },
           number: { ...minimalNumberField, ...required },
         }}
       />,
