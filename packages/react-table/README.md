@@ -6,18 +6,19 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 ## Features
 
-- 🤩 Sort or show/hide columns with provided utility functions,
+- 🤩 Sort and show/hide columns with the provided utility functions,
 - ⏭️ Built-in pagination logic,
 - 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
-- 🎨 Headless; you decide the table style, we handle the logic.
+- 🎨 Headless; you decide the table style, the hook handle the logic.
 
 ## TODOs
 
-- [] Do a performance analysis
-- [] Check if the code would be cleaner/faster using useReducer (probably)
-- [] Table styling packs
-- [] Search debounce
-- [] Fetching functionality for sort, search, and pagination instead of client-side data slicing
+- [ ] Do a performance analysis
+- [ ] Check if the code would be cleaner/faster using useReducer (probably)
+- [ ] Table styling packs
+- [ ] Search debounce
+- [ ] RegEx search mode?
+- [ ] Fetching functionality for sort, search, and pagination instead of client-side data slicing
 
 ## Getting Started
 
@@ -33,7 +34,7 @@ or using npm:
 npm install @saphe/react-table
 ```
 
-## Examples
+## Examples (TODO)
 
 - [Basic]()
 - [Pagination / Hiding columns (Bootstrap)]()
@@ -44,10 +45,7 @@ npm install @saphe/react-table
 
 ### Basic Usage
 
-The following code shows a basic functional React component which implements a table using the `useTable` hook. Feel free to open the [Basic Example]() and type along to see the IntelliSense and TypeChecking do it's thing! It is also possible to define `ColumnTypes`, `columns` and `data` inline with the `useTable` function, but here they're shown separately to demonstrate the use of the `Columns<T>` and `Data<T>` types.
-
-Basic functional react component
-type along, see the errors, can also be done inline but we didn't to show how to use the types, 
+The following code shows a basic functional React component that implements a table using the `useTable` hook. Feel free to open the [Basic Example]() and type along to see the IntelliSense and TypeChecking do it's thing! It is also possible to define `ColumnTypes`, `columns` and `data` in-line with the `useTable` function, but here they're shown separately to demonstrate the use of the `Columns<T>` and `Data<T>` types.
 
 ```tsx
 import React, { ReactElement } from 'react';
@@ -121,7 +119,7 @@ export default function ProgrammingLanguagesTable(): ReactElement {
 
 ### Pagination
 
-To enable pagination in your table, pass a number to the `pageSize` option through the options object of the `useTable` hook. You can now extract a `paginationHelpers` object from the return object of `useTable` with the following properties:
+To enable pagination in your table, pass a number to the `pageSize` option through the options object of the `useTable` hook. You can now extract a `paginationHelpers` object from the `useTable` state with the following properties:
 
 ```ts
 interface paginationHelpers {
@@ -185,7 +183,7 @@ return (
 
 ### Searching Table
 
-To enable table searching, extract from the `useTable` return object a `searchHelpers` object with the following properties:
+To enable table searching, extract from the `useTable` state a `searchHelpers` object with the following properties:
 
 ```ts
 interface searchHelpers {
@@ -195,6 +193,8 @@ interface searchHelpers {
   setSearchString: Dispatch<SetStateAction<string>>;
 }
 ```
+
+If you wish to exclude a column from the search, set its `unsearchable` option to `true`.
 
 To set the search mode from the default fuzzy search `SearchMode.FUZZY` to exact string matching `SearchMode.EXACT`, pass the desired search mode into the `search.mode` key of the `options` object.
 
@@ -243,40 +243,3 @@ return (
   </section>
 )
 ```
-
-## Contributing
-
-// TODO 
-
-
-
-
-<!--
-
-### Validation Modes
-
-Mode|Behavior
--|-
-`ValidationModes.AFTER_BLUR` **(default)**|Don't validate a field until it has been blurred once, then validate it on change
-`ValidationModes.ON_CHANGE`|Validate a field with every change
-`ValidationModes.ON_BLUR`|Only validate the field once a user is done typing
-`ValidationModes.ON_SUBMIT`|The field will only validate in the event of a form submission
-
-You can assign a global validation mode by assigning it to the config object suppied to `useForm`. You can also assign field-specific validation modes by assigning them to the field config. The local validation modes take presidence over the global ones.
-
-```ts
-const form = useForm({
-  // ...other form config
-  validationMode: ValidationModes.ON_BLUR,
-  fields: {
-    fieldExample: {
-      // ...other field config
-      validation: {
-        mode: ValidationModes.ON_CHANGE,
-      },
-    },
-  },
-});
-```
-
--->
