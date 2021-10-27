@@ -6,19 +6,25 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 ## Features
 
-- 🤩 Sort and show/hide columns with the provided utility functions,
-- ⏭️ Built-in pagination logic,
+- 🤩 Easily sort by columns,
 - 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
+- ⏭️ Built-in pagination logic,
+- 👁️ Toggle visibility on columns using the provided utility functions,
+- ⚖️ Lightweight; only 150 kB unpacked and only 1 dependency,
+- 🚀 Efficient due to usage of internal memoization and effect order,
 - 🎨 Headless; you decide the table style, the hook handles the logic.
 
 ## TODOs
 
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
-- [ ] Table styling packs
+- [ ] Rename `hidden` to `visibility`
+- [ ] Access column configuration through RenderCellProps (mostly for stringify function)
 - [ ] Search debounce
-- [ ] RegEx search mode?
-- [ ] Fetching functionality for sort, search, and pagination instead of client-side data slicing
+- [ ] Custom order of SortOrder enum (global and local)
+- [ ] RegEx search mode (?)
+- [ ] Add support for table styling packs
+- [ ] API data fetching functionality for sort, search, and pagination instead of client-side data slicing
 
 ## Getting Started
 
@@ -147,12 +153,10 @@ const { headers, rows, paginationHelpers } = useTable(columns, data, { pageSize:
 
 return (
   <section>
-    <table>{/* Table definition */}</table>
+    <Table {...{ headers, rows }} />
+
     <div>
-      <button          
-        disabled={!paginationHelpers.canPrev}
-        onClick={paginationHelpers.prevPage}
-      >
+      <button disabled={!paginationHelpers.canPrev} onClick={paginationHelpers.prevPage}>
         Previous page
       </button>
 
@@ -160,10 +164,7 @@ return (
         Page {paginationHelpers.page} of {paginationHelpers.pageAmount}
       </span>
       
-      <button
-        disabled={!paginationHelpers.canNext}
-        onClick={paginationHelpers.nextPage}
-      >
+      <button disabled={!paginationHelpers.canNext} onClick={paginationHelpers.nextPage}>
         Next page
       </button>
     </div>
@@ -171,17 +172,98 @@ return (
 )
 ```
 
-### Dynamically and Statically Showing or Hiding Columns
+### Dynamically and Statically Hiding Columns
+
+You can statically hide columns by defining them as `hidden: true` in the column definition. If a column is statically hidden, then it is not present in the `headers` state array. You will need to use `originalHeaders` from the `useTable` state to access it.
+
+You can dynamically hide columns using the `hiddenHelpers` object on the useTable state. It has the following properties: 
+
+```ts
+interface hiddenHelpers<T extends ColumnTypes> {
+  /** Object containing information about which columns are hidden */
+  hidden: Hidden<T>;
+  /** Utility function to hide all hideable columns */
+  hideAll: () => void;
+  /** Utility function to show all columns */
+  showAll: () => void;
+}
+```
+
+You can then toggle column visibility using the `toggleHide` function in the headers.
+
+If you want to make it impossible to hide a column, define it as `unhideable: true` in the column definition. An unhideable column does not have a `toggleHide` function.
 
 ```tsx
+const { headers, originalHeaders, rows, hiddenHelpers } = useTable(columns, data);
+
+return (
+  <section>
+    <div>
+
+      {/* Map over the original headers to create a checkbox-based dynamic column hide UI element */}
+      {originalHeaders.map((header, i) => (
+        <label htmlFor={`hideCheckBox${i}`} key={i}>
+          <input
+            type="checkbox"
+            name={`hideCheckBox${i}`}
+            id={`hideCheckBox${i}`}
+            
+            {/* If `toggleHide` is undefined, then this column is `unhideable` */}
+            disabled={!header.toggleHide}
+            checked={!header.hidden}
+            onChange={() => header.toggleHide && header.toggleHide()}
+          />
+          <span>{header.label}</span>
+        </label>
+      ))}
+    </div>
+
+    <button onClick={hiddenHelpers.showAll}>Show All</button>
+    <button onClick={hiddenHelpers.hideAll}>Hide All</button>
+
+    <Table {...{ headers, rows }} />
+  </section>
+)
 ```
 
 ### Sorting by Columns
 
+Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
+
 ```tsx
+import React, { ReactElement } from 'react';
+import { RenderCellProps } from '@saphe/react-table';
+
+export function SortableHeaderCell(props: RenderHeadProps): ReactElement {
+  const getArrow = (order: SortOrder) => {
+    switch order:
+      case SortOrder.ASC:
+        return '^';
+      case SortOrder.DESC:
+        return 'v';
+      case SortOrder.UNSORTED:
+        return '';
+  }
+  
+  return (
+    <th onClick={() => props.toggleSort && props.toggleSort()}>
+      {props.label} {getArrow(props.sortOrder)}
+    </th>
+  );
+}
 ```
 
-### Searching Table
+Then you can pass it to `useTable` using the options object.
+
+```tsx
+const { headers, rows } = useTable(columns, data, { style: { renderHead: SortableHeaderCell } });
+
+return <Table {...{ headers, rows }} />
+```
+
+If you have a complex data object (not string, number or boolean), you can either turn off sorting for that column using the `unsortable: true` option in the column definition, or supply a custom sorting function using the `sort` option in the column definition. For examples on custom sorting functions, check the [useSort hook](https://github.com/saphewilliam/saphe-packages/blob/develop/packages/react-table/src/useSort.ts#L35-L47) in the GitHub repo.
+
+### Searching a Table
 
 To enable table searching, extract from the `useTable` state a `searchHelpers` object with the following properties:
 
@@ -204,7 +286,7 @@ If you want to highlight the matched text in the search results, you can pass in
 import React, { ReactElement } from 'react';
 import { RenderCellProps } from '@saphe/react-table';
 
-function HighlightCell(props: RenderCellProps): ReactElement {
+export function HighlightCell(props: RenderCellProps): ReactElement {
   return (
     <td>
       {props.matchedText.map(({ highlighted, value }, idx) => (
@@ -221,7 +303,7 @@ You can now use the headless utilities to build your own search input:
 
 ```tsx
 const { headers, rows, searchHelpers } = useTable(columns, data, { 
-  search: { mode: SearchMode.FUZZY},
+  search: { mode: SearchMode.FUZZY },
   style: { renderCell: HighlightCell },
 });
 
@@ -239,7 +321,8 @@ return (
         onChange={(e) => searchHelpers.setSearchString(e.target.value)}
       />
     </div>
-    <table>{/* Table definition */}</table>
+
+    <Table {...{ headers, rows }} />
   </section>
 )
 ```
