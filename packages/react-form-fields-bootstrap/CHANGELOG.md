@@ -1,5 +1,16 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.2.0
+
+### Minor Changes
+
+- 8c573c5: Fix naming inconsistencies (breaking)
+
+### Patch Changes
+
+- Updated dependencies [8c573c5]
+  - @saphe/react-form@0.5.0
+
 ## 0.1.1
 
 ### Patch Changes

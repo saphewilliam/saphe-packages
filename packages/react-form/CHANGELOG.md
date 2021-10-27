@@ -1,5 +1,11 @@
 # @saphe/react-forms
 
+## 0.5.0
+
+### Minor Changes
+
+- 8c573c5: Fix naming inconsistencies (breaking)
+
 ## 0.4.0
 
 ### Minor Changes
