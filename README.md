@@ -11,6 +11,7 @@ name|version|description
 -|-|-
 `@saphe/react-form`|[![npm version](https://img.shields.io/npm/v/@saphe/react-form.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-form)|A lightweight, declarative, type-safe form engine for React apps
 `@saphe/react-form-fields-bootstrap`|[![npm version](https://img.shields.io/npm/v/@saphe/react-form-fields-bootstrap.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-form-fields-bootstrap)|Bootstrap-style premade and officially maintained form fields pack for Saphe React Form
+`@saphe/react-table`|[![npm version](https://img.shields.io/npm/v/@saphe/react-table.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-table)|A lightweight, declarative, type-safe table engine for React apps
 
 ## TODO
 - [ ] Create scripts that can dynamically generate and update packages (tsconfig.json, README.md, package.json)

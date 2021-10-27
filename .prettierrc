@@ -10,5 +10,5 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "arrowParens": "always",
-  "useTabs": false,
+  "useTabs": false
 }
