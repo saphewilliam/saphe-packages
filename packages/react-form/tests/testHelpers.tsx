@@ -31,9 +31,9 @@ export const minimalSelectField: SelectType = {
   ],
 };
 
-export const minimalCheckBoxField: CheckType = {
+export const minimalCheckField: CheckType = {
   type: Field.CHECK,
-  label: 'Checkbox Field',
+  label: 'Check Field',
 };
 
 export const minimalNumberField: NumberType = {

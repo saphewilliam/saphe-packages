@@ -2,7 +2,7 @@ import React from 'react';
 import Field from '../src/components/FieldSwitch';
 import {
   matchSnapshot,
-  minimalCheckBoxField,
+  minimalCheckField,
   minimalNumberField,
   minimalSelectField,
   minimalTextAreaField,
@@ -64,13 +64,13 @@ describe('Field', () => {
     );
   });
 
-  it('renders a checkbox field correctly', () => {
+  it('renders a check field correctly', () => {
     matchSnapshot(
-      <Field field={minimalCheckBoxField} {...dummyProps} value={false} />,
+      <Field field={minimalCheckField} {...dummyProps} value={false} />,
     );
     matchSnapshot(
       <Field
-        field={{ ...minimalCheckBoxField, description: 'description' }}
+        field={{ ...minimalCheckField, description: 'description' }}
         {...dummyProps}
         value={false}
         error="error"

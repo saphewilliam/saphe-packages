@@ -146,10 +146,10 @@ exports[`Form renders 1`] = `
       }
     >
       <input
-        aria-describedby="testFormCheckBoxDescription"
+        aria-describedby="testFormCheckDescription"
         disabled={false}
-        id="testFormCheckBox"
-        name="checkBox"
+        id="testFormCheck"
+        name="check"
         onBlur={[Function]}
         onChange={[Function]}
         style={
@@ -166,9 +166,9 @@ exports[`Form renders 1`] = `
         value="false"
       />
       <label
-        htmlFor="testFormCheckBox"
+        htmlFor="testFormCheck"
       >
-        Checkbox Field
+        Check Field
       </label>
     </div>
     

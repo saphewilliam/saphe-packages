@@ -5,7 +5,7 @@ import { CheckProps } from '../../utils/propTypes';
 import FieldText from '../helpers/FieldText';
 import FormFieldContainer from '../helpers/FormFieldContainer';
 
-export default function CheckBoxField(
+export default function CheckField(
   props: AddFieldPack<CheckProps>,
 ): ReactElement {
   return (
