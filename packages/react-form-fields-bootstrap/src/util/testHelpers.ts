@@ -68,16 +68,16 @@ export const minimalSelectFieldForm = (props?: {
     },
   });
 
-export const minimalCheckBoxFieldForm = (props?: {
+export const minimalCheckFieldForm = (props?: {
   description?: string;
 }): FormState =>
   useForm({
-    name: 'minimalCheckBoxFieldForm',
+    name: 'minimalCheckFieldForm',
     fieldPack: BootstrapFieldPack,
     fields: {
-      checkBoxField: {
+      checkField: {
         type: Field.CHECK,
-        label: 'Checkbox Field',
+        label: 'Check Field',
         description: props?.description,
       },
     },

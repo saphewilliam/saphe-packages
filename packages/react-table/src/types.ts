@@ -1,7 +1,7 @@
 import { Dispatch, ReactElement, SetStateAction } from 'react';
 import { DefaultValue } from './useDefaultValues';
-import { Hidden } from './useHidden';
 import { MatchedText } from './useSearch';
+import { Visibility } from './useVisibility';
 
 /** The sorting state of a column */
 export enum SortOrder {
@@ -29,7 +29,7 @@ export interface RenderHeadProps {
   name: string;
   label: string;
   hidden: boolean;
-  toggleHide?: (hide?: boolean) => void;
+  toggleVisibility?: (value?: boolean) => void;
   sortOrder: SortOrder;
   toggleSort?: (order?: SortOrder) => void;
 }
@@ -75,6 +75,11 @@ export interface Options<T extends ColumnTypes> {
     // /** Optional (default = `false`): debounce the search input. Useful for large datasets which take more time to search */
     // debounce?: boolean;
   };
+  /** Optional: settings for the table sorting module */
+  sort?: {
+    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear by the `toggleSort` function */
+    order?: SortOrder[];
+  };
   /** Optional: set default styling for the table elements */
   style?: {
     /** Optional: specifies how the header cells of the columns render by default */
@@ -91,16 +96,18 @@ export interface State<T extends ColumnTypes> {
   /** Original headers, used for external data manipulation */
   originalHeaders: RenderHeadProps[];
   /** Processed rows, used for displaying in the table */
-  rows: { cells: (RenderCellProps<T> & { render: () => ReactElement })[] }[];
+  rows: {
+    cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
+  }[];
   /** Original rows, used for external data analysis */
   originalRows: { originalCells: RenderCellProps<T>[] }[];
-  /** Hidden columns helpers */
-  hiddenHelpers: {
-    /** Object containing information about which columns are hidden */
-    hidden: Hidden<T>;
+  /** Visibility columns helpers */
+  visibilityHelpers: {
+    /** Object containing information about which columns are visible (false == hidden) */
+    visibility: Visibility<T>;
     /** Utility function to hide all hideable columns */
     hideAll: () => void;
-    /** Utility function to show all columns */
+    /** Utility function to show all showable columns */
     showAll: () => void;
   };
   /** Pagination helpers */

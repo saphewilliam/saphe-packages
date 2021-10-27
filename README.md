@@ -4,7 +4,7 @@
 [![LGTM Code quality grade: Typescript](https://img.shields.io/lgtm/grade/javascript/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18&style=flat-square)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/context:javascript)
 [![Total LGTM alerts](https://img.shields.io/lgtm/alerts/g/saphewilliam/saphe-packages.svg?logo=lgtm&logoWidth=18&style=flat-square)](https://lgtm.com/projects/g/saphewilliam/saphe-packages/alerts/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
-[![MIT License](https://img.shields.io/npm/l/@saphe/react-form.svg?style=flat-square)](https://github.com/testing-library/react-hooks-testing-library/blob/main/LICENSE.md)
+[![MIT License](https://img.shields.io/npm/l/@saphe/react-form.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
 
 ## Packages
 name|version|description
@@ -15,7 +15,6 @@ name|version|description
 
 ## TODO
 - [ ] Create scripts that can dynamically generate and update packages (tsconfig.json, README.md, package.json)
-- [ ] Test how many of the tsconfig settings can be moved up to tsconfig.settings.json
 
 ## Contributing
 // TODO

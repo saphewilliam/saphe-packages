@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Field renders a checkbox field correctly 1`] = `
+exports[`Field renders a check field correctly 1`] = `
 <div
   style={
     Object {
@@ -41,7 +41,7 @@ exports[`Field renders a checkbox field correctly 1`] = `
     <label
       htmlFor="formNameFieldName"
     >
-      Checkbox Field
+      Check Field
     </label>
   </div>
   
@@ -49,7 +49,7 @@ exports[`Field renders a checkbox field correctly 1`] = `
 </div>
 `;
 
-exports[`Field renders a checkbox field correctly 2`] = `
+exports[`Field renders a check field correctly 2`] = `
 <div
   style={
     Object {
@@ -90,7 +90,7 @@ exports[`Field renders a checkbox field correctly 2`] = `
     <label
       htmlFor="formNameFieldName"
     >
-      Checkbox Field
+      Check Field
     </label>
   </div>
   <p

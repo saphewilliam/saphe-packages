@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The field pack renders a minimal checkbox field 1`] = `
+exports[`The field pack renders a minimal check field 1`] = `
 <form
   onSubmit={[Function]}
 >
@@ -11,11 +11,11 @@ exports[`The field pack renders a minimal checkbox field 1`] = `
       className="form-check"
     >
       <input
-        aria-describedby="minimalCheckBoxFieldFormCheckBoxFieldDescription"
+        aria-describedby="minimalCheckFieldFormCheckFieldDescription"
         className="form-check-input"
         disabled={false}
-        id="minimalCheckBoxFieldFormCheckBoxField"
-        name="checkBoxField"
+        id="minimalCheckFieldFormCheckField"
+        name="checkField"
         onBlur={[Function]}
         onChange={[Function]}
         type="checkbox"
@@ -23,9 +23,9 @@ exports[`The field pack renders a minimal checkbox field 1`] = `
       />
       <label
         className="form-check-label"
-        htmlFor="minimalCheckBoxFieldFormCheckBoxField"
+        htmlFor="minimalCheckFieldFormCheckField"
       >
-        Checkbox Field
+        Check Field
       </label>
       
     </div>
@@ -40,7 +40,7 @@ exports[`The field pack renders a minimal checkbox field 1`] = `
 </form>
 `;
 
-exports[`The field pack renders a minimal checkbox field 2`] = `
+exports[`The field pack renders a minimal check field 2`] = `
 <form
   onSubmit={[Function]}
 >
@@ -51,11 +51,11 @@ exports[`The field pack renders a minimal checkbox field 2`] = `
       className="form-check"
     >
       <input
-        aria-describedby="minimalCheckBoxFieldFormCheckBoxFieldDescription"
+        aria-describedby="minimalCheckFieldFormCheckFieldDescription"
         className="form-check-input"
         disabled={false}
-        id="minimalCheckBoxFieldFormCheckBoxField"
-        name="checkBoxField"
+        id="minimalCheckFieldFormCheckField"
+        name="checkField"
         onBlur={[Function]}
         onChange={[Function]}
         type="checkbox"
@@ -63,14 +63,14 @@ exports[`The field pack renders a minimal checkbox field 2`] = `
       />
       <label
         className="form-check-label"
-        htmlFor="minimalCheckBoxFieldFormCheckBoxField"
+        htmlFor="minimalCheckFieldFormCheckField"
       >
-        Checkbox Field
+        Check Field
       </label>
       
       <div
         className="form-text"
-        id="minimalCheckBoxFieldFormCheckBoxFieldDescription"
+        id="minimalCheckFieldFormCheckFieldDescription"
       >
         Field description
       </div>
