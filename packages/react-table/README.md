@@ -9,7 +9,7 @@ A lightweight, declarative, type-safe table engine for React apps.
 - 🤩 Sort and show/hide columns with the provided utility functions,
 - ⏭️ Built-in pagination logic,
 - 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
-- 🎨 Headless; you decide the table style, the hook handle the logic.
+- 🎨 Headless; you decide the table style, the hook handles the logic.
 
 ## TODOs
 
