@@ -76,7 +76,7 @@ describe('Form', () => {
     const selectField = screen.getByLabelText(
       'Select Field',
     ) as HTMLTextAreaElement;
-    expect(selectField.value).toBe('-placeholder-');
+    expect(selectField.value).toBe('');
     userEvent.selectOptions(selectField, 'option2');
     expect(selectField.value).toBe('option2');
 

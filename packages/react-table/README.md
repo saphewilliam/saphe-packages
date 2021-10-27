@@ -1,21 +1,14 @@
-# @saphe/react-form
+# @saphe/react-table
 
 **⚠️ Currently in development**
 
-A lightweight, declarative, type-safe form engine for React apps. Best practices are the default. Form validation is built in with the typechecking.
+A lightweight, declarative, type-safe table engine for React apps.
 
 ## TODOs
 
-- [x] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
-- [ ] Support lists of values
-- [ ] Support form layouts (advanced form field container with layout grid)
-- [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
-- [ ] Support localization out of the box
-- [ ] Create supported field packs:
-  - [x] Bootstrap
-  - [ ] TailwindCSS
-  - [ ] MaterialCSS
-  - [ ] ChackraUI
+- [] Do a performance analysis
+- [] Check if the code would be cleaner/faster using useReducer (probably)
+- [] Integrate performance optimization tools (react-window?)
 
 ## Getting Started
 
@@ -24,18 +17,33 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 Using yarn:
 
 ```sh
-yarn add @saphe/react-form
+yarn add @saphe/react-table
 ```
 
 or using npm:
 
 ```sh
-npm install @saphe/react-form
+npm install @saphe/react-table
 ```
 
-## Docs
+## Examples
 
-### Field Types
+- [Basic]()
+- [Searchable / Sortable table (Material)]()
+- [Pagination / Hiding columns (Bootstrap)]()
+- [Kitchen Sink (TailwindCSS)]()
+
+## Docs
+// TODO
+
+
+
+
+
+
+
+
+<!-- ### Field Types
 
 - TEXT
 - TEXTAREA
@@ -152,4 +160,4 @@ const { Form } = useForm({
 ```
 
 ## Contributing
-// TODO
+// TODO -->

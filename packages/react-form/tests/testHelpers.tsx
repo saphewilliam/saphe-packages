@@ -1,29 +1,29 @@
 import { ReactElement } from 'react';
 import renderer from 'react-test-renderer';
 import {
-  FieldTypes,
-  INumberField,
-  ISelectField,
-  ITextAreaField,
-  ICheckBoxField,
-  ITextField,
+  Field,
+  TextType,
+  TextAreaType,
+  SelectType,
+  CheckType,
+  NumberType,
 } from '../src/utils/fieldTypes';
 
 export const matchSnapshot = (component: ReactElement): void =>
   expect(renderer.create(component).toJSON()).toMatchSnapshot();
 
-export const minimalTextField: ITextField = {
-  type: FieldTypes.TEXT,
+export const minimalTextField: TextType = {
+  type: Field.TEXT,
   label: 'Text Field',
 };
 
-export const minimalTextAreaField: ITextAreaField = {
-  type: FieldTypes.TEXTAREA,
+export const minimalTextAreaField: TextAreaType = {
+  type: Field.TEXT_AREA,
   label: 'Text Area Field',
 };
 
-export const minimalSelectField: ISelectField = {
-  type: FieldTypes.SELECT,
+export const minimalSelectField: SelectType = {
+  type: Field.SELECT,
   label: 'Select Field',
   options: [
     { label: 'Option 1', value: 'option1' },
@@ -31,12 +31,12 @@ export const minimalSelectField: ISelectField = {
   ],
 };
 
-export const minimalCheckBoxField: ICheckBoxField = {
-  type: FieldTypes.CHECKBOX,
+export const minimalCheckBoxField: CheckType = {
+  type: Field.CHECK,
   label: 'Checkbox Field',
 };
 
-export const minimalNumberField: INumberField = {
-  type: FieldTypes.NUMBER,
+export const minimalNumberField: NumberType = {
+  type: Field.NUMBER,
   label: 'Number Field',
 };

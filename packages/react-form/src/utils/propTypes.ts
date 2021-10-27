@@ -1,19 +1,37 @@
-import { ChangeEvent, FocusEvent, ReactNode } from 'react';
-import { ISelect, IText, ITextArea, ICheckBox, INumber } from './fieldTypes';
-import { HTMLField } from './helperTypes';
+import { ReactNode } from 'react';
+import {
+  CheckType,
+  FieldType,
+  ICheck,
+  INumber,
+  ISelect,
+  IText,
+  ITextArea,
+  NumberType,
+  SelectType,
+  TextAreaType,
+  TextType,
+} from './fieldTypes';
+import { FieldValue } from './helperTypes';
 
-interface FieldPropsBase<T extends HTMLField> {
+export interface PropsBase<T extends FieldType> {
   id: string;
   name: string;
   label: string;
+  description: string;
   describedBy: string;
-  description?: string;
-  disabled?: boolean;
+  disabled: boolean;
   error: string;
-  value: string;
-  onChange: (e: ChangeEvent<T>) => void;
-  onBlur: (e: FocusEvent<T>) => void;
+  value: FieldValue<T>;
+  onChange: (targetValue: FieldValue<T>) => void;
+  onBlur: () => void;
 }
+
+export type TextProps = PropsBase<TextType> & IText;
+export type TextAreaProps = PropsBase<TextAreaType> & ITextArea;
+export type SelectProps = PropsBase<SelectType> & ISelect;
+export type CheckProps = PropsBase<CheckType> & ICheck;
+export type NumberProps = PropsBase<NumberType> & INumber;
 
 export interface SubmitButtonProps {
   isSubmitting: boolean;
@@ -22,14 +40,3 @@ export interface SubmitButtonProps {
 export interface FormFieldContainerProps {
   children: ReactNode;
 }
-
-export type TextFieldProps = IText & FieldPropsBase<HTMLInputElement>;
-
-export type TextAreaFieldProps = ITextArea &
-  FieldPropsBase<HTMLTextAreaElement>;
-
-export type SelectFieldProps = ISelect & FieldPropsBase<HTMLSelectElement>;
-
-export type CheckBoxFieldProps = ICheckBox & FieldPropsBase<HTMLInputElement>;
-
-export type NumberFieldProps = INumber & FieldPropsBase<HTMLInputElement>;

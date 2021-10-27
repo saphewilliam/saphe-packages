@@ -2,9 +2,7 @@ import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
-export default function BSNumberField(
-  props: Props.NumberFieldProps,
-): ReactElement {
+export default function BSNumberField(props: Props.NumberProps): ReactElement {
   return (
     <>
       <label htmlFor={props.id} className="form-label">
@@ -18,7 +16,7 @@ export default function BSNumberField(
         value={props.value}
         placeholder={props.placeholder}
         disabled={props.disabled}
-        onChange={props.onChange}
+        onChange={(e) => props.onChange(parseFloat(e.target.value))}
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       />

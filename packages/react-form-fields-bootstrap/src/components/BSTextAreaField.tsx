@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
 export default function BSTextAreaField(
-  props: Props.TextAreaFieldProps,
+  props: Props.TextAreaProps,
 ): ReactElement {
   return (
     <>
@@ -18,7 +18,7 @@ export default function BSTextAreaField(
         value={props.value}
         placeholder={props.placeholder}
         disabled={props.disabled}
-        onChange={props.onChange}
+        onChange={(e) => props.onChange(e.target.value)}
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       />

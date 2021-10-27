@@ -2,7 +2,7 @@ import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
-export default function BSTextField(props: Props.TextFieldProps): ReactElement {
+export default function BSTextField(props: Props.TextProps): ReactElement {
   return (
     <>
       <label htmlFor={props.id} className="form-label">
@@ -16,7 +16,7 @@ export default function BSTextField(props: Props.TextFieldProps): ReactElement {
         value={props.value}
         placeholder={props.placeholder}
         disabled={props.disabled}
-        onChange={props.onChange}
+        onChange={(e) => props.onChange(e.target.value)}
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       />

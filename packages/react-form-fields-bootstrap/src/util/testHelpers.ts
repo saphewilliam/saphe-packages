@@ -1,4 +1,4 @@
-import useForm, { FieldTypes } from '@saphe/react-form';
+import useForm, { Field } from '@saphe/react-form';
 import { renderHook } from '@testing-library/react-hooks';
 import { ReactElement } from 'react';
 import { BootstrapFieldPack } from '..';
@@ -18,7 +18,7 @@ export const minimalTextFieldForm = (props?: {
     fieldPack: BootstrapFieldPack,
     fields: {
       textField: {
-        type: FieldTypes.TEXT,
+        type: Field.TEXT,
         label: 'Text Field',
         description: props?.description,
         // validation: {
@@ -36,7 +36,7 @@ export const minimalTextAreaFieldForm = (props?: {
     fieldPack: BootstrapFieldPack,
     fields: {
       textAreaField: {
-        type: FieldTypes.TEXTAREA,
+        type: Field.TEXT_AREA,
         label: 'Textarea Field',
         description: props?.description,
       },
@@ -51,7 +51,7 @@ export const minimalSelectFieldForm = (props?: {
     fieldPack: BootstrapFieldPack,
     fields: {
       selectField: {
-        type: FieldTypes.SELECT,
+        type: Field.SELECT,
         label: 'Select Field',
         description: props?.description,
         options: [
@@ -76,7 +76,7 @@ export const minimalCheckBoxFieldForm = (props?: {
     fieldPack: BootstrapFieldPack,
     fields: {
       checkBoxField: {
-        type: FieldTypes.CHECKBOX,
+        type: Field.CHECK,
         label: 'Checkbox Field',
         description: props?.description,
       },
@@ -91,7 +91,7 @@ export const minimalNumberFieldForm = (props?: {
     fieldPack: BootstrapFieldPack,
     fields: {
       numberField: {
-        type: FieldTypes.NUMBER,
+        type: Field.NUMBER,
         label: 'Number Field',
         description: props?.description,
       },

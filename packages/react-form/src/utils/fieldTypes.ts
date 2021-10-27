@@ -3,26 +3,27 @@ import {
   NumberValidation,
   BooleanValidation,
   SelectValidation,
-  IValidation,
+  ValidationType,
 } from './validationTypes';
 
-export enum FieldTypes {
+/** Used by the consumer to declare the field type */
+export enum Field {
   TEXT = 'TEXT',
-  TEXTAREA = 'TEXTAREA',
+  TEXT_AREA = 'TEXT_AREA',
   SELECT = 'SELECT',
-  CHECKBOX = 'CHECKBOX',
+  CHECK = 'CHECK',
   NUMBER = 'NUMBER',
 }
 
-export type IField =
-  | ITextField
-  | ITextAreaField
-  | ISelectField
-  | ICheckBoxField
-  | INumberField;
+/** Field generelization type */
+export type FieldType =
+  | TextType
+  | TextAreaType
+  | SelectType
+  | CheckType
+  | NumberType;
 
-// Unique properties of the fields
-
+// Unique properties of the different fields
 export interface IText {
   placeholder?: string;
 }
@@ -37,18 +38,17 @@ export interface ISelect {
   options: { label: string; value: string }[];
 }
 
-export interface ICheckBox {}
+export interface ICheck {}
 
 export interface INumber {
   placeholder?: string;
 }
 
-// Interfaces used by the user to declare fields in their forms
-
-interface IFieldBase<
-  Type extends FieldTypes,
-  Value extends string | boolean | number,
-  Validation extends IValidation,
+// Types used by the user to declare fields
+interface FieldBase<
+  Type extends Field,
+  Value extends string | boolean | number | File,
+  Validation extends ValidationType,
 > {
   type: Type;
   label: string;
@@ -57,33 +57,20 @@ interface IFieldBase<
   validation?: Validation;
 }
 
-export type ITextField = IFieldBase<FieldTypes.TEXT, string, StringValidation> &
-  IText;
+export type TextType = FieldBase<Field.TEXT, string, StringValidation> & IText;
 
-export type ITextAreaField = IFieldBase<
-  FieldTypes.TEXTAREA,
+export type TextAreaType = FieldBase<
+  Field.TEXT_AREA,
   string,
   StringValidation
 > &
   ITextArea;
 
-export type ISelectField = IFieldBase<
-  FieldTypes.SELECT,
-  string,
-  SelectValidation
-> &
+export type SelectType = FieldBase<Field.SELECT, string, SelectValidation> &
   ISelect;
 
-export type ICheckBoxField = IFieldBase<
-  FieldTypes.CHECKBOX,
-  boolean,
-  BooleanValidation
-> &
-  ICheckBox;
+export type CheckType = FieldBase<Field.CHECK, boolean, BooleanValidation> &
+  ICheck;
 
-export type INumberField = IFieldBase<
-  FieldTypes.NUMBER,
-  number,
-  NumberValidation
-> &
-  ICheckBox;
+export type NumberType = FieldBase<Field.NUMBER, number, NumberValidation> &
+  INumber;

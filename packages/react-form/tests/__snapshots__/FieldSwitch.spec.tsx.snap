@@ -20,11 +20,11 @@ exports[`Field renders a checkbox field correctly 1`] = `
   >
     <input
       aria-describedby="formNameFieldNameDescription"
-      checked={false}
+      disabled={false}
       id="formNameFieldName"
       name="fieldName"
       onBlur={[MockFunction]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       style={
         Object {
           "borderColor": "#767676",
@@ -36,6 +36,7 @@ exports[`Field renders a checkbox field correctly 1`] = `
         }
       }
       type="checkbox"
+      value="false"
     />
     <label
       htmlFor="formNameFieldName"
@@ -43,6 +44,7 @@ exports[`Field renders a checkbox field correctly 1`] = `
       Checkbox Field
     </label>
   </div>
+  
   
 </div>
 `;
@@ -67,11 +69,11 @@ exports[`Field renders a checkbox field correctly 2`] = `
   >
     <input
       aria-describedby="formNameFieldNameDescription"
-      checked={false}
+      disabled={false}
       id="formNameFieldName"
       name="fieldName"
       onBlur={[MockFunction]}
-      onChange={[MockFunction]}
+      onChange={[Function]}
       style={
         Object {
           "borderColor": "red",
@@ -83,6 +85,7 @@ exports[`Field renders a checkbox field correctly 2`] = `
         }
       }
       type="checkbox"
+      value="false"
     />
     <label
       htmlFor="formNameFieldName"
@@ -131,10 +134,11 @@ exports[`Field renders a number field correctly 1`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     style={
       Object {
         "borderColor": "#767676",
@@ -145,8 +149,9 @@ exports[`Field renders a number field correctly 1`] = `
       }
     }
     type="number"
-    value=""
+    value={10}
   />
+  
   
 </div>
 `;
@@ -168,10 +173,11 @@ exports[`Field renders a number field correctly 2`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     style={
       Object {
         "borderColor": "red",
@@ -182,7 +188,7 @@ exports[`Field renders a number field correctly 2`] = `
       }
     }
     type="number"
-    value=""
+    value={10}
   />
   <p
     data-testid="formNameFieldNameError"
@@ -225,10 +231,11 @@ exports[`Field renders a select field correctly 1`] = `
   </label>
   <select
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     style={
       Object {
         "borderColor": "#767676",
@@ -242,7 +249,7 @@ exports[`Field renders a select field correctly 1`] = `
   >
     <option
       disabled={true}
-      value="-placeholder-"
+      value=""
     >
       
     </option>
@@ -257,6 +264,7 @@ exports[`Field renders a select field correctly 1`] = `
       Option 2
     </option>
   </select>
+  
   
 </div>
 `;
@@ -278,10 +286,11 @@ exports[`Field renders a select field correctly 2`] = `
   </label>
   <select
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     style={
       Object {
         "borderColor": "red",
@@ -295,7 +304,7 @@ exports[`Field renders a select field correctly 2`] = `
   >
     <option
       disabled={true}
-      value="-placeholder-"
+      value=""
     >
       placeholder
     </option>
@@ -351,10 +360,11 @@ exports[`Field renders a text area field correctly 1`] = `
   </label>
   <textarea
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     rows={6}
     style={
       Object {
@@ -367,6 +377,7 @@ exports[`Field renders a text area field correctly 1`] = `
     }
     value=""
   />
+  
   
 </div>
 `;
@@ -388,10 +399,11 @@ exports[`Field renders a text area field correctly 2`] = `
   </label>
   <textarea
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     rows={12}
     style={
       Object {
@@ -445,10 +457,11 @@ exports[`Field renders a text field correctly 1`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     style={
       Object {
         "borderColor": "#767676",
@@ -461,6 +474,7 @@ exports[`Field renders a text field correctly 1`] = `
     type="text"
     value=""
   />
+  
   
 </div>
 `;
@@ -482,10 +496,11 @@ exports[`Field renders a text field correctly 2`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    disabled={false}
     id="formNameFieldName"
     name="fieldName"
     onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     style={
       Object {
         "borderColor": "red",
