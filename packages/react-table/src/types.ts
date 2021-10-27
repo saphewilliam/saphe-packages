@@ -75,6 +75,11 @@ export interface Options<T extends ColumnTypes> {
     // /** Optional (default = `false`): debounce the search input. Useful for large datasets which take more time to search */
     // debounce?: boolean;
   };
+  /** Optional: settings for the table sorting module */
+  sort?: {
+    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear by the `toggleSort` function */
+    order?: SortOrder[];
+  };
   /** Optional: set default styling for the table elements */
   style?: {
     /** Optional: specifies how the header cells of the columns render by default */

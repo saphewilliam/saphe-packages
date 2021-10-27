@@ -2,4 +2,4 @@
 '@saphe/react-table': minor
 ---
 
-Rename `hidden` to `visibility`
+Rename `hidden` to `visibility` (breaking!)

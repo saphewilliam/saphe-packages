@@ -17,12 +17,12 @@ A lightweight, declarative, type-safe table engine for React apps.
 ## TODOs
 
 - [x] Rename `hidden` to `visibility`
-- [ ] Updating default SortOrder
+- [x] Updating default SortOrder
+- [x] Custom order of SortOrder enum (global and local)
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
 - [ ] Access column configuration through RenderCellProps (mostly for stringify function)
 - [ ] Search debounce
-- [ ] Custom order of SortOrder enum (global and local)
 - [ ] RegEx search mode (?)
 - [ ] Add support for table styling packs
 - [ ] API data fetching functionality for sort, search, and pagination instead of client-side data slicing
@@ -229,7 +229,7 @@ return (
 
 ### Sorting by Columns
 
-Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
+Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
 
 ```tsx
 import React, { ReactElement } from 'react';
@@ -254,10 +254,14 @@ export function SortableHeaderCell(props: RenderHeadProps): ReactElement {
 }
 ```
 
-Then you can pass it to `useTable` using the options object.
+Then you can pass it to `useTable` using the options object, as well as a custom order of SortOrders.
 
 ```tsx
-const { headers, rows } = useTable(columns, data, { style: { renderHead: SortableHeaderCell } });
+const { headers, rows } = useTable(columns, data, { 
+  style: { renderHead: SortableHeaderCell },
+  // Omit `SortOrder.UNSORTED` at the end to loop the custom order
+  sort: { order: [SortOrder.DESC, SortOrder.UNSORTED, SortOrder.ASC] },
+});
 
 return <Table {...{ headers, rows }} />
 ```

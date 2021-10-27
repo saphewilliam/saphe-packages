@@ -42,6 +42,7 @@ export default function useTable<T extends ColumnTypes>(
     columnsMemo,
     searchedData,
     columnType,
+    optionsMemo,
   );
 
   // Paginate the searched, sorted data
