@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import { useState, useEffect, useCallback, Dispatch, SetStateAction } from 'react';
 import { Column, Columns, ColumnTypes } from './types';
 
 export type Visibility<T extends ColumnTypes> = {
@@ -27,15 +21,13 @@ function getVisibility<T extends ColumnTypes>(
     let prevColVisibility: boolean | undefined;
 
     if (prevVisibility !== undefined) {
-      if (typeof prevVisibility === 'boolean')
-        prevColVisibility = prevVisibility;
+      if (typeof prevVisibility === 'boolean') prevColVisibility = prevVisibility;
       else prevColVisibility = prevVisibility[name];
     }
 
     if (args.hidden !== undefined) visibility[name] = !args.hidden;
     else if (args.unhideable === true) visibility[name] = true;
-    else if (prevColVisibility !== undefined)
-      visibility[name] = prevColVisibility;
+    else if (prevColVisibility !== undefined) visibility[name] = prevColVisibility;
     else visibility[name] = true;
   }
 
@@ -49,8 +41,7 @@ export default function useVisibility<T extends ColumnTypes>(
 
   useEffect(() => {
     const newVisibility = getVisibility(columns, visibility);
-    if (JSON.stringify(newVisibility) !== JSON.stringify(visibility))
-      setVisibility(newVisibility);
+    if (JSON.stringify(newVisibility) !== JSON.stringify(visibility)) setVisibility(newVisibility);
   }, [columns]);
 
   const setAllVisibility = useCallback(

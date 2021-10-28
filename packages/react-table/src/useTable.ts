@@ -19,8 +19,7 @@ export default function useTable<T extends ColumnTypes>(
   const optionsMemo = useIntermediateMemo(options);
 
   // Calculate which columns should be visible
-  const { visibility, setVisibility, setAllVisibility } =
-    useVisibility(columnsMemo);
+  const { visibility, setVisibility, setAllVisibility } = useVisibility(columnsMemo);
 
   // Set undefined values to defaultvalue
   const { defaultValuesData } = useDefaultValues(dataMemo, columnsMemo);
@@ -57,15 +56,7 @@ export default function useTable<T extends ColumnTypes>(
   }, [sortedData, optionsMemo, setPage]);
 
   const { headers, originalHeaders } = useMemo(
-    () =>
-      makeHeaders(
-        columnsMemo,
-        visibility,
-        setVisibility,
-        sortInfo,
-        sort,
-        optionsMemo,
-      ),
+    () => makeHeaders(columnsMemo, visibility, setVisibility, sortInfo, sort, optionsMemo),
     [columnsMemo, visibility, setVisibility, sortInfo, sort, optionsMemo],
   );
 
@@ -75,8 +66,7 @@ export default function useTable<T extends ColumnTypes>(
   );
 
   const rows = useMemo(
-    () =>
-      makeRows(columnsMemo, paginatedData, visibility, highlight, optionsMemo),
+    () => makeRows(columnsMemo, paginatedData, visibility, highlight, optionsMemo),
     [columnsMemo, paginatedData, visibility, highlight, optionsMemo],
   );
 

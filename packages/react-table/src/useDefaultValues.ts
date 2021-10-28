@@ -26,9 +26,7 @@ export default function useDefaultValues<T extends ColumnTypes>(
         Object.entries(columns).reduce(
           (prev, [columnName, column]) => ({
             ...prev,
-            [columnName]:
-              getRowValue(row, columnName) ??
-              getDefaultValue(column.defaultValue, row),
+            [columnName]: getRowValue(row, columnName) ?? getDefaultValue(column.defaultValue, row),
           }),
           {} as Row<T>,
         ),

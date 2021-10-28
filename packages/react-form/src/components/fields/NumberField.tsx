@@ -5,9 +5,7 @@ import { NumberProps } from '../../utils/propTypes';
 import FieldText from '../helpers/FieldText';
 import FormFieldContainer from '../helpers/FormFieldContainer';
 
-export default function NumberField(
-  props: AddFieldPack<NumberProps>,
-): ReactElement {
+export default function NumberField(props: AddFieldPack<NumberProps>): ReactElement {
   return (
     <FormFieldContainer fieldPack={props.fieldPack}>
       {props.fieldPack?.NUMBER ? (

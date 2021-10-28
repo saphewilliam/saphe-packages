@@ -16,12 +16,7 @@ export enum Field {
 }
 
 /** Field generelization type */
-export type FieldType =
-  | TextType
-  | TextAreaType
-  | SelectType
-  | CheckType
-  | NumberType;
+export type FieldType = TextType | TextAreaType | SelectType | CheckType | NumberType;
 
 // Unique properties of the different fields
 export interface IText {
@@ -59,18 +54,10 @@ interface FieldBase<
 
 export type TextType = FieldBase<Field.TEXT, string, StringValidation> & IText;
 
-export type TextAreaType = FieldBase<
-  Field.TEXT_AREA,
-  string,
-  StringValidation
-> &
-  ITextArea;
+export type TextAreaType = FieldBase<Field.TEXT_AREA, string, StringValidation> & ITextArea;
 
-export type SelectType = FieldBase<Field.SELECT, string, SelectValidation> &
-  ISelect;
+export type SelectType = FieldBase<Field.SELECT, string, SelectValidation> & ISelect;
 
-export type CheckType = FieldBase<Field.CHECK, boolean, BooleanValidation> &
-  ICheck;
+export type CheckType = FieldBase<Field.CHECK, boolean, BooleanValidation> & ICheck;
 
-export type NumberType = FieldBase<Field.NUMBER, number, NumberValidation> &
-  INumber;
+export type NumberType = FieldBase<Field.NUMBER, number, NumberValidation> & INumber;

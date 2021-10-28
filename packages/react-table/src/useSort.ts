@@ -71,14 +71,10 @@ export default function useSort<T extends ColumnTypes>(
       }
 
       return [...data].sort((a, b) => {
-        if (customSort !== undefined)
-          return sortWrapper(customSort, a, b, sortInfo);
-        if (colType === ColumnTypeEnum.STRING)
-          return sortWrapper(sortStrings, a, b, sortInfo);
-        if (colType === ColumnTypeEnum.BOOLEAN)
-          return sortWrapper(sortBooleans, a, b, sortInfo);
-        if (colType === ColumnTypeEnum.NUMBER)
-          return sortWrapper(sortNumbers, a, b, sortInfo);
+        if (customSort !== undefined) return sortWrapper(customSort, a, b, sortInfo);
+        if (colType === ColumnTypeEnum.STRING) return sortWrapper(sortStrings, a, b, sortInfo);
+        if (colType === ColumnTypeEnum.BOOLEAN) return sortWrapper(sortBooleans, a, b, sortInfo);
+        if (colType === ColumnTypeEnum.NUMBER) return sortWrapper(sortNumbers, a, b, sortInfo);
         if (stringify)
           return sortStrings(
             stringify(getRowValue(a, columnName), a),
@@ -92,11 +88,7 @@ export default function useSort<T extends ColumnTypes>(
 
   const sort = useCallback(
     (columnName: string) => {
-      const orders = options?.sort?.order ?? [
-        SortOrder.DESC,
-        SortOrder.ASC,
-        SortOrder.UNSORTED,
-      ];
+      const orders = options?.sort?.order ?? [SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED];
 
       if (orders.length !== 0) {
         let index = sortInfo?.orderIndex;

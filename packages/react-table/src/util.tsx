@@ -16,10 +16,7 @@ import { MatchedText, HighlightFunc } from './useSearch';
 import { SortInfo } from './useSort';
 import { Visibility } from './useVisibility';
 
-export function getRowValue<T extends ColumnTypes>(
-  row: Row<T>,
-  columnName: string,
-): Any {
+export function getRowValue<T extends ColumnTypes>(row: Row<T>, columnName: string): Any {
   return (row as Record<string, Any>)[columnName];
 }
 
@@ -44,9 +41,7 @@ export function makeHeaders<T extends ColumnTypes>(
         .replace(/^./, (match) => match.toUpperCase())
         .trim();
 
-      const defaultRenderHead = ({ label }: { label: string }) => (
-        <th>{label}</th>
-      );
+      const defaultRenderHead = ({ label }: { label: string }) => <th>{label}</th>;
 
       const {
         label = defaultLabel,
@@ -65,14 +60,12 @@ export function makeHeaders<T extends ColumnTypes>(
         label,
         hidden: !columnVisible,
         toggleVisibility: !unhideable ? toggleVisibility : undefined,
-        sortOrder:
-          sortInfo?.columnName === name ? sortInfo.order : SortOrder.UNSORTED,
+        sortOrder: sortInfo?.columnName === name ? sortInfo.order : SortOrder.UNSORTED,
         toggleSort: !unsortable ? () => sort(name) : undefined,
       };
 
       originalHeaders.push(header);
-      if (columnVisible)
-        headers.push({ ...header, render: () => renderHead(header) });
+      if (columnVisible) headers.push({ ...header, render: () => renderHead(header) });
     }
   }
 
@@ -97,18 +90,9 @@ function makeRow<T extends ColumnTypes, U>(
   for (const [columnName, columnArgs] of Object.entries<Column<T>>(columns)) {
     if (!columnArgs.hidden) {
       const value = getRowValue(row, columnName);
-      const stringValue = columnArgs.stringify
-        ? columnArgs.stringify(value, row)
-        : String(value);
+      const stringValue = columnArgs.stringify ? columnArgs.stringify(value, row) : String(value);
       const matched = highlight(stringValue);
-      const cell = callback(
-        row,
-        value,
-        matched,
-        stringValue,
-        columnArgs,
-        columnName,
-      );
+      const cell = callback(row, value, matched, stringValue, columnArgs, columnName);
       if (cell) cells.push(cell);
     }
   }
@@ -146,18 +130,13 @@ export function makeRows<T extends ColumnTypes>(
   const rows: State<T>['rows'] = [];
 
   for (const row of data) {
-    const cells = makeRow<
-      T,
-      RenderCellProps<T> & { render: () => ReactElement }
-    >(
+    const cells = makeRow<T, RenderCellProps<T> & { render: () => ReactElement }>(
       (row, _, matched, stringValue, columnArgs, columnName) => {
         if (!visibility[columnName]) return null;
         else {
           const defaultRenderCell = () => <td>{stringValue}</td>;
           const renderCell =
-            columnArgs.renderCell ??
-            options?.style?.renderCell ??
-            defaultRenderCell;
+            columnArgs.renderCell ?? options?.style?.renderCell ?? defaultRenderCell;
 
           const cell: RenderCellProps<T> = {
             value: stringValue,

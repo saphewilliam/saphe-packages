@@ -10,9 +10,7 @@ interface FormState {
 export const renderForm = (hook: () => FormState): (() => ReactElement) =>
   renderHook(hook).result.current.Form;
 
-export const minimalTextFieldForm = (props?: {
-  description?: string;
-}): FormState =>
+export const minimalTextFieldForm = (props?: { description?: string }): FormState =>
   useForm({
     name: 'minimalTextFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -28,9 +26,7 @@ export const minimalTextFieldForm = (props?: {
     },
   });
 
-export const minimalTextAreaFieldForm = (props?: {
-  description?: string;
-}): FormState =>
+export const minimalTextAreaFieldForm = (props?: { description?: string }): FormState =>
   useForm({
     name: 'minimalTextAreaFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -43,9 +39,7 @@ export const minimalTextAreaFieldForm = (props?: {
     },
   });
 
-export const minimalSelectFieldForm = (props?: {
-  description?: string;
-}): FormState =>
+export const minimalSelectFieldForm = (props?: { description?: string }): FormState =>
   useForm({
     name: 'minimalSelectFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -68,9 +62,7 @@ export const minimalSelectFieldForm = (props?: {
     },
   });
 
-export const minimalCheckFieldForm = (props?: {
-  description?: string;
-}): FormState =>
+export const minimalCheckFieldForm = (props?: { description?: string }): FormState =>
   useForm({
     name: 'minimalCheckFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -83,9 +75,7 @@ export const minimalCheckFieldForm = (props?: {
     },
   });
 
-export const minimalNumberFieldForm = (props?: {
-  description?: string;
-}): FormState =>
+export const minimalNumberFieldForm = (props?: { description?: string }): FormState =>
   useForm({
     name: 'minimalNumberFieldForm',
     fieldPack: BootstrapFieldPack,

@@ -65,9 +65,7 @@ describe('Field', () => {
   });
 
   it('renders a check field correctly', () => {
-    matchSnapshot(
-      <Field field={minimalCheckField} {...dummyProps} value={false} />,
-    );
+    matchSnapshot(<Field field={minimalCheckField} {...dummyProps} value={false} />);
     matchSnapshot(
       <Field
         field={{ ...minimalCheckField, description: 'description' }}
@@ -79,9 +77,7 @@ describe('Field', () => {
   });
 
   it('renders a number field correctly', () => {
-    matchSnapshot(
-      <Field field={minimalNumberField} {...dummyProps} value={10} />,
-    );
+    matchSnapshot(<Field field={minimalNumberField} {...dummyProps} value={10} />);
     matchSnapshot(
       <Field
         field={{ ...minimalNumberField, description: 'description' }}
