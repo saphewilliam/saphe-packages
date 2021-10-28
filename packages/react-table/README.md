@@ -15,6 +15,20 @@ A lightweight, declarative, type-safe table engine for React apps.
 - 🚀 Efficient due to usage of internal memoization and effect order,
 - 🎨 Headless; you decide the table style, the hook handles the logic.
 
+## Table of Contents
+
+- [TODOs](#todos)
+- [Getting Started](#getting-started)
+- [Examples](#examples)
+- [Docs](#docs)
+  - [Basic Usage](#basic-usage)
+  - [Pagination](#pagination)
+  - [Dynamically and Statically Hiding Columns](#dynamically-and-statically-hiding-columns)
+  - [Sorting by Columns](#sorting-by-columns)
+  - [Searching a Table](#searching-a-table)
+- [Troubleshooting](#troubleshooting)
+  - [Maximum update depth](#maximum-update-depth)
+
 ## TODOs
 
 - [x] Rename `hidden` to `visibility`
@@ -270,7 +284,7 @@ const { headers, rows } = useTable(columns, data, {
 return <Table {...{ headers, rows }} />
 ```
 
-If you have a complex data object (not string, number or boolean), you can either turn off sorting for that column using the `unsortable: true` option in the column definition, or supply a custom sorting function using the `sort` option in the column definition. For examples on custom sorting functions, check the [useSort hook](https://github.com/saphewilliam/saphe-packages/blob/develop/packages/react-table/src/useSort.ts#L35-L47) in the GitHub repo.
+If you have a complex data object (not string, number or boolean), you can either turn off sorting for that column using the `unsortable: true` option in the column definition, or supply a custom sorting function using the `sort` option in the column definition. For examples on custom sorting functions, check the [useSort hook](https://github.com/saphewilliam/saphe-packages/blob/develop/packages/react-table/src/useSort.ts#L36-L48) in the GitHub repo.
 
 ### Searching a Table
 
