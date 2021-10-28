@@ -51,7 +51,7 @@ export interface Column<T extends ColumnTypes, U = Any> {
   /** Optional (default = `false`): user is not able to hide this column */
   unhideable?: boolean;
   /** Optional: custom sorting function for this column */
-  sort?: (a: U, b: U, invert: boolean) => number;
+  sort?: (a: U, b: U) => number;
   /** Optional (default = `false`): user is not able to sort this column */
   unsortable?: boolean;
   /** Optional: convert cell content to string for string matching / searching purposes */

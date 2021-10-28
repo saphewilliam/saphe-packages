@@ -16,7 +16,7 @@ interface SortState<T extends ColumnTypes> {
 }
 
 function sortWrapper<T extends ColumnTypes, U>(
-  sort: (a: U, b: U, invert: boolean) => number,
+  sort: (a: U, b: U) => number,
   a: Row<T>,
   b: Row<T>,
   sortInfo: SortInfo,
@@ -30,20 +30,20 @@ function sortWrapper<T extends ColumnTypes, U>(
   if (aValue === undefined && bValue === undefined) return 0;
   else if (aValue === undefined) return invert ? -1 : 1;
   else if (bValue === undefined) return invert ? 1 : -1;
-  return sort(aValue, bValue, invert);
+  return (invert ? -1 : 1) * sort(aValue, bValue);
 }
 
-function sortNumbers(a: number, b: number, invert: boolean): number {
-  return (invert ? -1 : 1) * (a - b);
+function sortNumbers(a: number, b: number): number {
+  return a - b;
 }
 
-function sortStrings(a: string, b: string, invert: boolean): number {
-  return (invert ? -1 : 1) * a.localeCompare(b);
+function sortStrings(a: string, b: string): number {
+  return a.localeCompare(b);
 }
 
-function sortBooleans(a: boolean, b: boolean, invert: boolean): number {
-  if (a && !b) return invert ? 1 : -1;
-  if (b && !a) return invert ? -1 : 1;
+function sortBooleans(a: boolean, b: boolean): number {
+  if (a && !b) return 1;
+  if (b && !a) return -1;
   return 0;
 }
 
@@ -75,13 +75,14 @@ export default function useSort<T extends ColumnTypes>(
         if (colType === ColumnTypeEnum.STRING) return sortWrapper(sortStrings, a, b, sortInfo);
         if (colType === ColumnTypeEnum.BOOLEAN) return sortWrapper(sortBooleans, a, b, sortInfo);
         if (colType === ColumnTypeEnum.NUMBER) return sortWrapper(sortNumbers, a, b, sortInfo);
-        if (stringify)
-          return sortStrings(
-            stringify(getRowValue(a, columnName), a),
-            stringify(getRowValue(b, columnName), b),
-            sortInfo.order === SortOrder.DESC,
-          );
-        else return 0;
+        if (stringify) {
+          const invert = sortInfo.order === SortOrder.DESC;
+          const aValue = stringify(getRowValue(a, sortInfo.columnName), a);
+          const bValue = stringify(getRowValue(b, sortInfo.columnName), b);
+
+          return (invert ? -1 : 1) * sortStrings(aValue, bValue);
+        }
+        return 0;
       });
     } else return data;
   }, [columns, data, columnType, sortInfo]);

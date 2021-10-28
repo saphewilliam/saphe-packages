@@ -6,20 +6,21 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 ## Features
 
+- ✅ CommonJS and ES Modules support,
 - 🤩 Easily sort by columns,
-- 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
 - ⏭️ Built-in pagination logic,
+- 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
 - 👁️ Toggle visibility on columns using the provided utility functions,
-- ⚖️ Lightweight; 162 kB unpacked and only 1 dependency total,
+- ⚖️ Lightweight; 162 kB (esm and cjs combined) and only 1 dependency total,
 - 🚀 Efficient due to usage of internal memoization and effect order,
 - 🎨 Headless; you decide the table style, the hook handles the logic.
 
 ## TODOs
 
 - [x] Rename `hidden` to `visibility`
-- [x] Updating default SortOrder
+- [x] Remove `invert` from sorting functions
+- [x] Update default SortOrder
 - [x] Custom order of SortOrder enum (global and local)
-- [ ] Remove `invert` from sorting functions
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
 - [ ] Access column configuration through RenderCellProps (mostly for stringify function)
