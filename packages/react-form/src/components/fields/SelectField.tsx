@@ -5,9 +5,7 @@ import { SelectProps } from '../../utils/propTypes';
 import FieldText from '../helpers/FieldText';
 import FormFieldContainer from '../helpers/FormFieldContainer';
 
-export default function SelectField(
-  props: AddFieldPack<SelectProps>,
-): ReactElement {
+export default function SelectField(props: AddFieldPack<SelectProps>): ReactElement {
   return (
     <FormFieldContainer fieldPack={props.fieldPack}>
       {props.fieldPack?.SELECT ? (

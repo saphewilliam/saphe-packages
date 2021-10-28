@@ -5,9 +5,7 @@ import { TextProps } from '../../utils/propTypes';
 import FieldText from '../helpers/FieldText';
 import FormFieldContainer from '../helpers/FormFieldContainer';
 
-export default function TextField(
-  props: AddFieldPack<TextProps>,
-): ReactElement {
+export default function TextField(props: AddFieldPack<TextProps>): ReactElement {
   return (
     <FormFieldContainer fieldPack={props.fieldPack}>
       {props.fieldPack?.TEXT ? (

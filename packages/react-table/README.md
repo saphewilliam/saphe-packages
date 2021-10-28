@@ -6,18 +6,20 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 ## Features
 
+- ✅ CommonJS and ES Modules support,
 - 🤩 Easily sort by columns,
-- 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
 - ⏭️ Built-in pagination logic,
+- 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
 - 👁️ Toggle visibility on columns using the provided utility functions,
-- ⚖️ Lightweight; only 150 kB unpacked and only 1 dependency,
+- ⚖️ Lightweight; 162 kB (esm and cjs combined) and only 1 dependency total,
 - 🚀 Efficient due to usage of internal memoization and effect order,
 - 🎨 Headless; you decide the table style, the hook handles the logic.
 
 ## TODOs
 
 - [x] Rename `hidden` to `visibility`
-- [x] Updating default SortOrder
+- [x] Remove `invert` from sorting functions
+- [x] Update default SortOrder
 - [x] Custom order of SortOrder enum (global and local)
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
@@ -26,6 +28,7 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [ ] RegEx search mode (?)
 - [ ] Add support for table styling packs
 - [ ] API data fetching functionality for sort, search, and pagination instead of client-side data slicing
+- [ ] Plugin support
 
 ## Getting Started
 
@@ -62,7 +65,7 @@ import useTable, { Columns, Data } from '@saphe/react-table';
 interface ColumnTypes {
   language: string;
   jobs: { amount: number; salary: number };
-  stronglyTyped: boolean | undefined;
+  stronglyTyped: boolean | null;
 }
 
 export default function ProgrammingLanguagesTable(): ReactElement {
@@ -232,8 +235,8 @@ return (
 Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
 
 ```tsx
-import { RenderHeadProps, SortOrder } from "@saphe/react-table";
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
+import { RenderHeadProps, SortOrder } from '@saphe/react-table';
 
 export function SortableHeaderCell(props: RenderHeadProps): ReactElement {
   const getArrow = (order: SortOrder) => {
@@ -331,4 +334,56 @@ return (
     <Table {...{ headers, rows }} />
   </section>
 )
+```
+
+## Troubleshooting
+
+### Maximum update depth
+
+If you encounter the `Maximum update depth exceeded` error, it probably means that you're trying to render data that recursively triggers table re-renders, for instance: `new Date()`. There are two fixes for this error.
+
+One is to wrap your data array and/or column definition in a [`useMemo` hook](https://reactjs.org/docs/hooks-reference.html#usememo) before passing them to `useTable`, like this:
+
+```tsx
+interface ColumnTypes {
+  dateColumn: Date | null;
+  dateRow: Date;
+}
+
+export default function ProgrammingLanguagesTable(): ReactElement {
+  const columns: Columns<ColumnTypes> = useMemo(() => ({
+    dateColumn: { defaultValue: new Date() },
+    dateRow: {},
+  }), []);
+
+  const data: Data<ColumnTypes> = useMemo(() => [
+    { dateRow: new Date() },
+  ], []);
+
+  const { headers, rows } = useTable(columns, data);
+
+  return <Table {...{ headers, rows }} />
+}
+```
+
+The other fix is to define the data outside of the react component (only an option if your data is independent from the component state), like this:
+
+```tsx
+interface ColumnTypes {
+  dateColumn: Date | null;
+  dateRow: Date;
+}
+
+const columns: Columns<ColumnTypes> = {
+  dateColumn: { defaultValue: new Date() },
+  dateRow: {},
+};
+
+const data: Data<ColumnTypes> = [{ dateRow: new Date() }];
+
+export default function ProgrammingLanguagesTable(): ReactElement {
+  const { headers, rows } = useTable(columns, data);
+
+  return <Table {...{ headers, rows }} />
+}
 ```

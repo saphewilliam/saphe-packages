@@ -15,9 +15,7 @@ export const getFieldStyle = (error: string): Record<string, string> => ({
   marginBottom: '3px',
 });
 
-export function getDefaultFieldValue<T extends FieldType>(
-  field: T,
-): FieldValue<T> {
+export function getDefaultFieldValue<T extends FieldType>(field: T): FieldValue<T> {
   switch (field.type) {
     case Field.TEXT:
     case Field.TEXT_AREA:
@@ -47,8 +45,7 @@ export function formatFieldValue<T extends FieldType>(
   field: T | undefined,
   stringValue: string,
 ): FieldValue<T> {
-  if (field === undefined)
-    throw new Error(`Undefined field could not be decoded`);
+  if (field === undefined) throw new Error(`Undefined field could not be decoded`);
   switch (field.type) {
     case Field.TEXT:
     case Field.TEXT_AREA:

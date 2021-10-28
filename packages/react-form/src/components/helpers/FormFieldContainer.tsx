@@ -6,9 +6,7 @@ export default function FormFieldContainer(
   props: AddFieldPack<FormFieldContainerProps>,
 ): ReactElement {
   return props.fieldPack?.FormFieldContainer ? (
-    <props.fieldPack.FormFieldContainer>
-      {props.children}
-    </props.fieldPack.FormFieldContainer>
+    <props.fieldPack.FormFieldContainer>{props.children}</props.fieldPack.FormFieldContainer>
   ) : (
     <div
       style={{

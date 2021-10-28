@@ -5,9 +5,7 @@ import { TextAreaProps } from '../../utils/propTypes';
 import FieldText from '../helpers/FieldText';
 import FormFieldContainer from '../helpers/FormFieldContainer';
 
-export default function TextAreaField(
-  props: AddFieldPack<TextAreaProps>,
-): ReactElement {
+export default function TextAreaField(props: AddFieldPack<TextAreaProps>): ReactElement {
   return (
     <FormFieldContainer fieldPack={props.fieldPack}>
       {props.fieldPack?.TEXT_AREA ? (

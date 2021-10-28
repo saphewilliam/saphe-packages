@@ -2,18 +2,13 @@ import { Field } from '..';
 import { FieldType } from './fieldTypes';
 import { getDefaultFieldValue } from './formHelpers';
 import { FieldValue } from './helperTypes';
-import {
-  NumberValidation,
-  NumberValue,
-  StringValidation,
-} from './validationTypes';
+import { NumberValidation, NumberValue, StringValidation } from './validationTypes';
 
 export function validateField<T extends FieldType>(
   field: FieldType | undefined,
   value: FieldValue<T> | undefined,
 ): string {
-  if (field === undefined || value === undefined || !field.validation)
-    return '';
+  if (field === undefined || value === undefined || !field.validation) return '';
 
   // Required check
   if (field.validation.required && value === getDefaultFieldValue(field))
@@ -24,16 +19,10 @@ export function validateField<T extends FieldType>(
   switch (field.type) {
     case Field.TEXT:
     case Field.TEXT_AREA:
-      error = validateStringField(
-        value as string,
-        field.validation as StringValidation,
-      );
+      error = validateStringField(value as string, field.validation as StringValidation);
       break;
     case Field.NUMBER:
-      error = validateNumberField(
-        value as number,
-        field.validation as NumberValidation,
-      );
+      error = validateNumberField(value as number, field.validation as NumberValidation);
       break;
     case Field.SELECT:
     case Field.CHECK:
@@ -54,24 +43,18 @@ export function validateField<T extends FieldType>(
 
 function validateNumberValue(n: number, v: NumberValue): string {
   if (
-    ((v as { exact: number }).exact !== undefined &&
-      n !== (v as { exact: number }).exact) ||
+    ((v as { exact: number }).exact !== undefined && n !== (v as { exact: number }).exact) ||
     ((v as { lt: number }).lt !== undefined && n < (v as { lt: number }).lt) ||
-    ((v as { lte: number }).lte !== undefined &&
-      n <= (v as { lte: number }).lte) ||
+    ((v as { lte: number }).lte !== undefined && n <= (v as { lte: number }).lte) ||
     ((v as { gt: number }).gt !== undefined && n > (v as { gt: number }).gt) ||
-    ((v as { gte: number }).gte !== undefined &&
-      n >= (v as { gte: number }).gte)
+    ((v as { gte: number }).gte !== undefined && n >= (v as { gte: number }).gte)
   )
     return v.message;
 
   return '';
 }
 
-function validateStringField(
-  value: string,
-  validation: StringValidation,
-): string {
+function validateStringField(value: string, validation: StringValidation): string {
   // Length check
   if (validation.length) {
     const message = validateNumberValue(value.length, validation.length);
@@ -79,16 +62,12 @@ function validateStringField(
   }
 
   // Regex check
-  if (validation.match && value.match(validation.match.regex))
-    return validation.match.message;
+  if (validation.match && value.match(validation.match.regex)) return validation.match.message;
 
   return '';
 }
 
-function validateNumberField(
-  value: number,
-  validation: NumberValidation,
-): string {
+function validateNumberField(value: number, validation: NumberValidation): string {
   // Value check
   if (validation.value) {
     const message = validateNumberValue(value, validation.value);

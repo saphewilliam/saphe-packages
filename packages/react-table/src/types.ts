@@ -51,7 +51,9 @@ export interface Column<T extends ColumnTypes, U = Any> {
   /** Optional (default = `false`): user is not able to hide this column */
   unhideable?: boolean;
   /** Optional: custom sorting function for this column */
-  sort?: (a: U, b: U, invert: boolean) => number;
+  sort?: (a: U, b: U) => number;
+  /** Optional: (default = global configuration): override of the order in which SortOrders appear through `toggleSort` */
+  sortOrder?: SortOrder[];
   /** Optional (default = `false`): user is not able to sort this column */
   unsortable?: boolean;
   /** Optional: convert cell content to string for string matching / searching purposes */
@@ -77,7 +79,7 @@ export interface Options<T extends ColumnTypes> {
   };
   /** Optional: settings for the table sorting module */
   sort?: {
-    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear by the `toggleSort` function */
+    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
     order?: SortOrder[];
   };
   /** Optional: set default styling for the table elements */
