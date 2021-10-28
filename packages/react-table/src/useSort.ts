@@ -89,7 +89,10 @@ export default function useSort<T extends ColumnTypes>(
 
   const sort = useCallback(
     (columnName: string) => {
-      const orders = options?.sort?.order ?? [SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED];
+      const localOrders = columns[columnName]?.sortOrder;
+      const globalOrders = options?.sort?.order;
+      const defaultOrders = [SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED];
+      const orders = localOrders ?? globalOrders ?? defaultOrders;
 
       if (orders.length !== 0) {
         let index = sortInfo?.orderIndex;
