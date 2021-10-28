@@ -62,7 +62,7 @@ import useTable, { Columns, Data } from '@saphe/react-table';
 interface ColumnTypes {
   language: string;
   jobs: { amount: number; salary: number };
-  stronglyTyped: boolean;
+  stronglyTyped: boolean | undefined;
 }
 
 export default function ProgrammingLanguagesTable(): ReactElement {
@@ -232,20 +232,21 @@ return (
 Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
 
 ```tsx
-import React, { ReactElement } from 'react';
-import { RenderCellProps } from '@saphe/react-table';
+import { RenderHeadProps, SortOrder } from "@saphe/react-table";
+import React, { ReactElement } from "react";
 
 export function SortableHeaderCell(props: RenderHeadProps): ReactElement {
   const getArrow = (order: SortOrder) => {
-    switch order:
+    switch (order) {
       case SortOrder.ASC:
         return '^';
       case SortOrder.DESC:
         return 'v';
       case SortOrder.UNSORTED:
         return '';
-  }
-  
+    }
+  };
+
   return (
     <th onClick={() => props.toggleSort && props.toggleSort()}>
       {props.label} {getArrow(props.sortOrder)}
