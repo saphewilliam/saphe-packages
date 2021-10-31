@@ -2,9 +2,7 @@ import { Props } from '@saphe/react-form';
 import React, { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
-export default function BSTextAreaField(
-  props: Props.TextAreaProps,
-): ReactElement {
+export default function BSTextAreaField(props: Props.TextAreaProps): ReactElement {
   return (
     <>
       <label htmlFor={props.id} className="form-label">

@@ -1,18 +1,8 @@
-import React, {
-  Dispatch,
-  FormEvent,
-  ReactElement,
-  SetStateAction,
-  useState,
-} from 'react';
+import React, { Dispatch, FormEvent, ReactElement, SetStateAction, useState } from 'react';
 import { Config as HookConfig } from '../hooks/useForm';
 import useRecaptcha from '../hooks/useRecaptcha';
 import { FieldType } from '../utils/fieldTypes';
-import {
-  FormState,
-  getInitialFormState,
-  getDefaultFieldValue,
-} from '../utils/formHelpers';
+import { FormState, getInitialFormState, getDefaultFieldValue } from '../utils/formHelpers';
 import { Fields, FieldValue } from '../utils/helperTypes';
 import { validateField } from '../utils/validationHelpers';
 import { ValidationMode } from '../utils/validationTypes';
@@ -37,9 +27,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     setIsSubmitting,
   } = props;
 
-  const [formState, setFormState] = useState<FormState<T>>(
-    getInitialFormState(fields),
-  );
+  const [formState, setFormState] = useState<FormState<T>>(getInitialFormState(fields));
   const { Recaptcha, recaptchaToken } = useRecaptcha(recaptcha);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -66,16 +54,12 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     }
   };
 
-  const handleChange = <T extends FieldType>(
-    targetValue: FieldValue<T>,
-    fieldName: string,
-  ) => {
+  const handleChange = <T extends FieldType>(targetValue: FieldValue<T>, fieldName: string) => {
     let error = formState.errors[fieldName] ?? '';
 
     if (
       validationMode === ValidationMode.ON_CHANGE ||
-      (validationMode === ValidationMode.AFTER_BLUR &&
-        formState.touched[fieldName])
+      (validationMode === ValidationMode.AFTER_BLUR && formState.touched[fieldName])
     )
       error = validateField(fields[fieldName], targetValue);
 
@@ -94,10 +78,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
 
   const handleBlur = (fieldName: string) => {
     let error = formState.errors[fieldName] ?? '';
-    if (
-      validationMode === ValidationMode.ON_BLUR ||
-      validationMode === ValidationMode.AFTER_BLUR
-    )
+    if (validationMode === ValidationMode.ON_BLUR || validationMode === ValidationMode.AFTER_BLUR)
       error = validateField(fields[fieldName], formState.values[fieldName]);
 
     setFormState({
@@ -117,9 +98,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
     <form onSubmit={(e) => handleSubmit(e)}>
       {Object.keys(fields).map((fieldName, index) => {
         const field = fields[fieldName];
-        const fieldId = `${name}${fieldName
-          .charAt(0)
-          .toUpperCase()}${fieldName.slice(1)}`;
+        const fieldId = `${name}${fieldName.charAt(0).toUpperCase()}${fieldName.slice(1)}`;
         if (field === undefined) return <div />;
         return (
           <FieldSwitch
@@ -134,8 +113,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
             disabled={false} // TODO make this variable
             error={formState.errors[fieldName] ?? ''}
             value={
-              formState.values[fieldName]?.toString() ??
-              getDefaultFieldValue(field).toString()
+              formState.values[fieldName]?.toString() ?? getDefaultFieldValue(field).toString()
             }
             onChange={(targetValue) => handleChange(targetValue, fieldName)}
             onBlur={() => handleBlur(fieldName)}

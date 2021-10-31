@@ -1,7 +1,6 @@
 import { Dispatch, ReactElement, SetStateAction } from 'react';
 import { DefaultValue } from './useDefaultValues';
 import { MatchedText } from './useSearch';
-import { Visibility } from './useVisibility';
 
 /** The sorting state of a column */
 export enum SortOrder {
@@ -35,7 +34,7 @@ export interface RenderHeadProps {
 }
 
 export interface RenderCellProps<T extends ColumnTypes = Any, U = Any> {
-  row: Row<T>;
+  row: DataRow<T>;
   value: U;
   matchedText: MatchedText;
 }
@@ -51,11 +50,13 @@ export interface Column<T extends ColumnTypes, U = Any> {
   /** Optional (default = `false`): user is not able to hide this column */
   unhideable?: boolean;
   /** Optional: custom sorting function for this column */
-  sort?: (a: U, b: U, invert: boolean) => number;
+  sort?: (a: U, b: U) => number;
+  /** Optional: (default = global configuration): override of the order in which SortOrders appear through `toggleSort` */
+  sortOrder?: SortOrder[];
   /** Optional (default = `false`): user is not able to sort this column */
   unsortable?: boolean;
   /** Optional: convert cell content to string for string matching / searching purposes */
-  stringify?: (value: U, row: Row<T>) => string;
+  stringify?: (value: U, row: DataRow<T>) => string;
   /** Optional (default = `false`): user is not able to search this column */
   unsearchable?: boolean;
   /** Optional: overrides how the header cell of this column renders */
@@ -77,7 +78,7 @@ export interface Options<T extends ColumnTypes> {
   };
   /** Optional: settings for the table sorting module */
   sort?: {
-    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear by the `toggleSort` function */
+    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
     order?: SortOrder[];
   };
   /** Optional: set default styling for the table elements */
@@ -89,51 +90,74 @@ export interface Options<T extends ColumnTypes> {
   };
 }
 
+/** Global state utilities for managing column visibility */
+export interface VisibilityHelpers {
+  /** Utility function to hide all hideable columns */
+  hideAll: () => void;
+  /** Utility function to show all showable columns */
+  showAll: () => void;
+}
+
+/** Global state utilities for managing table pagination */
+export interface PaginationHelpers {
+  /** Current page number (between 1 and `pageAmount`) */
+  page: number;
+  /** Amount of pages */
+  pageAmount: number;
+  /** Utility function to set the current page if possible */
+  setPage: (pageNumber: number) => void;
+  /** Utility function to move to the next page if possible */
+  nextPage: () => void;
+  /** Whether or not there is a next page to go to */
+  canNext: boolean;
+  /** Utility function to move to the previous page if possible */
+  prevPage: () => void;
+  /** Whether or not there is a previous page to go to */
+  canPrev: boolean;
+}
+
+/** Global state utilities for managing data searching */
+export interface SearchHelpers {
+  /** String which the table is being searched on */
+  searchString: string;
+  /** Utility function to set the search string */
+  setSearchString: Dispatch<SetStateAction<string>>;
+}
+
+/** Processed headers, used for displaying in the table */
+export interface Header extends RenderHeadProps {
+  render: () => ReactElement;
+}
+
+/** Original headers, used for external data manipulation */
+export interface OriginalHeader extends RenderHeadProps {}
+
+/** Processed rows, used for displaying in the table */
+export interface Row<T extends ColumnTypes> {
+  cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
+}
+
+/** Original rows, used for external data analysis and aggregation */
+export interface OriginalRow<T extends ColumnTypes> {
+  originalCells: RenderCellProps<T>[];
+}
+
 /** Output table state object */
 export interface State<T extends ColumnTypes> {
   /** Processed headers, used for displaying in the table */
-  headers: (RenderHeadProps & { render: () => ReactElement })[];
+  headers: Header[];
   /** Original headers, used for external data manipulation */
-  originalHeaders: RenderHeadProps[];
+  originalHeaders: OriginalHeader[];
   /** Processed rows, used for displaying in the table */
-  rows: {
-    cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
-  }[];
+  rows: Row<T>[];
   /** Original rows, used for external data analysis */
-  originalRows: { originalCells: RenderCellProps<T>[] }[];
+  originalRows: OriginalRow<T>[];
   /** Visibility columns helpers */
-  visibilityHelpers: {
-    /** Object containing information about which columns are visible (false == hidden) */
-    visibility: Visibility<T>;
-    /** Utility function to hide all hideable columns */
-    hideAll: () => void;
-    /** Utility function to show all showable columns */
-    showAll: () => void;
-  };
+  visibilityHelpers: VisibilityHelpers;
   /** Pagination helpers */
-  paginationHelpers: {
-    /** Current page number (between 1 and `pageAmount`) */
-    page: number;
-    /** Amount of pages */
-    pageAmount: number;
-    /** Utility function to set the current page if possible */
-    setPage: (pageNumber: number) => void;
-    /** Utility function to move to the next page if possible */
-    nextPage: () => void;
-    /** Whether or not there is a next page to go to */
-    canNext: boolean;
-    /** Utility function to move to the previous page if possible */
-    prevPage: () => void;
-    /** Whether or not there is a previous page to go to */
-    canPrev: boolean;
-  };
+  paginationHelpers: PaginationHelpers;
   /** Search helpers */
-  searchHelpers: {
-    /** String which the table is being searched on */
-    searchString: string;
-    /** Utility function to set the search string */
-    setSearchString: Dispatch<SetStateAction<string>>;
-  };
+  searchHelpers: SearchHelpers;
 }
 
 /** User input type for column type configuration */
@@ -147,12 +171,12 @@ export type Columns<T extends ColumnTypes> = {
 };
 
 /** Data input object */
-export type Data<T extends ColumnTypes> = Array<Row<T>>;
+export type Data<T extends ColumnTypes> = Array<DataRow<T>>;
 
 /** User input object for data row configuration */
-export type Row<T extends ColumnTypes> = Partial<Pick<T, RowOptionals<T>>> &
-  Omit<T, RowOptionals<T>>;
+export type DataRow<T extends ColumnTypes> = Partial<Pick<T, DataRowOptionals<T>>> &
+  Omit<T, DataRowOptionals<T>>;
 
-type RowOptionals<T extends ColumnTypes> = {
+type DataRowOptionals<T extends ColumnTypes> = {
   [K in keyof T]: null extends T[K] ? K : undefined extends T[K] ? K : never;
 }[keyof T];

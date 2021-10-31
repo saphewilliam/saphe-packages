@@ -18,11 +18,9 @@ export default function useRecaptcha(config?: Config): State {
 
   useEffect(() => setWindowWidth(window.innerWidth), []);
 
-  const handleChange = (newToken: string | null) =>
-    setToken(newToken ?? undefined);
+  const handleChange = (newToken: string | null) => setToken(newToken ?? undefined);
   const handleExpired = () => setToken(undefined);
-  const handleErrored = () =>
-    console.error('Network Disconnected, cannot verify reCAPTCHA');
+  const handleErrored = () => console.error('Network Disconnected, cannot verify reCAPTCHA');
 
   const Recaptcha = useCallback(
     () =>

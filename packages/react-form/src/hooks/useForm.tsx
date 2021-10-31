@@ -1,9 +1,4 @@
-import React, {
-  DependencyList,
-  ReactElement,
-  useCallback,
-  useState,
-} from 'react';
+import React, { DependencyList, ReactElement, useCallback, useState } from 'react';
 import Form from '../components/Form';
 import { FieldPack, Fields, FormValues } from '../utils/helperTypes';
 import { ValidationMode } from '../utils/validationTypes';
@@ -37,10 +32,7 @@ export interface State {
   Form: () => ReactElement;
 }
 
-export default function useForm<T extends Fields>(
-  config: Config<T>,
-  deps?: DependencyList,
-): State {
+export default function useForm<T extends Fields>(config: Config<T>, deps?: DependencyList): State {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const FormComponent = useCallback(
     () => <Form {...config} {...{ isSubmitting, setIsSubmitting }} />,

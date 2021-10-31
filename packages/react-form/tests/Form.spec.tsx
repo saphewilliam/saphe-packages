@@ -22,12 +22,7 @@ const fields = {
 describe('Form', () => {
   it('renders', () => {
     matchSnapshot(
-      <Form
-        isSubmitting={false}
-        setIsSubmitting={jest.fn()}
-        name="testForm"
-        fields={fields}
-      />,
+      <Form isSubmitting={false} setIsSubmitting={jest.fn()} name="testForm" fields={fields} />,
     );
   });
 
@@ -66,23 +61,17 @@ describe('Form', () => {
     userEvent.type(textField, 'Text input');
     expect(textField.value).toBe('Text input');
 
-    const textAreaField = screen.getByLabelText(
-      'Text Area Field',
-    ) as HTMLTextAreaElement;
+    const textAreaField = screen.getByLabelText('Text Area Field') as HTMLTextAreaElement;
     userEvent.click(textAreaField);
     userEvent.type(textAreaField, 'Text area input');
     expect(textAreaField.value).toBe('Text area input');
 
-    const selectField = screen.getByLabelText(
-      'Select Field',
-    ) as HTMLTextAreaElement;
+    const selectField = screen.getByLabelText('Select Field') as HTMLTextAreaElement;
     expect(selectField.value).toBe('');
     userEvent.selectOptions(selectField, 'option2');
     expect(selectField.value).toBe('option2');
 
-    const numberField = screen.getByLabelText(
-      'Number Field',
-    ) as HTMLInputElement;
+    const numberField = screen.getByLabelText('Number Field') as HTMLInputElement;
     userEvent.type(numberField, '1234d');
     expect(numberField.value).toBe('1234');
 

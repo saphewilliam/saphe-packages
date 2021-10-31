@@ -18,10 +18,7 @@ export type ColumnType<T extends ColumnTypes> = {
   [P in keyof T]: ColumnTypeEnum;
 };
 
-function findColumnType<T extends ColumnTypes>(
-  data: Data<T>,
-  columnName: string,
-): ColumnTypeEnum {
+function findColumnType<T extends ColumnTypes>(data: Data<T>, columnName: string): ColumnTypeEnum {
   for (const row of data) {
     const type = typeof getRowValue(row, columnName);
     switch (type) {
@@ -41,10 +38,7 @@ function findColumnType<T extends ColumnTypes>(
   return ColumnTypeEnum.UNDEFINED;
 }
 
-function getState<T extends ColumnTypes>(
-  data: Data<T>,
-  columns: Columns<T>,
-): ColumnType<T> {
+function getState<T extends ColumnTypes>(data: Data<T>, columns: Columns<T>): ColumnType<T> {
   return Object.keys(columns).reduce(
     (prev, curr) => ({
       ...prev,
@@ -62,8 +56,7 @@ export default function useColumnType<T extends ColumnTypes>(
 
   useEffect(() => {
     const newState = getState(data, columns);
-    if (JSON.stringify(newState) !== JSON.stringify(columnType))
-      setColumnType(newState);
+    if (JSON.stringify(newState) !== JSON.stringify(columnType)) setColumnType(newState);
   }, [data, columns]);
 
   return { columnType };

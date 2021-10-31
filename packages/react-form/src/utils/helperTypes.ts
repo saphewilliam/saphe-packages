@@ -35,9 +35,7 @@ export type FormValues<T extends Fields> = {
   [P in keyof T]?: FieldValue<T[P]>;
 } &
   {
-    [P in keyof SubType<T, { validation: { required: string } }>]: FieldValue<
-      T[P]
-    >;
+    [P in keyof SubType<T, { validation: { required: string } }>]: FieldValue<T[P]>;
   };
 
 export interface FieldPack {

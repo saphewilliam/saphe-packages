@@ -1,12 +1,6 @@
 import fuzzysort from 'fuzzysort';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { Columns, ColumnTypes, Data, Options, Row, SearchMode } from './types';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { Columns, ColumnTypes, Data, Options, DataRow, SearchMode } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
 import { Visibility } from './useVisibility';
 import { getRowValue } from './util';
@@ -42,9 +36,7 @@ async function searchExact<T extends ColumnTypes>(
     for (const [columnName, value] of Object.entries(row)) {
       if (
         columnNames.indexOf(columnName) !== -1 &&
-        (value as unknown as string)
-          .toLowerCase()
-          .indexOf(searchString.toLowerCase()) !== -1
+        (value as unknown as string).toLowerCase().indexOf(searchString.toLowerCase()) !== -1
       )
         return true;
     }
@@ -54,7 +46,7 @@ async function searchExact<T extends ColumnTypes>(
   return searched.map((row) => row.originalRow);
 }
 
-type PreparedData<T extends ColumnTypes> = { originalRow: Row<T> }[];
+type PreparedData<T extends ColumnTypes> = { originalRow: DataRow<T> }[];
 
 async function prepareData<T extends ColumnTypes>(
   data: Data<T>,
@@ -64,9 +56,7 @@ async function prepareData<T extends ColumnTypes>(
     Object.entries(columns).reduce(
       (prev, [columnName, column]) => {
         const value = getRowValue(row, columnName);
-        const stringValue = column.stringify
-          ? column.stringify(value, row)
-          : String(value);
+        const stringValue = column.stringify ? column.stringify(value, row) : String(value);
         return { ...prev, [columnName]: stringValue };
       },
       { originalRow: row },
@@ -145,32 +135,15 @@ export default function useSearch<T extends ColumnTypes>(
     if (searchString === '') setSearchedData(data);
     else {
       const search = async () => {
-        const columnNames = getSearchableColumnNames(
-          columns,
-          columnType,
-          visibility,
-        );
+        const columnNames = getSearchableColumnNames(columns, columnType, visibility);
         const preparedData = await prepareData(data, columns);
         if (options?.search?.mode === SearchMode.EXACT)
-          setSearchedData(
-            await searchExact(preparedData, searchString, columnNames),
-          );
-        else
-          setSearchedData(
-            await searchFuzzy(preparedData, searchString, columnNames),
-          );
+          setSearchedData(await searchExact(preparedData, searchString, columnNames));
+        else setSearchedData(await searchFuzzy(preparedData, searchString, columnNames));
       };
       search();
     }
-  }, [
-    columns,
-    data,
-    visibility,
-    options,
-    searchString,
-    setSearchedData,
-    columnType,
-  ]);
+  }, [columns, data, visibility, options, searchString, setSearchedData, columnType]);
 
   return { searchString, setSearchString, searchedData, highlight };
 }
