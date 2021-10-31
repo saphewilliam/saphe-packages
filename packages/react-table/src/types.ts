@@ -34,7 +34,7 @@ export interface RenderHeadProps {
 }
 
 export interface RenderCellProps<T extends ColumnTypes = Any, U = Any> {
-  row: Row<T>;
+  row: DataRow<T>;
   value: U;
   matchedText: MatchedText;
 }
@@ -56,7 +56,7 @@ export interface Column<T extends ColumnTypes, U = Any> {
   /** Optional (default = `false`): user is not able to sort this column */
   unsortable?: boolean;
   /** Optional: convert cell content to string for string matching / searching purposes */
-  stringify?: (value: U, row: Row<T>) => string;
+  stringify?: (value: U, row: DataRow<T>) => string;
   /** Optional (default = `false`): user is not able to search this column */
   unsearchable?: boolean;
   /** Optional: overrides how the header cell of this column renders */
@@ -125,29 +125,33 @@ export interface SearchHelpers {
 }
 
 /** Processed headers, used for displaying in the table */
-export type Headers = (RenderHeadProps & { render: () => ReactElement })[];
+export interface Header extends RenderHeadProps {
+  render: () => ReactElement;
+}
 
 /** Original headers, used for external data manipulation */
-export type OriginalHeaders = RenderHeadProps[];
+export interface OriginalHeader extends RenderHeadProps {}
 
 /** Processed rows, used for displaying in the table */
-export type Rows<T extends ColumnTypes> = {
+export interface Row<T extends ColumnTypes> {
   cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
-}[];
+}
 
 /** Original rows, used for external data analysis and aggregation */
-export type OriginalRows<T extends ColumnTypes> = { originalCells: RenderCellProps<T>[] }[];
+export interface OriginalRow<T extends ColumnTypes> {
+  originalCells: RenderCellProps<T>[];
+}
 
 /** Output table state object */
 export interface State<T extends ColumnTypes> {
   /** Processed headers, used for displaying in the table */
-  headers: Headers;
+  headers: Header[];
   /** Original headers, used for external data manipulation */
-  originalHeaders: OriginalHeaders;
+  originalHeaders: OriginalHeader[];
   /** Processed rows, used for displaying in the table */
-  rows: Rows<T>;
+  rows: Row<T>[];
   /** Original rows, used for external data analysis */
-  originalRows: OriginalRows<T>;
+  originalRows: OriginalRow<T>[];
   /** Visibility columns helpers */
   visibilityHelpers: VisibilityHelpers;
   /** Pagination helpers */
@@ -167,12 +171,12 @@ export type Columns<T extends ColumnTypes> = {
 };
 
 /** Data input object */
-export type Data<T extends ColumnTypes> = Array<Row<T>>;
+export type Data<T extends ColumnTypes> = Array<DataRow<T>>;
 
 /** User input object for data row configuration */
-export type Row<T extends ColumnTypes> = Partial<Pick<T, RowOptionals<T>>> &
-  Omit<T, RowOptionals<T>>;
+export type DataRow<T extends ColumnTypes> = Partial<Pick<T, DataRowOptionals<T>>> &
+  Omit<T, DataRowOptionals<T>>;
 
-type RowOptionals<T extends ColumnTypes> = {
+type DataRowOptionals<T extends ColumnTypes> = {
   [K in keyof T]: null extends T[K] ? K : undefined extends T[K] ? K : never;
 }[keyof T];

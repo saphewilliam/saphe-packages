@@ -8,7 +8,7 @@ import {
   Options,
   RenderCellProps,
   RenderHeadProps,
-  Row,
+  DataRow,
   SortOrder,
   State,
 } from './types';
@@ -16,7 +16,7 @@ import { MatchedText, HighlightFunc } from './useSearch';
 import { SortInfo } from './useSort';
 import { Visibility } from './useVisibility';
 
-export function getRowValue<T extends ColumnTypes>(row: Row<T>, columnName: string): Any {
+export function getRowValue<T extends ColumnTypes>(row: DataRow<T>, columnName: string): Any {
   return (row as Record<string, Any>)[columnName];
 }
 
@@ -74,7 +74,7 @@ export function makeHeaders<T extends ColumnTypes>(
 
 function makeRow<T extends ColumnTypes, U>(
   callback: (
-    row: Row<T>,
+    row: DataRow<T>,
     value: U,
     matchedText: MatchedText,
     stringValue: string,
@@ -82,7 +82,7 @@ function makeRow<T extends ColumnTypes, U>(
     columnName: string,
   ) => U | null,
   columns: Columns<T>,
-  row: Row<T>,
+  row: DataRow<T>,
   highlight: HighlightFunc,
 ): U[] {
   const cells: U[] = [];

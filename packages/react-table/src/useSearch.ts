@@ -1,6 +1,6 @@
 import fuzzysort from 'fuzzysort';
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import { Columns, ColumnTypes, Data, Options, Row, SearchMode } from './types';
+import { Columns, ColumnTypes, Data, Options, DataRow, SearchMode } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
 import { Visibility } from './useVisibility';
 import { getRowValue } from './util';
@@ -46,7 +46,7 @@ async function searchExact<T extends ColumnTypes>(
   return searched.map((row) => row.originalRow);
 }
 
-type PreparedData<T extends ColumnTypes> = { originalRow: Row<T> }[];
+type PreparedData<T extends ColumnTypes> = { originalRow: DataRow<T> }[];
 
 async function prepareData<T extends ColumnTypes>(
   data: Data<T>,
