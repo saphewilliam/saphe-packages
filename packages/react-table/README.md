@@ -11,7 +11,7 @@ A lightweight, declarative, type-safe table engine for React apps.
 - ⏭️ Built-in pagination logic,
 - 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
 - 👁️ Toggle visibility on columns using the provided utility functions,
-- ⚖️ Lightweight; 162 kB (esm and cjs combined) and only 1 dependency total,
+- ⚖️ Lightweight; 145 kB (esm and cjs combined) and only 2 dependencies total,
 - 🚀 Efficient due to usage of internal memoization and effect order,
 - 🎨 Headless; you decide the table style, the hook handles the logic.
 
@@ -35,6 +35,8 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [x] Remove `invert` from sorting functions
 - [x] Update default SortOrder
 - [x] Custom order of SortOrder enum (global and local)
+- [x] Expose state interfaces
+- [ ] Does pagination start at 1 or 0?
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
 - [ ] Access column configuration through RenderCellProps (mostly for stringify function)
@@ -58,18 +60,18 @@ or using npm:
 npm install @saphe/react-table
 ```
 
-## Examples (TODO)
+## Examples
 
-- [Basic]()
-- [Pagination / Hiding columns (Bootstrap)]()
-- [Searchable / Sortable table (Material)]()
-- [Kitchen Sink (TailwindCSS)]()
+- [Basic](https://codesandbox.io/s/saphe-react-table-basic-usage-example-eewu2?file=/src/App.tsx)
+- [Pagination / Hiding columns (Bootstrap 5)](https://codesandbox.io/s/saphe-react-table-pagination-visibility-usage-example-32s7v?file=/src/App.tsx)
+- [Searchable / Sortable table (Material Design)](https://codesandbox.io/s/saphe-react-table-search-sort-usage-example-m9uev)
+- [Kitchen Sink (Tailwind CSS)](https://codesandbox.io/s/saphe-react-table-kitchen-sink-example-wq7xq)
 
 ## Docs
 
 ### Basic Usage
 
-The following code shows a basic functional React component that implements a table using the `useTable` hook. Feel free to open the [Basic Example]() and type along to see the IntelliSense and TypeChecking do it's thing! It is also possible to define `ColumnTypes`, `columns` and `data` in-line with the `useTable` function, but here they're shown separately to demonstrate the use of the `Columns<T>` and `Data<T>` types.
+The following code shows a basic functional React component that implements a table using the `useTable` hook. Feel free to open the [Basic Example](https://codesandbox.io/s/saphe-react-table-basic-usage-example-eewu2?file=/src/App.tsx) and type along to see the IntelliSense and TypeChecking do it's thing! It is also possible to define `ColumnTypes`, `columns` and `data` in-line with the `useTable` function, but here they're shown separately to demonstrate the use of the `Columns<T>` and `Data<T>` types.
 
 ```tsx
 import React, { ReactElement } from 'react';
@@ -78,16 +80,23 @@ import useTable, { Columns, Data } from '@saphe/react-table';
 // Define column types of this table
 interface ColumnTypes {
   language: string;
-  jobs: { amount: number; salary: number };
   stronglyTyped: boolean | null;
+  jobs: { amount: number; salary: number };
 }
 
 export default function ProgrammingLanguagesTable(): ReactElement {
-
+  
   // Column configuration of the table
   const columns: Columns<ColumnTypes> = {
+
+    // Pass empty object to accept all default values
     language: {},
+    
+    // Set default value for nullable column type
+    stronglyTyped: { defaultValue: false },
     jobs: {
+      
+      // Define custom label for column header
       label: 'Job Stats',
 
       // Define how the `jobs` object should be stringified. If skipped, it shows `[object Object]`
@@ -96,7 +105,6 @@ export default function ProgrammingLanguagesTable(): ReactElement {
         return `${sep(amount)} jobs with $${sep(salary)} salary`;
       },
     },
-    stronglyTyped: { defaultValue: false },
   };
 
   // Define the data shown in the table
@@ -137,7 +145,7 @@ export default function ProgrammingLanguagesTable(): ReactElement {
         ))}
       </tbody>
     </table>
-  )
+  );
 }
 ```
 
@@ -197,9 +205,7 @@ You can statically hide columns by defining them as `hidden: true` in the column
 You can dynamically hide columns using the `visibilityHelpers` object on the useTable state. It has the following properties: 
 
 ```ts
-interface visibilityHelpers<T extends ColumnTypes> {
-  /** Object containing information about which columns are visible (false == hidden) */
-  visibile: Visible<T>;
+interface visibilityHelpers {
   /** Utility function to hide all hideable columns */
   hideAll: () => void;
   /** Utility function to show all showable columns */
@@ -364,7 +370,7 @@ interface ColumnTypes {
   dateRow: Date;
 }
 
-export default function ProgrammingLanguagesTable(): ReactElement {
+export default function DateTable(): ReactElement {
   const columns: Columns<ColumnTypes> = useMemo(() => ({
     dateColumn: { defaultValue: new Date() },
     dateRow: {},
@@ -395,7 +401,7 @@ const columns: Columns<ColumnTypes> = {
 
 const data: Data<ColumnTypes> = [{ dateRow: new Date() }];
 
-export default function ProgrammingLanguagesTable(): ReactElement {
+export default function DateTable(): ReactElement {
   const { headers, rows } = useTable(columns, data);
 
   return <Table {...{ headers, rows }} />

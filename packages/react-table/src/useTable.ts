@@ -76,7 +76,6 @@ export default function useTable<T extends ColumnTypes>(
     originalRows,
     rows,
     visibilityHelpers: {
-      visibility,
       hideAll: () => setAllVisibility(false),
       showAll: () => setAllVisibility(true),
     },

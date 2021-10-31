@@ -1,7 +1,6 @@
 import { Dispatch, ReactElement, SetStateAction } from 'react';
 import { DefaultValue } from './useDefaultValues';
 import { MatchedText } from './useSearch';
-import { Visibility } from './useVisibility';
 
 /** The sorting state of a column */
 export enum SortOrder {
@@ -91,51 +90,70 @@ export interface Options<T extends ColumnTypes> {
   };
 }
 
+/** Global state utilities for managing column visibility */
+export interface VisibilityHelpers {
+  /** Utility function to hide all hideable columns */
+  hideAll: () => void;
+  /** Utility function to show all showable columns */
+  showAll: () => void;
+}
+
+/** Global state utilities for managing table pagination */
+export interface PaginationHelpers {
+  /** Current page number (between 1 and `pageAmount`) */
+  page: number;
+  /** Amount of pages */
+  pageAmount: number;
+  /** Utility function to set the current page if possible */
+  setPage: (pageNumber: number) => void;
+  /** Utility function to move to the next page if possible */
+  nextPage: () => void;
+  /** Whether or not there is a next page to go to */
+  canNext: boolean;
+  /** Utility function to move to the previous page if possible */
+  prevPage: () => void;
+  /** Whether or not there is a previous page to go to */
+  canPrev: boolean;
+}
+
+/** Global state utilities for managing data searching */
+export interface SearchHelpers {
+  /** String which the table is being searched on */
+  searchString: string;
+  /** Utility function to set the search string */
+  setSearchString: Dispatch<SetStateAction<string>>;
+}
+
+/** Processed headers, used for displaying in the table */
+export type Headers = (RenderHeadProps & { render: () => ReactElement })[];
+
+/** Original headers, used for external data manipulation */
+export type OriginalHeaders = RenderHeadProps[];
+
+/** Processed rows, used for displaying in the table */
+export type Rows<T extends ColumnTypes> = {
+  cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
+}[];
+
+/** Original rows, used for external data analysis and aggregation */
+export type OriginalRows<T extends ColumnTypes> = { originalCells: RenderCellProps<T>[] }[];
+
 /** Output table state object */
 export interface State<T extends ColumnTypes> {
   /** Processed headers, used for displaying in the table */
-  headers: (RenderHeadProps & { render: () => ReactElement })[];
+  headers: Headers;
   /** Original headers, used for external data manipulation */
-  originalHeaders: RenderHeadProps[];
+  originalHeaders: OriginalHeaders;
   /** Processed rows, used for displaying in the table */
-  rows: {
-    cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
-  }[];
+  rows: Rows<T>;
   /** Original rows, used for external data analysis */
-  originalRows: { originalCells: RenderCellProps<T>[] }[];
+  originalRows: OriginalRows<T>;
   /** Visibility columns helpers */
-  visibilityHelpers: {
-    /** Object containing information about which columns are visible (false == hidden) */
-    visibility: Visibility<T>;
-    /** Utility function to hide all hideable columns */
-    hideAll: () => void;
-    /** Utility function to show all showable columns */
-    showAll: () => void;
-  };
+  visibilityHelpers: VisibilityHelpers;
   /** Pagination helpers */
-  paginationHelpers: {
-    /** Current page number (between 1 and `pageAmount`) */
-    page: number;
-    /** Amount of pages */
-    pageAmount: number;
-    /** Utility function to set the current page if possible */
-    setPage: (pageNumber: number) => void;
-    /** Utility function to move to the next page if possible */
-    nextPage: () => void;
-    /** Whether or not there is a next page to go to */
-    canNext: boolean;
-    /** Utility function to move to the previous page if possible */
-    prevPage: () => void;
-    /** Whether or not there is a previous page to go to */
-    canPrev: boolean;
-  };
+  paginationHelpers: PaginationHelpers;
   /** Search helpers */
-  searchHelpers: {
-    /** String which the table is being searched on */
-    searchString: string;
-    /** Utility function to set the search string */
-    setSearchString: Dispatch<SetStateAction<string>>;
-  };
+  searchHelpers: SearchHelpers;
 }
 
 /** User input type for column type configuration */
