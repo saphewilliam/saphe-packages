@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { Columns, ColumnTypes, Data, Row } from './types';
+import { Columns, ColumnTypes, Data, DataRow } from './types';
 import { getRowValue } from './util';
 
-export type DefaultValue<T extends ColumnTypes, U> = U | ((row: Row<T>) => U);
+export type DefaultValue<T extends ColumnTypes, U> = U | ((row: DataRow<T>) => U);
 
 export interface DefaultValuesState<T extends ColumnTypes> {
   defaultValuesData: Data<T>;
@@ -10,10 +10,10 @@ export interface DefaultValuesState<T extends ColumnTypes> {
 
 function getDefaultValue<T extends ColumnTypes, U>(
   defaultValue: DefaultValue<T, U>,
-  row: Row<T>,
+  row: DataRow<T>,
 ): U {
   if (typeof defaultValue !== 'function') return defaultValue;
-  else return (defaultValue as (row: Row<T>) => U)(row);
+  else return (defaultValue as (row: DataRow<T>) => U)(row);
 }
 
 export default function useDefaultValues<T extends ColumnTypes>(
@@ -28,7 +28,7 @@ export default function useDefaultValues<T extends ColumnTypes>(
             ...prev,
             [columnName]: getRowValue(row, columnName) ?? getDefaultValue(column.defaultValue, row),
           }),
-          {} as Row<T>,
+          {} as DataRow<T>,
         ),
       ),
     [data, columns],

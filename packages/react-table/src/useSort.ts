@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Columns, ColumnTypes, Data, Options, Row, SortOrder } from './types';
+import { Columns, ColumnTypes, Data, Options, DataRow, SortOrder } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
 import { getRowValue } from './util';
 
@@ -17,8 +17,8 @@ interface SortState<T extends ColumnTypes> {
 
 function sortWrapper<T extends ColumnTypes, U>(
   sort: (a: U, b: U) => number,
-  a: Row<T>,
-  b: Row<T>,
+  a: DataRow<T>,
+  b: DataRow<T>,
   sortInfo: SortInfo,
 ): number {
   if (!sortInfo) return 0;
