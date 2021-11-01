@@ -7,7 +7,7 @@
     "declarationDir": "dist/types",
   },
   "references": [
-    { "path": "../react-form" }
+    { "path": "../react-form" },
   ],
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }

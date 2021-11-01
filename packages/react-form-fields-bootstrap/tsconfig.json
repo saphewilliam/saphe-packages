@@ -3,10 +3,10 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist/cjs",
-    "declarationDir": "dist/types"
+    "declarationDir": "dist/types",
   },
   "references": [
-    { "path": "../react-form" }
+    { "path": "../react-form" },
   ],
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }

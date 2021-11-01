@@ -2,6 +2,7 @@
   "name": "saphe-packages",
   "private": true,
   "license": "MIT",
+  "description": "A package suite dedicated to improve developer experience and type-safety in React apps.",
   "workspaces": [
     "packages/*"
   ],
@@ -12,10 +13,12 @@
   "author": "saphewilliam <william@saphewebdesign.com>",
   "scripts": {
     "release": "yarn build && changeset publish",
+    "version": "changeset version && yarn lint",
     "change": "changeset",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
-    "test": "yarn jest"
+    "test": "jest",
+    "saphe": "ts-node ./saphePackages.ts"
   },
   "devDependencies": {
     "@changesets/cli": "2.16.0",
@@ -25,6 +28,7 @@
     "@testing-library/react-hooks": "7.0.0",
     "@testing-library/user-event": "13.1.9",
     "@types/jest": "26.0.23",
+    "@types/jsonfile": "6.0.1",
     "@types/node": "16.11.6",
     "@types/react": "17.0.11",
     "@typescript-eslint/eslint-plugin": "4.28.0",
@@ -37,6 +41,7 @@
     "eslint-plugin-react": "7.24.0",
     "jest": "27.0.5",
     "jest-axe": "5.0.1",
+    "jsonfile": "6.1.0",
     "lerna": "4.0.0",
     "prettier": "2.3.2",
     "react": "17.0.2",
@@ -44,6 +49,7 @@
     "react-test-renderer": "17.0.2",
     "rimraf": "3.0.2",
     "ts-jest": "27.0.3",
+    "ts-node": "10.4.0",
     "tslib": "2.3.0",
     "typescript": "4.3.4"
   }

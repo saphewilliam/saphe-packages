@@ -4,4 +4,4 @@ node_modules/
 .coverage/
 
 # Error logs
-yarn-error.log
+*error.log

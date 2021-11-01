@@ -1,6 +1,9 @@
 # @saphe/react-table
 
-**⚠️ Currently in development**
+[![NPM version](https://img.shields.io/npm/v/@saphe/react-table?style=flat-square)](https://npmjs.com/@saphe/react-table)
+[![License](https://img.shields.io/npm/l/@saphe/react-table?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/@saphe/react-table?style=flat-square)](https://bundlephobia.com/package/@saphe/react-table)
+[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
 
 A lightweight, declarative, type-safe table engine for React apps.
 
@@ -11,13 +14,13 @@ A lightweight, declarative, type-safe table engine for React apps.
 - ⏭️ Built-in pagination logic,
 - 🔍 Exact and fuzzy text search with match highlighting out-of-the-box,
 - 👁️ Toggle visibility on columns using the provided utility functions,
-- ⚖️ Lightweight; 145 kB (esm and cjs combined) and only 2 dependencies total,
+- ⚖️ Lightweight; [6.3 kB minified + gzipped](https://bundlephobia.com/package/@saphe/react-table) (esm and cjs combined) and only 2 dependencies total,
 - 🚀 Efficient due to usage of internal memoization and effect order,
 - 🎨 Headless; you decide the table style, the hook handles the logic.
 
 ## Table of Contents
 
-- [TODOs](#todos)
+- [Roadmap](#roadmap)
 - [Getting Started](#getting-started)
 - [Examples](#examples)
 - [Docs](#docs)
@@ -29,7 +32,7 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [Troubleshooting](#troubleshooting)
   - [Maximum update depth](#maximum-update-depth)
 
-## TODOs
+## Roadmap
 
 - [x] Rename `hidden` to `visibility`
 - [x] Remove `invert` from sorting functions
