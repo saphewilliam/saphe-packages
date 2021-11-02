@@ -287,7 +287,39 @@ function makePackageJson(p: PackageConfig): void {
   );
 }
 
+function makeRootReadme(): void {
+  const path = join(__dirname, 'README.md');
+  const start = '<!-- BEGIN AUTO-GENERATED PACKAGE TABLE -->';
+  const end = '<!-- END AUTO-GENERATED PACKAGE TABLE -->';
+
+  const content = readFileSync(path, { encoding: 'utf-8' });
+  const startContent = content.substr(0, content.indexOf(start) + start.length);
+  const endContent = content.substr(content.indexOf(end));
+
+  const stream = createWriteStream(path);
+  const write = (cols: string[]) => stream.write(`${cols.join('|')}\n`);
+
+  stream.once('open', () => {
+    stream.write(`${startContent}\n`);
+    write(['name', 'version', 'description']);
+    write(['-', '-', '-']);
+    for (const p of workspace.packages) {
+      const n = `@${workspace.scope}/${p.name}`;
+
+      write([
+        `\`${n}\``,
+        `[![npm version](https://img.shields.io/npm/v/${n}.svg?style=flat)](https://www.npmjs.com/package/${n})`,
+        p.description,
+      ]);
+    }
+
+    stream.write(`${endContent}`);
+  });
+}
+
 function main(): void {
+  makeRootReadme();
+
   for (const p of workspace.packages) {
     const path = join(__dirname, 'packages', p.name);
     if (!existsSync(path)) {

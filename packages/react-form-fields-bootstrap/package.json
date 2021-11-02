@@ -2,7 +2,7 @@
   "name": "@saphe/react-form-fields-bootstrap",
   "license": "MIT",
   "version": "0.2.0",
-  "description": "Bootstrap-style officially maintained form fields pack for @saphe/react-form",
+  "description": "Officially maintained Bootstrap-style form fields pack for @saphe/react-form",
   "keywords": [
     "typescript",
     "react",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {},
   "peerDependencies": {
+    "bootstrap": ">=5.0.0",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   }

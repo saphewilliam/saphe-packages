@@ -5,7 +5,7 @@
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/@saphe/react-form-fields-bootstrap?style=flat-square)](https://bundlephobia.com/package/@saphe/react-form-fields-bootstrap)
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 
-Bootstrap-style officially maintained form fields pack for @saphe/react-form
+Officially maintained Bootstrap-style form fields pack for @saphe/react-form
 
 ## Table of Contents
 
