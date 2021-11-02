@@ -3,7 +3,7 @@
 [![NPM version](https://img.shields.io/npm/v/@saphe/react-table?style=flat-square)](https://npmjs.com/@saphe/react-table)
 [![License](https://img.shields.io/npm/l/@saphe/react-table?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/@saphe/react-table?style=flat-square)](https://bundlephobia.com/package/@saphe/react-table)
-[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
+[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 
 A lightweight, declarative, type-safe table engine for React apps.
 
@@ -24,13 +24,13 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [Getting Started](#getting-started)
 - [Examples](#examples)
 - [Docs](#docs)
-  - [Basic Usage](#basic-usage)
-  - [Pagination](#pagination)
-  - [Dynamically and Statically Hiding Columns](#dynamically-and-statically-hiding-columns)
-  - [Sorting by Columns](#sorting-by-columns)
-  - [Searching a Table](#searching-a-table)
+  * [Basic Usage](#basic-usage)
+  * [Pagination](#pagination)
+  * [Dynamically and Statically Hiding Columns](#dynamically-and-statically-hiding-columns)
+  * [Sorting by Columns](#sorting-by-columns)
+  * [Searching a Table](#searching-a-table)
 - [Troubleshooting](#troubleshooting)
-  - [Maximum update depth](#maximum-update-depth)
+  * [Maximum update depth](#maximum-update-depth)
 
 ## Roadmap
 
@@ -42,16 +42,16 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [ ] Does pagination start at 1 or 0?
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
-- [ ] Access column configuration through RenderCellProps (mostly for stringify function)
+- [ ] Access column configuration through RenderCellProps
 - [ ] Search debounce
 - [ ] RegEx search mode (?)
 - [ ] Add support for table styling packs
-- [ ] API data fetching functionality for sort, search, and pagination instead of client-side data slicing
+- [ ] API data fetching functionality for sort, search, and pagination
 - [ ] Plugin support
 
 ## Getting Started
 
-Using yarn:
+Install using yarn:
 
 ```sh
 yarn add @saphe/react-table
@@ -69,6 +69,8 @@ npm install @saphe/react-table
 - [Pagination / Hiding columns (Bootstrap 5)](https://codesandbox.io/s/saphe-react-table-pagination-visibility-usage-example-32s7v?file=/src/App.tsx)
 - [Searchable / Sortable table (Material Design)](https://codesandbox.io/s/saphe-react-table-search-sort-usage-example-m9uev)
 - [Kitchen Sink (Tailwind CSS)](https://codesandbox.io/s/saphe-react-table-kitchen-sink-example-wq7xq)
+
+<!-- END AUTO-GENERATED: Add custom documentation after this comment -->
 
 ## Docs
 

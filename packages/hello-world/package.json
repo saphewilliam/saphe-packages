@@ -1,14 +1,11 @@
 {
-  "name": "@saphe/react-table",
+  "name": "@saphe/hello-world",
   "license": "MIT",
-  "version": "0.3.0",
-  "description": "A lightweight, declarative, type-safe table engine for React apps.",
+  "version": "0.0.0",
+  "description": "This is just a test package",
   "keywords": [
-    "typescript",
-    "react",
-    "hook",
-    "table",
-    "tables"
+    "test",
+    "package"
   ],
   "author": {
     "email": "william@saphewebdesign.com",
@@ -17,10 +14,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/saphewilliam/saphe-packages.git",
-    "directory": "packages/react-table"
+    "directory": "packages/hello-world"
   },
-  "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-table#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Areact-table",
+  "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/hello-world#readme",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Ahello-world",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -35,10 +32,7 @@
     "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
     "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore"
   },
-  "dependencies": {
-    "fuzzysort": "1.1.4",
-    "tslib": "2.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
     "react": ">=17.0.0",

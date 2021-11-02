@@ -1,10 +1,22 @@
 # @saphe/react-form
 
-**⚠️ Currently in development**
+[![NPM version](https://img.shields.io/npm/v/@saphe/react-form?style=flat-square)](https://npmjs.com/@saphe/react-form)
+[![License](https://img.shields.io/npm/l/@saphe/react-form?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/@saphe/react-form?style=flat-square)](https://bundlephobia.com/package/@saphe/react-form)
+[![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 
-A lightweight, declarative, type-safe form engine for React apps. Best practices are the default. Form validation is built in with the typechecking.
+A lightweight, declarative, type-safe form engine for React apps.
 
-## TODOs
+## Table of Contents
+
+- [Roadmap](#roadmap)
+- [Getting Started](#getting-started)
+- [Docs](#docs)
+  * [Field Types](#field-types)
+  * [Validation Modes](#validation-modes)
+  * [Kitchen Sink](#kitchen-sink)
+
+## Roadmap
 
 - [x] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
 - [ ] Support lists of values
@@ -12,16 +24,14 @@ A lightweight, declarative, type-safe form engine for React apps. Best practices
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 - [ ] Support localization out of the box
 - [ ] Create supported field packs:
-  - [x] Bootstrap
+  - [x] Bootstrap 5
   - [ ] TailwindCSS
-  - [ ] MaterialCSS
+  - [ ] Material UI
   - [ ] ChackraUI
 
 ## Getting Started
 
-### Install
-
-Using yarn:
+Install using yarn:
 
 ```sh
 yarn add @saphe/react-form
@@ -32,6 +42,8 @@ or using npm:
 ```sh
 npm install @saphe/react-form
 ```
+
+<!-- END AUTO-GENERATED: Add custom documentation after this comment -->
 
 ## Docs
 
@@ -150,6 +162,3 @@ const { Form } = useForm({
   },
 });
 ```
-
-## Contributing
-// TODO

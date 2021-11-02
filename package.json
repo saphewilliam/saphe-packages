@@ -10,7 +10,10 @@
     "type": "git",
     "url": "https://github.com/saphewilliam/saphe-packages.git"
   },
-  "author": "saphewilliam <william@saphewebdesign.com>",
+  "author": {
+    "email": "william@saphewebdesign.com",
+    "name": "William Ford"
+  },
   "scripts": {
     "release": "yarn build && changeset publish",
     "version": "changeset version && yarn lint",
@@ -28,7 +31,6 @@
     "@testing-library/react-hooks": "7.0.0",
     "@testing-library/user-event": "13.1.9",
     "@types/jest": "26.0.23",
-    "@types/jsonfile": "6.0.1",
     "@types/node": "16.11.6",
     "@types/react": "17.0.11",
     "@typescript-eslint/eslint-plugin": "4.28.0",
@@ -41,8 +43,8 @@
     "eslint-plugin-react": "7.24.0",
     "jest": "27.0.5",
     "jest-axe": "5.0.1",
-    "jsonfile": "6.1.0",
     "lerna": "4.0.0",
+    "markdown-toc": "1.2.0",
     "prettier": "2.3.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
