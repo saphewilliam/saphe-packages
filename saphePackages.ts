@@ -46,11 +46,6 @@ const workspace: WorkspaceConfig = {
       internalDependencies: ['react-form'],
     },
     {
-      name: 'hello-world',
-      description: 'This is just a test package',
-      keywords: ['test', 'package'],
-    },
-    {
       name: 'react-table',
       description: 'A lightweight, declarative, type-safe table engine for React apps.',
       keywords: ['typescript', 'react', 'hook', 'table', 'tables'],
