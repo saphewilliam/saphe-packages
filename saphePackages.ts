@@ -317,8 +317,20 @@ function makeRootReadme(): void {
   });
 }
 
+function makeLabelerYml(): void {
+  const path = join(__dirname, '.github', 'labeler.yml');
+  const stream = createWriteStream(path);
+
+  stream.once('open', () => {
+    for (const p of workspace.packages) {
+      stream.write(`package/${p.name}:\n  - packages/${p.name}/**/*\n`);
+    }
+  });
+}
+
 function main(): void {
   makeRootReadme();
+  makeLabelerYml();
 
   for (const p of workspace.packages) {
     const path = join(__dirname, 'packages', p.name);
