@@ -20,7 +20,7 @@ export function makePackageJson(w: WorkspaceConfig, p: PackageConfig): void {
         author: w.author,
         repository: { ...w.repository, directory: `packages/${p.name}` },
         homepage: `https://github.com/saphewilliam/saphe-packages/tree/main/packages/${p.name}#readme`,
-        bugs: `https://github.com/saphewilliam/saphe-packages/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3A${p.name}`,
+        bugs: `https://github.com/saphewilliam/saphe-packages/labels/package%2F${p.name}`,
         sideEffects: false,
         publishConfig: { access: 'public' },
         main: 'dist/cjs/index.js',

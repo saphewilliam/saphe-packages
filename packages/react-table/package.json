@@ -20,7 +20,7 @@
     "directory": "packages/react-table"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-table#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/issues?q=is%3Aopen+is%3Aissue+label%3Apackage%3Areact-table",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-table",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

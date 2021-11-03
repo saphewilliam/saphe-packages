@@ -3,7 +3,6 @@
   "compilerOptions": {
     "jsx": "react",
     "baseUrl": "packages",
-    "typeRoots": ["./typings/", "./node_modules/@types/"],
     "paths": {
       "@saphe/core/*": ["core/src/*"],
       "@saphe/react-form/*": ["react-form/src/*"],

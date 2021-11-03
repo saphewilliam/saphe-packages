@@ -19,7 +19,7 @@ name|version|description
 
 ## Contributing
 
-The Saphe Package Suite is open for contributions. Please read the [contributing guide](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md) for more details on how you can contribute.
+The Saphe Package Ecosystem is open for contributions! Please read the [contributing guide](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md) for more details on how you can contribute.
 
 ## Acknowledgements
 
