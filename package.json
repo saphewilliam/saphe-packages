@@ -21,7 +21,7 @@
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
     "test": "jest",
-    "saphe": "ts-node ./saphePackages.ts"
+    "generate": "ts-node ./scripts/generate/index.ts"
   },
   "devDependencies": {
     "@changesets/cli": "2.17.0",
