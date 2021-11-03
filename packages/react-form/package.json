@@ -2,12 +2,12 @@
   "name": "@saphe/react-form",
   "license": "MIT",
   "version": "0.5.0",
-  "description": "A lightweight, declarative, type-safe form engine for React apps",
+  "description": "A lightweight, declarative, type-safe form engine for React apps.",
   "keywords": [
     "typescript",
     "react",
     "hook",
-    "forms",
+    "form",
     "validation"
   ],
   "author": {
@@ -20,7 +20,7 @@
     "directory": "packages/react-form"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-form#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/issues",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-form",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -36,10 +36,11 @@
     "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore"
   },
   "dependencies": {
-    "react-google-recaptcha": "2.1.0"
+    "react-google-recaptcha": "2.1.0",
+    "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@types/react-google-recaptcha": "2.1.0"
+    "@types/react-google-recaptcha": "2.1.2"
   },
   "peerDependencies": {
     "react": ">=17.0.0",

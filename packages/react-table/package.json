@@ -2,7 +2,7 @@
   "name": "@saphe/react-table",
   "license": "MIT",
   "version": "0.3.0",
-  "description": "A lightweight, declarative, type-safe table engine for React apps",
+  "description": "A lightweight, declarative, type-safe table engine for React apps.",
   "keywords": [
     "typescript",
     "react",
@@ -20,7 +20,7 @@
     "directory": "packages/react-table"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-table#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/issues",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-table",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -39,6 +39,7 @@
     "fuzzysort": "1.1.4",
     "tslib": "2.3.1"
   },
+  "devDependencies": {},
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"

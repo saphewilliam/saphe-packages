@@ -9,5 +9,5 @@
       "@saphe/react-form-fields-bootstrap/*": ["react-form-fields-bootstrap/src/*"],
       "@saphe/react-table/*": ["react-table/src/*"],
     }
-  }
+  },
 }

@@ -1,0 +1,6 @@
+package/react-form:
+  - packages/react-form/**/*
+package/react-form-fields-bootstrap:
+  - packages/react-form-fields-bootstrap/**/*
+package/react-table:
+  - packages/react-table/**/*

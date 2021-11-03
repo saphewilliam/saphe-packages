@@ -10,7 +10,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
+      - name: Checkout Branch
         uses: actions/checkout@master
         with:
           fetch-depth: 0
@@ -27,6 +27,7 @@ jobs:
         uses: changesets/action@master
         with:
           publish: yarn release
+          version: yarn version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
