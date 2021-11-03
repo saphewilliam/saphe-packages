@@ -40,8 +40,7 @@ export default function useVisibility<T extends ColumnTypes>(
   const [visibility, setVisibility] = useState(getVisibility(columns));
 
   useEffect(() => {
-    const newVisibility = getVisibility(columns, visibility);
-    if (JSON.stringify(newVisibility) !== JSON.stringify(visibility)) setVisibility(newVisibility);
+    setVisibility(getVisibility(columns, visibility));
   }, [columns]);
 
   const setAllVisibility = useCallback(
