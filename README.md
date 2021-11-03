@@ -1,4 +1,4 @@
-# Saphe Package Suite
+# Saphe Package Ecosystem
 
 [![Build Status](https://img.shields.io/github/workflow/status/saphewilliam/saphe-packages/CI?logo=github&logoWidth=18&style=flat-square)](https://github.com/saphewilliam/saphe-packages/actions?query=workflow%3ACI)
 [![Code Coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages.svg?style=flat-square)](https://codecov.io/gh/saphewilliam/saphe-packages)

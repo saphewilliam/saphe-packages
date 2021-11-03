@@ -2,7 +2,7 @@
   "name": "saphe-packages",
   "private": true,
   "license": "MIT",
-  "description": "A package suite dedicated to improve developer experience and type-safety in React apps.",
+  "description": "A package ecosystem dedicated to improve developer experience and type-safety in React apps.",
   "workspaces": [
     "packages/*"
   ],
