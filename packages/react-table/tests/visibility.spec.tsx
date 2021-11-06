@@ -51,7 +51,7 @@ function expectColumns(
 }
 
 describe('Visibility', () => {
-  it('hides / shows all visibility-toggleable columns', async () => {
+  it('hides / shows all visibility-toggleable columns', () => {
     const { result } = renderHook(() => useTable<TableData>(columns, data));
     expectColumns(result);
 
