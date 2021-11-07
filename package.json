@@ -1,5 +1,6 @@
 {
   "name": "saphe-packages",
+  "version": "1.0.0",
   "private": true,
   "license": "MIT",
   "description": "A package ecosystem dedicated to improve developer experience and type-safety in React apps.",

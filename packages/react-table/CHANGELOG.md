@@ -1,5 +1,11 @@
 # @saphe/react-table
 
+## 0.4.0
+
+### Minor Changes
+
+- 468e00e: Expose searchResultCount utility
+
 ## 0.3.0
 
 ### Minor Changes
