@@ -159,7 +159,7 @@ export default function ProgrammingLanguagesTable(): ReactElement {
 To enable pagination in your table, pass a number to the `pageSize` option through the options object of the `useTable` hook. You can now extract a `paginationHelpers` object from the `useTable` state with the following properties:
 
 ```ts
-interface paginationHelpers {
+interface PaginationHelpers {
   /** Current page number (between 1 and `pageAmount`) */
   page: number;
   /** Amount of pages */
@@ -210,7 +210,7 @@ You can statically hide columns by defining them as `hidden: true` in the column
 You can dynamically hide columns using the `visibilityHelpers` object on the useTable state. It has the following properties: 
 
 ```ts
-interface visibilityHelpers {
+interface VisibilityHelpers {
   /** Utility function to hide all hideable columns */
   hideAll: () => void;
   /** Utility function to show all showable columns */
@@ -302,11 +302,13 @@ If you have a complex data object (not string, number or boolean), you can eithe
 To enable table searching, extract from the `useTable` state a `searchHelpers` object with the following properties:
 
 ```ts
-interface searchHelpers {
+interface SearchHelpers {
   /** String which the table is being searched on */
   searchString: string;
   /** Utility function to set the search string */
-  setSearchString: Dispatch<SetStateAction<string>>;
+  setSearchString: (value: string) => void;
+  /** Total number of results after filtering by search string */
+  searchResultCount: number;
 }
 ```
 

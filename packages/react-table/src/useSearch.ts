@@ -1,5 +1,5 @@
 import fuzzysort from 'fuzzysort';
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Columns, ColumnTypes, Data, Options, DataRow, SearchMode } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
 import { Visibility } from './useVisibility';
@@ -11,8 +11,9 @@ export type HighlightFunc = (match: string) => MatchedText;
 
 interface SearchState<T extends ColumnTypes> {
   searchedData: Data<T>;
-  setSearchString: Dispatch<SetStateAction<string>>;
+  setSearchString: (value: string) => void;
   searchString: string;
+  searchResultCount: number;
   highlight: HighlightFunc;
 }
 
@@ -97,6 +98,8 @@ export default function useSearch<T extends ColumnTypes>(
   const [searchString, setSearchString] = useState('');
   const [searchedData, setSearchedData] = useState(data);
 
+  const searchResultCount = useMemo(() => searchedData.length, [searchedData]);
+
   const highlight: HighlightFunc = useCallback(
     (query: string) => {
       if (searchString === '') return [{ value: query, highlighted: false }];
@@ -145,5 +148,5 @@ export default function useSearch<T extends ColumnTypes>(
     }
   }, [columns, data, visibility, options, searchString, setSearchedData, columnType]);
 
-  return { searchString, setSearchString, searchedData, highlight };
+  return { searchString, setSearchString, searchedData, searchResultCount, highlight };
 }

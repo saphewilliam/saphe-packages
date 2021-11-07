@@ -6,7 +6,7 @@ interface TableData {
   numberCol: number;
   boolCol: boolean;
   arrayCol: string[];
-  optionalCol: number | null;
+  optionalCol: number | null; // TODO defaultvalues.spec.tsx
   complexCol: { key1: number; key2: string };
 }
 
