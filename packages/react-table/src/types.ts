@@ -1,4 +1,4 @@
-import { Dispatch, ReactElement, SetStateAction } from 'react';
+import { ReactElement } from 'react';
 import { DefaultValue } from './useDefaultValues';
 import { MatchedText } from './useSearch';
 
@@ -121,7 +121,9 @@ export interface SearchHelpers {
   /** String which the table is being searched on */
   searchString: string;
   /** Utility function to set the search string */
-  setSearchString: Dispatch<SetStateAction<string>>;
+  setSearchString: (value: string) => void;
+  /** Total number of results after filtering by search string */
+  searchResultCount: number;
 }
 
 /** Processed headers, used for displaying in the table */

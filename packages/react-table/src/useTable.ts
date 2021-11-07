@@ -28,7 +28,7 @@ export default function useTable<T extends ColumnTypes>(
   const { columnType } = useColumnType(columnsMemo, defaultValuesData);
 
   // Search filter the data
-  const { searchedData, searchString, setSearchString, highlight } = useSearch(
+  const { searchedData, searchString, setSearchString, searchResultCount, highlight } = useSearch(
     columnsMemo,
     defaultValuesData,
     visibility,
@@ -91,6 +91,7 @@ export default function useTable<T extends ColumnTypes>(
     searchHelpers: {
       searchString,
       setSearchString,
+      searchResultCount,
     },
   };
 }
