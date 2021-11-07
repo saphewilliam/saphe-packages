@@ -1,6 +1,5 @@
-import { assert } from 'console';
-import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
-import useTable, { Data, Columns, Options, State, SearchMode } from '../src';
+import { renderHook, act } from '@testing-library/react-hooks';
+import useTable, { Data, Columns, Options, SearchMode } from '../src';
 
 interface TableData {
   textCol: string;
