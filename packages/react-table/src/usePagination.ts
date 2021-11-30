@@ -8,6 +8,8 @@ interface PaginationState<T extends ColumnTypes> {
   paginatedData: Data<T>;
 }
 
+// TODO: setLastPage and setFirstPage utilities and pages start at 0 consistently
+
 export default function usePagination<T extends ColumnTypes>(
   data: Data<T>,
   pageSize?: number,

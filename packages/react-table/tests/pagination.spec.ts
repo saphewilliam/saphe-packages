@@ -1,20 +1,20 @@
 import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
 import useTable, { Columns, Data, Options, State } from '../src';
 
-interface TableData {
+interface PaginationTableData {
   col: number;
 }
 
-const columns: Columns<TableData> = {
+const columns: Columns<PaginationTableData> = {
   col: {},
 };
 
-const data: Data<TableData> = Array.from(Array(50).keys()).map((i) => ({ col: i }));
+const data: Data<PaginationTableData> = Array.from(Array(50).keys()).map((i) => ({ col: i }));
 
-const options: Options<TableData> = { pageSize: 10 };
+const options: Options<PaginationTableData> = { pageSize: 10 };
 
 function expectPagination(
-  { current: { paginationHelpers } }: RenderResult<State<TableData>>,
+  { current: { paginationHelpers } }: RenderResult<State<PaginationTableData>>,
   canPrev: boolean,
   canNext: boolean,
   page: number,
@@ -26,7 +26,7 @@ function expectPagination(
 
 describe('Pagination', () => {
   it('switches pages using utility functions', () => {
-    const { result } = renderHook(() => useTable<TableData>(columns, data, options));
+    const { result } = renderHook(() => useTable<PaginationTableData>(columns, data, options));
     expect(result.current.paginationHelpers.pageAmount).toBe(5);
 
     for (let i = 1; i < 6; i++) {
@@ -36,7 +36,7 @@ describe('Pagination', () => {
   });
 
   it('cannot set page outside of boundaries', () => {
-    const { result } = renderHook(() => useTable<TableData>(columns, data, options));
+    const { result } = renderHook(() => useTable<PaginationTableData>(columns, data, options));
 
     console.error = jest.fn();
     act(() => result.current.paginationHelpers.setPage(-1));
@@ -46,7 +46,7 @@ describe('Pagination', () => {
   });
 
   it('can be disabled', () => {
-    const { result } = renderHook(() => useTable<TableData>(columns, data));
+    const { result } = renderHook(() => useTable<PaginationTableData>(columns, data));
 
     console.warn = jest.fn();
     expect(result.current.paginationHelpers.pageAmount).toBe(1);

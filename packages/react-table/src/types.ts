@@ -79,7 +79,7 @@ export interface Options<T extends ColumnTypes> {
   };
   /** Optional: settings for the table sorting module */
   sort?: {
-    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
+    /** Optional (default = `[SortOrder.ASC, SortOrder.DESC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
     order?: SortOrder[];
   };
   /** Optional: set default styling for the table elements */

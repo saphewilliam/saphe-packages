@@ -70,6 +70,8 @@ export default function useSort<T extends ColumnTypes>(
         return data;
       }
 
+      if (sortInfo.order === SortOrder.UNSORTED) return data;
+
       return [...data].sort((a, b) => {
         if (customSort !== undefined) return sortWrapper(customSort, a, b, sortInfo);
         if (colType === ColumnTypeEnum.STRING) return sortWrapper(sortStrings, a, b, sortInfo);
@@ -91,7 +93,7 @@ export default function useSort<T extends ColumnTypes>(
     (columnName: string) => {
       const localOrders = columns[columnName]?.sortOrder;
       const globalOrders = options?.sort?.order;
-      const defaultOrders = [SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED];
+      const defaultOrders = [SortOrder.ASC, SortOrder.DESC, SortOrder.UNSORTED];
       const orders = localOrders ?? globalOrders ?? defaultOrders;
 
       if (orders.length !== 0) {

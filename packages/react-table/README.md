@@ -39,10 +39,9 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [x] Update default SortOrder
 - [x] Custom order of SortOrder enum (global and local)
 - [x] Expose state interfaces
-- [ ] Does pagination start at 1 or 0?
+- [x] Does pagination start at 1 or 0? (answer: 0)
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
-- [ ] Access column configuration through RenderCellProps
 - [ ] Search debounce
 - [ ] RegEx search mode (?)
 - [ ] Add support for table styling packs
@@ -257,7 +256,7 @@ return (
 
 ### Sorting by Columns
 
-Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
+Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.ASC, SortOrder.DESC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
 
 ```tsx
 import React, { ReactElement } from 'react';
