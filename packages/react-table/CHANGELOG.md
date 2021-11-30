@@ -1,5 +1,17 @@
 # @saphe/react-table
 
+## 0.5.0
+
+### Minor Changes
+
+- 0816ac3: Standardized internal page number representation (1 to pageAmount => 0 to pageAmount - 1) (BREAKING)
+
+### Patch Changes
+
+- 5ef6c45: Improve testing
+- 38072f5: Update readme troubleshooting
+- 3f1cb45: Split stringValue from actual row value
+
 ## 0.4.0
 
 ### Minor Changes
