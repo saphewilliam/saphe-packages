@@ -1,4 +1,4 @@
-import React from 'react';
+export const test = 'hello world';
 
 describe('useForm', () => {
   it.todo('Generates a correct form');

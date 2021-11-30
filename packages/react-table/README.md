@@ -30,7 +30,8 @@ A lightweight, declarative, type-safe table engine for React apps.
   * [Sorting by Columns](#sorting-by-columns)
   * [Searching a Table](#searching-a-table)
 - [Troubleshooting](#troubleshooting)
-  * [Maximum update depth](#maximum-update-depth)
+  * [Invalid React Child](#invalid-react-child)
+  * [Maximum Update Depth](#maximum-update-depth)
 
 ## Roadmap
 
@@ -39,10 +40,9 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [x] Update default SortOrder
 - [x] Custom order of SortOrder enum (global and local)
 - [x] Expose state interfaces
-- [ ] Does pagination start at 1 or 0?
+- [x] Does pagination start at 1 or 0? (answer: 0)
 - [ ] Do a performance analysis
 - [ ] Check if the code would be cleaner/faster using useReducer (probably)
-- [ ] Access column configuration through RenderCellProps
 - [ ] Search debounce
 - [ ] RegEx search mode (?)
 - [ ] Add support for table styling packs
@@ -257,7 +257,7 @@ return (
 
 ### Sorting by Columns
 
-Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.DESC, SortOrder.ASC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
+Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.ASC, SortOrder.DESC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
 
 ```tsx
 import React, { ReactElement } from 'react';
@@ -365,7 +365,49 @@ return (
 
 ## Troubleshooting
 
-### Maximum update depth
+### Invalid React Child
+
+If you encounter the `Objects are not valid as a React child` error, it means you are trying to make a custom cell and are directly rendering an object-type data value. React is not happy when you do that, you have to convert the object into a string first. There are two ways to do this:
+
+The first is to use the default preconfigured cell and implement a `stringify` function in the column definition, like this:
+
+```tsx
+interface ColumnTypes {
+  objectColumn: { key1: string; key2: number };
+}
+
+export default function ObjectTable(): ReactElement {
+  const { headers, rows } = useTable({
+    objectColumn: { 
+      // Stringify definition!
+      stringify: ({ key1, key2 }) => `${key2}: ${key1}` 
+    },
+  }, [
+    { key1: 'test value', key2: 10 },
+    { key1: 'another value', key2: 3 },
+  ]);
+
+  return <Table {...{ headers, rows }} />
+}
+```
+
+The second way is to define a custom cell function, and stringify the value in it, or to use the `stringValue` prop from `RenderCellProps`, which takes the column's stringify function into account.
+
+```tsx
+export function ObjectCell(props: RenderCellProps): ReactElement {
+  // Either to this:
+  return (
+    <td>{`${value.key2}: ${value.key1}`}</td>
+  )
+
+  // Or this (and define a top-level stringify function like in the previous code block)
+  return (
+    <td>{props.stringValue}</td>
+  )
+}
+```
+
+### Maximum Update Depth
 
 If you encounter the `Maximum update depth exceeded` error, it probably means that you're trying to render data that recursively triggers table re-renders, for instance: `new Date()`. There are two fixes for this error.
 

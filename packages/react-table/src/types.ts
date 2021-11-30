@@ -36,6 +36,7 @@ export interface RenderHeadProps {
 export interface RenderCellProps<T extends ColumnTypes = Any, U = Any> {
   row: DataRow<T>;
   value: U;
+  stringValue: string;
   matchedText: MatchedText;
 }
 
@@ -78,7 +79,7 @@ export interface Options<T extends ColumnTypes> {
   };
   /** Optional: settings for the table sorting module */
   sort?: {
-    /** Optional (default = `[SortOrder.DESC, SortOrder.ASC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
+    /** Optional (default = `[SortOrder.ASC, SortOrder.DESC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
     order?: SortOrder[];
   };
   /** Optional: set default styling for the table elements */
@@ -136,7 +137,7 @@ export interface OriginalHeader extends RenderHeadProps {}
 
 /** Processed rows, used for displaying in the table */
 export interface Row<T extends ColumnTypes> {
-  cells: (RenderCellProps<T, string> & { render: () => ReactElement })[];
+  cells: (RenderCellProps<T> & { render: () => ReactElement })[];
 }
 
 /** Original rows, used for external data analysis and aggregation */

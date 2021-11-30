@@ -1,7 +1,7 @@
 import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
 import useTable, { Data, Columns, State } from '../src';
 
-interface TableData {
+interface VisibilityTableData {
   stringCol: string;
   numberCol: number;
   boolCol: boolean;
@@ -10,7 +10,7 @@ interface TableData {
   complexCol: { key1: number; key2: string };
 }
 
-const columns: Columns<TableData> = {
+const columns: Columns<VisibilityTableData> = {
   stringCol: { hidden: true },
   numberCol: {},
   boolCol: {},
@@ -19,13 +19,13 @@ const columns: Columns<TableData> = {
   complexCol: {},
 };
 
-const data: Data<TableData> = [
+const data: Data<VisibilityTableData> = [
   {
     stringCol: 'English',
     numberCol: 10,
     boolCol: true,
     arrayCol: ['array', 'number', '1'],
-    complexCol: { key1: 48, key2: 'key2' },
+    complexCol: { key1: 48, key2: 'key 2' },
   },
   {
     stringCol: 'Dutch',
@@ -38,21 +38,21 @@ const data: Data<TableData> = [
 ];
 
 function expectColumns(
-  { current: { headers, rows } }: RenderResult<State<TableData>>,
+  { current: { headers, rows } }: RenderResult<State<VisibilityTableData>>,
   firstColVals: [string, string, string] = ['numberCol', '10', '31'],
   nCols = Object.keys(columns).length - 1,
 ): void {
   expect(headers.length).toBe(nCols);
   expect(headers[0]?.name).toBe(firstColVals[0]);
   expect(rows[0]?.cells.length).toBe(nCols);
-  expect(rows[0]?.cells[0]?.value).toBe(firstColVals[1]);
+  expect(rows[0]?.cells[0]?.stringValue).toBe(firstColVals[1]);
   expect(rows[1]?.cells.length).toBe(nCols);
-  expect(rows[1]?.cells[0]?.value).toBe(firstColVals[2]);
+  expect(rows[1]?.cells[0]?.stringValue).toBe(firstColVals[2]);
 }
 
 describe('Visibility', () => {
   it('hides / shows all visibility-toggleable columns', () => {
-    const { result } = renderHook(() => useTable<TableData>(columns, data));
+    const { result } = renderHook(() => useTable<VisibilityTableData>(columns, data));
     expectColumns(result);
 
     act(() => result.current.visibilityHelpers.hideAll());
@@ -63,7 +63,7 @@ describe('Visibility', () => {
   });
 
   it('toggles visibility for a single column', () => {
-    const { result } = renderHook(() => useTable<TableData>(columns, data));
+    const { result } = renderHook(() => useTable<VisibilityTableData>(columns, data));
     expectColumns(result);
 
     act(() => {
