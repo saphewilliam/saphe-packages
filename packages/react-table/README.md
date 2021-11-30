@@ -399,7 +399,7 @@ export function ObjectCell(props: RenderCellProps): ReactElement {
     <td>{`${value.key2}: ${value.key1}`}</td>
   )
 
-  // Or this (and define a top-level stringify function like in the previous example)
+  // Or this (and define a top-level stringify function like in the previous code block)
   return (
     <td>{props.stringValue}</td>
   )
