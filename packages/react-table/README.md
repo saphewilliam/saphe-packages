@@ -364,7 +364,49 @@ return (
 
 ## Troubleshooting
 
-### Maximum update depth
+### Invalid React Child
+
+If you encounter the `Objects are not valid as a React child` error, it means you are trying to make a custom cell and are directly rendering an object-type data value. React is not happy when you do that, you have to convert the object into a string first. There are two ways to do this:
+
+The first is to use the default preconfigured cell and implement a `stringify` function in the column definition, like this:
+
+```tsx
+interface ColumnTypes {
+  objectColumn: { key1: string; key2: number };
+}
+
+export default function ObjectTable(): ReactElement {
+  const { headers, rows } = useTable({
+    objectColumn: { 
+      // Stringify definition!
+      stringify: ({ key1, key2 }) => `${key2}: ${key1}` 
+    },
+  }, [
+    { key1: 'test value', key2: 10 },
+    { key1: 'another value', key2: 3 },
+  ]);
+
+  return <Table {...{ headers, rows }} />
+}
+```
+
+The second way is to define a custom cell function, and stringify the value in it, or to use the `stringValue` prop from `RenderCellProps`, which takes the column's stringify function into account.
+
+```tsx
+export function ObjectCell(props: RenderCellProps): ReactElement {
+  // Either to this:
+  return (
+    <td>{`${value.key2}: ${value.key1}`}</td>
+  )
+
+  // Or this (and define a top-level stringify function like in the previous example)
+  return (
+    <td>{props.stringValue}</td>
+  )
+}
+```
+
+### Maximum Update Depth
 
 If you encounter the `Maximum update depth exceeded` error, it probably means that you're trying to render data that recursively triggers table re-renders, for instance: `new Date()`. There are two fixes for this error.
 

@@ -1,5 +1,5 @@
 import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
-import useTable, { Data, Columns, Options, SearchMode, State, SortOrder } from '../src';
+import useTable, { Data, Columns, State, SortOrder } from '../src';
 
 export const hello = 'test';
 
