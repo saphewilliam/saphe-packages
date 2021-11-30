@@ -30,7 +30,8 @@ A lightweight, declarative, type-safe table engine for React apps.
   * [Sorting by Columns](#sorting-by-columns)
   * [Searching a Table](#searching-a-table)
 - [Troubleshooting](#troubleshooting)
-  * [Maximum update depth](#maximum-update-depth)
+  * [Invalid React Child](#invalid-react-child)
+  * [Maximum Update Depth](#maximum-update-depth)
 
 ## Roadmap
 
