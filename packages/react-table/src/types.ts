@@ -101,12 +101,16 @@ export interface VisibilityHelpers {
 
 /** Global state utilities for managing table pagination */
 export interface PaginationHelpers {
-  /** Current page number (between 1 and `pageAmount`) */
+  /** Current page number (between 0 and `pageAmount - 1`) */
   page: number;
   /** Amount of pages */
   pageAmount: number;
   /** Utility function to set the current page if possible */
   setPage: (pageNumber: number) => void;
+  /** Utility function to skip to the last available page */
+  setLastPage: () => void;
+  /** Utility function to skip to the first available page */
+  setFirstPage: () => void;
   /** Utility function to move to the next page if possible */
   nextPage: () => void;
   /** Whether or not there is a next page to go to */
