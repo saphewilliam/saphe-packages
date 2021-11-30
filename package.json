@@ -17,7 +17,6 @@
   },
   "scripts": {
     "release": "yarn build && changeset publish",
-    "version": "changeset version",
     "change": "changeset",
     "build": "lerna run build --stream",
     "lint": "lerna run lint --stream --parallel",
