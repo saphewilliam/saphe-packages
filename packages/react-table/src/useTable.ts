@@ -80,12 +80,14 @@ export default function useTable<T extends ColumnTypes>(
       showAll: () => setAllVisibility(true),
     },
     paginationHelpers: {
-      page: page + 1,
+      page,
       pageAmount,
       setPage,
+      setFirstPage: () => setPage(0),
+      setLastPage: () => setPage(pageAmount - 1),
       canPrev: page > 0,
-      canNext: page < pageAmount - 1,
       prevPage: () => setPage(page - 1),
+      canNext: page < pageAmount - 1,
       nextPage: () => setPage(page + 1),
     },
     searchHelpers: {

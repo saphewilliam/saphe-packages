@@ -29,9 +29,9 @@ describe('Pagination', () => {
     const { result } = renderHook(() => useTable<PaginationTableData>(columns, data, options));
     expect(result.current.paginationHelpers.pageAmount).toBe(5);
 
-    for (let i = 1; i < 6; i++) {
-      expectPagination(result, i !== 1, i !== 5, i);
-      if (i !== 5) act(() => result.current.paginationHelpers.nextPage());
+    for (let i = 0; i < 5; i++) {
+      expectPagination(result, i !== 0, i !== 4, i);
+      if (i !== 4) act(() => result.current.paginationHelpers.nextPage());
     }
   });
 
@@ -50,7 +50,7 @@ describe('Pagination', () => {
 
     console.warn = jest.fn();
     expect(result.current.paginationHelpers.pageAmount).toBe(1);
-    expectPagination(result, false, false, 1);
+    expectPagination(result, false, false, 0);
     act(() => result.current.paginationHelpers.setPage(1));
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
