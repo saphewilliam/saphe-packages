@@ -20,6 +20,7 @@ exports[`Form renders 1`] = `
     </label>
     <input
       aria-describedby="testFormTextDescription"
+      autoComplete="off"
       disabled={false}
       id="testFormText"
       name="text"

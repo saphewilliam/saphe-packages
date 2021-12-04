@@ -1,5 +1,6 @@
 import React from 'react';
-import Field from '../src/components/FieldSwitch';
+import FieldSwitch, { Props } from '../src/components/FieldSwitch';
+import { FieldType } from '../src/lib/field';
 import {
   matchSnapshot,
   minimalCheckField,
@@ -9,25 +10,21 @@ import {
   minimalTextField,
 } from './testHelpers';
 
-const dummyProps = {
-  id: 'formNameFieldName',
+const dummyProps: Omit<Props<FieldType>, 'field' | 'value'> = {
+  formName: 'formName',
   name: 'fieldName',
-  label: 'Field Label',
-  description: '',
-  describedBy: 'formNameFieldNameDescription',
-  disabled: false,
   error: '',
-  value: '',
   onChange: jest.fn(),
   onBlur: jest.fn(),
 };
 
 describe('Field', () => {
   it('renders a text field correctly', () => {
-    matchSnapshot(<Field field={minimalTextField} {...dummyProps} />);
+    matchSnapshot(<FieldSwitch field={minimalTextField} value="" {...dummyProps} />);
     matchSnapshot(
-      <Field
+      <FieldSwitch
         field={{ ...minimalTextField, description: 'description' }}
+        value=""
         {...dummyProps}
         error="error"
       />,
@@ -35,14 +32,15 @@ describe('Field', () => {
   });
 
   it('renders a text area field correctly', () => {
-    matchSnapshot(<Field field={minimalTextAreaField} {...dummyProps} />);
+    matchSnapshot(<FieldSwitch field={minimalTextAreaField} value="" {...dummyProps} />);
     matchSnapshot(
-      <Field
+      <FieldSwitch
         field={{
           ...minimalTextAreaField,
           description: 'description',
           rows: 12,
         }}
+        value=""
         {...dummyProps}
         error="error"
       />,
@@ -50,14 +48,15 @@ describe('Field', () => {
   });
 
   it('renders a select field correctly', () => {
-    matchSnapshot(<Field field={minimalSelectField} {...dummyProps} />);
+    matchSnapshot(<FieldSwitch field={minimalSelectField} value="" {...dummyProps} />);
     matchSnapshot(
-      <Field
+      <FieldSwitch
         field={{
           ...minimalSelectField,
           description: 'description',
           placeholder: 'placeholder',
         }}
+        value=""
         {...dummyProps}
         error="error"
       />,
@@ -65,24 +64,24 @@ describe('Field', () => {
   });
 
   it('renders a check field correctly', () => {
-    matchSnapshot(<Field field={minimalCheckField} {...dummyProps} value={false} />);
+    matchSnapshot(<FieldSwitch field={minimalCheckField} value={false} {...dummyProps} />);
     matchSnapshot(
-      <Field
+      <FieldSwitch
         field={{ ...minimalCheckField, description: 'description' }}
-        {...dummyProps}
         value={false}
+        {...dummyProps}
         error="error"
       />,
     );
   });
 
   it('renders a number field correctly', () => {
-    matchSnapshot(<Field field={minimalNumberField} {...dummyProps} value={10} />);
+    matchSnapshot(<FieldSwitch field={minimalNumberField} value={10} {...dummyProps} />);
     matchSnapshot(
-      <Field
+      <FieldSwitch
         field={{ ...minimalNumberField, description: 'description' }}
-        {...dummyProps}
         value={10}
+        {...dummyProps}
         error="error"
       />,
     );

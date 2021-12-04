@@ -16,7 +16,7 @@ import SelectField from './fields/SelectField';
 import TextAreaField from './fields/TextAreaField';
 import TextField from './fields/TextField';
 
-type Props<T extends FieldType> = AddFieldPack<{
+export type Props<T extends FieldType> = AddFieldPack<{
   field: T;
   name: string;
   formName: string;

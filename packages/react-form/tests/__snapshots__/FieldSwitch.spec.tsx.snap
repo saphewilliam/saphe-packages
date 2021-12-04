@@ -457,6 +457,7 @@ exports[`Field renders a text field correctly 1`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    autoComplete="off"
     disabled={false}
     id="formNameFieldName"
     name="fieldName"
@@ -496,6 +497,7 @@ exports[`Field renders a text field correctly 2`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    autoComplete="off"
     disabled={false}
     id="formNameFieldName"
     name="fieldName"
