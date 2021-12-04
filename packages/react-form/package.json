@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
-    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore"
+    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit"
   },
   "dependencies": {
     "react-google-recaptcha": "2.1.0",

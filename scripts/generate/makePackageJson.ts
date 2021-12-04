@@ -29,7 +29,7 @@ export function makePackageJson(w: WorkspaceConfig, p: PackageConfig): void {
         files: ['dist/'],
         scripts: {
           build: 'rimraf dist && tsc -b tsconfig.json tsconfig.esm.json',
-          lint: 'eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore',
+          lint: 'eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit',
         },
         dependencies: oldPackageJson?.dependencies ?? {},
         devDependencies: oldPackageJson?.devDependencies ?? {},
