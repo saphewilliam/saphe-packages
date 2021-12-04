@@ -29,6 +29,7 @@ export interface PackageConfig {
   description: string;
   keywords: string[];
   internalDependencies?: string[];
+  peerDependencies?: string[];
   features?: { icon: string; text: string }[];
   roadmap?: { checked?: boolean; text: string; level?: number }[];
   examples?: { title: string; href: string }[];
@@ -50,7 +51,23 @@ function makeDemoCode(packageName: string): void {
   );
 }
 
-function makeTsConfigs(p: PackageConfig): void {
+function makeRootTsconfig(): void {
+  const path = join(process.cwd(), 'tsconfig.json');
+
+  writeFileSync(
+    path,
+    `{\n  "extends": "./tsconfig.settings.json",\n  "compilerOptions": {\n    "jsx": "react",\n    "baseUrl": "packages",\n    "paths": {\n${workspace.packages
+      .map(
+        (p, i) =>
+          `      "@${workspace.scope}/${p.name}/*": ["${p.name}/src/*"]${
+            i < workspace.packages.length - 1 ? ',' : ''
+          }\n`,
+      )
+      .join('')}    }\n  }\n}\n`,
+  );
+}
+
+function makeTsconfigs(p: PackageConfig): void {
   const base = join(process.cwd(), 'packages', p.name);
 
   const getTsConfig = (type: 'cjs' | 'esm') =>
@@ -81,6 +98,7 @@ function makeLabelerYml(): void {
 
 function main(): void {
   makeRootReadme();
+  makeRootTsconfig();
   makeLabelerYml();
 
   for (const p of workspace.packages) {
@@ -90,7 +108,7 @@ function main(): void {
       makeDemoCode(p.name);
     }
 
-    makeTsConfigs(p);
+    makeTsconfigs(p);
     makeReadme(p);
     makePackageJson(workspace, p);
   }

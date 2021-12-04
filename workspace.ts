@@ -1,7 +1,5 @@
 import { WorkspaceConfig } from './scripts/generate';
 
-// TODO auto generate root tsconfig.json
-
 export const workspace: WorkspaceConfig = {
   name: 'saphe-packages',
   scope: 'saphe',
@@ -42,6 +40,7 @@ export const workspace: WorkspaceConfig = {
       description: 'Officially maintained Bootstrap-style form fields pack for @saphe/react-form',
       keywords: ['typescript', 'react', 'form', 'bootstrap'],
       internalDependencies: ['react-form'],
+      peerDependencies: ['bootstrap'],
     },
     {
       name: 'react-table',

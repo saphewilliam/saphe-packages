@@ -67,9 +67,10 @@ export function makeReadme(p: PackageConfig): void {
     }
 
     // Getting Started
+    const install = `${n}${p.peerDependencies?.map((dep) => ` ${dep}`) ?? ''}`;
     write(`## Getting Started`, 2);
     write(
-      `Install using yarn:\n\n\`\`\`sh\nyarn add ${n}\n\`\`\`\n\nor using npm:\n\n\`\`\`sh\nnpm install ${n}\n\`\`\``,
+      `Install using yarn:\n\n\`\`\`sh\nyarn add ${install}\n\`\`\`\n\nor using npm:\n\n\`\`\`sh\nnpm install ${install}\n\`\`\``,
       2,
     );
 
