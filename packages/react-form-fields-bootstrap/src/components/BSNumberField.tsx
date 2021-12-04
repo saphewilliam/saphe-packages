@@ -13,10 +13,13 @@ export default function BSNumberField(props: Props.NumberProps): ReactElement {
         className={`form-control${props.error ? ' is-invalid' : ''}`}
         id={props.id}
         name={props.name}
-        value={props.value}
+        value={props.value ?? ''}
         placeholder={props.placeholder}
         disabled={props.disabled}
-        onChange={(e) => props.onChange(parseFloat(e.target.value))}
+        onChange={(e) => {
+          const value = parseFloat(e.target.value);
+          props.onChange(!isNaN(value) ? value : null);
+        }}
         onBlur={props.onBlur}
         aria-describedby={props.describedBy}
       />

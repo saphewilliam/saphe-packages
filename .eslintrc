@@ -20,19 +20,22 @@
     "plugin:prettier/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript" 
+    "plugin:import/typescript"
   ],
   "rules": {
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "@typescript-eslint/ban-types": 0,
-    "@typescript-eslint/no-empty-interface": 0,
     "jsx-a11y/anchor-is-valid": 0,
-    "import/order": ["warn", {
-      "newlines-between": "never",
-      "alphabetize": { 
-        "order": "asc", 
-        "caseInsensitive": true 
+    "@typescript-eslint/no-empty-interface": "warn",
+    "import/order": [
+      "warn",
+      {
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
-    }]
+    ]
   }
 }

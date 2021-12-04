@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react';
-import { getFieldStyle } from '../../utils/formHelpers';
-import { AddFieldPack } from '../../utils/helperTypes';
-import { CheckProps } from '../../utils/propTypes';
+import { getFieldStyle } from '../../lib/form';
+import { CheckProps } from '../../lib/props';
+import { AddFieldPack } from '../../lib/util';
+import FieldContainer from '../helpers/FieldContainer';
 import FieldText from '../helpers/FieldText';
-import FormFieldContainer from '../helpers/FormFieldContainer';
 
 export default function CheckField(props: AddFieldPack<CheckProps>): ReactElement {
   return (
-    <FormFieldContainer fieldPack={props.fieldPack}>
+    <FieldContainer fieldPack={props.fieldPack}>
       {props.fieldPack?.CHECK ? (
         <props.fieldPack.CHECK {...props} />
       ) : (
@@ -34,6 +34,6 @@ export default function CheckField(props: AddFieldPack<CheckProps>): ReactElemen
           <FieldText {...props} />
         </>
       )}
-    </FormFieldContainer>
+    </FieldContainer>
   );
 }

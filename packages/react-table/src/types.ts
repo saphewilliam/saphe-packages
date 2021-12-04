@@ -137,7 +137,7 @@ export interface Header extends RenderHeadProps {
 }
 
 /** Original headers, used for external data manipulation */
-export interface OriginalHeader extends RenderHeadProps {}
+export type OriginalHeader = RenderHeadProps;
 
 /** Processed rows, used for displaying in the table */
 export interface Row<T extends ColumnTypes> {

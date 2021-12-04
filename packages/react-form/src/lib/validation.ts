@@ -1,8 +1,51 @@
-import { Field } from '..';
-import { FieldType } from './fieldTypes';
-import { getDefaultFieldValue } from './formHelpers';
-import { FieldValue } from './helperTypes';
-import { NumberValidation, NumberValue, StringValidation } from './validationTypes';
+import { Field, FieldType } from './field';
+import { getDefaultFieldValue } from './form';
+import { FieldValue } from './util';
+
+export enum ValidationMode {
+  ON_CHANGE = 'ON_CHANGE',
+  ON_BLUR = 'ON_BLUR',
+  AFTER_BLUR = 'AFTER_BLUR',
+  ON_SUBMIT = 'ON_SUBMIT',
+}
+
+export type ValidationType =
+  | StringValidation
+  | NumberValidation
+  | BooleanValidation
+  | SelectValidation;
+
+interface ValidationBase<T extends string | boolean | number | File> {
+  mode?: ValidationMode;
+  required?: string;
+  validate?: (value: T) => string | Promise<string>;
+}
+
+type NumberValueValidation = (
+  | { exact: number }
+  | { gte: number }
+  | { lte: number }
+  | { gt: number }
+  | { lt: number }
+  | { gte: number; lte: number }
+  | { gte: number; lt: number }
+  | { gt: number; lte: number }
+  | { gt: number; lt: number }
+) & { message: string };
+
+export interface StringValidation extends ValidationBase<string> {
+  length?: NumberValueValidation;
+  match?: { regex: RegExp; message: string };
+}
+
+export interface NumberValidation extends ValidationBase<number> {
+  value?: NumberValueValidation;
+  integer?: string;
+}
+
+export type BooleanValidation = ValidationBase<boolean>;
+
+export type SelectValidation = ValidationBase<string>;
 
 export function validateField<T extends FieldType>(
   field: FieldType | undefined,
@@ -41,7 +84,7 @@ export function validateField<T extends FieldType>(
   return error;
 }
 
-function validateNumberValue(n: number, v: NumberValue): string {
+function validateNumberValue(n: number, v: NumberValueValidation): string {
   if (
     ((v as { exact: number }).exact !== undefined && n !== (v as { exact: number }).exact) ||
     ((v as { lt: number }).lt !== undefined && n < (v as { lt: number }).lt) ||

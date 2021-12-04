@@ -1,5 +1,7 @@
 import { WorkspaceConfig } from './scripts/generate';
 
+// TODO auto generate root tsconfig.json
+
 export const workspace: WorkspaceConfig = {
   name: 'saphe-packages',
   scope: 'saphe',

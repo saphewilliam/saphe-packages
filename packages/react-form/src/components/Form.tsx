@@ -1,16 +1,15 @@
-import React, { Dispatch, FormEvent, ReactElement, SetStateAction, useState } from 'react';
-import { Config as HookConfig } from '../hooks/useForm';
+import React, { Dispatch, SetStateAction, ReactElement, useState, FormEvent } from 'react';
+import { Config } from '../hooks/useForm';
 import useRecaptcha from '../hooks/useRecaptcha';
-import { FieldType } from '../utils/fieldTypes';
-import { FormState, getInitialFormState, getDefaultFieldValue } from '../utils/formHelpers';
-import { Fields, FieldValue } from '../utils/helperTypes';
-import { validateField } from '../utils/validationHelpers';
-import { ValidationMode } from '../utils/validationTypes';
+import { FieldType } from '../lib/field';
+import { FormState, getDefaultFieldValue, getInitialFormState } from '../lib/form';
+import { Fields, FieldValue, FormErrors, FormTouched } from '../lib/util';
+import { validateField, ValidationMode } from '../lib/validation';
 import FieldSwitch from './FieldSwitch';
-import FormFieldContainer from './helpers/FormFieldContainer';
+import FieldContainer from './helpers/FieldContainer';
 import SubmitButton from './helpers/SubmitButton';
 
-interface Props<T extends Fields> extends HookConfig<T> {
+interface Props<T extends Fields> extends Config<T> {
   isSubmitting: boolean;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
 }
@@ -30,26 +29,38 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   const [formState, setFormState] = useState<FormState<T>>(getInitialFormState(fields));
   const { Recaptcha, recaptchaToken } = useRecaptcha(recaptcha);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // Form validation
     let canSubmit = true;
     const errors: Record<string, string> = {};
     const touched: Record<string, boolean> = {};
     for (const [fieldName, field] of Object.entries(fields)) {
       const error = validateField(field, formState.values[fieldName]);
+      if (error !== '') canSubmit = false;
       errors[fieldName] = error;
       touched[fieldName] = true;
-      if (error !== '') canSubmit = false;
+    }
+    if (!canSubmit) {
+      setFormState({
+        ...formState,
+        errors: errors as FormErrors<T>,
+        touched: touched as FormTouched<T>,
+      });
+      return;
     }
 
-    if (!canSubmit) setFormState({ ...formState, errors, touched });
-    else if (!!recaptcha && !recaptchaToken) recaptcha.onError();
-    else if (onSubmit) {
+    // Catch recaptcha errors
+    if (recaptcha && !recaptchaToken) {
+      recaptcha.onError();
+      return;
+    }
+
+    // Fire custom submit function
+    if (onSubmit) {
       setIsSubmitting(true);
-
       Promise.resolve(onSubmit(formState.values, { recaptchaToken }));
-
       setIsSubmitting(false);
     }
   };
@@ -95,26 +106,17 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      {Object.keys(fields).map((fieldName, index) => {
-        const field = fields[fieldName];
-        const fieldId = `${name}${fieldName.charAt(0).toUpperCase()}${fieldName.slice(1)}`;
-        if (field === undefined) return <div />;
+    <form onSubmit={handleSubmit}>
+      {Object.entries(fields).map(([fieldName, field], idx) => {
         return (
           <FieldSwitch
-            key={index}
+            key={idx}
+            formName={name}
+            name={fieldName}
             field={field}
             fieldPack={fieldPack}
-            id={fieldId}
-            name={fieldName}
-            label={field.label}
-            description={field.description ?? ''}
-            describedBy={`${fieldId}Description`}
-            disabled={false} // TODO make this variable
             error={formState.errors[fieldName] ?? ''}
-            value={
-              formState.values[fieldName]?.toString() ?? getDefaultFieldValue(field).toString()
-            }
+            value={formState.values[fieldName] ?? getDefaultFieldValue(field)}
             onChange={(targetValue) => handleChange(targetValue, fieldName)}
             onBlur={() => handleBlur(fieldName)}
           />
@@ -122,9 +124,9 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
       })}
 
       {recaptcha && (
-        <FormFieldContainer fieldPack={fieldPack}>
+        <FieldContainer fieldPack={fieldPack}>
           <Recaptcha />
-        </FormFieldContainer>
+        </FieldContainer>
       )}
 
       <SubmitButton {...{ isSubmitting, fieldPack }} />

@@ -1,19 +1,20 @@
 import { ReactNode } from 'react';
 import {
-  CheckType,
   FieldType,
-  ICheck,
-  INumber,
-  ISelect,
-  IText,
-  ITextArea,
-  NumberType,
-  SelectType,
-  TextAreaType,
   TextType,
-} from './fieldTypes';
-import { FieldValue } from './helperTypes';
+  IText,
+  TextAreaType,
+  ITextArea,
+  SelectType,
+  ISelect,
+  CheckType,
+  ICheck,
+  NumberType,
+  INumber,
+} from './field';
+import { FieldValue } from './util';
 
+// Types used by the consumer as props for self-implemented field components
 export interface PropsBase<T extends FieldType> {
   id: string;
   name: string;
@@ -37,6 +38,6 @@ export interface SubmitButtonProps {
   isSubmitting: boolean;
 }
 
-export interface FormFieldContainerProps {
+export interface FieldContainerProps {
   children: ReactNode;
 }
