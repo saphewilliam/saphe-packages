@@ -28,7 +28,7 @@ export default function SelectField(props: AddFieldPack<SelectProps>): ReactElem
             </option>
             {props.options.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {option.label ?? option.value}
               </option>
             ))}
           </select>

@@ -36,6 +36,10 @@ export type NumberProps = PropsBase<NumberType> & INumber;
 
 export interface SubmitButtonProps {
   isSubmitting: boolean;
+  label: string;
+  submittingLabel: string;
+  disabled: boolean;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export interface FieldContainerProps {

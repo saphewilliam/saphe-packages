@@ -1,12 +1,6 @@
 import { Field, FieldType } from './field';
 import { Fields, FieldValue, FieldValueCrude, FormErrors, FormTouched, FormValues } from './util';
 
-export interface FormState<T extends Fields> {
-  touched: FormTouched<T>;
-  errors: FormErrors<T>;
-  values: FormValues<T>;
-}
-
 export const getFieldStyle = (error: string): Record<string, string> => ({
   borderStyle: 'solid',
   borderWidth: '1px',
@@ -28,16 +22,32 @@ export function getDefaultFieldValue<T extends FieldType>(field: T): FieldValue<
   }
 }
 
-export function getInitialFormState<T extends Fields>(fields: T): FormState<T> {
+export function getInitialFormTouchedState<T extends Fields>(
+  fields: T,
+  prevTouched: Record<string, boolean> = {},
+): FormTouched<T> {
   const touched: Record<string, boolean> = {};
-  const errors: Record<string, string> = {};
-  const values: Record<string, FieldValueCrude> = {};
+  for (const fieldName of Object.keys(fields)) touched[fieldName] = prevTouched[fieldName] ?? false;
+  return touched as FormTouched<T>;
+}
 
+export function getInitialFormErrorsState<T extends Fields>(
+  fields: T,
+  prevErrors: Record<string, string> = {},
+): FormErrors<T> {
+  const errors: Record<string, string> = {};
+  for (const fieldName of Object.keys(fields)) errors[fieldName] = prevErrors[fieldName] ?? '';
+  return errors as FormErrors<T>;
+}
+
+export function getInitialFormValuesState<T extends Fields>(
+  fields: T,
+  prevValues: Record<string, FieldValueCrude> = {},
+): FormValues<T> {
+  const values: Record<string, FieldValueCrude> = {};
   for (const [fieldName, field] of Object.entries(fields)) {
-    touched[fieldName] = false;
-    errors[fieldName] = '';
-    values[fieldName] = field.initialValue ?? getDefaultFieldValue(field);
+    values[fieldName] = prevValues[fieldName] ?? field.initialValue ?? getDefaultFieldValue(field);
   }
 
-  return { touched, errors, values } as FormState<T>;
+  return values as FormValues<T>;
 }
