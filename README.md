@@ -7,6 +7,8 @@
 [![MIT License](https://img.shields.io/npm/l/@saphe/react-form.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
 
+A package ecosystem dedicated to improve developer experience and type-safety in React apps.
+
 ## Packages
 
 <!-- BEGIN AUTO-GENERATED PACKAGE TABLE -->
