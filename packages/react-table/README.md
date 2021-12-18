@@ -299,7 +299,7 @@ const { headers, rows } = useTable(columns, data, {
 return <Table {...{ headers, rows }} />
 ```
 
-If you have a complex data object (not string, number or boolean), you can either turn off sorting for that column using the `unsortable: true` option in the column definition, or supply a custom sorting function using the `sort` option in the column definition. For examples on custom sorting functions, check the [useSort hook](https://github.com/saphewilliam/saphe-packages/blob/develop/packages/react-table/src/useSort.ts#L36-L48) in the GitHub repo.
+If you have a complex data object (not string, number or boolean), you can either turn off sorting for that column using the `unsortable: true` option in the column definition, or supply a custom sorting function using the `sort` option in the column definition. For examples on custom sorting functions, check the [useSort hook](https://github.com/saphewilliam/saphe-packages/blob/main/packages/react-table/src/useSort.ts#L36-L48) in the GitHub repo.
 
 ### Searching a Table
 
