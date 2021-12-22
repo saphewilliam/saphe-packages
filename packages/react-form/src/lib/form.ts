@@ -11,14 +11,10 @@ export const getFieldStyle = (error: string): Record<string, string> => ({
 
 export function getDefaultFieldValue<T extends FieldType>(field: T): FieldValue<T> {
   switch (field.type) {
-    case Field.TEXT:
-    case Field.TEXT_AREA:
-    case Field.SELECT:
-      return '' as FieldValue<T>;
-    case Field.NUMBER:
-      return null as FieldValue<T>;
     case Field.CHECK:
       return false as FieldValue<T>;
+    default:
+      return null as FieldValue<T>;
   }
 }
 

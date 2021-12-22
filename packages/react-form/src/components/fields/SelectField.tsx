@@ -16,9 +16,12 @@ export default function SelectField(props: AddFieldPack<SelectProps>): ReactElem
           <select
             id={props.id}
             name={props.name}
-            value={props.value}
+            value={props.value ?? ''}
             disabled={props.disabled}
-            onChange={(e) => props.onChange(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              props.onChange(value !== '' ? value : null);
+            }}
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
             style={getFieldStyle(props.error)}

@@ -13,7 +13,9 @@ export type ValidationType =
   | StringValidation
   | NumberValidation
   | BooleanValidation
-  | SelectValidation;
+  | SelectValidation
+  | EmailValidation
+  | FileValidation;
 
 interface ValidationBase<T extends string | boolean | number | File> {
   mode?: ValidationMode;
@@ -47,6 +49,15 @@ export type BooleanValidation = ValidationBase<boolean>;
 
 export type SelectValidation = ValidationBase<string>;
 
+export interface EmailValidation extends ValidationBase<string> {
+  length?: NumberValueValidation;
+  isValidEmail?: string;
+}
+
+export interface FileValidation extends ValidationBase<File> {
+  size?: NumberValueValidation;
+}
+
 export function validateField<T extends FieldType>(
   field: FieldType | undefined,
   value: FieldValue<T> | undefined,
@@ -62,6 +73,7 @@ export function validateField<T extends FieldType>(
   switch (field.type) {
     case Field.TEXT:
     case Field.TEXT_AREA:
+    case Field.PASSWORD:
       error = validateStringField(value as string, field.validation as StringValidation);
       break;
     case Field.NUMBER:
@@ -69,6 +81,12 @@ export function validateField<T extends FieldType>(
       break;
     case Field.SELECT:
     case Field.CHECK:
+      break;
+    case Field.EMAIL:
+      error = ValidateEmailField(value as string, field.validation as EmailValidation);
+      break;
+    case Field.FILE:
+      error = ValidateFileField(value as File, field.validation as FileValidation);
       break;
   }
   if (error) return error;
@@ -105,7 +123,7 @@ function validateStringField(value: string, validation: StringValidation): strin
   }
 
   // Regex check
-  if (validation.match && value.match(validation.match.regex)) return validation.match.message;
+  if (validation.match && !value.match(validation.match.regex)) return validation.match.message;
 
   return '';
 }
@@ -120,5 +138,21 @@ function validateNumberField(value: number, validation: NumberValidation): strin
   // Integer check
   if (validation.integer && !Number.isInteger(value)) return validation.integer;
 
+  return '';
+}
+
+function ValidateEmailField(value: string, validation: EmailValidation): string {
+  return validateStringField(value, {
+    ...validation,
+    match: {
+      message: validation.isValidEmail ?? '',
+      regex:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    },
+  });
+}
+
+function ValidateFileField(value: File, validation: FileValidation): string {
+  if (validation.size) return validateNumberValue(value.size, validation.size);
   return '';
 }

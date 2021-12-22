@@ -11,6 +11,12 @@ import {
   ICheck,
   NumberType,
   INumber,
+  PasswordType,
+  IPassword,
+  EmailType,
+  IEmail,
+  FileType,
+  IFile,
 } from './field';
 import { FieldValue } from './util';
 
@@ -33,6 +39,9 @@ export type TextAreaProps = PropsBase<TextAreaType> & ITextArea;
 export type SelectProps = PropsBase<SelectType> & ISelect;
 export type CheckProps = PropsBase<CheckType> & ICheck;
 export type NumberProps = PropsBase<NumberType> & INumber;
+export type PasswordProps = PropsBase<PasswordType> & IPassword;
+export type EmailProps = PropsBase<EmailType> & IEmail;
+export type FileProps = PropsBase<FileType> & IFile;
 
 export interface SubmitButtonProps {
   isSubmitting: boolean;

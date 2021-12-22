@@ -18,10 +18,7 @@ export const workspace: WorkspaceConfig = {
       description: 'A lightweight, declarative, type-safe form engine for React apps.',
       keywords: ['typescript', 'react', 'hook', 'form', 'validation'],
       roadmap: [
-        {
-          checked: true,
-          text: 'Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types',
-        },
+        { text: 'Support dynamically hiding and disabling fields' },
         { text: 'Support lists of values' },
         { text: 'Support form layouts (advanced form field container with layout grid)' },
         {

@@ -1,13 +1,5 @@
 import { ReactElement } from 'react';
-import {
-  CheckType,
-  Field,
-  FieldType,
-  NumberType,
-  SelectType,
-  TextAreaType,
-  TextType,
-} from './field';
+import { CheckType, Field, FieldType, FileType, NumberType } from './field';
 import {
   TextProps,
   TextAreaProps,
@@ -16,6 +8,9 @@ import {
   NumberProps,
   SubmitButtonProps,
   FieldContainerProps,
+  PasswordProps,
+  EmailProps,
+  FileProps,
 } from './props';
 
 export type AddFieldPack<T> = T & { fieldPack?: FieldPack };
@@ -30,16 +25,20 @@ export type FieldValue<T extends FieldType> = T extends CheckType
   ? boolean
   : T extends NumberType
   ? number | null
-  : T extends TextType
-  ? string
-  : T extends TextAreaType
-  ? string
-  : T extends SelectType
-  ? string
+  : T extends FileType
+  ? File | null
+  : string | null;
+
+export type RequiredFieldValue<T extends FieldType> = T extends CheckType
+  ? boolean
+  : T extends NumberType
+  ? number
+  : T extends FileType
+  ? File
   : string;
 
-// More crude representation of a field type
-export type FieldValueCrude = string | boolean | number | null | File;
+// Crude representation of a field type (avoid using if possible)
+export type FieldValueCrude = string | boolean | number | File | null;
 
 // From https://medium.com/dailyjs/typescript-create-a-condition-based-subset-types-9d902cea5b8c
 type SubType<Base, Condition> = Pick<
@@ -51,11 +50,9 @@ type SubType<Base, Condition> = Pick<
 
 // Object representing the values in the form
 export type FormValues<T extends Fields> = {
-  [P in keyof T]?: FieldValue<T[P]>;
+  [P in keyof T]: FieldValue<T[P]>;
 } & {
-  [P in keyof SubType<T, { validation: { required: string } } | { type: Field.CHECK }>]: FieldValue<
-    T[P]
-  >;
+  [P in keyof SubType<T, { validation: { required: string } }>]: RequiredFieldValue<T[P]>;
 };
 
 export type FormTouched<T extends Fields> = {
@@ -73,6 +70,9 @@ export interface FieldPack {
   [Field.SELECT]?: (props: SelectProps) => ReactElement;
   [Field.CHECK]?: (props: CheckProps) => ReactElement;
   [Field.NUMBER]?: (props: NumberProps) => ReactElement;
+  [Field.PASSWORD]?: (props: PasswordProps) => ReactElement;
+  [Field.EMAIL]?: (props: EmailProps) => ReactElement;
+  [Field.FILE]?: (props: FileProps) => ReactElement;
   SubmitButton?: (props: SubmitButtonProps) => ReactElement;
   FieldContainer?: (props: FieldContainerProps) => ReactElement;
 }

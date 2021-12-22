@@ -22,7 +22,7 @@ export default function CheckField(props: AddFieldPack<CheckProps>): ReactElemen
               type="checkbox"
               id={props.id}
               name={props.name}
-              value={String(props.value)}
+              checked={props.value}
               disabled={props.disabled}
               onChange={(e) => props.onChange(e.target.checked)}
               onBlur={props.onBlur}

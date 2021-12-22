@@ -33,7 +33,7 @@ export interface Config<T extends Fields> {
   /** Optional, the void function that fires on a form submission event */
   onSubmit?: (
     formValues: FormValues<T>,
-    helpers: { recaptchaToken?: string },
+    formHelpers: { recaptchaToken?: string },
   ) => void | Promise<void>;
 }
 

@@ -1,20 +1,20 @@
 import React, { ReactElement } from 'react';
 import { getFieldStyle } from '../../lib/form';
-import { TextProps } from '../../lib/props';
+import { PasswordProps } from '../../lib/props';
 import { AddFieldPack } from '../../lib/util';
 import FieldContainer from '../helpers/FieldContainer';
 import FieldText from '../helpers/FieldText';
 
-export default function TextField(props: AddFieldPack<TextProps>): ReactElement {
+export default function PasswordField(props: AddFieldPack<PasswordProps>): ReactElement {
   return (
     <FieldContainer fieldPack={props.fieldPack}>
-      {props.fieldPack?.TEXT ? (
-        <props.fieldPack.TEXT {...props} />
+      {props.fieldPack?.PASSWORD ? (
+        <props.fieldPack.PASSWORD {...props} />
       ) : (
         <>
           <label htmlFor={props.id}>{props.label}</label>
           <input
-            type="text"
+            type="password"
             autoComplete="off"
             id={props.id}
             name={props.name}

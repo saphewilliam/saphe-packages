@@ -17,10 +17,13 @@ export default function TextAreaField(props: AddFieldPack<TextAreaProps>): React
             rows={props.rows ?? 6}
             id={props.id}
             name={props.name}
-            value={props.value}
+            value={props.value ?? ''}
             placeholder={props.placeholder}
             disabled={props.disabled}
-            onChange={(e) => props.onChange(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              props.onChange(value !== '' ? value : null);
+            }}
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
             style={getFieldStyle(props.error)}

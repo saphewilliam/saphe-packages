@@ -1,9 +1,12 @@
 import React, { ReactElement } from 'react';
 import {
   CheckType,
+  EmailType,
   Field,
   FieldType,
+  FileType,
   NumberType,
+  PasswordType,
   SelectType,
   TextAreaType,
   TextType,
@@ -11,7 +14,10 @@ import {
 import { PropsBase } from '../lib/props';
 import { AddFieldPack, FieldValue } from '../lib/util';
 import CheckField from './fields/CheckField';
+import EmailField from './fields/EmailField';
+import FileField from './fields/FileField';
 import NumberField from './fields/NumberField';
+import PasswordField from './fields/PasswordField';
 import SelectField from './fields/SelectField';
 import TextAreaField from './fields/TextAreaField';
 import TextField from './fields/TextField';
@@ -35,13 +41,18 @@ export default function FieldSwitch<T extends FieldType>(props: Props<T>): React
       .replace(/^./, (match) => match.toUpperCase())
       .trim();
 
-  const baseProps: PropsBase<T> = {
-    ...props,
+  const baseProps: AddFieldPack<PropsBase<T>> = {
     id,
     label,
     description: props.field.description ?? '',
     describedBy: `${id}Description`,
     disabled: false, // TODO make this variable
+    name: props.name,
+    value: props.value,
+    error: props.error,
+    onChange: props.onChange,
+    onBlur: props.onBlur,
+    fieldPack: props.fieldPack,
   };
 
   switch (props.field.type) {
@@ -55,5 +66,11 @@ export default function FieldSwitch<T extends FieldType>(props: Props<T>): React
       return <CheckField {...(baseProps as PropsBase<CheckType>)} {...props.field} />;
     case Field.NUMBER:
       return <NumberField {...(baseProps as PropsBase<NumberType>)} {...props.field} />;
+    case Field.PASSWORD:
+      return <PasswordField {...(baseProps as PropsBase<PasswordType>)} {...props.field} />;
+    case Field.EMAIL:
+      return <EmailField {...(baseProps as PropsBase<EmailType>)} {...props.field} />;
+    case Field.FILE:
+      return <FileField {...(baseProps as PropsBase<FileType>)} {...props.field} />;
   }
 }

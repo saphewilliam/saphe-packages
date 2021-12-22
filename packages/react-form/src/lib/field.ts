@@ -5,6 +5,8 @@ import {
   BooleanValidation,
   SelectValidation,
   ValidationType,
+  EmailValidation,
+  FileValidation,
 } from './validation';
 
 // Used by the consumer to declare the field type
@@ -14,16 +16,16 @@ export enum Field {
   SELECT = 'SELECT',
   CHECK = 'CHECK',
   NUMBER = 'NUMBER',
+  PASSWORD = 'PASSWORD',
+  EMAIL = 'EMAIL',
+  FILE = 'FILE',
 
-  // FILE = "FILE",
   // RADIO = "RADIO",
   // DATE = "DATE",
   // DATETIME = "DATETIME",
   // TIME = "TIME",
   // RANGE = "RANGE",
   // RATING = "RATING",
-  // EMAIL = "EMAIL",
-  // PASSWORD = "PASSWORD",
   // NEW_PASSWORD = "NEW_PASSWORD",
   // PHONE = "PHONE",
   // COLOR = "COLOR",
@@ -53,6 +55,17 @@ export interface INumber {
   placeholder?: string;
 }
 
+export interface IPassword {
+  placeholder?: string;
+}
+
+export interface IEmail {
+  placeholder?: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IFile {}
+
 // Types used by the consumer to declare fields
 interface FieldBase<
   Type extends Field,
@@ -66,10 +79,21 @@ interface FieldBase<
   validation?: Validation;
 }
 
-export type FieldType = TextType | TextAreaType | SelectType | CheckType | NumberType;
+export type FieldType =
+  | TextType
+  | TextAreaType
+  | SelectType
+  | CheckType
+  | NumberType
+  | PasswordType
+  | EmailType
+  | FileType;
 
 export type TextType = FieldBase<Field.TEXT, string, StringValidation> & IText;
 export type TextAreaType = FieldBase<Field.TEXT_AREA, string, StringValidation> & ITextArea;
 export type SelectType = FieldBase<Field.SELECT, string, SelectValidation> & ISelect;
 export type CheckType = FieldBase<Field.CHECK, boolean, BooleanValidation> & ICheck;
-export type NumberType = FieldBase<Field.NUMBER, number | null, NumberValidation> & INumber;
+export type NumberType = FieldBase<Field.NUMBER, number, NumberValidation> & INumber;
+export type PasswordType = FieldBase<Field.PASSWORD, string, StringValidation> & IPassword;
+export type EmailType = FieldBase<Field.EMAIL, string, EmailValidation> & IPassword;
+export type FileType = FieldBase<Field.FILE, File, FileValidation> & IFile;
