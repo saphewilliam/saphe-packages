@@ -7,17 +7,17 @@
 [![MIT License](https://img.shields.io/npm/l/@saphe/react-form.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://reactjs.org/docs/how-to-contribute.html#your-first-pull-request)
 
-A package ecosystem dedicated to improve developer experience and type-safety in React apps.
+A package ecosystem dedicated to improving developer experience and type-safety in React apps.
 
 ## Packages
 
-<!-- BEGIN AUTO-GENERATED PACKAGE TABLE -->
+<!-- BEGIN AUTO-GENERATED PACKAGES TABLE -->
 name|version|description
 -|-|-
 `@saphe/react-form`|[![npm version](https://img.shields.io/npm/v/@saphe/react-form.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-form)|A lightweight, declarative, type-safe form engine for React apps.
 `@saphe/react-form-fields-bootstrap`|[![npm version](https://img.shields.io/npm/v/@saphe/react-form-fields-bootstrap.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-form-fields-bootstrap)|Officially maintained Bootstrap-style form fields pack for @saphe/react-form
 `@saphe/react-table`|[![npm version](https://img.shields.io/npm/v/@saphe/react-table.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-table)|A lightweight, declarative, type-safe table engine for React apps.
-<!-- END AUTO-GENERATED PACKAGE TABLE -->
+<!-- END AUTO-GENERATED PACKAGES TABLE -->
 
 ## Contributing
 

@@ -1,3 +1,11 @@
+---
+name: Feature request
+about: Suggest an idea for a package
+title: ''
+labels: type/feature
+assignees: ''
+---
+
 # Feature Request 🚀
 
 **Is your feature request related to a problem? Please describe.**

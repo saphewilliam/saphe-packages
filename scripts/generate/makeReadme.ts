@@ -87,8 +87,8 @@ export function makeReadme(p: PackageConfig): void {
 
 export function makeRootReadme(): void {
   const path = join(process.cwd(), 'README.md');
-  const start = '<!-- BEGIN AUTO-GENERATED PACKAGE TABLE -->';
-  const end = '<!-- END AUTO-GENERATED PACKAGE TABLE -->';
+  const start = '<!-- BEGIN AUTO-GENERATED PACKAGES TABLE -->';
+  const end = '<!-- END AUTO-GENERATED PACKAGES TABLE -->';
 
   const content = readFileSync(path, { encoding: 'utf-8' });
   const startContent = content.substr(0, content.indexOf(start) + start.length);

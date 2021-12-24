@@ -1,9 +1,17 @@
+---
+name: Bug report
+about: Create a bug report to help improve a package
+title: ''
+labels: type/bug
+assignees: ''
+---
+
 # Bug Report 🐛
 
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+**To reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
@@ -16,7 +24,7 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**What device are you on?**
+**What device / platform are you on?**
 
 **Additional context**
 Add any other context about the problem here.
