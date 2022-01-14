@@ -23,6 +23,7 @@ A lightweight, declarative, type-safe form engine for React apps.
 - [ ] Support form layouts (advanced form field container with layout grid)
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 - [ ] Support localization out of the box
+- [ ] Support defining custom field types
 - [ ] Create supported field packs:
   - [x] Bootstrap 5
   - [ ] TailwindCSS

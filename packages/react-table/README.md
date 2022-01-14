@@ -162,6 +162,8 @@ To enable pagination in your table, pass a number to the `pageSize` option throu
 interface PaginationHelpers {
   /** Current page number (between 0 and `pageAmount - 1`) */
   page: number;
+  /** Maximum size of the pages */
+  pageSize: number;
   /** Amount of pages */
   pageAmount: number;
   /** Utility function to set the current page if possible */

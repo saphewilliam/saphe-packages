@@ -25,6 +25,7 @@ export const workspace: WorkspaceConfig = {
           text: 'Field modifiers (transform a string to uppercase or round a number (floor or ceil))',
         },
         { text: 'Support localization out of the box' },
+        { text: 'Support defining custom field types' },
         { text: 'Create supported field packs:' },
         { checked: true, level: 1, text: 'Bootstrap 5' },
         { checked: false, level: 1, text: 'TailwindCSS' },
