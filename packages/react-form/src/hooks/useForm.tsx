@@ -145,6 +145,7 @@ export default function useForm<T extends Fields>(config: Config<T>): State {
     submitButton: (
       <SubmitButton
         {...submitButtonProps}
+        key={`${name}SubmitButton`}
         onClick={handleSubmit as never as SubmitButtonProps['onClick']}
       />
     ),
