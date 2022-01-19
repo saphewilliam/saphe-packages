@@ -105,13 +105,13 @@ export default function useSearch<T extends ColumnTypes>(
         if (match === -1) return [{ value: query, highlighted: false }];
         else
           return [
-            { value: query.substr(0, match), highlighted: false },
+            { value: query.substring(0, match), highlighted: false },
             {
-              value: query.substr(match, searchString.length),
+              value: query.substring(match, match + searchString.length),
               highlighted: true,
             },
             {
-              value: query.substr(match + searchString.length),
+              value: query.substring(match + searchString.length),
               highlighted: false,
             },
           ];
