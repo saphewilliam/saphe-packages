@@ -4,7 +4,21 @@ import { matchSnapshot } from './testHelpers';
 
 describe('Submit Button', () => {
   it('renders', () => {
-    matchSnapshot(<SubmitButton isSubmitting={false} />);
-    matchSnapshot(<SubmitButton isSubmitting={true} />);
+    matchSnapshot(
+      <SubmitButton
+        isSubmitting={false}
+        disabled={false}
+        label="Submit"
+        submittingLabel="Submitting..."
+      />,
+    );
+    matchSnapshot(
+      <SubmitButton
+        isSubmitting={true}
+        disabled={false}
+        label="Submit"
+        submittingLabel="Submitting..."
+      />,
+    );
   });
 });

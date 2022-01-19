@@ -13,7 +13,7 @@ export default function BSTextField(props: Props.TextProps): ReactElement {
         className={`form-control${props.error ? ' is-invalid' : ''}`}
         id={props.id}
         name={props.name}
-        value={props.value}
+        value={props.value ?? ''}
         placeholder={props.placeholder}
         disabled={props.disabled}
         onChange={(e) => props.onChange(e.target.value)}

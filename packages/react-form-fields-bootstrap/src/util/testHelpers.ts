@@ -1,16 +1,11 @@
-import useForm, { Field } from '@saphe/react-form';
+import useForm, { Field, State } from '@saphe/react-form';
 import { renderHook } from '@testing-library/react-hooks';
 import { ReactElement } from 'react';
 import { BootstrapFieldPack } from '..';
 
-interface FormState {
-  Form: () => ReactElement;
-}
+export const renderForm = (hook: () => State): ReactElement => renderHook(hook).result.current.form;
 
-export const renderForm = (hook: () => FormState): (() => ReactElement) =>
-  renderHook(hook).result.current.Form;
-
-export const minimalTextFieldForm = (props?: { description?: string }): FormState =>
+export const minimalTextFieldForm = (props?: { description?: string }): State =>
   useForm({
     name: 'minimalTextFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -26,7 +21,7 @@ export const minimalTextFieldForm = (props?: { description?: string }): FormStat
     },
   });
 
-export const minimalTextAreaFieldForm = (props?: { description?: string }): FormState =>
+export const minimalTextAreaFieldForm = (props?: { description?: string }): State =>
   useForm({
     name: 'minimalTextAreaFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -39,7 +34,7 @@ export const minimalTextAreaFieldForm = (props?: { description?: string }): Form
     },
   });
 
-export const minimalSelectFieldForm = (props?: { description?: string }): FormState =>
+export const minimalSelectFieldForm = (props?: { description?: string }): State =>
   useForm({
     name: 'minimalSelectFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -62,7 +57,7 @@ export const minimalSelectFieldForm = (props?: { description?: string }): FormSt
     },
   });
 
-export const minimalCheckFieldForm = (props?: { description?: string }): FormState =>
+export const minimalCheckFieldForm = (props?: { description?: string }): State =>
   useForm({
     name: 'minimalCheckFieldForm',
     fieldPack: BootstrapFieldPack,
@@ -75,7 +70,7 @@ export const minimalCheckFieldForm = (props?: { description?: string }): FormSta
     },
   });
 
-export const minimalNumberFieldForm = (props?: { description?: string }): FormState =>
+export const minimalNumberFieldForm = (props?: { description?: string }): State =>
   useForm({
     name: 'minimalNumberFieldForm',
     fieldPack: BootstrapFieldPack,
