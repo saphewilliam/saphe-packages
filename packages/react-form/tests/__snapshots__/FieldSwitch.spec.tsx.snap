@@ -20,6 +20,7 @@ exports[`Field renders a check field correctly 1`] = `
   >
     <input
       aria-describedby="formNameFieldNameDescription"
+      checked={false}
       disabled={false}
       id="formNameFieldName"
       name="fieldName"
@@ -36,7 +37,6 @@ exports[`Field renders a check field correctly 1`] = `
         }
       }
       type="checkbox"
-      value="false"
     />
     <label
       htmlFor="formNameFieldName"
@@ -69,6 +69,7 @@ exports[`Field renders a check field correctly 2`] = `
   >
     <input
       aria-describedby="formNameFieldNameDescription"
+      checked={false}
       disabled={false}
       id="formNameFieldName"
       name="fieldName"
@@ -85,7 +86,6 @@ exports[`Field renders a check field correctly 2`] = `
         }
       }
       type="checkbox"
-      value="false"
     />
     <label
       htmlFor="formNameFieldName"
@@ -457,6 +457,7 @@ exports[`Field renders a text field correctly 1`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    autoComplete="off"
     disabled={false}
     id="formNameFieldName"
     name="fieldName"
@@ -496,6 +497,7 @@ exports[`Field renders a text field correctly 2`] = `
   </label>
   <input
     aria-describedby="formNameFieldNameDescription"
+    autoComplete="off"
     disabled={false}
     id="formNameFieldName"
     name="fieldName"

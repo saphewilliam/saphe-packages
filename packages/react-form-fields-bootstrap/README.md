@@ -17,13 +17,13 @@ Officially maintained Bootstrap-style form fields pack for @saphe/react-form
 Install using yarn:
 
 ```sh
-yarn add @saphe/react-form-fields-bootstrap
+yarn add @saphe/react-form-fields-bootstrap bootstrap
 ```
 
 or using npm:
 
 ```sh
-npm install @saphe/react-form-fields-bootstrap
+npm install @saphe/react-form-fields-bootstrap bootstrap
 ```
 
 <!-- END AUTO-GENERATED: Add custom documentation after this comment -->

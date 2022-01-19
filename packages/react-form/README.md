@@ -18,11 +18,12 @@ A lightweight, declarative, type-safe form engine for React apps.
 
 ## Roadmap
 
-- [x] Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types
+- [ ] Support dynamically hiding and disabling fields
 - [ ] Support lists of values
 - [ ] Support form layouts (advanced form field container with layout grid)
 - [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
 - [ ] Support localization out of the box
+- [ ] Support defining custom field types
 - [ ] Create supported field packs:
   - [x] Bootstrap 5
   - [ ] TailwindCSS
@@ -54,16 +55,16 @@ npm install @saphe/react-form
 - SELECT
 - CHECK
 - NUMBER
+- FILE
+- EMAIL
+- PASSWORD
 - More to come...
-  - FILE
   - RADIO
   - DATE
   - DATETIME
   - TIME
   - RANGE
   - RATING
-  - EMAIL
-  - PASSWORD
   - PHONE
   - COLOR
   - CRSF
@@ -71,12 +72,12 @@ npm install @saphe/react-form
 
 ### Validation Modes
 
-Mode|Behavior
--|-
-`ValidationModes.AFTER_BLUR` **(default)**|Don't validate a field until it has been blurred once, then validate it on change
-`ValidationModes.ON_CHANGE`|Validate a field with every change
-`ValidationModes.ON_BLUR`|Only validate the field once a user is done typing
-`ValidationModes.ON_SUBMIT`|The field will only validate in the event of a form submission
+| Mode                                       | Behavior                                                                          |
+| ------------------------------------------ | --------------------------------------------------------------------------------- |
+| `ValidationModes.AFTER_BLUR` **(default)** | Don't validate a field until it has been blurred once, then validate it on change |
+| `ValidationModes.ON_CHANGE`                | Validate a field with every change                                                |
+| `ValidationModes.ON_BLUR`                  | Only validate the field once a user is done typing                                |
+| `ValidationModes.ON_SUBMIT`                | The field will only validate in the event of a form submission                    |
 
 You can assign a global validation mode by assigning it to the config object suppied to `useForm`. You can also assign field-specific validation modes by assigning them to the field config. The local validation modes take presidence over the global ones.
 
@@ -96,12 +97,12 @@ const form = useForm({
 ```
 
 ### Kitchen Sink
+
 ```ts
 import useForm, { Field, ValidationMode } from '@saphe/react-form';
 import BootstrapFieldPack from '@saphe/react-form-fields-bootstrap';
 
 const { Form } = useForm({
-
   /** Required, the name of this form. Necessary for the use of IDs */
   name: 'contactForm',
 

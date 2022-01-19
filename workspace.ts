@@ -18,16 +18,14 @@ export const workspace: WorkspaceConfig = {
       description: 'A lightweight, declarative, type-safe form engine for React apps.',
       keywords: ['typescript', 'react', 'hook', 'form', 'validation'],
       roadmap: [
-        {
-          checked: true,
-          text: 'Eliminate native change and blur events in favor of minimalized custom ones so all intermediate values can be native types',
-        },
+        { text: 'Support dynamically hiding and disabling fields' },
         { text: 'Support lists of values' },
         { text: 'Support form layouts (advanced form field container with layout grid)' },
         {
           text: 'Field modifiers (transform a string to uppercase or round a number (floor or ceil))',
         },
         { text: 'Support localization out of the box' },
+        { text: 'Support defining custom field types' },
         { text: 'Create supported field packs:' },
         { checked: true, level: 1, text: 'Bootstrap 5' },
         { checked: false, level: 1, text: 'TailwindCSS' },
@@ -40,6 +38,7 @@ export const workspace: WorkspaceConfig = {
       description: 'Officially maintained Bootstrap-style form fields pack for @saphe/react-form',
       keywords: ['typescript', 'react', 'form', 'bootstrap'],
       internalDependencies: ['react-form'],
+      peerDependencies: ['bootstrap'],
     },
     {
       name: 'react-table',

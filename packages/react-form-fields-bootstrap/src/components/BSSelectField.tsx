@@ -15,7 +15,7 @@ export default function BSSelectField(props: Props.SelectProps): ReactElement {
         className={`form-select${props.error ? ' is-invalid' : ''}`}
         id={props.id}
         name={props.name}
-        value={props.value}
+        value={props.value ?? ''}
         disabled={props.disabled}
         onChange={(e) => props.onChange(e.target.value)}
         onBlur={props.onBlur}

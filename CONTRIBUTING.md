@@ -6,7 +6,7 @@ Contributing to the project can be done in multiple ways:
 
 - Reporting bugs or other issues
 - Proposing new features
-- Implementing bugfixes or features
+- Implementing bug fixes or features
 
 ## Reporting Bugs or Feature Requests
 
@@ -16,10 +16,9 @@ To report a bug, issue, enhancement, or feature request, [submit an issue to thi
 
 1. Fork the repo and clone it
 2. Create a branch from `main` with the naming convention `(feature|bugfix|enhancement)/descriptive-branch-name` (e.g. feature/add-upload-field)
-3. In the root directory (at the same directory level as this contributing guide), run `yarn`
+3. In the root directory (at the same directory level as this contributing guide), run `yarn` and `yarn build`
 
-// TODO
-4. `yarn link`
+// TODO 4. `yarn link`
 
 5. Run `yarn change` for each change that you make that should be added to the changelog
 6. When you're done implementing your code, make sure that `yarn lint`, `yarn build` and `yarn test` pass without warnings or errors.

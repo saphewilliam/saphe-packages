@@ -81,6 +81,7 @@ export default function useTable<T extends ColumnTypes>(
     },
     paginationHelpers: {
       page,
+      pageSize: optionsMemo?.pageSize ?? searchResultCount,
       pageAmount,
       setPage,
       setFirstPage: () => setPage(0),

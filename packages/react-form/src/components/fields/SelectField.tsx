@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react';
-import { getFieldStyle } from '../../utils/formHelpers';
-import { AddFieldPack } from '../../utils/helperTypes';
-import { SelectProps } from '../../utils/propTypes';
+import { getFieldStyle } from '../../lib/form';
+import { SelectProps } from '../../lib/props';
+import { AddFieldPack } from '../../lib/util';
+import FieldContainer from '../helpers/FieldContainer';
 import FieldText from '../helpers/FieldText';
-import FormFieldContainer from '../helpers/FormFieldContainer';
 
 export default function SelectField(props: AddFieldPack<SelectProps>): ReactElement {
   return (
-    <FormFieldContainer fieldPack={props.fieldPack}>
+    <FieldContainer fieldPack={props.fieldPack}>
       {props.fieldPack?.SELECT ? (
         <props.fieldPack.SELECT {...props} />
       ) : (
@@ -16,9 +16,12 @@ export default function SelectField(props: AddFieldPack<SelectProps>): ReactElem
           <select
             id={props.id}
             name={props.name}
-            value={props.value}
+            value={props.value ?? ''}
             disabled={props.disabled}
-            onChange={(e) => props.onChange(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              props.onChange(value !== '' ? value : null);
+            }}
             onBlur={props.onBlur}
             aria-describedby={props.describedBy}
             style={getFieldStyle(props.error)}
@@ -28,13 +31,13 @@ export default function SelectField(props: AddFieldPack<SelectProps>): ReactElem
             </option>
             {props.options.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {option.label ?? option.value}
               </option>
             ))}
           </select>
           <FieldText {...props} />
         </>
       )}
-    </FormFieldContainer>
+    </FieldContainer>
   );
 }

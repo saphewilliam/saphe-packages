@@ -103,6 +103,8 @@ export interface VisibilityHelpers {
 export interface PaginationHelpers {
   /** Current page number (between 0 and `pageAmount - 1`) */
   page: number;
+  /** Maximum size of the pages */
+  pageSize: number;
   /** Amount of pages */
   pageAmount: number;
   /** Utility function to set the current page if possible */
@@ -137,7 +139,7 @@ export interface Header extends RenderHeadProps {
 }
 
 /** Original headers, used for external data manipulation */
-export interface OriginalHeader extends RenderHeadProps {}
+export type OriginalHeader = RenderHeadProps;
 
 /** Processed rows, used for displaying in the table */
 export interface Row<T extends ColumnTypes> {
