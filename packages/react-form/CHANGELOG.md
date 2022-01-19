@@ -1,5 +1,16 @@
 # @saphe/react-forms
 
+## 0.6.0
+
+### Minor Changes
+
+- a4e69c9: Fix internal state representation issues (BREAKING)
+- a4e69c9: Added submit button options
+- 96d9bff: Added Password, Email and File type fields
+- 96d9bff: Improved null handling (BREAKING)
+- f77ee4e: Code cleanup + Rename FormFieldContainer to `FieldContainer` (BREAKING!)
+- a4e69c9: Expose separate submit button for external use
+
 ## 0.5.0
 
 ### Minor Changes

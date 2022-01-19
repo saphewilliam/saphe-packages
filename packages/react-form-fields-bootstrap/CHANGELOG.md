@@ -1,5 +1,21 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.3.0
+
+### Minor Changes
+
+- f77ee4e: Rename FormFieldContainer to FieldContainer
+
+### Patch Changes
+
+- Updated dependencies [a4e69c9]
+- Updated dependencies [a4e69c9]
+- Updated dependencies [96d9bff]
+- Updated dependencies [96d9bff]
+- Updated dependencies [f77ee4e]
+- Updated dependencies [a4e69c9]
+  - @saphe/react-form@0.6.0
+
 ## 0.2.0
 
 ### Minor Changes
