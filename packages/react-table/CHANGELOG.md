@@ -1,5 +1,12 @@
 # @saphe/react-table
 
+## 0.5.1
+
+### Patch Changes
+
+- 9bed656: Expose pageSize through paginationHelpers
+- d0fb82c: [Bugfix] Don't replace null by undefined if there is no default value
+
 ## 0.5.0
 
 ### Minor Changes
