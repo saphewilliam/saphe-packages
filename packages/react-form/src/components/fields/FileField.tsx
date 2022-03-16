@@ -5,6 +5,17 @@ import { AddFieldPack } from '../../lib/util';
 import FieldContainer from '../helpers/FieldContainer';
 import FieldText from '../helpers/FieldText';
 
+function getFieldText(value: File | File[] | null): string {
+  if (value) {
+    if (Array.isArray(value)) {
+      if (value.length === 0) return 'No files chosen';
+      return value.map((file) => file.name).join(', ');
+    }
+    return value.name;
+  }
+  return 'No file chosen';
+}
+
 export default function FileField(props: AddFieldPack<FileProps>): ReactElement {
   return (
     <FieldContainer fieldPack={props.fieldPack}>
@@ -14,7 +25,7 @@ export default function FileField(props: AddFieldPack<FileProps>): ReactElement 
         <>
           <label htmlFor={props.id}>{props.label}</label>
           <label style={{ cursor: 'pointer', ...getFieldStyle(props.error) }}>
-            <span>{props.value?.name ?? 'No file chosen'}</span>
+            <span>{getFieldText(props.value)}</span>
             <input
               type="file"
               id={props.id}
@@ -24,8 +35,14 @@ export default function FileField(props: AddFieldPack<FileProps>): ReactElement 
               // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#limiting_accepted_file_types
               // accept="image/png, image/jpeg"
               // accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              // multiple={false}
-              onChange={(e) => props.onChange(e.target.files?.item(0) ?? null)}
+              multiple={props.multiple}
+              onChange={(e) =>
+                props.onChange(
+                  props.multiple
+                    ? Array.from(e.target.files ?? [])
+                    : e.target.files?.item(0) ?? null,
+                )
+              }
               onBlur={props.onBlur}
               aria-describedby={props.describedBy}
               style={{

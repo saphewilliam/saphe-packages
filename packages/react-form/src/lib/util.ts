@@ -13,6 +13,17 @@ import {
   FileProps,
 } from './props';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function stringify(source: any): string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jsonReplacer = function (_: string, val: any) {
+    if (typeof val === 'function') return val.toString();
+    return val;
+  };
+
+  return JSON.stringify(source, jsonReplacer);
+}
+
 export type AddFieldPack<T> = T & { fieldPack?: FieldPack };
 
 // Used by the consumer to declare a set of fields
@@ -22,6 +33,14 @@ export interface Fields {
 
 // Find the field value of a field type
 export type FieldValue<T extends FieldType> = T extends CheckType
+  ? boolean
+  : T extends NumberType
+  ? number | null
+  : T extends FileType
+  ? File | File[] | null
+  : string | null;
+
+export type OptionalFieldValue<T extends FieldType> = T extends CheckType
   ? boolean
   : T extends NumberType
   ? number | null
@@ -38,7 +57,7 @@ export type RequiredFieldValue<T extends FieldType> = T extends CheckType
   : string;
 
 // Crude representation of a field type (avoid using if possible)
-export type FieldValueCrude = string | boolean | number | File | null;
+export type FieldValueCrude = string | boolean | number | File | File[] | null;
 
 // From https://medium.com/dailyjs/typescript-create-a-condition-based-subset-types-9d902cea5b8c
 type SubType<Base, Condition> = Pick<
@@ -49,10 +68,15 @@ type SubType<Base, Condition> = Pick<
 >;
 
 // Object representing the values in the form
-export type FormValues<T extends Fields> = {
-  [P in keyof T]: FieldValue<T[P]>;
-} & {
-  [P in keyof SubType<T, { validation: { required: string } }>]: RequiredFieldValue<T[P]>;
+export type FormValues<T extends Fields> = Omit<
+  {
+    [P in keyof T]: OptionalFieldValue<T[P]>;
+  } & {
+    [P in keyof SubType<T, { validation: { required: string } }>]: RequiredFieldValue<T[P]>;
+  },
+  keyof SubType<T, { multiple: boolean }>
+> & {
+  [P in keyof SubType<T, { multiple: boolean }>]: RequiredFieldValue<T[P]>[];
 };
 
 export type FormTouched<T extends Fields> = {

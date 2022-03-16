@@ -10,12 +10,10 @@ export const getFieldStyle = (error: string): Record<string, string> => ({
 });
 
 export function getDefaultFieldValue<T extends FieldType>(field: T): FieldValue<T> {
-  switch (field.type) {
-    case Field.CHECK:
-      return false as FieldValue<T>;
-    default:
-      return null as FieldValue<T>;
-  }
+  // TODO remove multiple in field
+  if ('multiple' in field && field.multiple) return [] as unknown as FieldValue<T>;
+  if (field.type === Field.CHECK) return false as FieldValue<T>;
+  return null as FieldValue<T>;
 }
 
 export function getInitialFormTouchedState<T extends Fields>(

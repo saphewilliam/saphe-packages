@@ -65,7 +65,10 @@ export function validateField<T extends FieldType>(
   if (field === undefined || value === undefined || !field.validation) return '';
 
   // Required check
-  if (field.validation.required && value === getDefaultFieldValue(field))
+  if (
+    field.validation.required &&
+    JSON.stringify(value) === JSON.stringify(getDefaultFieldValue(field))
+  )
     return field.validation.required;
 
   // Type-specific checks
@@ -86,17 +89,34 @@ export function validateField<T extends FieldType>(
       error = ValidateEmailField(value as string, field.validation as EmailValidation);
       break;
     case Field.FILE:
-      error = ValidateFileField(value as File, field.validation as FileValidation);
+      {
+        if ('multiple' in field && field.multiple && Array.isArray(value)) {
+          for (let i = 0; i < value.length; i++) {
+            error = ValidateFileField(value[i] as File, field.validation as FileValidation);
+            if (error) break;
+          }
+        } else error = ValidateFileField(value as File, field.validation as FileValidation);
+      }
       break;
   }
   if (error) return error;
 
   // Finally, run the custom validate function
   if (field.validation.validate) {
-    // FIXME Why is value being evaluated to never?
-    Promise.resolve(field.validation.validate(value as never))
-      .then((e) => (error = e))
-      .catch((e) => (error = e));
+    if ('multiple' in field && Array.isArray(value) && field.multiple) {
+      for (let i = 0; i < value.length; i++) {
+        // FIXME Why is value being evaluated to never?
+        Promise.resolve(field.validation.validate(value[i] as never))
+          .then((e) => (error = e))
+          .catch((e) => (error = e));
+        if (error) return error;
+      }
+    } else {
+      // FIXME Why is value being evaluated to never?
+      Promise.resolve(field.validation.validate(value as never))
+        .then((e) => (error = e))
+        .catch((e) => (error = e));
+    }
   }
 
   return error;

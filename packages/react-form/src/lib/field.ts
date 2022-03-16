@@ -64,7 +64,9 @@ export interface IEmail {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IFile {}
+export interface IFile {
+  multiple?: boolean;
+}
 
 // Types used by the consumer to declare fields
 interface FieldBase<
@@ -77,6 +79,8 @@ interface FieldBase<
   description?: string;
   initialValue?: Value;
   validation?: Validation;
+  // TODO
+  // fieldState?: FieldState | ((formState) => FieldState);
 }
 
 export type FieldType =
