@@ -1,5 +1,12 @@
 # @saphe/react-forms
 
+## 0.6.1
+
+### Patch Changes
+
+- 071bcb8: Rewrite of form hook using useReducer
+- 071bcb8: Support for multiple files in file field (experimental)
+
 ## 0.6.0
 
 ### Minor Changes

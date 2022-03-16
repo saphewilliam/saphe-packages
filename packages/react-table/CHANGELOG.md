@@ -1,5 +1,11 @@
 # @saphe/react-table
 
+## 0.6.0
+
+### Minor Changes
+
+- d514262: Minor api improvements (BREAKING!)
+
 ## 0.5.1
 
 ### Patch Changes
