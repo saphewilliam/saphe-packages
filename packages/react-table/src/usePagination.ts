@@ -14,7 +14,7 @@ export default function usePagination<T extends ColumnTypes>(
   paginationOptions?: Options<T>['pagination'],
 ): PaginationState<T> {
   const [page, setPage] = useState(0);
-  const { pageSize } = paginationOptions ?? { pageSize: undefined };
+  const { pageSize } = paginationOptions ?? {};
 
   const pageAmount = useMemo(
     () => (pageSize === undefined || data.length === 0 ? 1 : Math.ceil(data.length / pageSize)),
