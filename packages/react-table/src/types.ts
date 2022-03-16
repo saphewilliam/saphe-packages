@@ -68,8 +68,11 @@ export interface Column<T extends ColumnTypes, U = Any> {
 
 /** User input object for options configuration */
 export interface Options<T extends ColumnTypes> {
-  /** Optional: enable pagination with `n` size pages*/
-  pageSize?: number;
+  /** Optional: settings for the table pagination module */
+  pagination?: {
+    /** Optional: enable pagination with `n` size pages*/
+    pageSize?: number;
+  };
   /** Optional: settings for the table search module */
   search?: {
     /** Optional (default = `SearchMode.FUZZY`): the text matching algorithm used to search the table */
@@ -81,6 +84,8 @@ export interface Options<T extends ColumnTypes> {
   sort?: {
     /** Optional (default = `[SortOrder.ASC, SortOrder.DESC, SortOrder.UNSORTED]`): the order in which SortOrders appear through `toggleSort` */
     order?: SortOrder[];
+    /** Optional: set the initial sorting state of the table */
+    initial?: { column: keyof T; order: SortOrder };
   };
   /** Optional: set default styling for the table elements */
   style?: {

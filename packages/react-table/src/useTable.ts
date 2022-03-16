@@ -11,12 +11,12 @@ import { makeHeaders, makeOriginalRows, makeRows } from './util';
 
 export default function useTable<T extends ColumnTypes>(
   columns: Columns<T>,
-  data: Data<T>,
+  data?: Data<T>,
   options?: Options<T>,
 ): State<T> {
   const columnsMemo = useIntermediateMemo(columns);
-  const dataMemo = useIntermediateMemo(data);
-  const optionsMemo = useIntermediateMemo(options);
+  const dataMemo = useIntermediateMemo(data ?? []);
+  const optionsMemo = useIntermediateMemo(options ?? {});
 
   // Calculate which columns should be visible
   const { visibility, setVisibility, setAllVisibility } = useVisibility(columnsMemo);
@@ -33,7 +33,7 @@ export default function useTable<T extends ColumnTypes>(
     defaultValuesData,
     visibility,
     columnType,
-    optionsMemo,
+    optionsMemo.search,
   );
 
   // Sort the searched data
@@ -41,18 +41,18 @@ export default function useTable<T extends ColumnTypes>(
     columnsMemo,
     searchedData,
     columnType,
-    optionsMemo,
+    optionsMemo.sort,
   );
 
   // Paginate the searched, sorted data
   const { paginatedData, page, pageAmount, setPage } = usePagination(
     sortedData,
-    optionsMemo?.pageSize,
+    optionsMemo.pagination,
   );
 
   // Set page to 0 if sorted data updates
   useEffect(() => {
-    if (optionsMemo?.pageSize !== undefined) setPage(0);
+    if (optionsMemo.pagination?.pageSize !== undefined) setPage(0);
   }, [sortedData, optionsMemo, setPage]);
 
   const { headers, originalHeaders } = useMemo(
@@ -81,7 +81,7 @@ export default function useTable<T extends ColumnTypes>(
     },
     paginationHelpers: {
       page,
-      pageSize: optionsMemo?.pageSize ?? searchResultCount,
+      pageSize: optionsMemo.pagination?.pageSize ?? searchResultCount,
       pageAmount,
       setPage,
       setFirstPage: () => setPage(0),

@@ -3,7 +3,7 @@ import useTable, { Data, Columns, State, SortOrder } from '../src';
 
 export const hello = 'test';
 
-interface SortTableData {
+interface SortTableColumns {
   stringCol: string;
   numberCol: number;
   boolCol: boolean;
@@ -12,7 +12,7 @@ interface SortTableData {
   complexCol: { key1: number; key2: string };
 }
 
-const columns: Columns<SortTableData> = {
+const columns: Columns<SortTableColumns> = {
   stringCol: {},
   numberCol: {},
   boolCol: {},
@@ -21,7 +21,7 @@ const columns: Columns<SortTableData> = {
   optionalCol: {},
 };
 
-const data: Data<SortTableData> = [
+const data: Data<SortTableColumns> = [
   {
     stringCol: 'English',
     numberCol: 10,
@@ -46,7 +46,7 @@ const data: Data<SortTableData> = [
 ];
 
 function expectDefaultSort<T>(
-  result: RenderResult<State<SortTableData>>,
+  result: RenderResult<State<SortTableColumns>>,
   colId: number,
   sequence: T[],
 ): void {
@@ -71,7 +71,7 @@ function expectDefaultSort<T>(
 
 describe('Sort', () => {
   it('sorts rows by column', () => {
-    const { result } = renderHook(() => useTable<SortTableData>(columns, data));
+    const { result } = renderHook(() => useTable<SortTableColumns>(columns, data));
     expectDefaultSort(result, 0, ['English', 'Dutch', 'Spanish']);
     expectDefaultSort(result, 1, [10, 10, 31]);
     expectDefaultSort(result, 2, [true, false, true]);
@@ -86,5 +86,14 @@ describe('Sort', () => {
       { key1: 1, key2: 'sleutel 2' },
     ]);
     expectDefaultSort(result, 5, [undefined, undefined, undefined]);
+  });
+
+  it('sorts data initially', () => {
+    const { result } = renderHook(() =>
+      useTable<SortTableColumns>(columns, data, {
+        sort: { initial: { column: 'stringCol', order: SortOrder.ASC } },
+      }),
+    );
+    expect(result.current.rows[0]?.cells[0]?.stringValue).toBe('Dutch');
   });
 });

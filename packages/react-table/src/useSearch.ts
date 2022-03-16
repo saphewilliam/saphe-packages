@@ -90,7 +90,7 @@ export default function useSearch<T extends ColumnTypes>(
   data: Data<T>,
   visibility: Visibility<T>,
   columnType: ColumnType<T>,
-  options?: Options<T>,
+  searchOptions?: Options<T>['search'],
 ): SearchState<T> {
   const [searchString, setSearchString] = useState('');
   const [searchedData, setSearchedData] = useState(data);
@@ -100,7 +100,7 @@ export default function useSearch<T extends ColumnTypes>(
   const highlight: HighlightFunc = useCallback(
     (query: string) => {
       if (searchString === '') return [{ value: query, highlighted: false }];
-      else if (options?.search?.mode === SearchMode.EXACT) {
+      else if (searchOptions?.mode === SearchMode.EXACT) {
         const match = query.toLowerCase().indexOf(searchString.toLowerCase());
         if (match === -1) return [{ value: query, highlighted: false }];
         else
@@ -128,7 +128,7 @@ export default function useSearch<T extends ColumnTypes>(
         }
       }
     },
-    [searchString, options],
+    [searchString, searchOptions],
   );
 
   useEffect(() => {
@@ -136,11 +136,11 @@ export default function useSearch<T extends ColumnTypes>(
     else {
       const columnNames = getSearchableColumnNames(columns, columnType, visibility);
       const preparedData = prepareData(data, columns);
-      if (options?.search?.mode === SearchMode.EXACT)
+      if (searchOptions?.mode === SearchMode.EXACT)
         setSearchedData(searchExact(preparedData, searchString, columnNames));
       else setSearchedData(searchFuzzy(preparedData, searchString, columnNames));
     }
-  }, [columns, data, visibility, options, searchString, setSearchedData, columnType]);
+  }, [columns, data, visibility, searchOptions, searchString, setSearchedData, columnType]);
 
   return { searchString, setSearchString, searchedData, searchResultCount, highlight };
 }

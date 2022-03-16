@@ -42,7 +42,7 @@ A lightweight, declarative, type-safe table engine for React apps.
 - [x] Expose state interfaces
 - [x] Does pagination start at 1 or 0? (answer: 0)
 - [ ] Do a performance analysis
-- [ ] Check if the code would be cleaner/faster using useReducer (probably)
+- [ ] Rewrite the main body using useReducer
 - [ ] Search debounce
 - [ ] RegEx search mode (?)
 - [ ] Add support for table styling packs
@@ -90,17 +90,14 @@ interface ColumnTypes {
 }
 
 export default function ProgrammingLanguagesTable(): ReactElement {
-  
   // Column configuration of the table
   const columns: Columns<ColumnTypes> = {
-
     // Pass empty object to accept all default values
     language: {},
-    
+
     // Set default value for nullable column type
     stronglyTyped: { defaultValue: false },
     jobs: {
-      
       // Define custom label for column header
       label: 'Job Stats',
 
@@ -186,7 +183,9 @@ interface PaginationHelpers {
 You can then use these headless utilities to build your own pagination interface:
 
 ```tsx
-const { headers, rows, paginationHelpers } = useTable(columns, data, { pageSize: 10 });
+const { headers, rows, paginationHelpers } = useTable(columns, data, {
+  pagination: { pageSize: 10 },
+});
 
 return (
   <section>
@@ -200,20 +199,20 @@ return (
       <span>
         Page {paginationHelpers.page} of {paginationHelpers.pageAmount}
       </span>
-      
+
       <button disabled={!paginationHelpers.canNext} onClick={paginationHelpers.nextPage}>
         Next page
       </button>
     </div>
   </section>
-)
+);
 ```
 
 ### Dynamically and Statically Hiding Columns
 
 You can statically hide columns by defining them as `hidden: true` in the column definition. If a column is statically hidden, then it is not present in the `headers` state array. You will need to use `originalHeaders` from the `useTable` state to access it.
 
-You can dynamically hide columns using the `visibilityHelpers` object on the useTable state. It has the following properties: 
+You can dynamically hide columns using the `visibilityHelpers` object on the useTable state. It has the following properties:
 
 ```ts
 interface VisibilityHelpers {
@@ -242,7 +241,7 @@ return (
             type="checkbox"
             name={`visibilityCheckBox${i}`}
             id={`visibilityCheckBox${i}`}
-            
+
             {/* If `toggleVisibility` is undefined, then this column is `unhideable` */}
             disabled={!header.toggleVisibility}
             checked={!header.hidden}
@@ -289,16 +288,19 @@ export function SortableHeaderCell(props: RenderHeadProps): ReactElement {
 }
 ```
 
-Then you can pass it to `useTable` using the options object, as well as a custom order of SortOrders.
+Then you can pass it to `useTable` using the options object, as well as a custom order of SortOrders and an initial state.
 
 ```tsx
-const { headers, rows } = useTable(columns, data, { 
+const { headers, rows } = useTable(columns, data, {
   style: { renderHead: SortableHeaderCell },
-  // Omit `SortOrder.UNSORTED` at the end to loop the custom order
-  sort: { order: [SortOrder.DESC, SortOrder.UNSORTED, SortOrder.ASC] },
+  sort: {
+    // Omit `SortOrder.UNSORTED` at the end to loop the custom order
+    order: [SortOrder.DESC, SortOrder.UNSORTED, SortOrder.ASC],
+    initial: { column: 'columnName', order: SortOrder.ASC },
+  },
 });
 
-return <Table {...{ headers, rows }} />
+return <Table {...{ headers, rows }} />;
 ```
 
 If you have a complex data object (not string, number or boolean), you can either turn off sorting for that column using the `unsortable: true` option in the column definition, or supply a custom sorting function using the `sort` option in the column definition. For examples on custom sorting functions, check the [useSort hook](https://github.com/saphewilliam/saphe-packages/blob/main/packages/react-table/src/useSort.ts#L36-L48) in the GitHub repo.
@@ -344,7 +346,7 @@ export function HighlightCell(props: RenderCellProps): ReactElement {
 You can now use the headless utilities to build your own search input:
 
 ```tsx
-const { headers, rows, searchHelpers } = useTable(columns, data, { 
+const { headers, rows, searchHelpers } = useTable(columns, data, {
   search: { mode: SearchMode.FUZZY },
   style: { renderCell: HighlightCell },
 });
@@ -366,7 +368,7 @@ return (
 
     <Table {...{ headers, rows }} />
   </section>
-)
+);
 ```
 
 ## Troubleshooting
@@ -383,17 +385,20 @@ interface ColumnTypes {
 }
 
 export default function ObjectTable(): ReactElement {
-  const { headers, rows } = useTable({
-    objectColumn: { 
-      // Stringify definition!
-      stringify: ({ key1, key2 }) => `${key2}: ${key1}` 
+  const { headers, rows } = useTable(
+    {
+      objectColumn: {
+        // Stringify definition!
+        stringify: ({ key1, key2 }) => `${key2}: ${key1}`,
+      },
     },
-  }, [
-    { key1: 'test value', key2: 10 },
-    { key1: 'another value', key2: 3 },
-  ]);
+    [
+      { key1: 'test value', key2: 10 },
+      { key1: 'another value', key2: 3 },
+    ],
+  );
 
-  return <Table {...{ headers, rows }} />
+  return <Table {...{ headers, rows }} />;
 }
 ```
 
@@ -402,14 +407,10 @@ The second way is to define a custom cell function, and stringify the value in i
 ```tsx
 export function ObjectCell(props: RenderCellProps): ReactElement {
   // Either to this:
-  return (
-    <td>{`${value.key2}: ${value.key1}`}</td>
-  )
+  return <td>{`${value.key2}: ${value.key1}`}</td>;
 
   // Or this (and define a top-level stringify function like in the previous code block)
-  return (
-    <td>{props.stringValue}</td>
-  )
+  return <td>{props.stringValue}</td>;
 }
 ```
 
@@ -426,18 +427,19 @@ interface ColumnTypes {
 }
 
 export default function DateTable(): ReactElement {
-  const columns: Columns<ColumnTypes> = useMemo(() => ({
-    dateColumn: { defaultValue: new Date() },
-    dateRow: {},
-  }), []);
+  const columns: Columns<ColumnTypes> = useMemo(
+    () => ({
+      dateColumn: { defaultValue: new Date() },
+      dateRow: {},
+    }),
+    [],
+  );
 
-  const data: Data<ColumnTypes> = useMemo(() => [
-    { dateRow: new Date() },
-  ], []);
+  const data: Data<ColumnTypes> = useMemo(() => [{ dateRow: new Date() }], []);
 
   const { headers, rows } = useTable(columns, data);
 
-  return <Table {...{ headers, rows }} />
+  return <Table {...{ headers, rows }} />;
 }
 ```
 
@@ -459,6 +461,6 @@ const data: Data<ColumnTypes> = [{ dateRow: new Date() }];
 export default function DateTable(): ReactElement {
   const { headers, rows } = useTable(columns, data);
 
-  return <Table {...{ headers, rows }} />
+  return <Table {...{ headers, rows }} />;
 }
 ```
