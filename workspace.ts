@@ -65,7 +65,7 @@ export const workspace: WorkspaceConfig = {
         { checked: true, text: 'Expose state interfaces' },
         { checked: true, text: 'Does pagination start at 1 or 0? (answer: 0)' },
         { text: 'Do a performance analysis' },
-        { text: 'Check if the code would be cleaner/faster using useReducer (probably)' },
+        { text: 'Rewrite the main body using useReducer' },
         { text: 'Search debounce' },
         { text: 'RegEx search mode (?)' },
         { text: 'Add support for table styling packs' },

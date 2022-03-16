@@ -51,9 +51,17 @@ export default function useSort<T extends ColumnTypes>(
   columns: Columns<T>,
   data: Data<T>,
   columnType: ColumnType<T>,
-  options?: Options<T>,
+  sortOptions?: Options<T>['sort'],
 ): SortState<T> {
-  const [sortInfo, setSortInfo] = useState<SortInfo>(null);
+  const [sortInfo, setSortInfo] = useState<SortInfo>(
+    sortOptions?.initial
+      ? {
+          columnName: sortOptions.initial.column as string,
+          order: sortOptions.initial.order,
+          orderIndex: -1,
+        }
+      : null,
+  );
 
   const sortedData = useMemo(() => {
     if (sortInfo !== null) {
@@ -92,26 +100,30 @@ export default function useSort<T extends ColumnTypes>(
   const sort = useCallback(
     (columnName: string) => {
       const localOrders = columns[columnName]?.sortOrder;
-      const globalOrders = options?.sort?.order;
+      const globalOrders = sortOptions?.order;
       const defaultOrders = [SortOrder.ASC, SortOrder.DESC, SortOrder.UNSORTED];
-      const orders = localOrders ?? globalOrders ?? defaultOrders;
-
-      if (orders.length !== 0) {
+      const sortOrders = localOrders ?? globalOrders ?? defaultOrders;
+      if (sortOrders.length !== 0) {
         let index = sortInfo?.orderIndex;
+
+        if (index === -1 && sortInfo?.columnName === columnName)
+          index = sortOrders.indexOf(sortInfo.order);
+
         if (
           sortInfo?.columnName !== columnName ||
           index === undefined ||
-          index + 1 === orders.length
+          index === -1 ||
+          index + 1 === sortOrders.length
         ) {
           index = 0;
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          setSortInfo({ columnName, orderIndex: index, order: orders[index]! });
+          setSortInfo({ columnName, orderIndex: index, order: sortOrders[index]! });
         } else
           setSortInfo({
             columnName,
             orderIndex: index + 1,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            order: orders[index + 1]!,
+            order: sortOrders[index + 1]!,
           });
       }
     },

@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { ColumnTypes, Data } from './types';
+import { Options } from '.';
 
 interface PaginationState<T extends ColumnTypes> {
   page: number;
@@ -10,9 +11,10 @@ interface PaginationState<T extends ColumnTypes> {
 
 export default function usePagination<T extends ColumnTypes>(
   data: Data<T>,
-  pageSize?: number,
+  paginationOptions?: Options<T>['pagination'],
 ): PaginationState<T> {
   const [page, setPage] = useState(0);
+  const { pageSize } = paginationOptions ?? { pageSize: undefined };
 
   const pageAmount = useMemo(
     () => (pageSize === undefined || data.length === 0 ? 1 : Math.ceil(data.length / pageSize)),

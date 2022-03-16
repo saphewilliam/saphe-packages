@@ -11,7 +11,7 @@ const columns: Columns<PaginationTableData> = {
 
 const data: Data<PaginationTableData> = Array.from(Array(50).keys()).map((i) => ({ col: i }));
 
-const options: Options<PaginationTableData> = { pageSize: 10 };
+const options: Options<PaginationTableData> = { pagination: { pageSize: 10 } };
 
 function expectPagination(
   { current: { paginationHelpers } }: RenderResult<State<PaginationTableData>>,
