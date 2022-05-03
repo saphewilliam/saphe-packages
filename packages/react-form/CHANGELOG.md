@@ -1,5 +1,17 @@
 # @saphe/react-forms
 
+## 0.7.0
+
+### Minor Changes
+
+- 3075b0a: Added onChange void function to form config
+- 3075b0a: Breaking! Changed submitbutton props
+- 3075b0a: Expose internal state and actions through hook
+
+### Patch Changes
+
+- 3075b0a: Fixed bug where onSubmit would be called multiple times in development mode
+
 ## 0.6.1
 
 ### Patch Changes
