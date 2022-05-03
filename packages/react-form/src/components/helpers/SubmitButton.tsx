@@ -6,8 +6,8 @@ export default function SubmitButton(props: AddFieldPack<SubmitButtonProps>): Re
   return props.fieldPack?.SubmitButton ? (
     <props.fieldPack.SubmitButton {...props} />
   ) : (
-    <button type="submit" disabled={props.isSubmitting || props.disabled} onClick={props.onClick}>
-      {props.isSubmitting ? props.submittingLabel : props.label}
+    <button type={props.type} disabled={props.isLoading || props.disabled} onClick={props.onClick}>
+      {props.label}
     </button>
   );
 }

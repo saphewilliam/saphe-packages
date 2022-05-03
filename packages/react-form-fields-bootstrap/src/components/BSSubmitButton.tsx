@@ -3,8 +3,13 @@ import React, { ReactElement } from 'react';
 
 export default function BSSubmitButton(props: Props.SubmitButtonProps): ReactElement {
   return (
-    <button type="submit" disabled={props.isSubmitting} className="btn btn-primary">
-      {props.isSubmitting ? 'Submitting...' : 'Submit'}
+    <button
+      type={props.type}
+      disabled={props.isLoading || props.disabled}
+      className="btn btn-primary"
+      onClick={props.onClick}
+    >
+      {props.label}
     </button>
   );
 }

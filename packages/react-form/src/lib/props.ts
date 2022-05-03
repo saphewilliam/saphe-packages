@@ -44,10 +44,10 @@ export type EmailProps = PropsBase<EmailType> & IEmail;
 export type FileProps = PropsBase<FileType> & IFile;
 
 export interface SubmitButtonProps {
-  isSubmitting: boolean;
+  isLoading: boolean;
   label: string;
-  submittingLabel: string;
   disabled: boolean;
+  type: 'submit' | 'button';
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
