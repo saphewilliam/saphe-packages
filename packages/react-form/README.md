@@ -102,7 +102,7 @@ const form = useForm({
 import useForm, { Field, ValidationMode } from '@saphe/react-form';
 import BootstrapFieldPack from '@saphe/react-form-fields-bootstrap';
 
-const { Form } = useForm({
+const { form, submitButton, formState } = useForm({
   /** Required, the name of this form. Necessary for the use of IDs */
   name: 'contactForm',
 
@@ -155,6 +155,11 @@ const { Form } = useForm({
     siteKey: process.env.RECAPTCHA_SITE_KEY,
     locale: 'en',
     onError: () => alert('Please confirm you are not a robot'),
+  },
+
+  /** Optional, the void function that fires on a form change event */
+  onChange: async (formValues) => {
+    console.log(formValues);
   },
 
   /** Optional, the void function that fires on a form submission event */

@@ -12,13 +12,14 @@ type Props<T extends Fields> = AddFieldPack<{
   values: FormValues<T>;
   children: ReactNode;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  onFieldChange: (targetValue: FieldValue<FieldType>, fieldName: string) => void;
+  onReset: (event: FormEvent<HTMLFormElement>) => void;
+  onFieldChange: (fieldName: string, targetValue: FieldValue<FieldType>) => void;
   onFieldBlur: (fieldName: string) => void;
 }>;
 
 export default function Form<T extends Fields>(props: Props<T>): ReactElement {
   return (
-    <form onSubmit={props.onSubmit}>
+    <form onSubmit={props.onSubmit} onReset={props.onReset}>
       {Object.entries(props.fields).map(([fieldName, field], idx) => {
         return (
           <FieldSwitch
@@ -31,7 +32,7 @@ export default function Form<T extends Fields>(props: Props<T>): ReactElement {
             value={
               props.values[fieldName as keyof typeof props.values] ?? getDefaultFieldValue(field)
             }
-            onChange={(targetValue) => props.onFieldChange(targetValue, fieldName)}
+            onChange={(targetValue) => props.onFieldChange(fieldName, targetValue)}
             onBlur={() => props.onFieldBlur(fieldName)}
           />
         );
