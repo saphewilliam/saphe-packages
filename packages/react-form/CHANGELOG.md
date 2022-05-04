@@ -1,5 +1,16 @@
 # @saphe/react-forms
 
+## 0.8.0
+
+### Minor Changes
+
+- 68c9d87: Add Color field type
+
+### Patch Changes
+
+- 68c9d87: Bugfix: if length validation is set, field cannot be empty
+- 68c9d87: Bugfix: validate is not called if it's not a promise
+
 ## 0.7.0
 
 ### Minor Changes

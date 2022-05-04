@@ -1,5 +1,14 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.3.3
+
+### Patch Changes
+
+- Updated dependencies [68c9d87]
+- Updated dependencies [68c9d87]
+- Updated dependencies [68c9d87]
+  - @saphe/react-form@0.8.0
+
 ## 0.3.2
 
 ### Patch Changes

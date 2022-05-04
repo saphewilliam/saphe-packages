@@ -1,7 +1,7 @@
 {
   "name": "@saphe/react-form-fields-bootstrap",
   "license": "MIT",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Officially maintained Bootstrap-style form fields pack for @saphe/react-form",
   "keywords": [
     "typescript",
@@ -35,7 +35,7 @@
     "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit"
   },
   "dependencies": {
-    "@saphe/react-form": "0.7.0"
+    "@saphe/react-form": "0.8.0"
   },
   "devDependencies": {},
   "peerDependencies": {
