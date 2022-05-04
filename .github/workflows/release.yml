@@ -23,11 +23,20 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
+      - name: Build
+        run: yarn build
+
+      - name: Test
+        run: yarn test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn release
+          publish: yarn changeset publish
           version: yarn changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
