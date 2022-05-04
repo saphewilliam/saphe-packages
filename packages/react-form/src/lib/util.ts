@@ -11,6 +11,7 @@ import {
   PasswordProps,
   EmailProps,
   FileProps,
+  ColorProps,
 } from './props';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,6 +98,7 @@ export interface FieldPack {
   [Field.PASSWORD]?: (props: PasswordProps) => ReactElement;
   [Field.EMAIL]?: (props: EmailProps) => ReactElement;
   [Field.FILE]?: (props: FileProps) => ReactElement;
+  [Field.COLOR]?: (props: ColorProps) => ReactElement;
   SubmitButton?: (props: SubmitButtonProps) => ReactElement;
   FieldContainer?: (props: FieldContainerProps) => ReactElement;
 }

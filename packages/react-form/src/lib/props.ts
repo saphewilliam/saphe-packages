@@ -17,6 +17,8 @@ import {
   IEmail,
   FileType,
   IFile,
+  ColorType,
+  IColor,
 } from './field';
 import { FieldValue } from './util';
 
@@ -42,6 +44,7 @@ export type NumberProps = PropsBase<NumberType> & INumber;
 export type PasswordProps = PropsBase<PasswordType> & IPassword;
 export type EmailProps = PropsBase<EmailType> & IEmail;
 export type FileProps = PropsBase<FileType> & IFile;
+export type ColorProps = PropsBase<ColorType> & IColor;
 
 export interface SubmitButtonProps {
   isLoading: boolean;

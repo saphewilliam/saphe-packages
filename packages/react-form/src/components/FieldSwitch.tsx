@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import {
   CheckType,
+  ColorType,
   EmailType,
   Field,
   FieldType,
@@ -14,6 +15,7 @@ import {
 import { PropsBase } from '../lib/props';
 import { AddFieldPack, FieldValue } from '../lib/util';
 import CheckField from './fields/CheckField';
+import ColorField from './fields/ColorField';
 import EmailField from './fields/EmailField';
 import FileField from './fields/FileField';
 import NumberField from './fields/NumberField';
@@ -72,5 +74,7 @@ export default function FieldSwitch<T extends FieldType>(props: Props<T>): React
       return <EmailField {...(baseProps as PropsBase<EmailType>)} {...props.field} />;
     case Field.FILE:
       return <FileField {...(baseProps as PropsBase<FileType>)} {...props.field} />;
+    case Field.COLOR:
+      return <ColorField {...(baseProps as PropsBase<ColorType>)} {...props.field} />;
   }
 }

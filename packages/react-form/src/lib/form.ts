@@ -7,6 +7,7 @@ export const getFieldStyle = (error: string): Record<string, string> => ({
   borderRadius: '3px',
   borderColor: error ? 'red' : '#767676',
   marginBottom: '3px',
+  color: 'black',
 });
 
 export function getDefaultFieldValue<T extends FieldType>(field: T): FieldValue<T> {

@@ -1,3 +1,4 @@
+import { isPromise } from '../hooks/useAsyncReducer';
 import { Field, FieldType } from './field';
 import { getDefaultFieldValue } from './form';
 import { FieldValue } from './util';
@@ -58,6 +59,8 @@ export interface FileValidation extends ValidationBase<File> {
   size?: NumberValueValidation;
 }
 
+export type ColorValidation = ValidationBase<string>;
+
 export function validateField<T extends FieldType>(
   field: FieldType | undefined,
   value: FieldValue<T> | undefined,
@@ -74,28 +77,31 @@ export function validateField<T extends FieldType>(
   // Type-specific checks
   let error = '';
   switch (field.type) {
-    case Field.TEXT:
-    case Field.TEXT_AREA:
-    case Field.PASSWORD:
-      error = validateStringField(value as string, field.validation as StringValidation);
-      break;
-    case Field.NUMBER:
-      error = validateNumberField(value as number, field.validation as NumberValidation);
-      break;
     case Field.SELECT:
     case Field.CHECK:
       break;
+    case Field.TEXT:
+    case Field.TEXT_AREA:
+    case Field.PASSWORD:
+      error = validateStringField(value as string | null, field.validation as StringValidation);
+      break;
+    case Field.NUMBER:
+      error = validateNumberField(value as number | null, field.validation as NumberValidation);
+      break;
     case Field.EMAIL:
-      error = ValidateEmailField(value as string, field.validation as EmailValidation);
+      error = validateEmailField(value as string | null, field.validation as EmailValidation);
+      break;
+    case Field.COLOR:
+      error = validateColorField(value as string | null, field.validation as ColorValidation);
       break;
     case Field.FILE:
       {
         if ('multiple' in field && field.multiple && Array.isArray(value)) {
           for (let i = 0; i < value.length; i++) {
-            error = ValidateFileField(value[i] as File, field.validation as FileValidation);
+            error = validateFileField(value[i] as File | null, field.validation as FileValidation);
             if (error) break;
           }
-        } else error = ValidateFileField(value as File, field.validation as FileValidation);
+        } else error = validateFileField(value as File | null, field.validation as FileValidation);
       }
       break;
   }
@@ -106,16 +112,24 @@ export function validateField<T extends FieldType>(
     if ('multiple' in field && Array.isArray(value) && field.multiple) {
       for (let i = 0; i < value.length; i++) {
         // FIXME Why is value being evaluated to never?
-        Promise.resolve(field.validation.validate(value[i] as never))
-          .then((e) => (error = e))
-          .catch((e) => (error = e));
+        const v = field.validation.validate(value[i] as never);
+        if (!isPromise(v)) error = v;
+        else {
+          Promise.resolve(v)
+            .then((e) => (error = e))
+            .catch((e) => (error = e));
+        }
         if (error) return error;
       }
     } else {
       // FIXME Why is value being evaluated to never?
-      Promise.resolve(field.validation.validate(value as never))
-        .then((e) => (error = e))
-        .catch((e) => (error = e));
+      const v = field.validation.validate(value as never);
+      if (!isPromise(v)) error = v;
+      else {
+        Promise.resolve(v)
+          .then((e) => (error = e))
+          .catch((e) => (error = e));
+      }
     }
   }
 
@@ -135,22 +149,24 @@ function validateNumberValue(n: number, v: NumberValueValidation): string {
   return '';
 }
 
-function validateStringField(value: string, validation: StringValidation): string {
+function validateStringField(value: string | null, validation: StringValidation): string {
   // Length check
   if (validation.length) {
-    const message = validateNumberValue(value.length, validation.length);
+    const message = validateNumberValue((value ?? '').length, validation.length);
     if (message !== '') return message;
   }
 
   // Regex check
-  if (validation.match && !value.match(validation.match.regex)) return validation.match.message;
+  if (validation.match && !(value ?? '').match(validation.match.regex))
+    return validation.match.message;
 
   return '';
 }
 
-function validateNumberField(value: number, validation: NumberValidation): string {
+function validateNumberField(value: number | null, validation: NumberValidation): string {
   // Value check
   if (validation.value) {
+    if (value === null) return validation.value.message;
     const message = validateNumberValue(value, validation.value);
     if (message !== '') return message;
   }
@@ -161,7 +177,7 @@ function validateNumberField(value: number, validation: NumberValidation): strin
   return '';
 }
 
-function ValidateEmailField(value: string, validation: EmailValidation): string {
+function validateEmailField(value: string | null, validation: EmailValidation): string {
   return validateStringField(value, {
     ...validation,
     match: {
@@ -172,7 +188,15 @@ function ValidateEmailField(value: string, validation: EmailValidation): string 
   });
 }
 
-function ValidateFileField(value: File, validation: FileValidation): string {
-  if (validation.size) return validateNumberValue(value.size, validation.size);
+function validateColorField(value: string | null, validation: ColorValidation): string {
+  if (/^#([0-9a-f]{3}){1,2}$/i.test(value ?? '') && validation.required) return validation.required;
+  return '';
+}
+
+function validateFileField(value: File | null, validation: FileValidation): string {
+  if (validation.size) {
+    if (value === null) return validation.size.message;
+    return validateNumberValue(value.size, validation.size);
+  }
   return '';
 }

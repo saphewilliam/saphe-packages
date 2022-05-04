@@ -58,6 +58,7 @@ npm install @saphe/react-form
 - FILE
 - EMAIL
 - PASSWORD
+- COLOR
 - More to come...
   - RADIO
   - DATE
@@ -66,7 +67,6 @@ npm install @saphe/react-form
   - RANGE
   - RATING
   - PHONE
-  - COLOR
   - CRSF
   - NOTICE
 
