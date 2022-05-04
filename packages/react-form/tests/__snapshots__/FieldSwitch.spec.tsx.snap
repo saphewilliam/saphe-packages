@@ -32,6 +32,7 @@ exports[`Field renders a check field correctly 1`] = `
           "borderRadius": "3px",
           "borderStyle": "solid",
           "borderWidth": "1px",
+          "color": "black",
           "marginBottom": "3px",
           "marginRight": "10px",
         }
@@ -81,6 +82,7 @@ exports[`Field renders a check field correctly 2`] = `
           "borderRadius": "3px",
           "borderStyle": "solid",
           "borderWidth": "1px",
+          "color": "black",
           "marginBottom": "3px",
           "marginRight": "10px",
         }
@@ -145,6 +147,7 @@ exports[`Field renders a number field correctly 1`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -184,6 +187,7 @@ exports[`Field renders a number field correctly 2`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -242,6 +246,7 @@ exports[`Field renders a select field correctly 1`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -297,6 +302,7 @@ exports[`Field renders a select field correctly 2`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -372,6 +378,7 @@ exports[`Field renders a text area field correctly 1`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -411,6 +418,7 @@ exports[`Field renders a text area field correctly 2`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -469,6 +477,7 @@ exports[`Field renders a text field correctly 1`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
@@ -509,6 +518,7 @@ exports[`Field renders a text field correctly 2`] = `
         "borderRadius": "3px",
         "borderStyle": "solid",
         "borderWidth": "1px",
+        "color": "black",
         "marginBottom": "3px",
       }
     }
