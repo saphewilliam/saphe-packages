@@ -1,5 +1,11 @@
 # @saphe/react-forms
 
+## 0.8.1
+
+### Patch Changes
+
+- 76a9006: Added field types Date, Time, DateTime and Month
+
 ## 0.8.0
 
 ### Minor Changes
