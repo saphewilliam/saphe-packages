@@ -1,18 +1,6 @@
 import { ReactElement } from 'react';
-import { CheckType, Field, FieldType, FileType, NumberType } from './field';
-import {
-  TextProps,
-  TextAreaProps,
-  SelectProps,
-  CheckProps,
-  NumberProps,
-  SubmitButtonProps,
-  FieldContainerProps,
-  PasswordProps,
-  EmailProps,
-  FileProps,
-  ColorProps,
-} from './props';
+import * as F from './field';
+import * as P from './props';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function stringify(source: any): string {
@@ -29,36 +17,60 @@ export type AddFieldPack<T> = T & { fieldPack?: FieldPack };
 
 // Used by the consumer to declare a set of fields
 export interface Fields {
-  [fieldName: string]: FieldType;
+  [fieldName: string]: F.FieldType;
 }
 
 // Find the field value of a field type
-export type FieldValue<T extends FieldType> = T extends CheckType
+export type FieldValue<T extends F.FieldType> = T extends F.CheckType
   ? boolean
-  : T extends NumberType
+  : T extends F.NumberType
   ? number | null
-  : T extends FileType
+  : T extends F.FileType
   ? File | File[] | null
+  : T extends F.DateType
+  ? Date | null
+  : T extends F.TimeType
+  ? Date | null
+  : T extends F.DateTimeType
+  ? Date | null
+  : T extends F.MonthType
+  ? Date | null
   : string | null;
 
-export type OptionalFieldValue<T extends FieldType> = T extends CheckType
+export type OptionalFieldValue<T extends F.FieldType> = T extends F.CheckType
   ? boolean
-  : T extends NumberType
+  : T extends F.NumberType
   ? number | null
-  : T extends FileType
+  : T extends F.FileType
   ? File | null
+  : T extends F.DateType
+  ? Date | null
+  : T extends F.TimeType
+  ? Date | null
+  : T extends F.DateTimeType
+  ? Date | null
+  : T extends F.MonthType
+  ? Date | null
   : string | null;
 
-export type RequiredFieldValue<T extends FieldType> = T extends CheckType
+export type RequiredFieldValue<T extends F.FieldType> = T extends F.CheckType
   ? boolean
-  : T extends NumberType
+  : T extends F.NumberType
   ? number
-  : T extends FileType
+  : T extends F.FileType
   ? File
+  : T extends F.DateType
+  ? Date
+  : T extends F.TimeType
+  ? Date
+  : T extends F.DateTimeType
+  ? Date
+  : T extends F.MonthType
+  ? Date
   : string;
 
 // Crude representation of a field type (avoid using if possible)
-export type FieldValueCrude = string | boolean | number | File | File[] | null;
+export type FieldValueCrude = string | boolean | number | File | File[] | Date | null;
 
 // From https://medium.com/dailyjs/typescript-create-a-condition-based-subset-types-9d902cea5b8c
 type SubType<Base, Condition> = Pick<
@@ -90,15 +102,19 @@ export type FormErrors<T extends Fields> = {
 
 // Interface used for defining a field component pack
 export interface FieldPack {
-  [Field.TEXT]?: (props: TextProps) => ReactElement;
-  [Field.TEXT_AREA]?: (props: TextAreaProps) => ReactElement;
-  [Field.SELECT]?: (props: SelectProps) => ReactElement;
-  [Field.CHECK]?: (props: CheckProps) => ReactElement;
-  [Field.NUMBER]?: (props: NumberProps) => ReactElement;
-  [Field.PASSWORD]?: (props: PasswordProps) => ReactElement;
-  [Field.EMAIL]?: (props: EmailProps) => ReactElement;
-  [Field.FILE]?: (props: FileProps) => ReactElement;
-  [Field.COLOR]?: (props: ColorProps) => ReactElement;
-  SubmitButton?: (props: SubmitButtonProps) => ReactElement;
-  FieldContainer?: (props: FieldContainerProps) => ReactElement;
+  [F.Field.TEXT]?: (props: P.TextProps) => ReactElement;
+  [F.Field.TEXT_AREA]?: (props: P.TextAreaProps) => ReactElement;
+  [F.Field.SELECT]?: (props: P.SelectProps) => ReactElement;
+  [F.Field.CHECK]?: (props: P.CheckProps) => ReactElement;
+  [F.Field.NUMBER]?: (props: P.NumberProps) => ReactElement;
+  [F.Field.PASSWORD]?: (props: P.PasswordProps) => ReactElement;
+  [F.Field.EMAIL]?: (props: P.EmailProps) => ReactElement;
+  [F.Field.FILE]?: (props: P.FileProps) => ReactElement;
+  [F.Field.COLOR]?: (props: P.ColorProps) => ReactElement;
+  [F.Field.DATE]?: (props: P.DateProps) => ReactElement;
+  [F.Field.TIME]?: (props: P.TimeProps) => ReactElement;
+  [F.Field.DATE_TIME]?: (props: P.DateTimeProps) => ReactElement;
+  [F.Field.MONTH]?: (props: P.MonthProps) => ReactElement;
+  SubmitButton?: (props: P.SubmitButtonProps) => ReactElement;
+  FieldContainer?: (props: P.FieldContainerProps) => ReactElement;
 }

@@ -16,9 +16,11 @@ export type ValidationType =
   | BooleanValidation
   | SelectValidation
   | EmailValidation
-  | FileValidation;
+  | FileValidation
+  | ColorValidation
+  | DateValidation;
 
-interface ValidationBase<T extends string | boolean | number | File> {
+interface ValidationBase<T extends string | boolean | number | File | Date> {
   mode?: ValidationMode;
   required?: string;
   validate?: (value: T) => string | Promise<string>;
@@ -61,6 +63,8 @@ export interface FileValidation extends ValidationBase<File> {
 
 export type ColorValidation = ValidationBase<string>;
 
+export type DateValidation = ValidationBase<Date>;
+
 export function validateField<T extends FieldType>(
   field: FieldType | undefined,
   value: FieldValue<T> | undefined,
@@ -79,6 +83,11 @@ export function validateField<T extends FieldType>(
   switch (field.type) {
     case Field.SELECT:
     case Field.CHECK:
+      break;
+    case Field.DATE:
+    case Field.TIME:
+    case Field.DATE_TIME:
+    case Field.MONTH:
       break;
     case Field.TEXT:
     case Field.TEXT_AREA:

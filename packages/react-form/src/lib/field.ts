@@ -8,6 +8,7 @@ import {
   EmailValidation,
   FileValidation,
   ColorValidation,
+  DateValidation,
 } from './validation';
 
 // Used by the consumer to declare the field type
@@ -21,15 +22,17 @@ export enum Field {
   EMAIL = 'EMAIL',
   FILE = 'FILE',
   COLOR = 'COLOR',
+  DATE = 'DATE',
+  TIME = 'TIME',
+  DATE_TIME = 'DATE_TIME',
+  MONTH = 'MONTH',
 
+  // IMAGE = 'IMAGE',
   // RADIO = 'RADIO',
-  // DATE = 'DATE',
-  // DATETIME = 'DATETIME',
-  // TIME = 'TIME',
   // RANGE = 'RANGE',
+  // PHONE = 'PHONE',
   // RATING = 'RATING',
   // NEW_PASSWORD = 'NEW_PASSWORD',
-  // PHONE = 'PHONE',
   // CRSF = 'CRSF',
   // NOTICE = 'NOTICE',
 }
@@ -71,6 +74,18 @@ export interface IFile {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IColor {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IDate {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ITime {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IDateTime {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IMonth {}
+
 // Types used by the consumer to declare fields
 interface FieldBase<
   Type extends Field,
@@ -95,7 +110,11 @@ export type FieldType =
   | PasswordType
   | EmailType
   | FileType
-  | ColorType;
+  | ColorType
+  | DateType
+  | TimeType
+  | DateTimeType
+  | MonthType;
 
 export type TextType = FieldBase<Field.TEXT, string, StringValidation> & IText;
 export type TextAreaType = FieldBase<Field.TEXT_AREA, string, StringValidation> & ITextArea;
@@ -106,3 +125,7 @@ export type PasswordType = FieldBase<Field.PASSWORD, string, StringValidation> &
 export type EmailType = FieldBase<Field.EMAIL, string, EmailValidation> & IPassword;
 export type FileType = FieldBase<Field.FILE, File, FileValidation> & IFile;
 export type ColorType = FieldBase<Field.COLOR, string, ColorValidation> & IColor;
+export type DateType = FieldBase<Field.DATE, Date, DateValidation> & IDate;
+export type TimeType = FieldBase<Field.TIME, Date, DateValidation> & ITime;
+export type DateTimeType = FieldBase<Field.DATE_TIME, Date, DateValidation> & IDateTime;
+export type MonthType = FieldBase<Field.MONTH, Date, DateValidation> & IMonth;

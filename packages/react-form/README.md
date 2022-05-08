@@ -51,7 +51,7 @@ npm install @saphe/react-form
 ### Field Types
 
 - TEXT
-- TEXTAREA
+- TEXT_AREA
 - SELECT
 - CHECK
 - NUMBER
@@ -59,14 +59,17 @@ npm install @saphe/react-form
 - EMAIL
 - PASSWORD
 - COLOR
+- DATE
+- TIME
+- DATE_TIME
+- MONTH
 - More to come...
+  - IMAGE
   - RADIO
-  - DATE
-  - DATETIME
-  - TIME
   - RANGE
-  - RATING
   - PHONE
+  - RATING
+  - NEW_PASSWORD
   - CRSF
   - NOTICE
 
