@@ -1,14 +1,13 @@
-# Logs
-*.log*
-
 # Compiled output
-.coverage
-.turbo
-node_modules
-dist
+.coverage/
+.turbo/
+node_modules/
+dist/
 
+# Visual Studio Code settings
+.vscode
+!.vscode/saphe.code-snippets
 
 # Misc
-.vscode
-.idea
 .DS_Store
+*.log*
