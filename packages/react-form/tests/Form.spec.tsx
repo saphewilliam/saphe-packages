@@ -1,17 +1,12 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import React from 'react';
-import Form from '../src/components/Form';
 import {
   minimalNumberField,
   minimalCheckField,
   minimalSelectField,
   minimalTextAreaField,
   minimalTextField,
-  matchSnapshot,
 } from './testHelpers';
 
-const fields = {
+export const fields = {
   text: minimalTextField,
   textArea: minimalTextAreaField,
   select: minimalSelectField,

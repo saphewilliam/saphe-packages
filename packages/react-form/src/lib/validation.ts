@@ -1,4 +1,4 @@
-import { isPromise } from '../hooks/useAsyncReducer';
+import { Util } from '@saphe/react-use';
 import { Field, FieldType } from './field';
 import { getDefaultFieldValue } from './form';
 import { FieldValue } from './util';
@@ -122,7 +122,7 @@ export function validateField<T extends FieldType>(
       for (let i = 0; i < value.length; i++) {
         // FIXME Why is value being evaluated to never?
         const v = field.validation.validate(value[i] as never);
-        if (!isPromise(v)) error = v;
+        if (!Util.isPromise(v)) error = v;
         else {
           Promise.resolve(v)
             .then((e) => (error = e))
@@ -133,7 +133,7 @@ export function validateField<T extends FieldType>(
     } else {
       // FIXME Why is value being evaluated to never?
       const v = field.validation.validate(value as never);
-      if (!isPromise(v)) error = v;
+      if (!Util.isPromise(v)) error = v;
       else {
         Promise.resolve(v)
           .then((e) => (error = e))

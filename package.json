@@ -1,12 +1,8 @@
 {
   "name": "saphe-packages",
   "version": "1.0.0",
-  "private": true,
   "license": "MIT",
   "description": "A package ecosystem dedicated to improve developer experience and type-safety in React apps.",
-  "workspaces": [
-    "packages/*"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/saphewilliam/saphe-packages.git"
@@ -17,41 +13,15 @@
   },
   "scripts": {
     "change": "changeset",
-    "build": "lerna run build --stream",
-    "lint": "lerna run lint --stream --parallel",
-    "test": "jest",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "build": "turbo run build",
+    "test": "turbo run test",
     "generate": "ts-node ./scripts/generate/index.ts"
   },
   "devDependencies": {
-    "@changesets/cli": "2.18.1",
-    "@testing-library/dom": "8.11.1",
-    "@testing-library/jest-dom": "5.16.0",
-    "@testing-library/react": "12.1.2",
-    "@testing-library/react-hooks": "7.0.2",
-    "@testing-library/user-event": "13.5.0",
-    "@types/jest": "27.0.3",
-    "@types/node": "16.11.11",
-    "@types/react": "17.0.37",
-    "@typescript-eslint/eslint-plugin": "5.5.0",
-    "@typescript-eslint/parser": "5.5.0",
-    "eslint": "8.4.0",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.25.3",
-    "eslint-plugin-jsx-a11y": "6.5.1",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.27.1",
-    "jest": "27.4.3",
-    "jest-axe": "5.0.1",
-    "lerna": "4.0.0",
-    "markdown-toc": "1.2.0",
-    "prettier": "2.5.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-test-renderer": "17.0.2",
-    "rimraf": "3.0.2",
-    "ts-jest": "27.0.7",
-    "ts-node": "10.4.0",
-    "tslib": "2.3.1",
-    "typescript": "4.5.2"
+    "@changesets/cli": "2.22.0",
+    "pnpm": "7.1.2",
+    "turbo": "1.2.9"
   }
 }

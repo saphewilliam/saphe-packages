@@ -1,7 +1,14 @@
-# Compiled output
-dist/
-node_modules/
-.coverage/
+# Logs
+*.log*
 
-# Error logs
-*error.log
+# Compiled output
+.coverage
+.turbo
+node_modules
+dist
+
+
+# Misc
+.vscode
+.idea
+.DS_Store

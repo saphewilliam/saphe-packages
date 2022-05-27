@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   - pull_request
 
 jobs:
@@ -17,16 +17,25 @@ jobs:
           node-version: 12.x
 
       - name: Install Dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Test
-        run: yarn test
+        run: pnpm test
 
-      - name: Upload coverage to Codecov
+      - name: Upload @saphe/react-use coverage to Codecov
         uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-use/.coverage/coverage-final.json
+          flags: @saphe/react-use
+
+      - name: Upload @saphe/react-form coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-form/.coverage/coverage-final.json
+          flags: @saphe/react-formion@v2

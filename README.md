@@ -17,6 +17,7 @@ name|version|description
 `@saphe/react-form`|[![npm version](https://img.shields.io/npm/v/@saphe/react-form.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-form)|A lightweight, declarative, type-safe form engine for React apps.
 `@saphe/react-form-fields-bootstrap`|[![npm version](https://img.shields.io/npm/v/@saphe/react-form-fields-bootstrap.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-form-fields-bootstrap)|Officially maintained Bootstrap-style form fields pack for @saphe/react-form
 `@saphe/react-table`|[![npm version](https://img.shields.io/npm/v/@saphe/react-table.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-table)|A lightweight, declarative, type-safe table engine for React apps.
+`@saphe/react-use`|[![npm version](https://img.shields.io/npm/v/@saphe/react-use.svg?style=flat)](https://www.npmjs.com/package/@saphe/react-use)|A collection of useful, developer-friendly, type-safe React hooks.
 <!-- END AUTO-GENERATED PACKAGES TABLE -->
 
 ## Contributing

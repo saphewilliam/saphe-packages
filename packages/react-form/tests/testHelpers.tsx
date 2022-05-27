@@ -1,6 +1,13 @@
 import { ReactElement } from 'react';
-import renderer from 'react-test-renderer';
-import { Field, TextType, TextAreaType, SelectType, CheckType, NumberType } from '../src/lib/field';
+import * as renderer from 'react-test-renderer';
+import {
+  Field,
+  TextType,
+  TextAreaType,
+  SelectType,
+  CheckType,
+  NumberType,
+} from '../src/lib/field';
 
 export const matchSnapshot = (component: ReactElement): void =>
   expect(renderer.create(component).toJSON()).toMatchSnapshot();

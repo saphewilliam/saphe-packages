@@ -1,3 +1,4 @@
+import { useAsyncReducer, Util } from '@saphe/react-use';
 import { useMemo } from 'react';
 import { Config, ValidationMode } from '..';
 import { FieldType } from '../lib/field';
@@ -8,7 +9,6 @@ import {
 } from '../lib/form';
 import { Fields, FieldValue, FormErrors, FormTouched, FormValues } from '../lib/util';
 import { validateField } from '../lib/validation';
-import useAsyncReducer, { isPromise } from './useAsyncReducer';
 
 export interface FormState<T extends Fields> {
   fields: T;
@@ -85,7 +85,7 @@ export default function useFormState<T extends Fields>(
 
       if (onChange) {
         const onChangeResult = onChange(values);
-        if (isPromise(onChangeResult)) await onChangeResult;
+        if (Util.isPromise(onChangeResult)) await onChangeResult;
       }
 
       return {
@@ -125,7 +125,7 @@ export default function useFormState<T extends Fields>(
       // Fire custom submit function
       if (onSubmit) {
         const onSubmitResult = onSubmit(prevState.values, { recaptchaToken });
-        if (isPromise(onSubmitResult)) await onSubmitResult;
+        if (Util.isPromise(onSubmitResult)) await onSubmitResult;
       }
 
       return prevState;

@@ -1,6 +1,12 @@
-package/react-form:
+@saphe/react-form:
+  - packages/react-form/*
   - packages/react-form/**/*
-package/react-form-fields-bootstrap:
+@saphe/react-form-fields-bootstrap:
+  - packages/react-form-fields-bootstrap/*
   - packages/react-form-fields-bootstrap/**/*
-package/react-table:
+@saphe/react-table:
+  - packages/react-table/*
   - packages/react-table/**/*
+@saphe/react-use:
+  - packages/react-use/*
+  - packages/react-use/**/*

@@ -45,8 +45,6 @@ exports[`Field renders a check field correctly 1`] = `
       Check Field
     </label>
   </div>
-  
-  
 </div>
 `;
 
@@ -154,8 +152,6 @@ exports[`Field renders a number field correctly 1`] = `
     type="number"
     value={10}
   />
-  
-  
 </div>
 `;
 
@@ -255,9 +251,7 @@ exports[`Field renders a select field correctly 1`] = `
     <option
       disabled={true}
       value=""
-    >
-      
-    </option>
+    />
     <option
       value="option1"
     >
@@ -269,8 +263,6 @@ exports[`Field renders a select field correctly 1`] = `
       Option 2
     </option>
   </select>
-  
-  
 </div>
 `;
 
@@ -384,8 +376,6 @@ exports[`Field renders a text area field correctly 1`] = `
     }
     value=""
   />
-  
-  
 </div>
 `;
 
@@ -484,8 +474,6 @@ exports[`Field renders a text field correctly 1`] = `
     type="text"
     value=""
   />
-  
-  
 </div>
 `;
 
