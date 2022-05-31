@@ -7,13 +7,16 @@ export type InputActions<S> = { [key: string]: (currentState: S, ...args: any) =
 
 /** Object used to consume the reducer's actions. The parameters are inferred from the input actions object, dropping the first argument (current state). */
 export type OutputActions<S, A extends InputActions<S>> = {
-  [P in keyof A]: (...args: Parameters<A[P]> extends [any, ...infer U] ? U : never) => void;
+  [P in keyof A]: (...args: Parameters<A[P]> extends [any, ...(infer U)] ? U : never) => void;
 };
 
 export interface Error<S> {
   message: string;
   action: Action<S>;
   pendingActions: Action<S>[];
+  runFailedAction: () => void;
+  runPendingActions: () => void;
+  runAllActions: () => void;
 }
 
 export interface Action<S> {
@@ -38,7 +41,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
   const [state, setState] = useState<S>(initialState);
   const [error, setError] = useState<Error<S> | null>(null);
 
-  const { current: queue } = useRef<Action<S>[]>([]);
+  let { current: queue } = useRef<Action<S>[]>([]);
   let { current: currentState } = useRef<S>(initialState);
   let { current: currentIsLoading } = useRef(false);
 
@@ -56,15 +59,25 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
       } else popQueue();
     };
 
+    const runActions = (a: Action<S>[]) => {
+      queue = [...a];
+      popQueue();
+    };
+
     const abortQueue = (e: any) => {
-      currentIsLoading = false;
-      setIsLoading(currentIsLoading);
+      const pendingActions = [...queue];
       if (currentAction)
         setError({
           message: String(e),
           action: currentAction,
-          pendingActions: queue,
+          pendingActions,
+          runFailedAction: () => runActions([currentAction]),
+          runPendingActions: () => runActions(pendingActions),
+          runAllActions: () => runActions([currentAction, ...pendingActions]),
         });
+      currentIsLoading = false;
+      setIsLoading(currentIsLoading);
+      queue = [];
     };
 
     if (currentAction !== undefined) {
@@ -81,7 +94,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
   const pushQueue = useCallback(
     (action: Action<S>) => {
       queue.push(action);
-      if (!currentIsLoading) popQueue();
+      if (!currentIsLoading && queue.length === 1) popQueue();
     },
     [queue, currentIsLoading, popQueue],
   );
