@@ -1,0 +1,47 @@
+{
+  "name": "@saphe/react-table",
+  "license": "MIT",
+  "version": "0.6.0",
+  "description": "A lightweight, declarative, type-safe table engine for React apps.",
+  "keywords": [
+    "typescript",
+    "react",
+    "hook",
+    "table",
+    "tables"
+  ],
+  "author": {
+    "email": "william@saphewebdesign.com",
+    "name": "William Ford"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saphewilliam/saphe-packages.git",
+    "directory": "packages/react-table"
+  },
+  "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-table#readme",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-table",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
+    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit"
+  },
+  "dependencies": {
+    "fuzzysort": "1.1.4",
+    "tslib": "2.3.1"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  }
+}
