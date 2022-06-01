@@ -1,4 +1,4 @@
-import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import useTable, { Columns, Data, Options, State } from '../src';
 
 interface PaginationTableData {
@@ -14,7 +14,11 @@ const data: Data<PaginationTableData> = Array.from(Array(50).keys()).map((i) => 
 const options: Options<PaginationTableData> = { pagination: { pageSize: 10 } };
 
 function expectPagination(
-  { current: { paginationHelpers } }: RenderResult<State<PaginationTableData>>,
+  {
+    current: { paginationHelpers },
+  }: {
+    current: State<PaginationTableData>;
+  },
   canPrev: boolean,
   canNext: boolean,
   page: number,

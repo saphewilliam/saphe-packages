@@ -8,6 +8,7 @@ describe('useAsyncReducer', () => {
         { hi: 'mom' },
         {
           // @ts-expect-error Missing return type
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           missingReturn: () => {},
           // @ts-expect-error Incorrect return key
           incorrectReturnKey: () => ({}),
@@ -52,6 +53,7 @@ describe('useAsyncReducer', () => {
     // @ts-expect-error Incorrect actions key
     result.current.actions.reset;
 
+    // eslint-disable-next-line no-constant-condition
     if (false) {
       // @ts-expect-error Missing parameter type
       result.current.actions.add();

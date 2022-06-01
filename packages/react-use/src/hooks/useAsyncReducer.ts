@@ -3,11 +3,13 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { isPromise } from '../lib/util';
 
 /** Object used to define the reducer's actions. The first argument is the current state and all following arguments are user-defined. */
-export type InputActions<S> = { [key: string]: (currentState: S, ...args: any) => Promise<S> | S };
+export type InputActions<S> = {
+  [key: string]: (currentState: S, ...args: any) => Promise<S> | S;
+};
 
 /** Object used to consume the reducer's actions. The parameters are inferred from the input actions object, dropping the first argument (current state). */
 export type OutputActions<S, A extends InputActions<S>> = {
-  [P in keyof A]: (...args: Parameters<A[P]> extends [any, ...(infer U)] ? U : never) => void;
+  [P in keyof A]: (...args: Parameters<A[P]> extends [any, ...infer U] ? U : never) => void;
 };
 
 export interface Error<S> {
@@ -106,12 +108,22 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
         (prev, [actionName, action]) => ({
           ...prev,
           // Push the user-defined action to the queue when it is called from outside the hook
-          [actionName]: (...args) => pushQueue({ actionName, action, args }),
+          [actionName]: (...args) =>
+            pushQueue({
+              actionName,
+              action,
+              args,
+            }),
         }),
         {} as OutputActions<S, A>,
       ),
     [actions],
   );
 
-  return { actions: outputActions, isLoading, state, error };
+  return {
+    actions: outputActions,
+    isLoading,
+    state,
+    error,
+  };
 }

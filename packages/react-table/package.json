@@ -32,10 +32,14 @@
     "dist/"
   ],
   "scripts": {
-    "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
-    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit"
+    "dev": "jest -c ../../jest.config.js --testPathPattern react-table --watchAll",
+    "lint": "eslint --ext .ts,.tsx . --fix && tsc",
+    "build": "vite build -c ../../vite.config.ts",
+    "test": "jest -c ../../jest.config.js --testPathPattern react-table --coverage --collectCoverageFrom packages/react-table/src/**/*.{ts,tsx} --coverageDirectory packages/react-table/.coverage",
+    "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
+    "@saphe/react-use": "workspace:*",
     "fuzzysort": "1.1.4",
     "tslib": "2.3.1"
   },

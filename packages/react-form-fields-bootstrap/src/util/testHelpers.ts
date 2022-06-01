@@ -1,5 +1,5 @@
 import useForm, { Field, State } from '@saphe/react-form';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { ReactElement } from 'react';
 import { BootstrapFieldPack } from '..';
 

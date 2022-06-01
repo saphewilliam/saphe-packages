@@ -31,16 +31,18 @@
     "dist/"
   ],
   "scripts": {
-    "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
-    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit"
+    "dev": "jest -c ../../jest.config.js --testPathPattern react-form-fields-bootstrap --watchAll",
+    "lint": "eslint --ext .ts,.tsx . --fix && tsc",
+    "build": "vite build -c ../../vite.config.ts",
+    "test": "jest -c ../../jest.config.js --testPathPattern react-form-fields-bootstrap --coverage --collectCoverageFrom packages/react-form-fields-bootstrap/src/**/*.{ts,tsx} --coverageDirectory packages/react-form-fields-bootstrap/.coverage",
+    "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
-    "@saphe/react-form": "0.8.1"
+    "@saphe/react-form": "workspace:*"
   },
-  "devDependencies": {},
   "peerDependencies": {
     "bootstrap": ">=5.0.0",
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   }
 }

@@ -3,7 +3,7 @@ import { Util } from '../src';
 describe('Util', () => {
   it('detects a promise object', () => {
     const p = Util.isPromise;
-    expect(p(new Promise(() => {}))).toBeTruthy();
+    expect(p(new Promise<void>((r) => r()))).toBeTruthy();
     expect(p({})).toBeFalsy();
     expect(p({ hello: 'world' })).toBeFalsy();
     expect(p('Hello world')).toBeFalsy();

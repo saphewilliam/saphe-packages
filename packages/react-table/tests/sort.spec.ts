@@ -1,4 +1,4 @@
-import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import useTable, { Data, Columns, State, SortOrder } from '../src';
 
 export const hello = 'test';
@@ -46,7 +46,7 @@ const data: Data<SortTableColumns> = [
 ];
 
 function expectDefaultSort<T>(
-  result: RenderResult<State<SortTableColumns>>,
+  result: { current: State<SortTableColumns> },
   colId: number,
   sequence: T[],
 ): void {

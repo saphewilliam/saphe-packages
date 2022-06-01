@@ -1,9 +1,21 @@
 {
-  "extends": "../../tsconfig.settings.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist/cjs",
-    "declarationDir": "dist/types",
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
-  "include": ["src/**/*"],
+  "include": ["src", "tests"],
+  "references": [{ "path": "../../tsconfig.node.json" }]
 }

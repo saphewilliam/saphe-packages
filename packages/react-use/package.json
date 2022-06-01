@@ -31,26 +31,11 @@
     "dist/"
   ],
   "scripts": {
-    "dev": "jest --watchAll",
-    "lint": "",
-    "build": "tsc && vite build",
-    "test": "jest --coverage"
-  },
-  "devDependencies": {
-    "@testing-library/react": "13.2.0",
-    "@types/jest": "27.5.1",
-    "@types/node": "17.0.35",
-    "@types/react": "18.0.0",
-    "@types/react-dom": "18.0.0",
-    "@vitejs/plugin-react": "1.3.0",
-    "jest": "28.1.0",
-    "jest-environment-jsdom": "28.1.0",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
-    "ts-jest": "28.0.2",
-    "typescript": "4.6.3",
-    "vite": "2.9.9",
-    "vite-plugin-dts": "1.1.1"
+    "dev": "jest -c ../../jest.config.js --testPathPattern react-use --watchAll",
+    "lint": "eslint --ext .ts,.tsx . --fix && tsc",
+    "build": "vite build -c ../../vite.config.ts",
+    "test": "jest -c ../../jest.config.js --testPathPattern react-use --coverage --collectCoverageFrom packages/react-use/src/**/*.{ts,tsx} --coverageDirectory packages/react-use/.coverage",
+    "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

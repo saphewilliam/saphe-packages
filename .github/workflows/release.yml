@@ -36,13 +36,25 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           files: ./packages/react-use/.coverage/coverage-final.json
-          flags: @saphe/react-use
+          flags: '@saphe/react-use'
 
       - name: Upload @saphe/react-form coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
           files: ./packages/react-form/.coverage/coverage-final.json
-          flags: @saphe/react-form
+          flags: '@saphe/react-form'
+
+      - name: Upload @saphe/react-form-fields-bootstrap coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-form-fields-bootstrap/.coverage/coverage-final.json
+          flags: '@saphe/react-form-fields-bootstrap'
+
+      - name: Upload @saphe/react-table coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-table/.coverage/coverage-final.json
+          flags: '@saphe/react-table'
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets

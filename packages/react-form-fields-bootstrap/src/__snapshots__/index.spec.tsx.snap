@@ -28,7 +28,6 @@ exports[`The field pack renders a minimal check field 1`] = `
       >
         Check Field
       </label>
-      
     </div>
   </div>
   <button
@@ -69,7 +68,6 @@ exports[`The field pack renders a minimal check field 2`] = `
       >
         Check Field
       </label>
-      
       <div
         className="form-text"
         id="minimalCheckFieldFormCheckFieldDescription"
@@ -113,7 +111,6 @@ exports[`The field pack renders a minimal number field 1`] = `
       type="number"
       value=""
     />
-    
   </div>
   <button
     className="btn btn-primary"
@@ -150,7 +147,6 @@ exports[`The field pack renders a minimal number field 2`] = `
       type="number"
       value=""
     />
-    
     <div
       className="form-text"
       id="minimalNumberFieldFormNumberFieldDescription"
@@ -195,9 +191,7 @@ exports[`The field pack renders a minimal select field 1`] = `
       <option
         disabled={true}
         value=""
-      >
-        
-      </option>
+      />
       <option
         value="option-1"
       >
@@ -209,7 +203,6 @@ exports[`The field pack renders a minimal select field 1`] = `
         Option 2
       </option>
     </select>
-    
   </div>
   <button
     className="btn btn-primary"
@@ -248,9 +241,7 @@ exports[`The field pack renders a minimal select field 2`] = `
       <option
         disabled={true}
         value=""
-      >
-        
-      </option>
+      />
       <option
         value="option-1"
       >
@@ -262,7 +253,6 @@ exports[`The field pack renders a minimal select field 2`] = `
         Option 2
       </option>
     </select>
-    
     <div
       className="form-text"
       id="minimalSelectFieldFormSelectFieldDescription"
@@ -305,7 +295,6 @@ exports[`The field pack renders a minimal text field 1`] = `
       type="text"
       value=""
     />
-    
   </div>
   <button
     className="btn btn-primary"
@@ -342,7 +331,6 @@ exports[`The field pack renders a minimal text field 2`] = `
       type="text"
       value=""
     />
-    
     <div
       className="form-text"
       id="minimalTextFieldFormTextFieldDescription"
@@ -385,7 +373,6 @@ exports[`The field pack renders a minimal textarea field 1`] = `
       rows={6}
       value=""
     />
-    
   </div>
   <button
     className="btn btn-primary"
@@ -422,7 +409,6 @@ exports[`The field pack renders a minimal textarea field 2`] = `
       rows={6}
       value=""
     />
-    
     <div
       className="form-text"
       id="minimalTextAreaFieldFormTextAreaFieldDescription"

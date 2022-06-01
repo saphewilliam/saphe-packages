@@ -1,4 +1,4 @@
-import fuzzysort from 'fuzzysort';
+import * as fuzzysort from 'fuzzysort';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Columns, ColumnTypes, Data, Options, DataRow, SearchMode } from './types';
 import { ColumnType, ColumnTypeEnum } from './useColumnType';
