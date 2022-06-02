@@ -1,5 +1,19 @@
 # @saphe/react-table
 
+## 0.7.0
+
+### Minor Changes
+
+- c4da344: Update peer deps to React 18
+- c4da344: Rewrite repository to use Turborepo and pnpm
+
+### Patch Changes
+
+- Updated dependencies [c4da344]
+- Updated dependencies [c4da344]
+- Updated dependencies [c4da344]
+  - @saphe/react-use@0.1.0
+
 ## 0.6.0
 
 ### Minor Changes
