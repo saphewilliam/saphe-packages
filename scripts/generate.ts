@@ -123,7 +123,7 @@ function makeReadme(name: string, p: Package): void {
       `[![Bundle size](${sRoot}bundlephobia/minzip/${n}${s})](https://bundlephobia.com/package/${n})`,
     );
     write(
-      `[![Code coverage](${sRoot}codecov/c/github${repo}${s}&flag=react-use&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)`,
+      `[![Code coverage](${sRoot}codecov/c/github${repo}${s}&flag=${name}&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)`,
     );
     write(
       `[![Pull requests welcome](${sRoot}badge/PRs-welcome-brightgreen.svg${s})](${gRoot}CONTRIBUTING.md)`,

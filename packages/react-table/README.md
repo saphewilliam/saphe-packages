@@ -3,7 +3,7 @@
 [![NPM version](https://img.shields.io/npm/v/@saphe/react-table?style=flat-square)](https://npmjs.com/@saphe/react-table)
 [![License](https://img.shields.io/npm/l/@saphe/react-table?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/@saphe/react-table?style=flat-square)](https://bundlephobia.com/package/@saphe/react-table)
-[![Code coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages?style=flat-square&flag=react-use&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)
+[![Code coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages?style=flat-square&flag=react-table&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 
 A lightweight, declarative, type-safe table engine for React apps.
