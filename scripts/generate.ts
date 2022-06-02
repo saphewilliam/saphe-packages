@@ -184,7 +184,23 @@ function makeLabelerYml(): void {
 
   stream.once('open', () => {
     for (const name of Object.keys(packages)) {
-      stream.write(`@saphe/${name}:\n  - packages/${name}/*\n  - packages/${name}/**/*\n`);
+      stream.write(`'@saphe/${name}':\n  - packages/${name}/*\n  - packages/${name}/**/*\n`);
+    }
+  });
+}
+
+function makeCoverageYml(): void {
+  const path = join(process.cwd(), '.github', 'actions', 'collect_coverage', 'action.yml');
+  const stream = createWriteStream(path);
+
+  stream.once('open', () => {
+    stream.write(
+      'name: "Collect coverage from all packages"\n\nruns:\n  using: "composite"\n  steps:',
+    );
+    for (const name of Object.keys(packages)) {
+      stream.write(
+        `\n    - name: Upload ${name} coverage to Codecov\n      uses: codecov/codecov-action@v2\n      with:\n        files: ./packages/${name}/.coverage/coverage-final.json\n        flags: ${name}\n`,
+      );
     }
   });
 }
@@ -243,8 +259,9 @@ function makeRootReadme(): void {
 
 function main(): void {
   makeRootReadme();
-  makeLabelerYml();
   makeRootTsConfig();
+  makeLabelerYml();
+  makeCoverageYml();
 
   for (const [n, p] of Object.entries(packages)) {
     const path = join(process.cwd(), 'packages', n);
