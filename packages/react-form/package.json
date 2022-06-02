@@ -20,7 +20,7 @@
     "directory": "packages/react-form"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-form#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-form",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/@saphe%2Freact-form",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

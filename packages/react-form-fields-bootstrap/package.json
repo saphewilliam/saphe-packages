@@ -19,14 +19,14 @@
     "directory": "packages/react-form-fields-bootstrap"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-form-fields-bootstrap#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-form-fields-bootstrap",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/@saphe%2Freact-form-fields-bootstrap",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/"
   ],
@@ -40,6 +40,7 @@
   "dependencies": {
     "@saphe/react-form": "workspace:*"
   },
+  "devDependencies": {},
   "peerDependencies": {
     "bootstrap": ">=5.0.0",
     "react": ">=18.0.0",

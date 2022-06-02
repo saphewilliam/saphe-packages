@@ -19,7 +19,7 @@
     "directory": "packages/react-use"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-use#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-use",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/@saphe%2Freact-use",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -37,11 +37,12 @@
     "test": "jest -c ../../jest.config.js --testPathPattern react-use --coverage --collectCoverageFrom packages/react-use/src/**/*.{ts,tsx} --coverageDirectory packages/react-use/.coverage",
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
+  "dependencies": {
+    "tslib": "2.3.1"
+  },
+  "devDependencies": {},
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
-  },
-  "dependencies": {
-    "tslib": "2.3.1"
   }
 }

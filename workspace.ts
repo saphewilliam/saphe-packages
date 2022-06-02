@@ -24,6 +24,7 @@ export const packages: Packages = {
   'react-form-fields-bootstrap': {
     description: 'Officially maintained Bootstrap-style form fields pack for @saphe/react-form',
     keywords: ['typescript', 'react', 'form', 'bootstrap'],
+    peerDependencies: ['bootstrap'],
   },
 
   'react-table': {

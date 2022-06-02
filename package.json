@@ -18,7 +18,7 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "clean": "turbo run clean && rimraf node_modules",
-    "generate": "ts-node ./scripts/generate/index.ts",
+    "generate": "ts-node ./scripts/generate.ts",
     "postinstall": "pnpm build"
   },
   "devDependencies": {
@@ -38,6 +38,7 @@
     "eslint-plugin-react": "7.30.0",
     "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
+    "markdown-toc": "1.2.0",
     "pnpm": "7.1.7",
     "prettier": "2.6.2",
     "react": "18.1.0",
