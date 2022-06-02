@@ -34,9 +34,20 @@ export interface Config<T extends Fields> {
   };
 
   /** Optional, the void function that fires on a form change event */
-  onChange?: (formValues: {
-    [P in keyof FormValues<T>]: FormValues<T>[P] | null;
-  }) => void | Promise<void>;
+  onChange?: (
+    formValues: {
+      [P in keyof FormValues<T>]: FormValues<T>[P] | null;
+    },
+    fieldName: keyof T,
+  ) => void | Promise<void>;
+
+  /** Optional, the void function that fires on a form blur event */
+  onBlur?: (
+    formValues: {
+      [P in keyof FormValues<T>]: FormValues<T>[P] | null;
+    },
+    fieldName: keyof T,
+  ) => void | Promise<void>;
 
   /** Optional, the void function that fires on a form submission event */
   onSubmit?: (

@@ -17,6 +17,70 @@ export interface FormState<T extends Fields> {
   values: FormValues<T>;
 }
 
+function handleBlur<T extends Fields>(
+  prevState: FormState<T>,
+  fieldName: string,
+  validationMode: ValidationMode,
+): FormState<T> {
+  const field = prevState.fields[fieldName];
+  if (!field) return prevState;
+
+  const fieldValidationMode = field.validation?.mode;
+  const targetValue = prevState.values[fieldName as keyof typeof prevState.values];
+  const error = validateField(field, targetValue);
+
+  const shouldValidate =
+    // Either the local or global validation mode is ON_BLUR
+    fieldValidationMode === ValidationMode.ON_BLUR ||
+    (fieldValidationMode === undefined && validationMode === ValidationMode.ON_BLUR) ||
+    // Or either the local or global validation mode is AFTER_BLUR
+    fieldValidationMode === ValidationMode.AFTER_BLUR ||
+    (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR);
+
+  return {
+    ...prevState,
+    errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
+    touched: { ...prevState.touched, [fieldName]: true },
+  };
+}
+
+function handleChange<T extends Fields>(
+  prevState: FormState<T>,
+  fieldName: string,
+  targetValue: FieldValue<FieldType>,
+  validationMode: ValidationMode,
+): FormState<T> {
+  const field = prevState.fields[fieldName];
+  if (!field) return prevState;
+
+  const values = {
+    ...prevState.values,
+    [fieldName]:
+      'multiple' in field && field.multiple && targetValue === null
+        ? []
+        : 'multiple' in field && field.multiple && !(targetValue && Array.isArray(targetValue))
+        ? [targetValue]
+        : targetValue,
+  };
+
+  const error = validateField(field, targetValue);
+  const fieldValidationMode = field.validation?.mode;
+  const shouldValidate =
+    // Either the local or global validation mode is ON_CHANGE
+    fieldValidationMode === ValidationMode.ON_CHANGE ||
+    (fieldValidationMode === undefined && validationMode === ValidationMode.ON_CHANGE) ||
+    // Or either the local or global validation mode is AFTER_BLUR and a field has been touched
+    ((fieldValidationMode === ValidationMode.AFTER_BLUR ||
+      (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR)) &&
+      prevState.touched[fieldName]);
+
+  return {
+    ...prevState,
+    values,
+    errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
+  };
+}
+
 export default function useFormState<T extends Fields>(
   config: Config<T>,
   recaptchaToken: string | undefined,
@@ -31,68 +95,38 @@ export default function useFormState<T extends Fields>(
     [config.fields],
   );
 
-  const { recaptcha, onChange, onSubmit, validationMode = ValidationMode.AFTER_BLUR } = config;
+  const {
+    recaptcha,
+    onChange,
+    onBlur,
+    onSubmit,
+    validationMode = ValidationMode.AFTER_BLUR,
+  } = config;
 
   return useAsyncReducer(initialState, {
     reset: () => initialState,
-    blur: (prevState, fieldName: string) => {
-      const field = prevState.fields[fieldName];
-      if (!field) return prevState;
+    blurSync: (prevState, fieldName: string) => handleBlur(prevState, fieldName, validationMode),
+    blur: async (prevState, fieldName: string) => {
+      const nextState = handleBlur(prevState, fieldName, validationMode);
 
-      const fieldValidationMode = field.validation?.mode;
-      const targetValue = prevState.values[fieldName as keyof typeof prevState.values];
-      const error = validateField(field, targetValue);
+      if (onBlur) {
+        const onBlurResult = onBlur(nextState.values, fieldName);
+        if (Util.isPromise(onBlurResult)) await onBlurResult;
+      }
 
-      const shouldValidate =
-        // Either the local or global validation mode is ON_BLUR
-        fieldValidationMode === ValidationMode.ON_BLUR ||
-        (fieldValidationMode === undefined && validationMode === ValidationMode.ON_BLUR) ||
-        // Or either the local or global validation mode is AFTER_BLUR
-        fieldValidationMode === ValidationMode.AFTER_BLUR ||
-        (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR);
-
-      return {
-        ...prevState,
-        errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
-        touched: { ...prevState.touched, [fieldName]: true },
-      };
+      return nextState;
     },
-    // TODO dispatch multiple changes at once?
+    changeSync: (prevState, fieldName: string, targetValue: FieldValue<FieldType>) =>
+      handleChange(prevState, fieldName, targetValue, validationMode),
     change: async (prevState, fieldName: string, targetValue: FieldValue<FieldType>) => {
-      const field = prevState.fields[fieldName];
-      if (!field) return prevState;
-
-      const values = {
-        ...prevState.values,
-        [fieldName]:
-          'multiple' in field && field.multiple && targetValue === null
-            ? []
-            : 'multiple' in field && field.multiple && !(targetValue && Array.isArray(targetValue))
-            ? [targetValue]
-            : targetValue,
-      };
-
-      const error = validateField(field, targetValue);
-      const fieldValidationMode = field.validation?.mode;
-      const shouldValidate =
-        // Either the local or global validation mode is ON_CHANGE
-        fieldValidationMode === ValidationMode.ON_CHANGE ||
-        (fieldValidationMode === undefined && validationMode === ValidationMode.ON_CHANGE) ||
-        // Or either the local or global validation mode is AFTER_BLUR and a field has been touched
-        ((fieldValidationMode === ValidationMode.AFTER_BLUR ||
-          (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR)) &&
-          prevState.touched[fieldName]);
+      const nextState = handleChange(prevState, fieldName, targetValue, validationMode);
 
       if (onChange) {
-        const onChangeResult = onChange(values);
+        const onChangeResult = onChange(nextState.values, fieldName);
         if (Util.isPromise(onChangeResult)) await onChangeResult;
       }
 
-      return {
-        ...prevState,
-        values,
-        errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
-      };
+      return nextState;
     },
     submit: async (prevState) => {
       // Form validation
