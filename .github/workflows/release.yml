@@ -52,33 +52,15 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: Upload @saphe/react-use coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/react-use/.coverage/coverage-final.json
-          flags: react-use
-
-      - name: Upload @saphe/react-form coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/react-form/.coverage/coverage-final.json
-          flags: react-form
-
-      - name: Upload @saphe/react-form-fields-bootstrap coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/react-form-fields-bootstrap/.coverage/coverage-final.json
-          flags: react-form-fields-bootstrap
-
-      - name: Upload @saphe/react-table coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./packages/react-table/.coverage/coverage-final.json
-          flags: react-table
+      - name: Collect coverage
+        uses: './.github/actions/collect_coverage'
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
+        with:
+          publish: yarn changeset publish
+          version: yarn changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
