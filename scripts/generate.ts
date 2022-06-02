@@ -184,7 +184,7 @@ function makeLabelerYml(): void {
 
   stream.once('open', () => {
     for (const name of Object.keys(packages)) {
-      stream.write(`@saphe/${name}:\n  - packages/${name}/*\n  - packages/${name}/**/*\n`);
+      stream.write(`'@saphe/${name}':\n  - packages/${name}/*\n  - packages/${name}/**/*\n`);
     }
   });
 }
