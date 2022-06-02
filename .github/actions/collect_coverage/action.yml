@@ -3,25 +3,25 @@ name: "Collect coverage from all packages"
 runs:
   using: "composite"
   steps:
-    - name: Upload @saphe/react-form coverage to Codecov
+    - name: Upload react-form coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         files: ./packages/react-form/.coverage/coverage-final.json
         flags: react-form
 
-    - name: Upload @saphe/react-form-fields-bootstrap coverage to Codecov
+    - name: Upload react-form-fields-bootstrap coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         files: ./packages/react-form-fields-bootstrap/.coverage/coverage-final.json
         flags: react-form-fields-bootstrap
 
-    - name: Upload @saphe/react-table coverage to Codecov
+    - name: Upload react-table coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         files: ./packages/react-table/.coverage/coverage-final.json
         flags: react-table
 
-    - name: Upload @saphe/react-use coverage to Codecov
+    - name: Upload react-use coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         files: ./packages/react-use/.coverage/coverage-final.json

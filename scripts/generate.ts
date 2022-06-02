@@ -199,7 +199,7 @@ function makeCoverageYml(): void {
     );
     for (const name of Object.keys(packages)) {
       stream.write(
-        `\n    - name: Upload @saphe/${name} coverage to Codecov\n      uses: codecov/codecov-action@v2\n      with:\n        files: ./packages/${name}/.coverage/coverage-final.json\n        flags: ${name}\n`,
+        `\n    - name: Upload ${name} coverage to Codecov\n      uses: codecov/codecov-action@v2\n      with:\n        files: ./packages/${name}/.coverage/coverage-final.json\n        flags: ${name}\n`,
       );
     }
   });
