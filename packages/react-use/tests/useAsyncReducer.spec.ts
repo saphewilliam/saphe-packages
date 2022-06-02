@@ -127,9 +127,9 @@ describe('useAsyncReducer', () => {
     expect(result.current.error?.action.actionName).toBe('error');
     expect(result.current.error?.action.args.length).toBe(0);
     expect(result.current.error?.pendingActions.length).toBe(1);
-    expect(result.current.error?.pendingActions[0].actionName).toBe('increment');
-    expect(result.current.error?.pendingActions[0].args.length).toBe(1);
-    expect(result.current.error?.pendingActions[0].args[0]).toBe(2);
+    expect(result.current.error?.pendingActions[0]?.actionName).toBe('increment');
+    expect(result.current.error?.pendingActions[0]?.args.length).toBe(1);
+    expect(result.current.error?.pendingActions[0]?.args[0]).toBe(2);
   });
 
   it('exposes option to rerun queue after failed action', async () => {
