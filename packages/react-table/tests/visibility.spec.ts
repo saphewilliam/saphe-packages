@@ -1,4 +1,4 @@
-import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import useTable, { Data, Columns, State } from '../src';
 
 interface VisibilityTableData {
@@ -38,7 +38,11 @@ const data: Data<VisibilityTableData> = [
 ];
 
 function expectColumns(
-  { current: { headers, rows } }: RenderResult<State<VisibilityTableData>>,
+  {
+    current: { headers, rows },
+  }: {
+    current: State<VisibilityTableData>;
+  },
   firstColVals: [string, string, string] = ['numberCol', '10', '31'],
   nCols = Object.keys(columns).length - 1,
 ): void {

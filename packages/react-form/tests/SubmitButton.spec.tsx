@@ -1,4 +1,3 @@
-import React from 'react';
 import SubmitButton from '../src/components/helpers/SubmitButton';
 import { matchSnapshot } from './testHelpers';
 

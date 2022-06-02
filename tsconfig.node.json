@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}

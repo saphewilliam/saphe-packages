@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import * as F from '../lib/field';
 import { Field } from '../lib/field';
 import { PropsBase } from '../lib/props';

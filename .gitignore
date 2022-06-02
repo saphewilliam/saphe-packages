@@ -1,7 +1,13 @@
 # Compiled output
-dist/
-node_modules/
 .coverage/
+.turbo/
+node_modules/
+dist/
 
-# Error logs
-*error.log
+# Visual Studio Code settings
+.vscode
+!.vscode/saphe.code-snippets
+
+# Misc
+.DS_Store
+*.log*

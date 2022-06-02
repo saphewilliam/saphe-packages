@@ -1,5 +1,5 @@
 import { Props } from '@saphe/react-form';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import BSFieldText from './BSFieldText';
 
 export default function BSCheckField(props: Props.CheckProps): ReactElement {

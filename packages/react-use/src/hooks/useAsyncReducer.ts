@@ -1,25 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useMemo, useRef, useState } from 'react';
-
-export function isPromise<T>(obj: any): obj is Promise<T> {
-  return String(obj) === '[object Promise]';
-}
+import { isPromise } from '../lib/util';
 
 /** Object used to define the reducer's actions. The first argument is the current state and all following arguments are user-defined. */
-export type InputActions<S> = { [key: string]: (currentState: S, ...args: any) => Promise<S> | S };
+export type InputActions<S> = {
+  [key: string]: (currentState: S, ...args: any) => Promise<S> | S;
+};
 
 /** Object used to consume the reducer's actions. The parameters are inferred from the input actions object, dropping the first argument (current state). */
 export type OutputActions<S, A extends InputActions<S>> = {
   [P in keyof A]: (...args: Parameters<A[P]> extends [any, ...infer U] ? U : never) => void;
 };
 
-export interface Error<S = any> {
+export interface Error<S> {
   message: string;
   action: Action<S>;
   pendingActions: Action<S>[];
+  runFailedAction: () => void;
+  runPendingActions: () => void;
+  runAllActions: () => void;
 }
 
-interface Action<S> {
+export interface Action<S> {
   actionName: string;
   action: (...args: any) => Promise<S> | S;
   args: any[];
@@ -32,8 +34,8 @@ export interface State<S, A extends InputActions<S>> {
   error: Error<S> | null;
 }
 
-export default function useAsyncReducer<S, A extends InputActions<S>>(
-  // TODO Support promise and function initial state
+export function useAsyncReducer<S, A extends InputActions<S>>(
+  // TODO Support promise and function lazy loading initial state
   initialState: S,
   actions: A,
 ): State<S, A> {
@@ -41,7 +43,7 @@ export default function useAsyncReducer<S, A extends InputActions<S>>(
   const [state, setState] = useState<S>(initialState);
   const [error, setError] = useState<Error<S> | null>(null);
 
-  const { current: queue } = useRef<Action<S>[]>([]);
+  let { current: queue } = useRef<Action<S>[]>([]);
   let { current: currentState } = useRef<S>(initialState);
   let { current: currentIsLoading } = useRef(false);
 
@@ -59,15 +61,25 @@ export default function useAsyncReducer<S, A extends InputActions<S>>(
       } else popQueue();
     };
 
+    const runActions = (a: Action<S>[]) => {
+      queue = [...a];
+      popQueue();
+    };
+
     const abortQueue = (e: any) => {
-      currentIsLoading = false;
-      setIsLoading(currentIsLoading);
+      const pendingActions = [...queue];
       if (currentAction)
         setError({
           message: String(e),
           action: currentAction,
-          pendingActions: queue,
+          pendingActions,
+          runFailedAction: () => runActions([currentAction]),
+          runPendingActions: () => runActions(pendingActions),
+          runAllActions: () => runActions([currentAction, ...pendingActions]),
         });
+      currentIsLoading = false;
+      setIsLoading(currentIsLoading);
+      queue = [];
     };
 
     if (currentAction !== undefined) {
@@ -84,7 +96,7 @@ export default function useAsyncReducer<S, A extends InputActions<S>>(
   const pushQueue = useCallback(
     (action: Action<S>) => {
       queue.push(action);
-      if (!currentIsLoading) popQueue();
+      if (!currentIsLoading && queue.length === 1) popQueue();
     },
     [queue, currentIsLoading, popQueue],
   );
@@ -96,12 +108,22 @@ export default function useAsyncReducer<S, A extends InputActions<S>>(
         (prev, [actionName, action]) => ({
           ...prev,
           // Push the user-defined action to the queue when it is called from outside the hook
-          [actionName]: (...args) => pushQueue({ actionName, action, args }),
+          [actionName]: (...args) =>
+            pushQueue({
+              actionName,
+              action,
+              args,
+            }),
         }),
         {} as OutputActions<S, A>,
       ),
     [actions],
   );
 
-  return { actions: outputActions, isLoading, state, error };
+  return {
+    actions: outputActions,
+    isLoading,
+    state,
+    error,
+  };
 }

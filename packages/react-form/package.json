@@ -20,22 +20,26 @@
     "directory": "packages/react-form"
   },
   "homepage": "https://github.com/saphewilliam/saphe-packages/tree/main/packages/react-form#readme",
-  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/package%2Freact-form",
+  "bugs": "https://github.com/saphewilliam/saphe-packages/labels/@saphe%2Freact-form",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "build": "rimraf dist && tsc -b tsconfig.json tsconfig.esm.json",
-    "lint": "eslint --ext .ts,.tsx . --fix --ignore-path ../../.eslintignore && tsc --noEmit"
+    "dev": "jest -c ../../jest.config.js --testPathPattern react-form --watchAll",
+    "lint": "eslint --ext .ts,.tsx . --fix && tsc",
+    "build": "vite build -c ../../vite.config.ts",
+    "test": "jest -c ../../jest.config.js --testPathPattern react-form --coverage --collectCoverageFrom packages/react-form/src/**/*.{ts,tsx} --coverageDirectory packages/react-form/.coverage",
+    "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
+    "@saphe/react-use": "workspace:*",
     "react-google-recaptcha": "2.1.0",
     "tslib": "2.3.1"
   },
@@ -43,7 +47,7 @@
     "@types/react-google-recaptcha": "2.1.2"
   },
   "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   }
 }

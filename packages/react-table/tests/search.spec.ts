@@ -1,4 +1,4 @@
-import { renderHook, act, RenderResult } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react';
 import useTable, { Data, Columns, Options, SearchMode, State } from '../src';
 
 interface SearchTableData {
@@ -30,7 +30,7 @@ const data: Data<SearchTableData> = [
 ];
 
 function expectRowSearch(
-  result: RenderResult<State<SearchTableData>>,
+  result: { current: State<SearchTableData> },
   searchString: string,
   expectedLength: number,
 ): void {

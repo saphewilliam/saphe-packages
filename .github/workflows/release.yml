@@ -11,33 +11,74 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js 12.x
-        uses: actions/setup-node@master
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: 16
 
-      - name: Install Dependencies
-        run: yarn
+      - name: Install pnpm
+        id: pnpm-install
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: yarn build
+        run: pnpm build
+
+      - name: Lint
+        run: pnpm lint
 
       - name: Test
-        run: yarn test
+        run: pnpm test
 
-      - name: Upload coverage to Codecov
+      - name: Upload @saphe/react-use coverage to Codecov
         uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-use/.coverage/coverage-final.json
+          flags: react-use
+
+      - name: Upload @saphe/react-form coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-form/.coverage/coverage-final.json
+          flags: react-form
+
+      - name: Upload @saphe/react-form-fields-bootstrap coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-form-fields-bootstrap/.coverage/coverage-final.json
+          flags: react-form-fields-bootstrap
+
+      - name: Upload @saphe/react-table coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./packages/react-table/.coverage/coverage-final.json
+          flags: react-table
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
-        with:
-          publish: yarn changeset publish
-          version: yarn changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

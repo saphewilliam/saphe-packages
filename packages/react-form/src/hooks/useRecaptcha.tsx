@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 import RecaptchaComponent from 'react-google-recaptcha';
 
 export interface Config {

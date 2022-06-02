@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Props } from '..';
 import Form from '../components/Form';
 import FieldContainer from '../components/helpers/FieldContainer';
