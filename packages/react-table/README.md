@@ -79,7 +79,7 @@ npm install @saphe/react-table
 The following code shows a basic functional React component that implements a table using the `useTable` hook. Feel free to open the [Basic Example](https://codesandbox.io/s/saphe-react-table-basic-usage-example-eewu2?file=/src/App.tsx) and type along to see the IntelliSense and TypeChecking do it's thing! It is also possible to define `ColumnTypes`, `columns` and `data` in-line with the `useTable` function, but here they're shown separately to demonstrate the use of the `Columns<T>` and `Data<T>` types.
 
 ```tsx
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import useTable, { Columns, Data } from '@saphe/react-table';
 
 // Define column types of this table
@@ -265,7 +265,7 @@ return (
 Sorting a column can be as simple as calling the `toggleSort` function on the header cell. This will cycle the column through 3 states by default: SortOrder.ASC, SortOrder.DESC, and SortOrder.UNSORTED, in that order. To house this logic, you can define a custom clickable header cell:
 
 ```tsx
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { RenderHeadProps, SortOrder } from '@saphe/react-table';
 
 export function SortableHeaderCell(props: RenderHeadProps): ReactElement {
@@ -327,7 +327,7 @@ To set the search mode from the default fuzzy search `SearchMode.FUZZY` to exact
 If you want to highlight the matched text in the search results, you can pass in a custom component through the `style.renderCell` key of the `options` object which addresses the requirement. This custom component may use the `matchedText` prop from the `RenderCellProps` type as follows:
 
 ```tsx
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { RenderCellProps } from '@saphe/react-table';
 
 export function HighlightCell(props: RenderCellProps): ReactElement {

@@ -1,4 +1,3 @@
-import React from 'react';
 import FieldSwitch, { Props } from '../src/components/FieldSwitch';
 import { FieldType } from '../src/lib/field';
 import {

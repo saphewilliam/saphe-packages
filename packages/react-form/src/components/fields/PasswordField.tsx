@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { getFieldStyle } from '../../lib/form';
 import { PasswordProps } from '../../lib/props';
 import { AddFieldPack } from '../../lib/util';

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { SubmitButtonProps } from '../../lib/props';
 import { AddFieldPack } from '../../lib/util';
 

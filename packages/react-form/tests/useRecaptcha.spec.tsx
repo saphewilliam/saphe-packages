@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react';
-import React from 'react';
 import useRecaptcha from '../src/hooks/useRecaptcha';
 import { matchSnapshot } from './testHelpers';
 

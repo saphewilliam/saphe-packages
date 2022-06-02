@@ -1,4 +1,4 @@
-import React, { ReactElement, FormEvent, ReactNode } from 'react';
+import { ReactElement, FormEvent, ReactNode } from 'react';
 import { FieldType } from '../lib/field';
 import { getDefaultFieldValue } from '../lib/form';
 import { AddFieldPack, Fields, FieldValue, FormErrors, FormTouched, FormValues } from '../lib/util';

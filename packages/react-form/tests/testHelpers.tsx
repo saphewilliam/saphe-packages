@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import * as renderer from 'react-test-renderer';
+import renderer from 'react-test-renderer';
 import { Field, TextType, TextAreaType, SelectType, CheckType, NumberType } from '../src/lib/field';
 
 export const matchSnapshot = (component: ReactElement): void =>
