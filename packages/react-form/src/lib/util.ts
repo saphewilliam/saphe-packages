@@ -108,6 +108,7 @@ export interface FieldPack {
   [F.Field.CHECK]?: (props: P.CheckProps) => ReactElement;
   [F.Field.NUMBER]?: (props: P.NumberProps) => ReactElement;
   [F.Field.PASSWORD]?: (props: P.PasswordProps) => ReactElement;
+  [F.Field.NEW_PASSWORD]?: (props: P.NewPasswordProps) => ReactElement;
   [F.Field.EMAIL]?: (props: P.EmailProps) => ReactElement;
   [F.Field.FILE]?: (props: P.FileProps) => ReactElement;
   [F.Field.COLOR]?: (props: P.ColorProps) => ReactElement;

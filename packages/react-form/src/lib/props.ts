@@ -22,6 +22,7 @@ export type SelectProps = PropsBase<F.SelectType> & F.ISelect;
 export type CheckProps = PropsBase<F.CheckType> & F.ICheck;
 export type NumberProps = PropsBase<F.NumberType> & F.INumber;
 export type PasswordProps = PropsBase<F.PasswordType> & F.IPassword;
+export type NewPasswordProps = PropsBase<F.NewPasswordType> & F.INewPassword;
 export type EmailProps = PropsBase<F.EmailType> & F.IEmail;
 export type FileProps = PropsBase<F.FileType> & F.IFile;
 export type ColorProps = PropsBase<F.ColorType> & F.IColor;

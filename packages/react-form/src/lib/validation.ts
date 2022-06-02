@@ -92,6 +92,7 @@ export function validateField<T extends FieldType>(
     case Field.TEXT:
     case Field.TEXT_AREA:
     case Field.PASSWORD:
+    case Field.NEW_PASSWORD:
       error = validateStringField(value as string | null, field.validation as StringValidation);
       break;
     case Field.NUMBER:

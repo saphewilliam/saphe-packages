@@ -65,6 +65,7 @@ npm install @saphe/react-form
 - FILE
 - EMAIL
 - PASSWORD
+- NEW_PASSWORD
 - COLOR
 - DATE
 - TIME
@@ -76,7 +77,6 @@ npm install @saphe/react-form
   - RANGE
   - PHONE
   - RATING
-  - NEW_PASSWORD
   - CRSF
   - NOTICE
 
@@ -168,8 +168,13 @@ const { form, submitButton, formState } = useForm({
   },
 
   /** Optional, the void function that fires on a form change event */
-  onChange: async (formValues) => {
-    console.log(formValues);
+  onChange: async (formValues, fieldName) => {
+    console.log('change', fieldName, formValues);
+  },
+
+  /** Optional, the void function that fires on a form blur event */
+  onBlur: async (formValues, fieldName) => {
+    console.log('blur', fieldName, formValues);
   },
 
   /** Optional, the void function that fires on a form submission event */
