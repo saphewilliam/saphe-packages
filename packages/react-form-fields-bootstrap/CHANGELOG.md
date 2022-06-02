@@ -1,5 +1,18 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.4.0
+
+### Minor Changes
+
+- c4da344: Update peer deps to React 18
+- c4da344: Rewrite repository to use Turborepo and pnpm
+
+### Patch Changes
+
+- Updated dependencies [c4da344]
+- Updated dependencies [c4da344]
+  - @saphe/react-form@0.9.0
+
 ## 0.3.4
 
 ### Patch Changes
