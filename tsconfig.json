@@ -4,7 +4,11 @@
     "module": "CommonJS",
     "jsx": "react-jsx",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -31,5 +35,20 @@
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
     "noResolve": false,
-  },
+    "baseUrl": "packages",
+    "paths": {
+      "@saphe/react-form": [
+        "react-form/src"
+      ],
+      "@saphe/react-form-fields-bootstrap": [
+        "react-form-fields-bootstrap/src"
+      ],
+      "@saphe/react-table": [
+        "react-table/src"
+      ],
+      "@saphe/react-use": [
+        "react-use/src"
+      ]
+    }
+  }
 }

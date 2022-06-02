@@ -189,7 +189,29 @@ function makeLabelerYml(): void {
   });
 }
 
-export function makeRootReadme(): void {
+function makeRootTsConfig(): void {
+  const path = join(process.cwd(), 'tsconfig.json');
+  const content = JSON.parse(readFileSync(path, { encoding: 'utf-8' }));
+
+  writeFileSync(
+    path,
+    JSON.stringify(
+      {
+        compilerOptions: {
+          ...content.compilerOptions,
+          paths: Object.keys(packages).reduce(
+            (prev, curr) => ({ ...prev, [`@saphe/${curr}`]: [`${curr}/src`] }),
+            {},
+          ),
+        },
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+}
+
+function makeRootReadme(): void {
   const path = join(process.cwd(), 'README.md');
   const start = '<!-- BEGIN AUTO-GENERATED PACKAGES TABLE -->';
   const end = '<!-- END AUTO-GENERATED PACKAGES TABLE -->';
@@ -222,6 +244,7 @@ export function makeRootReadme(): void {
 function main(): void {
   makeRootReadme();
   makeLabelerYml();
+  makeRootTsConfig();
 
   for (const [n, p] of Object.entries(packages)) {
     const path = join(process.cwd(), 'packages', n);

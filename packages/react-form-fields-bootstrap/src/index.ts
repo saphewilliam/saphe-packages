@@ -1,4 +1,4 @@
-import { FieldPack, Field } from '@saphe/react-form';
+import { FieldPack, Field } from '@saphe/react-form/';
 import BSCheckField from './components/BSCheckField';
 import BSFieldContainer from './components/BSFieldContainer';
 import BSNumberField from './components/BSNumberField';
