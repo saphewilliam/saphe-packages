@@ -1,5 +1,12 @@
 # @saphe/react-forms
 
+## 0.9.1
+
+### Patch Changes
+
+- 286ad08: Add NEW_PASSWORD field
+- faca7fb: Fix async cursor jumping bug
+
 ## 0.9.0
 
 ### Minor Changes
