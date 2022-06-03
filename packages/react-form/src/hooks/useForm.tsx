@@ -4,8 +4,9 @@ import Form from '../components/Form';
 import FieldContainer from '../components/helpers/FieldContainer';
 import SubmitButton from '../components/helpers/SubmitButton';
 import useRecaptcha from '../hooks/useRecaptcha';
+import { FieldType } from '../lib/field';
 import { Config, State } from '../lib/hook';
-import { Fields, AddFieldPack, stringify } from '../lib/util';
+import { Fields, AddFieldPack, stringify, FieldValue } from '../lib/util';
 import useFormState from './useFormState';
 
 export default function useForm<T extends Fields>(config: Config<T>): State {
@@ -25,6 +26,16 @@ export default function useForm<T extends Fields>(config: Config<T>): State {
     actions.reset();
   };
 
+  const handleBlur = (fieldName: string) => {
+    actions.blurSync(fieldName);
+    actions.blur(fieldName);
+  };
+
+  const handleChange = (fieldName: string, targetValue: FieldValue<FieldType>) => {
+    actions.changeSync(fieldName, targetValue);
+    actions.change(fieldName, targetValue);
+  };
+
   const submitButtonProps: AddFieldPack<Props.SubmitButtonProps> = {
     label: !isLoading
       ? submitButton?.label ?? 'Submit'
@@ -40,7 +51,7 @@ export default function useForm<T extends Fields>(config: Config<T>): State {
 
   useEffect(() => {
     if (stringify(config.fields) !== stringify(state.fields)) actions.reset();
-  }, [config.fields]);
+  }, [actions, config.fields, state.fields]);
 
   return {
     formState,
@@ -54,8 +65,8 @@ export default function useForm<T extends Fields>(config: Config<T>): State {
         values={state.values}
         onSubmit={handleSubmit}
         onReset={handleReset}
-        onFieldBlur={actions.blur}
-        onFieldChange={actions.change}
+        onFieldBlur={handleBlur}
+        onFieldChange={handleChange}
       >
         {recaptcha && (
           <FieldContainer fieldPack={fieldPack}>

@@ -108,16 +108,11 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
         (prev, [actionName, action]) => ({
           ...prev,
           // Push the user-defined action to the queue when it is called from outside the hook
-          [actionName]: (...args) =>
-            pushQueue({
-              actionName,
-              action,
-              args,
-            }),
+          [actionName]: (...args) => pushQueue({ actionName, action, args }),
         }),
         {} as OutputActions<S, A>,
       ),
-    [actions],
+    [actions, pushQueue],
   );
 
   return {

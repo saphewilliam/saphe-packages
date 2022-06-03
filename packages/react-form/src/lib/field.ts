@@ -19,6 +19,7 @@ export enum Field {
   CHECK = 'CHECK',
   NUMBER = 'NUMBER',
   PASSWORD = 'PASSWORD',
+  NEW_PASSWORD = 'NEW_PASSWORD',
   EMAIL = 'EMAIL',
   FILE = 'FILE',
   COLOR = 'COLOR',
@@ -32,7 +33,6 @@ export enum Field {
   // RANGE = 'RANGE',
   // PHONE = 'PHONE',
   // RATING = 'RATING',
-  // NEW_PASSWORD = 'NEW_PASSWORD',
   // CRSF = 'CRSF',
   // NOTICE = 'NOTICE',
 }
@@ -60,6 +60,10 @@ export interface INumber {
 }
 
 export interface IPassword {
+  placeholder?: string;
+}
+
+export interface INewPassword {
   placeholder?: string;
 }
 
@@ -101,27 +105,14 @@ interface FieldBase<
   // fieldState?: FieldState | ((formState) => FieldState);
 }
 
-export type FieldType =
-  | TextType
-  | TextAreaType
-  | SelectType
-  | CheckType
-  | NumberType
-  | PasswordType
-  | EmailType
-  | FileType
-  | ColorType
-  | DateType
-  | TimeType
-  | DateTimeType
-  | MonthType;
-
 export type TextType = FieldBase<Field.TEXT, string, StringValidation> & IText;
 export type TextAreaType = FieldBase<Field.TEXT_AREA, string, StringValidation> & ITextArea;
 export type SelectType = FieldBase<Field.SELECT, string, SelectValidation> & ISelect;
 export type CheckType = FieldBase<Field.CHECK, boolean, BooleanValidation> & ICheck;
 export type NumberType = FieldBase<Field.NUMBER, number, NumberValidation> & INumber;
 export type PasswordType = FieldBase<Field.PASSWORD, string, StringValidation> & IPassword;
+export type NewPasswordType = FieldBase<Field.NEW_PASSWORD, string, StringValidation> &
+  INewPassword;
 export type EmailType = FieldBase<Field.EMAIL, string, EmailValidation> & IPassword;
 export type FileType = FieldBase<Field.FILE, File, FileValidation> & IFile;
 export type ColorType = FieldBase<Field.COLOR, string, ColorValidation> & IColor;
@@ -129,3 +120,19 @@ export type DateType = FieldBase<Field.DATE, Date, DateValidation> & IDate;
 export type TimeType = FieldBase<Field.TIME, Date, DateValidation> & ITime;
 export type DateTimeType = FieldBase<Field.DATE_TIME, Date, DateValidation> & IDateTime;
 export type MonthType = FieldBase<Field.MONTH, Date, DateValidation> & IMonth;
+
+export type FieldType =
+  | TextType
+  | TextAreaType
+  | SelectType
+  | CheckType
+  | NumberType
+  | PasswordType
+  | NewPasswordType
+  | EmailType
+  | FileType
+  | ColorType
+  | DateType
+  | TimeType
+  | DateTimeType
+  | MonthType;

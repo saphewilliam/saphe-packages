@@ -16,6 +16,7 @@ import SelectField from './fields/SelectField';
 import TextAreaField from './fields/TextAreaField';
 import TextField from './fields/TextField';
 import TimeField from './fields/TimeField';
+import NewPasswordField from './fields/NewPasswordField';
 
 export type Props<T extends F.FieldType> = AddFieldPack<{
   field: T;
@@ -63,6 +64,8 @@ export default function FieldSwitch<T extends F.FieldType>(props: Props<T>): Rea
       return <NumberField {...(baseProps as PropsBase<F.NumberType>)} {...props.field} />;
     case Field.PASSWORD:
       return <PasswordField {...(baseProps as PropsBase<F.PasswordType>)} {...props.field} />;
+    case Field.NEW_PASSWORD:
+      return <NewPasswordField {...(baseProps as PropsBase<F.NewPasswordType>)} {...props.field} />;
     case Field.EMAIL:
       return <EmailField {...(baseProps as PropsBase<F.EmailType>)} {...props.field} />;
     case Field.FILE:
