@@ -1,5 +1,11 @@
 # @saphe/react-forms
 
+## 0.9.2
+
+### Patch Changes
+
+- 346ab36: Fix type directory bug
+
 ## 0.9.1
 
 ### Patch Changes

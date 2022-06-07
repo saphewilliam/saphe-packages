@@ -1,5 +1,13 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.4.2
+
+### Patch Changes
+
+- 346ab36: Fix type directory bug
+- Updated dependencies [346ab36]
+  - @saphe/react-form@0.9.2
+
 ## 0.4.1
 
 ### Patch Changes
