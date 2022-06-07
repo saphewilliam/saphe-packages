@@ -38,7 +38,7 @@ function makeTsConfig(n: string): void {
   const base = join(process.cwd(), 'packages', n);
   writeFileSync(
     join(base, 'tsconfig.json'),
-    '{\n  "extends": "../../tsconfig.json",\n  "include": ["src"],\n}\n',
+    '{\n  "extends": "../../tsconfig.settings.json",\n  "include": ["src"],\n}\n',
   );
 }
 
@@ -207,14 +207,14 @@ function makeCoverageYml(): void {
 
 function makeRootTsConfig(): void {
   const path = join(process.cwd(), 'tsconfig.json');
-  const content = JSON.parse(readFileSync(path, { encoding: 'utf-8' }));
 
   writeFileSync(
     path,
     JSON.stringify(
       {
+        extends: './tsconfig.settings.json',
         compilerOptions: {
-          ...content.compilerOptions,
+          baseUrl: 'packages',
           paths: Object.keys(packages).reduce(
             (prev, curr) => ({ ...prev, [`@saphe/${curr}`]: [`${curr}/src`] }),
             {},

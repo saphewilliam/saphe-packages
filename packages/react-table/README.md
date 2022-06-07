@@ -329,7 +329,7 @@ interface SearchHelpers {
 
 If you wish to exclude a column from the search, set its `unsearchable` option to `true`.
 
-To set the search mode from the default fuzzy search `SearchMode.FUZZY` to exact string matching `SearchMode.EXACT`, pass the desired search mode into the `search.mode` key of the `options` object.
+To set the search mode from the default fuzzy search `SearchMode.FUZZY` to exact string matching `SearchMode.EXACT` or regex string matching `SearchMode.REGEX`, pass the desired search mode into the `search.mode` key of the `options` object.
 
 If you want to highlight the matched text in the search results, you can pass in a custom component through the `style.renderCell` key of the `options` object which addresses the requirement. This custom component may use the `matchedText` prop from the `RenderCellProps` type as follows:
 

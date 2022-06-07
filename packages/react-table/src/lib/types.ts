@@ -1,6 +1,11 @@
 import { ReactElement } from 'react';
-import { DefaultValue } from './useDefaultValues';
-import { MatchedText } from './useSearch';
+// import { DefaultValue } from './useDefaultValues';
+export type DefaultValue<T extends ColumnTypes, U> = U | ((row: DataRow<T>) => U);
+// import { MatchedText } from './useSearch';
+export type MatchedText = { value: string; highlighted: boolean }[];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Any = any;
 
 /** The sorting state of a column */
 export enum SortOrder {
@@ -18,11 +23,9 @@ export enum SearchMode {
   EXACT = 'EXACT',
   /** Show result if a value in the row fuzzily matches with the search string. For more info: https://www.npmjs.com/package/fuzzysort */
   FUZZY = 'FUZZY',
-  // REGEX? https://stackoverflow.com/questions/9127498/how-to-perform-a-real-time-search-and-filter-on-a-html-table
+  /** Show a result if a value in the row matches on regex basis with the search string. For more info: https://regex101.com */
+  REGEX = 'REGEX',
 }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Any = any;
 
 export interface RenderHeadProps {
   name: string;
@@ -192,5 +195,5 @@ export type DataRow<T extends ColumnTypes> = Partial<Pick<T, DataRowOptionals<T>
   Omit<T, DataRowOptionals<T>>;
 
 type DataRowOptionals<T extends ColumnTypes> = {
-  [K in keyof T]: null extends T[K] ? K : undefined extends T[K] ? K : never;
+  [K in keyof T]: null extends T[K] ? K : never;
 }[keyof T];
