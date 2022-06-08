@@ -1,5 +1,12 @@
 # @saphe/react-table
 
+## 0.7.1
+
+### Patch Changes
+
+- Updated dependencies [303583c]
+  - @saphe/react-use@0.1.1
+
 ## 0.7.0
 
 ### Minor Changes
