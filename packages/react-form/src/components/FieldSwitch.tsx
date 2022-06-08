@@ -10,13 +10,13 @@ import DateTimeField from './fields/DateTimeField';
 import EmailField from './fields/EmailField';
 import FileField from './fields/FileField';
 import MonthField from './fields/MonthField';
+import NewPasswordField from './fields/NewPasswordField';
 import NumberField from './fields/NumberField';
 import PasswordField from './fields/PasswordField';
 import SelectField from './fields/SelectField';
 import TextAreaField from './fields/TextAreaField';
 import TextField from './fields/TextField';
 import TimeField from './fields/TimeField';
-import NewPasswordField from './fields/NewPasswordField';
 
 export type Props<T extends F.FieldType> = AddFieldPack<{
   field: T;

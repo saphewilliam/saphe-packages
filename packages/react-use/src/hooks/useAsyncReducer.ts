@@ -43,21 +43,21 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
   const [state, setState] = useState<S>(initialState);
   const [error, setError] = useState<Error<S> | null>(null);
 
-  let { current: queue } = useRef<Action<S>[]>([]);
   let { current: currentState } = useRef<S>(initialState);
+  let { current: queue } = useRef<Action<S>[]>([]);
+  let { current: queueIsProcessing } = useRef(false);
   let { current: currentIsLoading } = useRef(false);
 
   const popQueue = useCallback(() => {
     const currentAction = queue.shift();
-    currentIsLoading = currentAction !== undefined;
-    setIsLoading(currentIsLoading);
+    queueIsProcessing = currentAction !== undefined;
 
     const evaluateQueue = (s: S) => {
       currentState = s;
       setState(currentState);
       if (queue.length === 0) {
-        currentIsLoading = false;
-        setIsLoading(currentIsLoading);
+        queueIsProcessing = false;
+        if (currentIsLoading) setIsLoading(false);
       } else popQueue();
     };
 
@@ -77,16 +77,21 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
           runPendingActions: () => runActions(pendingActions),
           runAllActions: () => runActions([currentAction, ...pendingActions]),
         });
-      currentIsLoading = false;
-      setIsLoading(currentIsLoading);
       queue = [];
+      queueIsProcessing = false;
+      if (currentIsLoading) setIsLoading(false);
     };
 
     if (currentAction !== undefined) {
       try {
         const returnVal = currentAction.action(currentState, ...currentAction.args);
-        if (isPromise(returnVal)) returnVal.then(evaluateQueue).catch(abortQueue);
-        else evaluateQueue(returnVal);
+        if (isPromise(returnVal)) {
+          returnVal.then(evaluateQueue).catch(abortQueue);
+          if (!currentIsLoading) {
+            currentIsLoading = true;
+            setIsLoading(currentIsLoading);
+          }
+        } else evaluateQueue(returnVal);
       } catch (e) {
         abortQueue(e);
       }
@@ -96,9 +101,9 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
   const pushQueue = useCallback(
     (action: Action<S>) => {
       queue.push(action);
-      if (!currentIsLoading && queue.length === 1) popQueue();
+      if (!queueIsProcessing) popQueue();
     },
-    [queue, currentIsLoading, popQueue],
+    [queue, queueIsProcessing, popQueue],
   );
 
   /** An actions object that proxies the user-defined actions */

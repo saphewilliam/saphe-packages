@@ -1,5 +1,5 @@
-import { useAsyncReducer, Util } from '@saphe/react-use';
 import { useMemo } from 'react';
+import { useAsyncReducer, Util } from '@saphe/react-use';
 import { Config, ValidationMode } from '..';
 import { FieldType } from '../lib/field';
 import {
@@ -107,26 +107,20 @@ export default function useFormState<T extends Fields>(
     reset: () => initialState,
     blurSync: (prevState, fieldName: string) => handleBlur(prevState, fieldName, validationMode),
     blur: async (prevState, fieldName: string) => {
-      const nextState = handleBlur(prevState, fieldName, validationMode);
-
       if (onBlur) {
-        const onBlurResult = onBlur(nextState.values, fieldName);
+        const onBlurResult = onBlur(prevState.values, fieldName);
         if (Util.isPromise(onBlurResult)) await onBlurResult;
       }
-
-      return nextState;
+      return prevState;
     },
     changeSync: (prevState, fieldName: string, targetValue: FieldValue<FieldType>) =>
       handleChange(prevState, fieldName, targetValue, validationMode),
-    change: async (prevState, fieldName: string, targetValue: FieldValue<FieldType>) => {
-      const nextState = handleChange(prevState, fieldName, targetValue, validationMode);
-
+    change: async (prevState, fieldName: string) => {
       if (onChange) {
-        const onChangeResult = onChange(nextState.values, fieldName);
+        const onChangeResult = onChange(prevState.values, fieldName);
         if (Util.isPromise(onChangeResult)) await onChangeResult;
       }
-
-      return nextState;
+      return prevState;
     },
     submit: async (prevState) => {
       // Form validation

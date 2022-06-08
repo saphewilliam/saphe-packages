@@ -10,7 +10,7 @@ import { Fields, AddFieldPack, stringify, FieldValue } from '../lib/util';
 import useFormState from './useFormState';
 
 export default function useForm<T extends Fields>(config: Config<T>): State {
-  const { name, fieldPack, recaptcha, submitButton } = config;
+  const { name, fieldPack, recaptcha, submitButton, onBlur, onChange } = config;
 
   const { Recaptcha, recaptchaToken } = useRecaptcha(recaptcha);
   const formState = useFormState(config, recaptchaToken);
@@ -28,12 +28,12 @@ export default function useForm<T extends Fields>(config: Config<T>): State {
 
   const handleBlur = (fieldName: string) => {
     actions.blurSync(fieldName);
-    actions.blur(fieldName);
+    if (onBlur) actions.blur(fieldName);
   };
 
   const handleChange = (fieldName: string, targetValue: FieldValue<FieldType>) => {
     actions.changeSync(fieldName, targetValue);
-    actions.change(fieldName, targetValue);
+    if (onChange) actions.change(fieldName);
   };
 
   const submitButtonProps: AddFieldPack<Props.SubmitButtonProps> = {
