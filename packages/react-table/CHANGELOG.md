@@ -1,5 +1,13 @@
 # @saphe/react-table
 
+## 0.7.1
+
+### Patch Changes
+
+- d7ab4fd: Fix bug where a simple data update would reset the page number
+- Updated dependencies [303583c]
+  - @saphe/react-use@0.1.1
+
 ## 0.7.0
 
 ### Minor Changes
