@@ -1,5 +1,11 @@
 # @saphe/react-use
 
+## 0.1.1
+
+### Patch Changes
+
+- 303583c: Fix: only set isLoading on async actions
+
 ## 0.1.0
 
 ### Minor Changes

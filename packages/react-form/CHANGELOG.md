@@ -1,5 +1,13 @@
 # @saphe/react-forms
 
+## 0.9.3
+
+### Patch Changes
+
+- 303583c: Fix: Only fire async onchange and onblur events if those are specified in config
+- Updated dependencies [303583c]
+  - @saphe/react-use@0.1.1
+
 ## 0.9.2
 
 ### Patch Changes
