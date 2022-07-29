@@ -1,11 +1,11 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Columns, ColumnTypes, Data, Options, State } from './types';
 import useColumnType from './useColumnType';
 import useDefaultValues from './useDefaultValues';
 import useIntermediateMemo from './useIntermediateMemo';
 import usePagination from './usePagination';
 import useSearch from './useSearch';
-import useSort from './useSort';
+import useSort, { SortInfo } from './useSort';
 import useVisibility from './useVisibility';
 import { makeHeaders, makeOriginalRows, makeRows } from './util';
 
@@ -14,6 +14,7 @@ export default function useTable<T extends ColumnTypes>(
   data?: Data<T>,
   options?: Options<T>,
 ): State<T> {
+  const dataInfo = useRef<{ rowCount: number; sortInfo: SortInfo } | null>(null);
   const columnsMemo = useIntermediateMemo(columns);
   const dataMemo = useIntermediateMemo(data ?? []);
   const optionsMemo = useIntermediateMemo(options ?? {});
@@ -50,9 +51,15 @@ export default function useTable<T extends ColumnTypes>(
     optionsMemo.pagination,
   );
 
-  // Set page to 0 if sorted data updates
+  // Set page to 0 if sorted data changes sortinfo or length
   useEffect(() => {
-    if (optionsMemo.pagination?.pageSize !== undefined) setPage(0);
+    if (
+      optionsMemo.pagination?.pageSize !== undefined &&
+      (dataInfo.current?.rowCount !== sortedData.length ||
+        JSON.stringify(dataInfo.current.sortInfo) !== JSON.stringify(sortInfo))
+    )
+      setPage(0);
+    dataInfo.current = { rowCount: sortedData.length, sortInfo };
   }, [sortedData, optionsMemo, setPage]);
 
   const { headers, originalHeaders } = useMemo(
