@@ -1,5 +1,6 @@
 import { useAsyncReducer } from '../src';
 import { act, renderHook } from '@testing-library/react';
+import { expectTypeOf } from 'expect-type';
 
 describe('useAsyncReducer', () => {
   it('generates typescript errors on incorrect or missing action types', () => {
@@ -44,14 +45,12 @@ describe('useAsyncReducer', () => {
     const actionResult = await act(() => new Promise((r) => r(result.current.actions.add(1))));
     const actionResultSync = await act(() => result.current.actions.addSync(1));
 
-    expect(typeof actionResult).toBe('undefined');
-    expect(typeof actionResultSync).toBe('undefined');
-    expect(typeof result.current.state.count).toBe('number');
+    expectTypeOf(actionResult).toBeUndefined();
+    expectTypeOf(actionResultSync).toBeVoid();
+    expectTypeOf(result.current.state).toHaveProperty('count').toEqualTypeOf<number>();
 
-    // @ts-expect-error Incorrect state key
-    result.current.state.hi;
-    // @ts-expect-error Incorrect actions key
-    result.current.actions.reset;
+    expectTypeOf(result.current.state).not.toHaveProperty('random');
+    expectTypeOf(result.current.actions).not.toHaveProperty('reset');
 
     // eslint-disable-next-line no-constant-condition
     if (false) {

@@ -34,8 +34,6 @@ importers:
       typescript: 4.7.2
       vite: 2.9.9
       vite-plugin-dts: 1.2.0
-    dependencies:
-      expect-type: 0.13.0
     devDependencies:
       '@changesets/cli': 2.22.0
       '@testing-library/react': 13.3.0_ef5jwxihqo6n7gxfmzogljlgcm
@@ -51,6 +49,7 @@ importers:
       eslint-config-prettier: 8.5.0_eslint@8.16.0
       eslint-plugin-prettier: 4.0.0_j7rsahgqtkecno6yauhsgsglf4
       eslint-plugin-react: 7.30.0_eslint@8.16.0
+      expect-type: 0.13.0
       jest: 28.1.0_tgxxunhxchelmfk7xtwxs4mche
       jest-environment-jsdom: 28.1.0
       markdown-toc: 1.2.0
@@ -2705,7 +2704,7 @@ packages:
 
   /expect-type/0.13.0:
     resolution: {integrity: sha512-CclevazQfrqo8EvbLPmP7osnb1SZXkw47XPPvUUpeMz4HuGzDltE7CaIt3RLyT9UQrwVK/LDn+KVcC0hcgjgDg==}
-    dev: false
+    dev: true
 
   /expect/28.1.0:
     resolution: {integrity: sha512-qFXKl8Pmxk8TBGfaFKRtcQjfXEnKAs+dmlxdwvukJZorwrAabT7M3h8oLOG01I2utEhkmUTi17CHaPBovZsKdw==}
