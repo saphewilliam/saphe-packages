@@ -183,15 +183,29 @@ describe('useUrlParams', () => {
 
   it('returns the last item of an array if config states `array: false`', () => {
     const { result } = renderHook(() =>
-      useUrlParams([{ name: 'noArr', array: false }], { noArr: ['first', 'middle', 'last'] }),
+      useUrlParams(
+        [
+          { name: 'noArr', array: false },
+          { name: 'emptyArr', array: false },
+        ],
+        { noArr: ['first', 'middle', 'last'], emptyArr: [] },
+      ),
     );
     expect(result.current.noArr).toBe('last');
+    expect(result.current.emptyArr).toBeNull();
   });
 
-  it('returns an item as array if if config states `array: true', () => {
+  it('returns an item as array if if config states `array: true`', () => {
     const { result } = renderHook(() =>
-      useUrlParams([{ name: 'arr', array: true }], { arr: 'oneItem' }),
+      useUrlParams(
+        [
+          { name: 'arr', array: true },
+          { name: 'missing', array: true },
+        ],
+        { arr: 'oneItem' },
+      ),
     );
+    expect(result.current.missing.length).toBe(0);
     expect(result.current.arr.length).toBe(1);
     expect(result.current.arr[0]).toBe('oneItem');
   });

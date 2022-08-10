@@ -1,15 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { isPromise } from '../lib/util';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Args = any[];
+
 /** Object used to define the reducer's actions. The first argument is the current state and all following arguments are user-defined. */
 export type InputActions<S> = {
-  [key: string]: (currentState: S, ...args: any) => Promise<S> | S;
+  [key: string]: (currentState: S, ...args: Args) => Promise<S> | S;
 };
 
 /** Object used to consume the reducer's actions. The parameters are inferred from the input actions object, dropping the first argument (current state). */
 export type OutputActions<S, A extends InputActions<S>> = {
-  [P in keyof A]: (...args: Parameters<A[P]> extends [any, ...infer U] ? U : never) => void;
+  [P in keyof A]: (...args: Parameters<A[P]> extends [S, ...infer U] ? U : never) => void;
 };
 
 export interface Error<S> {
@@ -22,9 +24,9 @@ export interface Error<S> {
 }
 
 export interface Action<S> {
-  actionName: string;
-  action: (...args: any) => Promise<S> | S;
-  args: any[];
+  name: string;
+  func: (...args: Args) => Promise<S> | S;
+  args: Args;
 }
 
 export interface State<S, A extends InputActions<S>> {
@@ -37,7 +39,7 @@ export interface State<S, A extends InputActions<S>> {
 export function useAsyncReducer<S, A extends InputActions<S>>(
   // TODO Support promise and function lazy loading initial state
   initialState: S,
-  actions: A,
+  inputActions: A,
 ): State<S, A> {
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState<S>(initialState);
@@ -66,7 +68,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
       popQueue();
     };
 
-    const abortQueue = (e: any) => {
+    const abortQueue = <E>(e: E) => {
       const pendingActions = [...queue];
       if (currentAction)
         setError({
@@ -84,7 +86,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
 
     if (currentAction !== undefined) {
       try {
-        const returnVal = currentAction.action(currentState, ...currentAction.args);
+        const returnVal = currentAction.func(currentState, ...currentAction.args);
         if (isPromise(returnVal)) {
           returnVal.then(evaluateQueue).catch(abortQueue);
           if (!currentIsLoading) {
@@ -107,23 +109,15 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
   );
 
   /** An actions object that proxies the user-defined actions */
-  const outputActions: OutputActions<S, A> = useMemo(
+  const actions: OutputActions<S, A> = useMemo(
     () =>
-      Object.entries(actions).reduce(
-        (prev, [actionName, action]) => ({
-          ...prev,
-          // Push the user-defined action to the queue when it is called from outside the hook
-          [actionName]: (...args) => pushQueue({ actionName, action, args }),
-        }),
+      Object.entries(inputActions).reduce(
+        // Push the user-defined action to the queue when it is called from outside the hook
+        (prev, [name, func]) => ({ ...prev, [name]: (...args) => pushQueue({ name, func, args }) }),
         {} as OutputActions<S, A>,
       ),
-    [actions, pushQueue],
+    [inputActions, pushQueue],
   );
 
-  return {
-    actions: outputActions,
-    isLoading,
-    state,
-    error,
-  };
+  return { actions, isLoading, state, error };
 }

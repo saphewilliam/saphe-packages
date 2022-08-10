@@ -2,7 +2,7 @@
   "name": "@saphe/react-use",
   "license": "MIT",
   "version": "0.1.1",
-  "description": "A collection of useful, type-safe React hooks.",
+  "description": "A collection of tiny, useful, type-safe React hooks.",
   "keywords": [
     "typescript",
     "react",
@@ -38,7 +38,7 @@
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {},
   "peerDependencies": {

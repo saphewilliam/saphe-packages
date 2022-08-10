@@ -118,9 +118,15 @@ function makeReadme(name: string, p: Package): void {
     const gRoot = `https://github.com${repo}/blob/main/`;
     const s = '?style=flat-square';
     write(`[![NPM version](${sRoot}npm/v/${n}${s})](https://npmjs.com/${n})`);
+    write(`[![NPM downloads](${sRoot}npm/dt/${n}${s})](https://npmjs.com/${n})`);
     write(`[![License](${sRoot}npm/l/${n}${s})](${gRoot}LICENSE)`);
     write(
       `[![Bundle size](${sRoot}bundlephobia/minzip/${n}${s})](https://bundlephobia.com/package/${n})`,
+    );
+    write(
+      `[![Dependencies](${sRoot}librariesio/release/npm/${n}${s})](https://libraries.io/npm/${encodeURIComponent(
+        n,
+      )}/)`,
     );
     write(
       `[![Code coverage](${sRoot}codecov/c/github${repo}${s}&flag=${name}&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)`,

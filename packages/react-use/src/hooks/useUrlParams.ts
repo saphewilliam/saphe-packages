@@ -16,7 +16,7 @@ type ReturnType<S extends string, P extends Param<S>> = ReturnArrayType<
   P extends { type: 'number' } ? number : P extends { type: 'boolean' } ? boolean : string
 >;
 
-export type Query = Record<string, string | string[]>;
+export type Query = Record<string, string | string[] | undefined>;
 export type Config<S extends string> = S | Param<S>;
 export type State<S extends string, C> = {
   [P in Extract<ArrayElement<C>, string>]: string | null;
@@ -32,12 +32,16 @@ export type Options = {
 
 function getParam(name: string, query: Query): string | null {
   const raw = query[name];
-  return raw === undefined ? null : Array.isArray(raw) ? raw[raw.length - 1] ?? null : raw;
+  if (raw === undefined) return null;
+  if (Array.isArray(raw)) return raw[raw.length - 1] ?? null;
+  return raw;
 }
 
 function getParamArray(name: string, query: Query): string[] {
   const raw = query[name];
-  return raw === undefined ? [] : Array.isArray(raw) ? raw : [raw];
+  if (raw === undefined) return [];
+  if (!Array.isArray(raw)) return [raw];
+  return raw;
 }
 
 function parseParam(

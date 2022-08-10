@@ -91,7 +91,7 @@ describe('useAsyncReducer', () => {
     // Expect all actions to have been carried out, but the error message to have been recorded
     expect(result.current.state.count).toBe(6);
     expect(result.current.error?.message).toBe('Error: Sync test error');
-    expect(result.current.error?.action.actionName).toBe('error');
+    expect(result.current.error?.action.name).toBe('error');
     expect(result.current.error?.action.args.length).toBe(0);
     expect(result.current.error?.pendingActions.length).toBe(0);
   });
@@ -123,10 +123,10 @@ describe('useAsyncReducer', () => {
     // Expect the queue to have halted after the error
     expect(result.current.state.count).toBe(4);
     expect(result.current.error?.message).toBe('Error: Async test error');
-    expect(result.current.error?.action.actionName).toBe('error');
+    expect(result.current.error?.action.name).toBe('error');
     expect(result.current.error?.action.args.length).toBe(0);
     expect(result.current.error?.pendingActions.length).toBe(1);
-    expect(result.current.error?.pendingActions[0]?.actionName).toBe('increment');
+    expect(result.current.error?.pendingActions[0]?.name).toBe('increment');
     expect(result.current.error?.pendingActions[0]?.args.length).toBe(1);
     expect(result.current.error?.pendingActions[0]?.args[0]).toBe(2);
   });
