@@ -1,5 +1,16 @@
 # @saphe/react-use
 
+## 0.2.0
+
+### Minor Changes
+
+- f4f8e28: Added new useUrlParams hook
+
+### Patch Changes
+
+- d3eaa49: Update docs
+- d3eaa49: Update deps
+
 ## 0.1.1
 
 ### Patch Changes

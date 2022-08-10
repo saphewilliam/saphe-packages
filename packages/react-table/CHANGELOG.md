@@ -1,5 +1,16 @@
 # @saphe/react-table
 
+## 0.7.2
+
+### Patch Changes
+
+- d3eaa49: Update docs
+- d3eaa49: Update deps
+- Updated dependencies [d3eaa49]
+- Updated dependencies [d3eaa49]
+- Updated dependencies [f4f8e28]
+  - @saphe/react-use@0.2.0
+
 ## 0.7.1
 
 ### Patch Changes
