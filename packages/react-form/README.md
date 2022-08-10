@@ -1,8 +1,10 @@
 # @saphe/react-form
 
 [![NPM version](https://img.shields.io/npm/v/@saphe/react-form?style=flat-square)](https://npmjs.com/@saphe/react-form)
+[![NPM downloads](https://img.shields.io/npm/dt/@saphe/react-form?style=flat-square)](https://npmjs.com/@saphe/react-form)
 [![License](https://img.shields.io/npm/l/@saphe/react-form?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/LICENSE)
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/@saphe/react-form?style=flat-square)](https://bundlephobia.com/package/@saphe/react-form)
+[![Dependencies](https://img.shields.io/librariesio/release/npm/@saphe/react-form?style=flat-square)](https://libraries.io/npm/%40saphe%2Freact-form/)
 [![Code coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages?style=flat-square&flag=react-form&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 

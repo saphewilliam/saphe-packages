@@ -18,6 +18,7 @@ importers:
       eslint-config-prettier: 8.5.0
       eslint-plugin-prettier: 4.0.0
       eslint-plugin-react: 7.30.0
+      expect-type: 0.13.0
       jest: 28.1.0
       jest-environment-jsdom: 28.1.0
       markdown-toc: 1.2.0
@@ -48,6 +49,7 @@ importers:
       eslint-config-prettier: 8.5.0_eslint@8.16.0
       eslint-plugin-prettier: 4.0.0_j7rsahgqtkecno6yauhsgsglf4
       eslint-plugin-react: 7.30.0_eslint@8.16.0
+      expect-type: 0.13.0
       jest: 28.1.0_tgxxunhxchelmfk7xtwxs4mche
       jest-environment-jsdom: 28.1.0
       markdown-toc: 1.2.0
@@ -67,15 +69,15 @@ importers:
   packages/react-form:
     specifiers:
       '@saphe/react-use': workspace:*
-      '@types/react-google-recaptcha': 2.1.2
+      '@types/react-google-recaptcha': 2.1.5
       react-google-recaptcha: 2.1.0
-      tslib: 2.3.1
+      tslib: 2.4.0
     dependencies:
       '@saphe/react-use': link:../react-use
       react-google-recaptcha: 2.1.0
-      tslib: 2.3.1
+      tslib: 2.4.0
     devDependencies:
-      '@types/react-google-recaptcha': 2.1.2
+      '@types/react-google-recaptcha': 2.1.5
 
   packages/react-form-fields-bootstrap:
     specifiers:
@@ -86,18 +88,18 @@ importers:
   packages/react-table:
     specifiers:
       '@saphe/react-use': workspace:*
-      fuzzysort: 1.1.4
-      tslib: 2.3.1
+      fuzzysort: 2.0.1
+      tslib: 2.4.0
     dependencies:
       '@saphe/react-use': link:../react-use
-      fuzzysort: 1.1.4
-      tslib: 2.3.1
+      fuzzysort: 2.0.1
+      tslib: 2.4.0
 
   packages/react-use:
     specifiers:
-      tslib: 2.3.1
+      tslib: 2.4.0
     dependencies:
-      tslib: 2.3.1
+      tslib: 2.4.0
 
 packages:
 
@@ -1297,8 +1299,8 @@ packages:
       '@types/react': 18.0.10
     dev: true
 
-  /@types/react-google-recaptcha/2.1.2:
-    resolution: {integrity: sha512-Zeb0pwDeXHYIQy5mNgewMr+jf4xtrjSHTdJW8wrubNB6sNEaxqo8yk02HVpwy7p7Hzh5y6iSz6gKoPonVBlswQ==}
+  /@types/react-google-recaptcha/2.1.5:
+    resolution: {integrity: sha512-iWTjmVttlNgp0teyh7eBXqNOQzVq2RWNiFROWjraOptRnb1OcHJehQnji0sjqIRAk9K0z8stjyhU+OLpPb0N6w==}
     dependencies:
       '@types/react': 18.0.10
     dev: true
@@ -2700,6 +2702,10 @@ packages:
       fill-range: 2.2.4
     dev: true
 
+  /expect-type/0.13.0:
+    resolution: {integrity: sha512-CclevazQfrqo8EvbLPmP7osnb1SZXkw47XPPvUUpeMz4HuGzDltE7CaIt3RLyT9UQrwVK/LDn+KVcC0hcgjgDg==}
+    dev: true
+
   /expect/28.1.0:
     resolution: {integrity: sha512-qFXKl8Pmxk8TBGfaFKRtcQjfXEnKAs+dmlxdwvukJZorwrAabT7M3h8oLOG01I2utEhkmUTi17CHaPBovZsKdw==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -2905,8 +2911,8 @@ packages:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
 
-  /fuzzysort/1.1.4:
-    resolution: {integrity: sha512-JzK/lHjVZ6joAg3OnCjylwYXYVjRiwTY6Yb25LvfpJHK8bjisfnZJ5bY8aVWwTwCXgxPNgLAtmHL+Hs5q1ddLQ==}
+  /fuzzysort/2.0.1:
+    resolution: {integrity: sha512-SlgbPAq0eQ6JQ1h3l4MNeGH/t9DHKH8GGM0RD/6RhmJrNnSoWt3oIVaiQm9g9BPB+wAhRMeMqlUTbhbd7+Ufcg==}
     dev: false
 
   /gensync/1.0.0-beta.2:
@@ -5418,6 +5424,11 @@ packages:
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
+    dev: true
+
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
+    dev: false
 
   /tsutils/3.21.0_typescript@4.7.2:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

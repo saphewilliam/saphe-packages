@@ -79,7 +79,7 @@ export const packages: Packages = {
   },
 
   'react-use': {
-    description: 'A collection of useful, type-safe React hooks.',
+    description: 'A collection of tiny, useful, type-safe React hooks.',
     keywords: ['typescript', 'react', 'hooks', 'use'],
   },
 };
