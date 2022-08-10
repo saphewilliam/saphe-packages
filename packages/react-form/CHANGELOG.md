@@ -1,5 +1,16 @@
 # @saphe/react-forms
 
+## 0.9.4
+
+### Patch Changes
+
+- d3eaa49: Update docs
+- d3eaa49: Update deps
+- Updated dependencies [d3eaa49]
+- Updated dependencies [d3eaa49]
+- Updated dependencies [f4f8e28]
+  - @saphe/react-use@0.2.0
+
 ## 0.9.3
 
 ### Patch Changes

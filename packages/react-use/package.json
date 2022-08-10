@@ -1,7 +1,7 @@
 {
   "name": "@saphe/react-use",
   "license": "MIT",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A collection of tiny, useful, type-safe React hooks.",
   "keywords": [
     "typescript",

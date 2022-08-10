@@ -1,7 +1,7 @@
 {
   "name": "@saphe/react-form-fields-bootstrap",
   "license": "MIT",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Officially maintained Bootstrap-style form fields pack for @saphe/react-form",
   "keywords": [
     "typescript",
