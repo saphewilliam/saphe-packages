@@ -10,6 +10,14 @@
 
 A collection of tiny, useful, type-safe React hooks.
 
+## Features
+
+- ⚖️ Incredibly lightweight, only ~150 lines of code per hook,
+- 🌳 Tree-shakable, only include in the bundle what is needed,
+- 👍 All hooks have a sophisticated type system powering them,
+- ✔️ 100% test coverage,
+- 0️⃣ 0 dependencies.
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
@@ -166,13 +174,16 @@ params; // { first: string | null; second: number | null; }
 ### Next.JS integration
 
 ```ts
-import { UseUrlParamsTypes } from '@saphe/react-use';
+import { useUrlParams, UseUrlParamsTypes } from '@saphe/react-use';
 import { useRouter } from 'next/router';
 
-export default function useNextUrlParams<S extends string, C extends UseUrlParamsTypes.Config<S>>(
+export default function useNextUrlParams<
+  S extends string, 
+  C extends UseUrlParamsTypes.Config<S>
+>(
   config: S | C[],
-  options?: Options,
-): State<S, typeof config> {
+  options?: UseUrlParamsTypes.Options,
+): UseUrlParamsTypes.State<S, typeof config> {
   const router = useRouter();
   return useUrlParams(config, router.query, options);
 }

@@ -24,9 +24,9 @@ export type State<S extends string, C> = {
   [P in Extract<ArrayElement<C>, Param<S>> as P['name']]: ReturnType<S, P>;
 };
 export type Options = {
-  /** Strings that represent a value of `true`, default = ["true"] */
+  /** Strings that represent a value of `true`, default = `['true']` */
   truthyStrings?: string[];
-  /** Strings that represent a value of `false`, default = ["false"] */
+  /** Strings that represent a value of `false`, default = `['false']` */
   falsyStrings?: string[];
 };
 

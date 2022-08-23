@@ -37,9 +37,7 @@
     "test": "jest -c ../../jest.config.js --testPathPattern react-use --coverage --collectCoverageFrom packages/react-use/src/**/*.{ts,tsx} --coverageDirectory packages/react-use/.coverage",
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
-  "dependencies": {
-    "tslib": "2.4.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
     "react": ">=18.0.0",

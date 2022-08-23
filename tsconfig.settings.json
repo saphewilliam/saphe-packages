@@ -4,11 +4,7 @@
     "module": "CommonJS",
     "jsx": "react-jsx",
     "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,7 +17,7 @@
     "noEmit": true,
     "declaration": true,
     "sourceMap": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitAny": true,
@@ -34,6 +30,6 @@
     "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
     "removeComments": true,
-    "noResolve": false,
+    "noResolve": false
   }
 }

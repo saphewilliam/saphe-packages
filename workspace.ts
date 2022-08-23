@@ -80,6 +80,13 @@ export const packages: Packages = {
 
   'react-use': {
     description: 'A collection of tiny, useful, type-safe React hooks.',
-    keywords: ['typescript', 'react', 'hooks', 'use'],
+    keywords: ['typescript', 'react', 'hooks', 'type-safe', 'use'],
+    features: [
+      { icon: '⚖️', text: 'Incredibly lightweight, only ~150 lines of code per hook' },
+      { icon: '🌳', text: 'Tree-shakable, only include in the bundle what is needed' },
+      { icon: '👍', text: 'All hooks have a sophisticated type system powering them' },
+      { icon: '✔️', text: '100% test coverage' },
+      { icon: '0️⃣', text: '0 dependencies' },
+    ],
   },
 };
