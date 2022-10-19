@@ -38,7 +38,7 @@ function makeTsConfig(n: string): void {
   const base = join(process.cwd(), 'packages', n);
   writeFileSync(
     join(base, 'tsconfig.json'),
-    '{\n  "extends": "../../tsconfig.settings.json",\n  "include": ["src"],\n}\n',
+    '{\n  "extends": "../../tsconfig.settings.json",\n  "include": ["src"]\n}\n',
   );
 }
 

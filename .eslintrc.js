@@ -32,6 +32,14 @@ module.exports = {
   ],
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
     'react/react-in-jsx-scope': 'off',
   },
 };
