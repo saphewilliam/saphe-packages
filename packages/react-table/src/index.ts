@@ -1,4 +1,4 @@
-export * from './types';
+export * from './lib/types';
 
-import useTable from './useTable';
+import useTable from './hooks/useTable';
 export default useTable;

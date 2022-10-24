@@ -10,9 +10,13 @@ import {
   Row,
   OriginalRow,
 } from '../lib/types';
+import { Plugin } from '../lib/plugin';
+import { paginationClient } from '../plugins';
+
+type Plugins = Array<Plugin<any, any, any, any, any>>;
 
 /** Output table state object */
-export interface State<T extends ColumnTypes> {
+export interface State<P extends Plugins, T extends ColumnTypes> {
   /** Processed headers, used for displaying in the table */
   headers: Header[];
   /** Original headers, used for external data manipulation */
@@ -21,19 +25,18 @@ export interface State<T extends ColumnTypes> {
   rows: Row<T>[];
   /** Original rows, used for external data analysis */
   originalRows: OriginalRow<T>[];
-  // /** Visibility columns helpers */
-  // visibilityHelpers: VisibilityHelpers;
-  // /** Pagination helpers */
-  // paginationHelpers: PaginationHelpers;
-  // /** Search helpers */
-  // searchHelpers: SearchHelpers;
-  // ?? sortHelpers ??
+  helpers: P extends Array<infer V> ? {[K in V as K extends Plugin<infer Name, any, any, any, any> ? Name & string : 'hello']: string} : never;
 }
 
-export default function useTable<T extends ColumnTypes>(): // columns: Columns<T>,
+const iets = useTable([paginationClient]);
+iets.helpers?.
+
+export default function useTable<P extends Plugins, T extends ColumnTypes>(
+  plugins: P,
+): // columns: Columns<T>,
 // data?: Data<T>,
 // options?: Options<T>,
-State<T> {
+State<P, T> {
   // console.log(Object.entries(columns));
 
   const { state } = useAsyncReducer(
