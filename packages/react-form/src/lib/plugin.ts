@@ -54,13 +54,7 @@ export type Plugins = {
 /* eslint-enable */
 
 /** Type that uses the defined plugins to allow the user to define fields */
-export type FieldsBuilder<
-  P extends Plugins,
-  Value,
-  Many extends FieldMany,
-  Validation extends FieldValidation<Value, Many>,
-  State extends FieldState,
-> = {
+export type FieldsBuilder<P extends Plugins> = {
   field: {
     [K in keyof P['fields']]: <
       Many extends ManyFromFieldPlugin<P['fields'][K]>,
@@ -69,11 +63,9 @@ export type FieldsBuilder<
     >(
       t: FieldOptions<ValueFromFieldPlugin<P['fields'][K]>, Many, Validation, State> &
         OptionsFromFieldPlugin<P['fields'][K]>,
-    ) => Field<ValueFromFieldPlugin<P['fields'][K]>, Many, Validation, State>;
+    ) => Field<string, Many, Validation>;
   };
-  fieldSet: <F extends Fields<Value, Many, Validation, State>>(
-    opts: FieldSetOptions<F, Value, Many, Validation, State>,
-  ) => FieldSet<F, Value, Many, Validation, State>;
+  fieldSet: <F extends Fields>(opts: FieldSetOptions<F>) => FieldSet<F>;
 };
 
 export const textFieldPlugin: FieldPlugin<

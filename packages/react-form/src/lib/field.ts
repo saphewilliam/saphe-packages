@@ -9,13 +9,20 @@ export type FieldValidation<Value, Many extends FieldMany> = {
   validate?: (value: DefineValue<Value, Many>) => MaybePromise<string>;
 };
 
-export type Field = { todo: string };
+export type Field<
+  Value,
+  Many extends FieldMany,
+  _Validation extends FieldValidation<Value, Many>,
+> = { many: Many };
 
 export type FieldSet<F extends Fields | unknown> = { fields: F };
 
-export type Fields = Record<string, Field>;
+export type Fields = Record<string, Field<unknown, unknown, unknown>>;
 
-export type FieldsOrFieldSets = Record<string, Field | FieldSet<unknown>>;
+export type FieldsOrFieldSets = Record<
+  string,
+  Field<unknown, unknown, unknown> | FieldSet<unknown>
+>;
 
 export interface FieldOptions<
   Value,
