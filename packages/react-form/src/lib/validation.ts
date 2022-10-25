@@ -10,7 +10,7 @@ export enum ValidationMode {
 }
 
 /** Base Field validation type */
-export type FieldValidation<Value, Many extends FieldMany | unknown> = {
+export type FieldValidation<Value, Many extends FieldMany> = {
   mode?: ValidationMode;
   required?: string;
   validate?: (value: DefineValue<Value, Many>) => MaybePromise<string>;

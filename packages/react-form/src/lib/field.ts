@@ -5,16 +5,17 @@ export type FieldState = 'enabled' | 'loading' | 'disabled' | 'hidden';
 export type FieldMany = boolean;
 
 export type Field<
-  Value = unknown,
-  Many extends FieldMany | unknown = unknown,
-  _Validation extends FieldValidation<Value, Many> = Record<string, never>,
-> = { many: Many };
+  Value,
+  Many extends FieldMany,
+  _Validation extends FieldValidation<Value, Many>,
+> = { todo: string };
 
-export type FieldSet<F extends Fields> = { fields: F };
-
-export type Fields = Record<string, Field>;
-
-export type FieldsOrFieldSets<F extends Fields> = Record<string, Field | FieldSet<F>>;
+export type Fields<
+  Many extends FieldMany = false,
+  // TODO
+  // @ts-expect-error Somehow this works
+  Validation extends FieldValidation<unknown, Many> = unknown,
+> = Record<string, Field<unknown, Many, Validation>>;
 
 export interface FieldOptions<
   Value,
@@ -28,11 +29,4 @@ export interface FieldOptions<
   validation?: Validation;
   initialValue?: DefineValue<Value, Many>;
   fieldState?: State; // TODO | (formState) => State;
-}
-
-export interface FieldSetOptions<F extends Fields> {
-  label?: string;
-  description?: string;
-  // TODO many?: boolean;
-  fields: F;
 }

@@ -1,14 +1,6 @@
 import { ReactElement } from 'react';
 import TextField from '../components/TextField';
-import {
-  FieldMany,
-  FieldState,
-  FieldOptions,
-  FieldSetOptions,
-  FieldSet,
-  Fields,
-  Field,
-} from './field';
+import { FieldMany, FieldState, FieldOptions, Field } from './field';
 import { Props } from './props';
 import { FieldValidation } from './validation';
 
@@ -70,7 +62,6 @@ export type FieldsBuilder<P extends Plugins> = {
         OptionsFromFieldPlugin<P['fields'][K]>,
     ) => Field<ValueFromFieldPlugin<P['fields'][K]>, Many, Validation>;
   };
-  fieldSet: <F extends Fields>(opts: FieldSetOptions<F>) => FieldSet<F>;
 };
 
 export const textFieldPlugin: FieldPlugin<
