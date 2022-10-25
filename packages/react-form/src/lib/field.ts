@@ -15,14 +15,22 @@ export type Field<
   _Validation extends FieldValidation<Value, Many>,
 > = { many: Many };
 
-export type FieldSet<F extends Fields | unknown> = { fields: F };
+export type FieldSet<
+  F extends Fields<Many, Validation>,
+  Many extends FieldMany,
+  Validation extends FieldValidation<unknown, Many>,
+> = { fields: F };
 
-export type Fields = Record<string, Field<unknown, unknown, unknown>>;
+export type Fields<
+  Many extends FieldMany = unknown,
+  Validation extends FieldValidation<unknown, Many> = unknown,
+> = Record<string, Field<unknown, Many, Validation>>;
 
-export type FieldsOrFieldSets = Record<
-  string,
-  Field<unknown, unknown, unknown> | FieldSet<unknown>
->;
+export type FieldsOrFieldSets<
+  F extends Fields<Many, Validation>,
+  Many extends FieldMany,
+  Validation extends FieldValidation<unknown, Many>,
+> = Record<string, Field<unknown, Many, Validation> | FieldSet<F, Many, Validation>>;
 
 export interface FieldOptions<
   Value,

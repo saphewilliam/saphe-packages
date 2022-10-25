@@ -38,11 +38,40 @@ describe('useForm', () => {
           manyTrueNullArray: t.field.text({ many: true, initialValue: [null] }),
 
           exposeCustomOption: t.field.text({ placeholder: 'String' }),
+
           // TODO
           // exposeCustomValidation: t.field.text({ validation: {length} }),
           // exposeCustomState: t.field.text({ state: 'hidden' }), expect error
           // @todo-ts-expect-error only fields and fieldSets are allowed in the fields object
           // randomObject: { thisShould: 'notBeAllowed' },
+
+          obj: t.fieldSet({
+            fields: {
+              // @ts-expect-error Unknown plugin
+              unknownPlugin: t.field.unknown({}),
+              // @ts-expect-error Unknown option
+              unknownOption: t.field.text({ unknown: 'test' }),
+
+              // @ts-expect-error Incorrect initial value type
+              incorrectType: t.field.text({ initialValue: 10 }),
+              // @ts-expect-error Many is undefined, it should not accept an array by default
+              manyUndefined: t.field.text({ initialValue: ['Array of strings'] }),
+              // @ts-expect-error Many is false, it should not accept an array
+              manyFalse: t.field.text({ many: false, initialValue: ['Array of strings'] }),
+              // @ts-expect-error Many is true, it should not accept a string
+              manyTrue: t.field.text({ many: true, initialValue: 'String' }),
+              correctManyUndefined: t.field.text({ initialValue: 'String' }),
+              correctManyFalse: t.field.text({ many: false, initialValue: 'String' }),
+              correctManyTrue: t.field.text({ many: true, initialValue: ['Array of strings'] }),
+              manyUndefinedNull: t.field.text({ initialValue: null }),
+              manyFalseNull: t.field.text({ many: false, initialValue: null }),
+              // @ts-expect-error Many is true, it should not accept null
+              manyTrueNull: t.field.text({ many: true, initialValue: null }),
+              manyTrueNullArray: t.field.text({ many: true, initialValue: [null] }),
+
+              exposeCustomOption: t.field.text({ placeholder: 'String' }),
+            },
+          }),
         }),
       }),
     );

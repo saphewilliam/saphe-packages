@@ -65,7 +65,13 @@ export type FieldsBuilder<P extends Plugins> = {
         OptionsFromFieldPlugin<P['fields'][K]>,
     ) => Field<string, Many, Validation>;
   };
-  fieldSet: <F extends Fields>(opts: FieldSetOptions<F>) => FieldSet<F>;
+  fieldSet: <
+    F extends Fields<Many, Validation>,
+    Many extends FieldMany,
+    Validation extends FieldValidation<unknown, Many>,
+  >(
+    opts: FieldSetOptions<F>,
+  ) => FieldSet<F, Many, Validation>;
 };
 
 export const textFieldPlugin: FieldPlugin<
