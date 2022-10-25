@@ -2,22 +2,28 @@ import { Packages } from './scripts/generate';
 
 export const packages: Packages = {
   'react-form': {
-    description: 'A lightweight, declarative, type-safe form engine for React apps.',
+    description: 'A headless, declarative, lightweight, type-safe form engine for your React apps.',
     keywords: ['typescript', 'react', 'hook', 'form', 'validation'],
-    roadmap: [
-      { text: 'Support dynamically hiding and disabling fields' },
-      { text: 'Support lists of values' },
-      { text: 'Support form layouts (advanced form field container with layout grid)' },
+    features: [
+      { icon: '✅', text: 'CommonJS and ES Modules support' },
+      // TODO
+      { icon: '⚖️', text: 'Lightweight; [minified + gzipped]()' },
       {
-        text: 'Field modifiers (transform a string to uppercase or round a number (floor or ceil))',
+        icon: '🎨',
+        text: 'Headless; you decide the form style, the hook handles the complex internal logic',
       },
-      { text: 'Support localization out of the box' },
-      { text: 'Support defining custom field types' },
-      { text: 'Create supported field packs:' },
-      { checked: true, level: 1, text: 'Bootstrap 5' },
-      { checked: false, level: 1, text: 'TailwindCSS' },
-      { checked: false, level: 1, text: 'Material UI' },
-      { checked: false, level: 1, text: 'ChackraUI' },
+      {
+        icon: '🔌',
+        text: 'Easily extendable using plugins, and many officially maintained plugins available',
+      },
+    ],
+    roadmap: [
+      { text: 'Support dynamically hiding and disabling fields (disable on loading?)' },
+      { text: '(in-place) field modifiers: transform / strip a string, round a number' },
+      { text: 'Type modifiers: return form field names as snake case' },
+      { text: 'Add a set of defineForm() esc helper functions to allow for better code splitting' },
+      { text: 'More advanced form validation (e.g. require either one of two fields to be set)' },
+      { text: 'Some sort of localisation api?' },
     ],
   },
 
@@ -82,8 +88,8 @@ export const packages: Packages = {
     description: 'A collection of tiny, useful, type-safe React hooks.',
     keywords: ['typescript', 'react', 'hooks', 'type-safe', 'use'],
     features: [
-      { icon: '⚖️', text: 'Incredibly lightweight, only ~150 lines of code per hook' },
-      { icon: '🌳', text: 'Tree-shakable, only include in the bundle what is needed' },
+      { icon: '⚖️', text: 'Incredibly lightweight, only ~150 LOC per hook (including types)' },
+      { icon: '🌳', text: 'Tree-shakable, only include in the bundle what is necessary' },
       { icon: '👍', text: 'All hooks have a sophisticated type system powering them' },
       { icon: '✔️', text: '100% test coverage' },
       { icon: '0️⃣', text: '0 dependencies' },

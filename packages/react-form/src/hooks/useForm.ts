@@ -3,7 +3,7 @@ import { FieldsBuilder, Plugins } from '../lib/plugin';
 import { MaybePromise, OutputValue } from '../lib/util';
 
 interface Config<P extends Plugins, F extends Fields> {
-  /** Optional, declares the fields and fieldsets of the form */
+  /** Optional, declares the fields of the form */
   fields?: (t: FieldsBuilder<P>) => F;
   /** Optional, defines what should happen on a submit event */
   onSubmit?: (formState: {

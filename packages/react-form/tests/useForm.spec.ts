@@ -1,4 +1,4 @@
-import { textFieldPlugin } from '../src/lib/plugin';
+import { numberFieldPlugin, textFieldPlugin } from '../src/lib/plugin';
 import { renderHook } from '@testing-library/react';
 import useForm from '../src';
 import { expectTypeOf } from 'expect-type';
@@ -6,6 +6,7 @@ import { expectTypeOf } from 'expect-type';
 const plugins = {
   fields: {
     text: textFieldPlugin,
+    number: numberFieldPlugin,
   },
 };
 
@@ -67,7 +68,7 @@ describe('useForm', () => {
           // TODO
           // exposeCustomValidation: t.field.text({ validation: {length} }),
           // exposeCustomState: t.field.text({ state: 'hidden' }), expect error
-          // @todo-ts-expect-error only fields and fieldSets are allowed in the fields object
+          // @todo-ts-expect-error only fields are allowed in the fields object
           // randomObject: { thisShould: 'notBeAllowed' },
         }),
       }),

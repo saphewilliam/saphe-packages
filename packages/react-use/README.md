@@ -12,8 +12,8 @@ A collection of tiny, useful, type-safe React hooks.
 
 ## Features
 
-- ⚖️ Incredibly lightweight, only ~150 lines of code per hook,
-- 🌳 Tree-shakable, only include in the bundle what is needed,
+- ⚖️ Incredibly lightweight, only ~150 LOC per hook (including types),
+- 🌳 Tree-shakable, only include in the bundle what is necessary,
 - 👍 All hooks have a sophisticated type system powering them,
 - ✔️ 100% test coverage,
 - 0️⃣ 0 dependencies.

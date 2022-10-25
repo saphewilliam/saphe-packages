@@ -8,7 +8,14 @@
 [![Code coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages?style=flat-square&flag=react-form&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 
-A lightweight, declarative, type-safe form engine for React apps.
+A headless, declarative, lightweight, type-safe form engine for your React apps.
+
+## Features
+
+- ✅ CommonJS and ES Modules support,
+- ⚖️ Lightweight; [minified + gzipped](),
+- 🎨 Headless; you decide the form style, the hook handles the complex internal logic,
+- 🔌 Easily extendable using plugins, and many officially maintained plugins available.
 
 ## Table of Contents
 
@@ -21,17 +28,12 @@ A lightweight, declarative, type-safe form engine for React apps.
 
 ## Roadmap
 
-- [ ] Support dynamically hiding and disabling fields
-- [ ] Support lists of values
-- [ ] Support form layouts (advanced form field container with layout grid)
-- [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
-- [ ] Support localization out of the box
-- [ ] Support defining custom field types
-- [ ] Create supported field packs:
-  - [x] Bootstrap 5
-  - [ ] TailwindCSS
-  - [ ] Material UI
-  - [ ] ChackraUI
+- [ ] Support dynamically hiding and disabling fields (disable on loading?)
+- [ ] (in-place) field modifiers: transform / strip a string, round a number
+- [ ] Type modifiers: return form field names as snake case
+- [ ] Add a set of defineForm() esc helper functions to allow for better code splitting
+- [ ] More advanced form validation (e.g. require either one of two fields to be set)
+- [ ] Some sort of localisation api?
 
 ## Getting Started
 

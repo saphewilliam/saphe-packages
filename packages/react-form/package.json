@@ -2,7 +2,7 @@
   "name": "@saphe/react-form",
   "license": "MIT",
   "version": "0.9.4",
-  "description": "A lightweight, declarative, type-safe form engine for React apps.",
+  "description": "A headless, declarative, lightweight, type-safe form engine for your React apps.",
   "keywords": [
     "typescript",
     "react",
