@@ -1,36 +1,20 @@
-import { DefineValue, MaybePromise } from './util';
-import { ValidationMode } from './validation';
+import { DefineValue } from './util';
+import { FieldValidation } from './validation';
 
 export type FieldState = 'enabled' | 'loading' | 'disabled' | 'hidden';
 export type FieldMany = boolean;
-export type FieldValidation<Value, Many extends FieldMany> = {
-  mode?: ValidationMode;
-  required?: string;
-  validate?: (value: DefineValue<Value, Many>) => MaybePromise<string>;
-};
 
 export type Field<
-  Value,
-  Many extends FieldMany,
-  _Validation extends FieldValidation<Value, Many>,
+  Value = unknown,
+  Many extends FieldMany | unknown = unknown,
+  _Validation extends FieldValidation<Value, Many> = Record<string, never>,
 > = { many: Many };
 
-export type FieldSet<
-  F extends Fields<Many, Validation>,
-  Many extends FieldMany,
-  Validation extends FieldValidation<unknown, Many>,
-> = { fields: F };
+export type FieldSet<F extends Fields> = { fields: F };
 
-export type Fields<
-  Many extends FieldMany = unknown,
-  Validation extends FieldValidation<unknown, Many> = unknown,
-> = Record<string, Field<unknown, Many, Validation>>;
+export type Fields = Record<string, Field>;
 
-export type FieldsOrFieldSets<
-  F extends Fields<Many, Validation>,
-  Many extends FieldMany,
-  Validation extends FieldValidation<unknown, Many>,
-> = Record<string, Field<unknown, Many, Validation> | FieldSet<F, Many, Validation>>;
+export type FieldsOrFieldSets<F extends Fields> = Record<string, Field | FieldSet<F>>;
 
 export interface FieldOptions<
   Value,

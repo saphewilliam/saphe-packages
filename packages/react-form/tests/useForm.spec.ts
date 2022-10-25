@@ -19,6 +19,7 @@ describe('useForm', () => {
           unknownPlugin: t.field.unknown({}),
           // @ts-expect-error Unknown option
           unknownOption: t.field.text({ unknown: 'test' }),
+          exposeCustomOption: t.field.text({ placeholder: 'String' }),
 
           // @ts-expect-error Incorrect initial value type
           incorrectType: t.field.text({ initialValue: 10 }),
@@ -37,8 +38,32 @@ describe('useForm', () => {
           manyTrueNull: t.field.text({ many: true, initialValue: null }),
           manyTrueNullArray: t.field.text({ many: true, initialValue: [null] }),
 
-          exposeCustomOption: t.field.text({ placeholder: 'String' }),
-
+          manyValidation: t.field.text({
+            validation: {
+              validate: (value) => {
+                expectTypeOf(value).toEqualTypeOf<string | null>();
+                return '';
+              },
+            },
+          }),
+          manyFalseValidation: t.field.text({
+            many: false,
+            validation: {
+              validate: (value) => {
+                expectTypeOf(value).toEqualTypeOf<string | null>();
+                return '';
+              },
+            },
+          }),
+          manyTrueValidation: t.field.text({
+            many: true,
+            validation: {
+              validate: (value) => {
+                expectTypeOf(value).toEqualTypeOf<(string | null)[]>();
+                return '';
+              },
+            },
+          }),
           // TODO
           // exposeCustomValidation: t.field.text({ validation: {length} }),
           // exposeCustomState: t.field.text({ state: 'hidden' }), expect error
@@ -51,6 +76,7 @@ describe('useForm', () => {
               unknownPlugin: t.field.unknown({}),
               // @ts-expect-error Unknown option
               unknownOption: t.field.text({ unknown: 'test' }),
+              exposeCustomOption: t.field.text({ placeholder: 'String' }),
 
               // @ts-expect-error Incorrect initial value type
               incorrectType: t.field.text({ initialValue: 10 }),
@@ -69,7 +95,32 @@ describe('useForm', () => {
               manyTrueNull: t.field.text({ many: true, initialValue: null }),
               manyTrueNullArray: t.field.text({ many: true, initialValue: [null] }),
 
-              exposeCustomOption: t.field.text({ placeholder: 'String' }),
+              manyValidation: t.field.text({
+                validation: {
+                  validate: (value) => {
+                    expectTypeOf(value).toEqualTypeOf<string | null>();
+                    return '';
+                  },
+                },
+              }),
+              manyFalseValidation: t.field.text({
+                many: false,
+                validation: {
+                  validate: (value) => {
+                    expectTypeOf(value).toEqualTypeOf<string | null>();
+                    return '';
+                  },
+                },
+              }),
+              manyTrueValidation: t.field.text({
+                many: true,
+                validation: {
+                  validate: (value) => {
+                    expectTypeOf(value).toEqualTypeOf<(string | null)[]>();
+                    return '';
+                  },
+                },
+              }),
             },
           }),
         }),
@@ -87,6 +138,7 @@ describe('useForm', () => {
           textReq: t.field.text({ validation: { required: 'req' } }),
           textReqNotMany: t.field.text({ many: false, validation: { required: 'req' } }),
           textReqMany: t.field.text({ many: true, validation: { required: 'req' } }),
+
           obj: t.fieldSet({
             fields: {
               nestedText: t.field.text({}),

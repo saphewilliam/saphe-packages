@@ -1,4 +1,5 @@
-import { FieldMany, FieldValidation } from './field';
+import { FieldMany } from './field';
+import { FieldValidation } from './validation';
 
 /** Value that may be a promise, or not */
 export type MaybePromise<T> = T | Promise<T>;

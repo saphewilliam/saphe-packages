@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import TextField from '../components/TextField';
 import {
   FieldMany,
-  FieldValidation,
   FieldState,
   FieldOptions,
   FieldSetOptions,
@@ -11,6 +10,7 @@ import {
   Field,
 } from './field';
 import { Props } from './props';
+import { FieldValidation } from './validation';
 
 /** Utility type used to define a custom field plugin */
 export interface FieldPlugin<
@@ -58,20 +58,19 @@ export type FieldsBuilder<P extends Plugins> = {
   field: {
     [K in keyof P['fields']]: <
       Many extends ManyFromFieldPlugin<P['fields'][K]>,
-      Validation extends ValidationFromFieldPlugin<P['fields'][K]>,
+      Validation extends FieldValidation<ValueFromFieldPlugin<P['fields'][K]>, Many>,
       State extends StateFromFieldPlugin<P['fields'][K]>,
     >(
-      t: FieldOptions<ValueFromFieldPlugin<P['fields'][K]>, Many, Validation, State> &
+      t: FieldOptions<
+        ValueFromFieldPlugin<P['fields'][K]>,
+        Many,
+        Validation /* TODO & ValidationFromFieldPlugin<P['fields'][K]>*/,
+        State
+      > &
         OptionsFromFieldPlugin<P['fields'][K]>,
-    ) => Field<string, Many, Validation>;
+    ) => Field<ValueFromFieldPlugin<P['fields'][K]>, Many, Validation>;
   };
-  fieldSet: <
-    F extends Fields<Many, Validation>,
-    Many extends FieldMany,
-    Validation extends FieldValidation<unknown, Many>,
-  >(
-    opts: FieldSetOptions<F>,
-  ) => FieldSet<F, Many, Validation>;
+  fieldSet: <F extends Fields>(opts: FieldSetOptions<F>) => FieldSet<F>;
 };
 
 export const textFieldPlugin: FieldPlugin<
