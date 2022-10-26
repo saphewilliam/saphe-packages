@@ -1,7 +1,7 @@
 import { numberFieldPlugin, textFieldPlugin } from '../src/lib/plugin';
 import { renderHook } from '@testing-library/react';
 import useForm from '../src';
-import { expectTypeOf } from 'expect-type';
+import { act } from 'react-test-renderer';
 
 const plugins = {
   fields: {
@@ -11,98 +11,170 @@ const plugins = {
 };
 
 describe('useForm', () => {
-  // TODO describe FieldBuilder
-  it('provides type-safe input of form fields based on the provided plugins', () => {
-    renderHook(() =>
+  it('passes props and settings down to fields', () => {
+    const textLabel = 'Text Label';
+    const textDescription = 'This is the description!';
+    const textInitialValue = 'Initial Value';
+    const textPlaceholder = 'This is the placeholder';
+
+    const { result } = renderHook(() =>
       useForm(plugins, {
         fields: (t) => ({
-          // @ts-expect-error Unknown plugin
-          unknownPlugin: t.field.unknown({}),
-          // @ts-expect-error Unknown option
-          unknownOption: t.field.text({ unknown: 'test' }),
-          exposeCustomOption: t.field.text({ placeholder: 'String' }),
-
-          // @ts-expect-error Incorrect initial value type
-          incorrectType: t.field.text({ initialValue: 10 }),
-          // @ts-expect-error Many is undefined, it should not accept an array by default
-          manyUndefined: t.field.text({ initialValue: ['Array of strings'] }),
-          // @ts-expect-error Many is false, it should not accept an array
-          manyFalse: t.field.text({ many: false, initialValue: ['Array of strings'] }),
-          // @ts-expect-error Many is true, it should not accept a string
-          manyTrue: t.field.text({ many: true, initialValue: 'String' }),
-          correctManyUndefined: t.field.text({ initialValue: 'String' }),
-          correctManyFalse: t.field.text({ many: false, initialValue: 'String' }),
-          correctManyTrue: t.field.text({ many: true, initialValue: ['Array of strings'] }),
-          manyUndefinedNull: t.field.text({ initialValue: null }),
-          manyFalseNull: t.field.text({ many: false, initialValue: null }),
-          // @ts-expect-error Many is true, it should not accept null
-          manyTrueNull: t.field.text({ many: true, initialValue: null }),
-          manyTrueNullArray: t.field.text({ many: true, initialValue: [null] }),
-
-          manyValidation: t.field.text({
-            validation: {
-              validate: (value) => {
-                expectTypeOf(value).toEqualTypeOf<string | null>();
-                return '';
-              },
-            },
+          text: t.field.text({
+            label: textLabel,
+            description: textDescription,
+            initialValue: textInitialValue,
+            placeholder: textPlaceholder,
           }),
-          manyFalseValidation: t.field.text({
-            many: false,
-            validation: {
-              validate: (value) => {
-                expectTypeOf(value).toEqualTypeOf<string | null>();
-                return '';
-              },
-            },
-          }),
-          manyTrueValidation: t.field.text({
+          textMany: t.field.text({
             many: true,
-            validation: {
-              validate: (value) => {
-                expectTypeOf(value).toEqualTypeOf<(string | null)[]>();
-                return '';
-              },
-            },
           }),
-          // TODO
-          // exposeCustomValidation: t.field.text({ validation: {length} }),
-          // exposeCustomState: t.field.text({ state: 'hidden' }), expect error
-          // @todo-ts-expect-error only fields are allowed in the fields object
-          // randomObject: { thisShould: 'notBeAllowed' },
         }),
       }),
     );
+
+    expect(result.current.controls.text.id).toBe(':r0:text');
+    expect(result.current.controls.text.name).toBe(':r0:text');
+    expect(result.current.controls.text.label).toBe(textLabel);
+    expect(result.current.controls.text.description).toBe(textDescription);
+    expect(result.current.controls.text.value).toBe(textInitialValue);
+    expect(result.current.controls.text.placeholder).toBe(textPlaceholder);
+    // TODO
+    expect(result.current.controls.text.isDisabled).toBeFalsy();
+    // TODO
+    expect(result.current.controls.text.isHidden).toBeFalsy();
+    expect(result.current.controls.text.error).toBe('');
+    expect(result.current.controls.text.many).toBeFalsy();
+
+    expect(result.current.fields.text.description).toBe(textDescription);
+    // TODO
+    expect(result.current.fields.text.fieldState).toBe(undefined);
+    expect(result.current.fields.text.initialValue).toBe(textInitialValue);
+    expect(result.current.fields.text.label).toBe(textLabel);
+    expect(result.current.fields.text.many).toBeFalsy();
+    expect(result.current.fields.text.placeholder).toBe(textPlaceholder);
+
+    expect(result.current.controls.textMany.fields[0]?.id).toBe(':r0:textMany0');
+    expect(result.current.controls.textMany.fields[0]?.name).toBe(':r0:textMany0');
+    expect(result.current.controls.textMany.label).toBe('Text Many');
+    expect(result.current.controls.textMany.description).toBe('');
+    expect(result.current.controls.textMany.fields[0]?.value).toBe('');
+    expect(result.current.controls.textMany.placeholder).toBeUndefined();
+    // TODO
+    expect(result.current.controls.textMany.fields[0]?.isDisabled).toBeFalsy();
+    // TODO
+    expect(result.current.controls.textMany.fields[0]?.isHidden).toBeFalsy();
+    expect(result.current.controls.textMany.fields[0]?.error).toBe('');
+    expect(result.current.controls.textMany.many).toBeTruthy();
+
+    expect(result.current.fields.textMany.description).toBeUndefined();
+    // TODO
+    expect(result.current.fields.textMany.fieldState).toBe(undefined);
+    expect(result.current.fields.textMany.initialValue).toBeUndefined();
+    expect(result.current.fields.textMany.label).toBeUndefined();
+    expect(result.current.fields.textMany.many).toBeTruthy();
+    expect(result.current.fields.textMany.placeholder).toBeUndefined();
+
+    expect(result.current.values.text).toBe(textInitialValue);
+    expect(result.current.values.textMany).toBeNull();
   });
 
-  it('Generates a type-safe submit action based on the specified form fields', () => {
-    renderHook(() =>
+  it('fires an onChange event and changeEffect on a field change event', () => {
+    const onChange = jest.fn();
+    const changeEffect = jest.fn();
+
+    const { result } = renderHook(() =>
       useForm(plugins, {
         fields: (t) => ({
           text: t.field.text({}),
-          textNotMany: t.field.text({ many: false }),
-          textMany: t.field.text({ many: true }),
-          textReq: t.field.text({ validation: { required: 'req' } }),
-          textReqNotMany: t.field.text({ many: false, validation: { required: 'req' } }),
-          textReqMany: t.field.text({ many: true, validation: { required: 'req' } }),
+          number: t.field.number({}),
+          manyText: t.field.text({ many: true, initialValue: [null, null] }),
         }),
-        onSubmit(formState) {
-          expectTypeOf(formState).not.toBeAny();
-          expectTypeOf(formState).not.toHaveProperty('random');
-          expectTypeOf(formState).toHaveProperty('formValues');
-
-          const v = formState.formValues;
-          expectTypeOf(v).not.toBeAny();
-          expectTypeOf(v).not.toHaveProperty('random');
-
-          expectTypeOf(v).toHaveProperty('text').toEqualTypeOf<string | null>();
-          expectTypeOf(v).toHaveProperty('textNotMany').toEqualTypeOf<string | null>();
-          expectTypeOf(v).toHaveProperty('textMany').toEqualTypeOf<(string | null)[]>();
-          expectTypeOf(v).toHaveProperty('textReq').toEqualTypeOf<string>();
-          expectTypeOf(v).toHaveProperty('textReqNotMany').toEqualTypeOf<string>();
-          expectTypeOf(v).toHaveProperty('textReqMany').toEqualTypeOf<string[]>();
-        },
+        onChange,
+        changeEffect,
       }),
     );
+
+    const textValue = 'Hi, mom!';
+    act(() => result.current.controls.text.onChange(textValue));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(changeEffect).toHaveBeenCalledTimes(1);
+    expect(result.current.values.text).toBe(textValue);
+    expect(result.current.controls.text.value).toBe(textValue);
+
+    const numberValue = '42';
+    act(() => result.current.controls.number.onChange(numberValue));
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(changeEffect).toHaveBeenCalledTimes(2);
+    expect(result.current.values.number).toBe(parseInt(numberValue));
+    expect(result.current.controls.number.value).toBe(numberValue);
+
+    const textValue0 = 'Value 0';
+    const textValue1 = 'Value 1';
+    act(() => result.current.controls.manyText.fields[0]?.onChange(textValue0));
+    act(() => result.current.controls.manyText.fields[1]?.onChange(textValue1));
+    expect(onChange).toHaveBeenCalledTimes(4);
+    expect(changeEffect).toHaveBeenCalledTimes(4);
+    expect(result.current.values.manyText[0]).toBe(textValue0);
+    expect(result.current.values.manyText[1]).toBe(textValue1);
+    expect(result.current.controls.manyText.fields[0]?.value).toBe(textValue0);
+    expect(result.current.controls.manyText.fields[1]?.value).toBe(textValue1);
+
+    // TODO test async change effect
   });
+
+  it('fires an onBlur event and blurEffect on a field blur event', () => {
+    const onBlur = jest.fn();
+    const blurEffect = jest.fn();
+
+    const { result } = renderHook(() =>
+      useForm(plugins, {
+        fields: (t) => ({
+          text: t.field.text({}),
+          manyText: t.field.text({ many: true }),
+        }),
+        onBlur,
+        blurEffect,
+      }),
+    );
+
+    act(() => result.current.controls.text.onBlur());
+    expect(onBlur).toHaveBeenCalledTimes(1);
+    expect(blurEffect).toHaveBeenCalledTimes(1);
+    act(() => result.current.controls.manyText.fields[0]?.onBlur());
+    expect(onBlur).toHaveBeenCalledTimes(2);
+    expect(blurEffect).toHaveBeenCalledTimes(2);
+
+    // TODO test touched
+    // TODO test async blur effect
+  });
+
+  it('fires an onSubmit event on a form submit event', async () => {
+    const onSubmit = jest.fn();
+    const preventDefault = jest.fn();
+
+    const { result } = renderHook(() =>
+      useForm(plugins, {
+        fields: (t) => ({
+          text: t.field.text({}),
+        }),
+        onSubmit,
+      }),
+    );
+
+    await act(
+      () =>
+        new Promise((resolve) => {
+          result.current.helpers.submitButtonControl.onClick({ preventDefault });
+          resolve();
+        }),
+    );
+    expect(preventDefault).toHaveBeenCalledTimes(1);
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+
+    // TODO test touched
+    // TODO text async submit method
+  });
+
+  // TODO test basic props passing (label, description)
 });

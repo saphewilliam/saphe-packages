@@ -5,17 +5,29 @@ export type FieldState = 'enabled' | 'loading' | 'disabled' | 'hidden';
 export type FieldMany = boolean;
 
 export type Field<
+  _RawValue,
   Value,
   Many extends FieldMany,
-  _Validation extends FieldValidation<Value, Many>,
-> = { todo: string };
+  Validation extends FieldValidation<Value, Many>,
+  State extends FieldState,
+  Options extends object,
+  // TODO why can't I just use Many?
+  // TODO any
+> = { plugin: any; many?: boolean } & Omit<FieldOptions<Value, Many, Validation, State>, 'many'> &
+  Options;
 
 export type Fields<
   Many extends FieldMany = false,
   // TODO
   // @ts-expect-error Somehow this works
   Validation extends FieldValidation<unknown, Many> = unknown,
-> = Record<string, Field<unknown, Many, Validation>>;
+  // TODO
+  // @ts-expect-error Somehow this works
+  State extends FieldState = unknown,
+  // TODO
+  // @ts-expect-error Somehow this works
+  Options extends object = unknown,
+> = Record<string, Field<unknown, unknown, Many, Validation, State, Options>>;
 
 export interface FieldOptions<
   Value,

@@ -1,7 +1,4 @@
-import { ReactElement } from 'react';
-import TextField from '../components/TextField';
 import { FieldMany, FieldState, FieldOptions, Field } from './field';
-import { Props } from './props';
 import { FieldValidation } from './validation';
 
 /** Utility type used to define a custom field plugin */
@@ -11,8 +8,9 @@ export interface FieldPlugin<
   Many extends FieldMany,
   Validation extends FieldValidation<Value, Many>,
   State extends FieldState,
-  Options extends object,
+  _Options extends object,
 > {
+  defaultInitialValue: Value | null;
   /** Define how to parse a single raw value to an internal value */
   parse(value: RawValue): Value | null;
   /** Define how to display a single internal value in the raw input */
@@ -20,10 +18,13 @@ export interface FieldPlugin<
   /** Define how to validate an internal value. The string returned is the error message shown. '' is no error message */
   validate(value: Value | null, validation: Validation, state: State): string;
   /** The component that renders // TODO do you even want this? */
-  component(props: Props<Value> & Options): ReactElement;
+  // component(props: Props<RawValue> & Options): ReactElement;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export type RawValueFromFieldPlugin<Plugin extends FieldPlugin<any, any, any, any, any, any>> =
+  Plugin extends FieldPlugin<infer RawValue, any, any, any, any, any> ? RawValue : never;
+
 export type ValueFromFieldPlugin<Plugin extends FieldPlugin<any, any, any, any, any, any>> =
   Plugin extends FieldPlugin<any, infer Value, any, any, any, any> ? Value : never;
 
@@ -60,7 +61,14 @@ export type FieldsBuilder<P extends Plugins> = {
         State
       > &
         OptionsFromFieldPlugin<P['fields'][K]>,
-    ) => Field<ValueFromFieldPlugin<P['fields'][K]>, Many, Validation>;
+    ) => Field<
+      RawValueFromFieldPlugin<P['fields'][K]>,
+      ValueFromFieldPlugin<P['fields'][K]>,
+      Many,
+      Validation,
+      State,
+      OptionsFromFieldPlugin<P['fields'][K]>
+    >;
   };
 };
 
@@ -72,7 +80,7 @@ export const textFieldPlugin: FieldPlugin<
   FieldState,
   { placeholder?: string }
 > = {
-  component: TextField,
+  defaultInitialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: () => '',
@@ -86,7 +94,7 @@ export const numberFieldPlugin: FieldPlugin<
   FieldState,
   { placeholder?: string }
 > = {
-  component: TextField,
+  defaultInitialValue: null,
   parse: (value) => {
     const parsedValue = parseFloat(value);
     return !isNaN(parsedValue) ? parsedValue : null;
