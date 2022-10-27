@@ -77,15 +77,62 @@ export type FormStateValues<F extends Fields> = {
     : never;
 };
 
+export type FormStateTouched<F extends Fields> = {
+  [I in keyof F]: F[I] extends Field<
+    infer _RawValue,
+    infer _Value,
+    infer Many,
+    infer _Validation,
+    infer _State,
+    infer _Options
+  >
+    ? boolean extends Many
+      ? boolean
+      : Many extends true
+      ? boolean[]
+      : boolean
+    : never;
+};
+
+export type FormStateError<F extends Fields> = {
+  [I in keyof F]: F[I] extends Field<
+    infer _RawValue,
+    infer _Value,
+    infer Many,
+    infer _Validation,
+    infer _State,
+    infer _Options
+  >
+    ? boolean extends Many
+      ? string
+      : Many extends true
+      ? string[]
+      : string
+    : never;
+};
+
+export type FormStateHelpers<_F extends Fields> = {
+  formControl: {
+    onSubmit: (e: { preventDefault: () => void }) => void;
+    onReset: (e: { preventDefault: () => void }) => void;
+  };
+  submitButtonControl: {
+    key: string;
+    label: string;
+    isDisabled: boolean;
+    isLoading: boolean;
+    type: 'submit' | 'reset' | 'button';
+    onClick: (e: { preventDefault: () => void }) => void;
+  };
+};
+
 export interface FormState<F extends Fields> {
   controls: FormStateControls<F>;
   fields: FormStateFields<F>;
   values: FormStateValues<F>;
-  helpers: {
-    submitButtonControl: {
-      onClick: (e: { preventDefault: () => void }) => void;
-    };
-  };
+  touched: FormStateTouched<F>;
+  errors: FormStateError<F>;
+  helpers: FormStateHelpers<F>;
 }
 
 export function useForm<P extends Plugins, F extends Fields>(
@@ -172,7 +219,7 @@ export function useForm<P extends Plugins, F extends Fields>(
           },
         };
       }, {} as FormStateControls<F>),
-    [initialFields],
+    [initialFields, id],
   );
 
   const initialValues = useMemo<FormStateValues<F>>(
@@ -187,37 +234,143 @@ export function useForm<P extends Plugins, F extends Fields>(
     [initialFields],
   );
 
+  const initialTouched = useMemo<FormStateTouched<F>>(
+    () =>
+      Object.entries(initialFields).reduce(
+        (prev, [fieldName, field]) => ({ ...prev, [fieldName]: field.many ? [false] : false }),
+        {} as FormStateTouched<F>,
+      ),
+    [initialFields],
+  );
+
+  const initialErrors = useMemo<FormStateError<F>>(
+    () =>
+      Object.entries(initialFields).reduce(
+        (prev, [fieldName, field]) => ({ ...prev, [fieldName]: field.many ? [''] : '' }),
+        {} as FormStateError<F>,
+      ),
+    [initialFields],
+  );
+
+  // export function getInitialFormTouchedState<T extends Fields>(
+  //   fields: T,
+  //   prevTouched: Record<string, boolean> = {},
+  // ): FormTouched<T> {
+  //   const touched: Record<string, boolean> = {};
+  //   for (const fieldName of Object.keys(fields)) touched[fieldName] = prevTouched[fieldName] ?? false;
+  //   return touched as FormTouched<T>;
+  // }
+
+  // export function getInitialFormErrorsState<T extends Fields>(
+  //   fields: T,
+  //   prevErrors: Record<string, string> = {},
+  // ): FormErrors<T> {
+  //   const errors: Record<string, string> = {};
+  //   for (const fieldName of Object.keys(fields)) errors[fieldName] = prevErrors[fieldName] ?? '';
+  //   return errors as FormErrors<T>;
+  // }
+
+  // export function getInitialFormValuesState<T extends Fields>(
+  //   fields: T,
+  //   prevValues: Record<string, FieldValueCrude> = {},
+  // ): FormValues<T> {
+  //   const values: Record<string, FieldValueCrude> = {};
+  //   for (const [fieldName, field] of Object.entries(fields)) {
+  //     values[fieldName] = prevValues[fieldName] ?? field.initialValue ?? getDefaultFieldValue(field);
+  //   }
+
+  //   return values as FormValues<T>;
+  // }
+
+  // TODO helpers should be added afterwards, not included in state
+  const initialHelpers = useMemo<FormStateHelpers<F>>(
+    () => ({
+      formControl: {
+        onSubmit: (e) => {
+          e.preventDefault();
+          actions.submit();
+        },
+        onReset: (e) => {
+          e.preventDefault();
+          actions.reset();
+        },
+      },
+      submitButtonControl: {
+        key: `${id}submitButton`,
+        type: 'submit',
+        // TODO
+        label: '',
+        isDisabled: false,
+        isLoading: false,
+        // label: !isLoading
+        //   ? submitButton?.label ?? 'Submit'
+        //   : submitButton?.submittingLabel ?? submitButton?.label ?? 'Processing...',
+        // disabled: Object.values(state.errors).reduce<boolean>(
+        //   (prev, curr) => prev || curr !== '',
+        //   false,
+        // ),
+        // isLoading,
+        onClick: (e) => {
+          e.preventDefault();
+          actions.submit();
+        },
+      },
+    }),
+    [id],
+  );
+
   const initialState: FormState<F> = useMemo(
     () => ({
       fields: initialFields,
       controls: initialControls,
       values: initialValues,
-      helpers: {
-        submitButtonControl: {
-          key: `${id}submitButton`,
-          type: 'submit',
-          // label: !isLoading
-          //   ? submitButton?.label ?? 'Submit'
-          //   : submitButton?.submittingLabel ?? submitButton?.label ?? 'Processing...',
-          // disabled: Object.values(state.errors).reduce<boolean>(
-          //   (prev, curr) => prev || curr !== '',
-          //   false,
-          // ),
-          // isLoading,
-          onClick: (e) => {
-            e.preventDefault();
-            actions.submit();
-          },
-        },
-      },
+      touched: initialTouched,
+      errors: initialErrors,
+      helpers: initialHelpers,
     }),
-    [initialFields, initialControls, initialValues],
+    [initialFields, initialControls, initialValues, initialHelpers],
   );
+
+  // TODO?
+  // useEffect(() => {
+  //   if (stringify(config.fields) !== stringify(state.fields)) actions.reset();
+  // }, [actions, config.fields, state.fields]);
 
   // TODO isLoading, error
   const { state, actions } = useAsyncReducer(initialState, {
     reset: () => initialState,
     change: (state, targetValue: any, fieldName: keyof F, fieldIndex?: number) => {
+      // TODO
+      // const field = prevState.fields[fieldName];
+      // if (!field) return prevState;
+
+      // const values = {
+      //   ...prevState.values,
+      //   [fieldName]:
+      //     'multiple' in field && field.multiple && targetValue === null
+      //       ? []
+      //       : 'multiple' in field && field.multiple && !(targetValue && Array.isArray(targetValue))
+      //       ? [targetValue]
+      //       : targetValue,
+      // };
+
+      // const error = validateField(field, targetValue);
+      // const fieldValidationMode = field.validation?.mode;
+      // const shouldValidate =
+      //   // Either the local or global validation mode is ON_CHANGE
+      //   fieldValidationMode === ValidationMode.ON_CHANGE ||
+      //   (fieldValidationMode === undefined && validationMode === ValidationMode.ON_CHANGE) ||
+      //   // Or either the local or global validation mode is AFTER_BLUR and a field has been touched
+      //   ((fieldValidationMode === ValidationMode.AFTER_BLUR ||
+      //     (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR)) &&
+      //     prevState.touched[fieldName]);
+
+      // return {
+      //   ...prevState,
+      //   values,
+      //   errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
+      // };
+
       const field = state.fields[fieldName];
 
       const newValue = field.plugin.parse(targetValue);
@@ -269,7 +422,38 @@ export function useForm<P extends Plugins, F extends Fields>(
       return newState;
     },
     blur: (state, fieldName: keyof F, fieldIndex?: number) => {
-      let newState: FormState<F> = state;
+      // TODO
+      // const field = prevState.fields[fieldName];
+      // if (!field) return prevState;
+
+      // const fieldValidationMode = field.validation?.mode;
+      // const targetValue = prevState.values[fieldName as keyof typeof prevState.values];
+      // const error = validateField(field, targetValue);
+
+      // const shouldValidate =
+      //   // Either the local or global validation mode is ON_BLUR
+      //   fieldValidationMode === ValidationMode.ON_BLUR ||
+      //   (fieldValidationMode === undefined && validationMode === ValidationMode.ON_BLUR) ||
+      //   // Or either the local or global validation mode is AFTER_BLUR
+      //   fieldValidationMode === ValidationMode.AFTER_BLUR ||
+      //   (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR);
+
+      // return {
+      //   ...prevState,
+      //   errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
+      //   touched: { ...prevState.touched, [fieldName]: true },
+      // };
+
+      let newState: FormState<F> = {
+        ...state,
+        touched: {
+          ...state.touched,
+          [fieldName]:
+            fieldIndex === undefined
+              ? true
+              : Object.assign([], state.touched[fieldName], { [fieldIndex]: true }),
+        },
+      };
 
       if (config.onBlur) {
         const onChangeResult = config.onBlur(state, fieldName, fieldIndex);
@@ -284,7 +468,17 @@ export function useForm<P extends Plugins, F extends Fields>(
       return newState;
     },
     submit: async (state) => {
-      let newState: FormState<F> = state;
+      let newState: FormState<F> = {
+        ...state,
+        touched: Object.entries(state.touched).reduce<FormStateTouched<F>>(
+          (prev, [fieldName, touched]) => ({
+            ...prev,
+            [fieldName]: Array.isArray(touched) ? touched.map(() => true) : true,
+          }),
+          {} as FormStateTouched<F>,
+        ),
+      };
+
       let canSubmit = true;
       const newErrors: Record<string, string> = {};
       const newTouched: Record<string, boolean> = {};

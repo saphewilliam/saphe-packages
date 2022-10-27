@@ -17,8 +17,6 @@ export interface FieldPlugin<
   serialize(value: Value | null): RawValue;
   /** Define how to validate an internal value. The string returned is the error message shown. '' is no error message */
   validate(value: Value | null, validation: Validation, state: State): string;
-  /** The component that renders // TODO do you even want this? */
-  // component(props: Props<RawValue> & Options): ReactElement;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -108,3 +106,13 @@ export const numberFieldPlugin: FieldPlugin<
 // const addressPlugin: FieldPlugin<{ streetName: string; houseNumber: number }> = {};
 // const recaptchaPlugin: FieldPlugin<never, string> = {};
 // const noticePlugin: FieldPlugin<never, never> = {};
+
+// export interface ITextArea {
+//   placeholder?: string;
+//   rows?: number;
+// }
+
+// export interface ISelect {
+//   placeholder?: string;
+//   options: { value: string; label?: string }[];
+// }

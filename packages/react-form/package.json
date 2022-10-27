@@ -39,12 +39,9 @@
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
-    "@saphe/react-use": "workspace:*",
-    "react-google-recaptcha": "2.1.0"
+    "@saphe/react-use": "workspace:*"
   },
-  "devDependencies": {
-    "@types/react-google-recaptcha": "2.1.5"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
