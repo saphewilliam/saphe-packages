@@ -1,7 +1,7 @@
 import { useAsyncReducer, Util } from '@saphe/react-use';
 import { useId, useMemo } from 'react';
 import { Field, Fields } from '../lib/field';
-import { FieldsBuilder, Plugins } from '../lib/plugin';
+import { FieldsBuilder, Plugins } from '../lib/fieldPlugin';
 import { ComponentPropsBase, FieldPropsBase, PropsFromMany } from '../lib/props';
 import { MaybePromise, OutputValue } from '../lib/util';
 
