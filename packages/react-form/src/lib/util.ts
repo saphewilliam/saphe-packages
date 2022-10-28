@@ -4,30 +4,30 @@ import { FieldValidation } from './validation';
 /** Value that may be a promise, or not */
 export type MaybePromise<T> = T | Promise<T>;
 
-/** Utility value type used to generate the submit field type */
+/** Deduce output type based on a Many value */
+export type TypeFromMany<T, ManyT, Many extends FieldMany> = boolean extends Many
+  ? T
+  : Many extends true
+  ? ManyT
+  : T;
+
+/** Decude output type based on Validation (required) value */
+export type TypeFromRequired<T, Validation extends FieldValidation<T>> = Validation extends {
+  required: string;
+}
+  ? T
+  : T | null;
+
+/** Utility type used to generate the `value` type in the form state */
 export type OutputValue<
   Value,
   Many extends FieldMany,
   Validation extends FieldValidation<Value>,
-> = ManyOutputValue<RequiredOutputValue<Value, Validation>, Many>;
+> = TypeFromMany<TypeFromRequired<Value, Validation>, TypeFromRequired<Value, Validation>[], Many>;
 
 /** Utility value type used for defining fields */
-export type DefineValue<Value, Many extends FieldMany> = ManyOutputValue<
-  RequiredOutputValue<Value, { required: undefined }>,
+export type DefineValue<Value, Many extends FieldMany> = TypeFromMany<
+  Value | null,
+  (Value | null)[],
   Many
 >;
-
-/** Utility value type for internal use */
-export type InternalValue<Value> = (Value | null)[] | (Value | null);
-
-type ManyOutputValue<Value, Many extends FieldMany> = boolean extends Many
-  ? Value
-  : Many extends true
-  ? Value[]
-  : Value;
-
-type RequiredOutputValue<Value, Validation extends FieldValidation<Value>> = Validation extends {
-  required: string;
-}
-  ? Value
-  : Value | null;

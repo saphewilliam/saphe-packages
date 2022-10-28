@@ -1,29 +1,23 @@
-import { FieldMany } from './field';
+export interface ComponentProps {
+  label: string;
+  description: string;
+}
 
-export type FieldPropsBase<Value> = {
+export interface FieldProps<RawValue> {
   id: string;
   name: string;
-  value: Value;
+  value: RawValue;
   error: string;
   isDisabled: boolean;
   isHidden: boolean;
   describedBy: string;
-  onChange: (targetValue: Value) => void;
+  onChange: (targetValue: RawValue) => void;
   onBlur: () => void;
-};
+}
 
-export type ComponentPropsBase = {
-  label: string;
-  description: string;
-};
+export interface FieldsProps<RawValue> {
+  fields: FieldProps<RawValue>[];
+}
 
-// TODO we might not need many: false and many: true
-export type Props<Value> = ComponentPropsBase & { many: false } & FieldPropsBase<Value>;
-export type ManyProps<Value> = ComponentPropsBase & { many: true } & {
-  fields: FieldPropsBase<Value>[];
-};
-export type PropsFromMany<Value, Many extends FieldMany> = boolean extends Many
-  ? Props<Value>
-  : Many extends true
-  ? ManyProps<Value>
-  : Props<Value>;
+export type Props<RawValue> = ComponentProps & { many: false } & FieldProps<RawValue>;
+export type ManyProps<RawValue> = ComponentProps & { many: true } & FieldsProps<RawValue>;

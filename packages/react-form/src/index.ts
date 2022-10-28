@@ -1,6 +1,6 @@
-export type { FieldPlugin } from './lib/fieldPlugin';
-export * as Plugins from './lib/plugins';
-export * as Define from './lib/define';
+export type { Plugin as FieldPlugin } from './lib/plugin';
+export * from './lib/plugins';
+export * from './lib/types';
 
 import { useForm } from './hooks/useForm';
 export default useForm;

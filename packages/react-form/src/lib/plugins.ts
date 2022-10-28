@@ -1,8 +1,8 @@
 import { FieldMany, FieldState } from './field';
-import { FieldPlugin } from './fieldPlugin';
+import { Plugin } from './plugin';
 import { FieldValidation } from './validation';
 
-export const textFieldPlugin: FieldPlugin<
+export const textFieldPlugin: Plugin<
   string,
   string,
   FieldMany,
@@ -16,7 +16,7 @@ export const textFieldPlugin: FieldPlugin<
   validate: () => '',
 };
 
-export const textAreaFieldPlugin: FieldPlugin<
+export const textAreaFieldPlugin: Plugin<
   string,
   string,
   FieldMany,
@@ -30,7 +30,7 @@ export const textAreaFieldPlugin: FieldPlugin<
   validate: () => '',
 };
 
-export const numberFieldPlugin: FieldPlugin<
+export const numberFieldPlugin: Plugin<
   string,
   number,
   FieldMany,
@@ -47,7 +47,7 @@ export const numberFieldPlugin: FieldPlugin<
   validate: () => '',
 };
 
-export const selectFieldPlugin: FieldPlugin<
+export const selectFieldPlugin: Plugin<
   string,
   string,
   FieldMany,

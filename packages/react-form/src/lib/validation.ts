@@ -16,3 +16,27 @@ export type FieldValidation<Value> = {
   /** Optional, custom validation function */
   validate?: (value: Value | null) => string /* MaybePromise<string>*/;
 };
+
+export const validateField = (field: any, value: any): string => {
+  if (!field.validation) return '';
+
+  // Required check
+  if (
+    field.validation.required &&
+    JSON.stringify(value) === JSON.stringify(field.plugin.initialValue)
+  )
+    return field.validation.required;
+
+  // TODO
+  // Plugin-specific validation options
+  const pluginError = field.plugin.validate(value, field.validation, 'enabled');
+  if (pluginError !== '') return pluginError;
+
+  // Custom validate function
+  if (field.validation.validate) {
+    const validateResult = field.validation.validate(value);
+    if (validateResult !== '') return validateResult;
+  }
+
+  return '';
+};
