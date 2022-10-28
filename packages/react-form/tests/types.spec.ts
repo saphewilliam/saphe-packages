@@ -1,4 +1,4 @@
-import { textFieldPlugin } from '../src/lib/plugin';
+import { textFieldPlugin } from '../src/lib/plugins';
 import { renderHook } from '@testing-library/react';
 import useForm from '../src';
 import { expectTypeOf } from 'expect-type';
@@ -41,28 +41,10 @@ describe('Types', () => {
             manyFalseNull: t.field.text({ many: false, initialValue: null }),
             manyTrueNullArray: t.field.text({ many: true, initialValue: [null] }),
 
-            manyValidation: t.field.text({
+            validation: t.field.text({
               validation: {
                 validate: (value) => {
                   expectTypeOf(value).toEqualTypeOf<string | null>();
-                  return '';
-                },
-              },
-            }),
-            manyFalseValidation: t.field.text({
-              many: false,
-              validation: {
-                validate: (value) => {
-                  expectTypeOf(value).toEqualTypeOf<string | null>();
-                  return '';
-                },
-              },
-            }),
-            manyTrueValidation: t.field.text({
-              many: true,
-              validation: {
-                validate: (value) => {
-                  expectTypeOf(value).toEqualTypeOf<(string | null)[]>();
                   return '';
                 },
               },

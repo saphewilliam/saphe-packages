@@ -6,11 +6,11 @@ export const textFieldPlugin: FieldPlugin<
   string,
   string,
   FieldMany,
-  FieldValidation<string, FieldMany>, // TODO StringValidation
+  FieldValidation<string>, // TODO StringValidation
   FieldState,
   { placeholder?: string }
 > = {
-  defaultInitialValue: null,
+  initialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: () => '',
@@ -20,11 +20,11 @@ export const textAreaFieldPlugin: FieldPlugin<
   string,
   string,
   FieldMany,
-  FieldValidation<string, FieldMany>, // TODO StringValidation
+  FieldValidation<string>, // TODO StringValidation
   FieldState,
   { placeholder?: string; rows?: number }
 > = {
-  defaultInitialValue: null,
+  initialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: () => '',
@@ -34,11 +34,11 @@ export const numberFieldPlugin: FieldPlugin<
   string,
   number,
   FieldMany,
-  FieldValidation<number, FieldMany>, // TODO NumberValidation
+  FieldValidation<number>, // TODO NumberValidation
   FieldState,
   { placeholder?: string }
 > = {
-  defaultInitialValue: null,
+  initialValue: null,
   parse: (value) => {
     const parsedValue = parseFloat(value);
     return !isNaN(parsedValue) ? parsedValue : null;
@@ -51,11 +51,11 @@ export const selectFieldPlugin: FieldPlugin<
   string,
   string,
   FieldMany,
-  FieldValidation<string, FieldMany>, // TODO SelectValidation
+  FieldValidation<string>, // TODO SelectValidation
   FieldState,
   { placeholder?: string; options: { value: string; label?: string }[] }
 > = {
-  defaultInitialValue: null,
+  initialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: () => '',

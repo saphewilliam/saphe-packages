@@ -8,7 +8,7 @@ export type Field<
   _RawValue,
   Value,
   Many extends FieldMany,
-  Validation extends FieldValidation<Value, Many>,
+  Validation extends FieldValidation<Value>,
   State extends FieldState,
   Options extends object,
   // TODO why can't I just use Many?
@@ -20,7 +20,7 @@ export type Fields<
   Many extends FieldMany = false,
   // TODO
   // @ts-expect-error Somehow this works
-  Validation extends FieldValidation<unknown, Many> = unknown,
+  Validation extends FieldValidation<unknown> = unknown,
   // TODO
   // @ts-expect-error Somehow this works
   State extends FieldState = unknown,
@@ -32,7 +32,7 @@ export type Fields<
 export interface FieldOptions<
   Value,
   Many extends FieldMany,
-  Validation extends FieldValidation<Value, Many>,
+  Validation extends FieldValidation<Value>,
   State extends FieldState,
 > {
   label?: string;

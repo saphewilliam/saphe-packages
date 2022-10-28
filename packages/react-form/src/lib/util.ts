@@ -8,12 +8,12 @@ export type MaybePromise<T> = T | Promise<T>;
 export type OutputValue<
   Value,
   Many extends FieldMany,
-  Validation extends FieldValidation<Value, Many>,
-> = ManyOutputValue<RequiredOutputValue<Value, Many, Validation>, Many>;
+  Validation extends FieldValidation<Value>,
+> = ManyOutputValue<RequiredOutputValue<Value, Validation>, Many>;
 
 /** Utility value type used for defining fields */
 export type DefineValue<Value, Many extends FieldMany> = ManyOutputValue<
-  RequiredOutputValue<Value, Many, { required: undefined }>,
+  RequiredOutputValue<Value, { required: undefined }>,
   Many
 >;
 
@@ -26,11 +26,7 @@ type ManyOutputValue<Value, Many extends FieldMany> = boolean extends Many
   ? Value[]
   : Value;
 
-type RequiredOutputValue<
-  Value,
-  Many extends FieldMany,
-  Validation extends FieldValidation<Value, Many>,
-> = Validation extends {
+type RequiredOutputValue<Value, Validation extends FieldValidation<Value>> = Validation extends {
   required: string;
 }
   ? Value
