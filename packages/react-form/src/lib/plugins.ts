@@ -1,4 +1,4 @@
-import { FieldMany, FieldState } from './field';
+import { FieldMany } from './field';
 import { Plugin } from './plugin';
 import { FieldValidation } from './validation';
 
@@ -7,7 +7,6 @@ export const textFieldPlugin: Plugin<
   string,
   FieldMany,
   FieldValidation<string>, // TODO StringValidation
-  FieldState,
   { placeholder?: string }
 > = {
   initialValue: null,
@@ -21,7 +20,6 @@ export const textAreaFieldPlugin: Plugin<
   string,
   FieldMany,
   FieldValidation<string>, // TODO StringValidation
-  FieldState,
   { placeholder?: string; rows?: number }
 > = {
   initialValue: null,
@@ -35,7 +33,6 @@ export const numberFieldPlugin: Plugin<
   number,
   FieldMany,
   FieldValidation<number>, // TODO NumberValidation
-  FieldState,
   { placeholder?: string }
 > = {
   initialValue: null,
@@ -52,7 +49,6 @@ export const selectFieldPlugin: Plugin<
   string,
   FieldMany,
   FieldValidation<string>, // TODO SelectValidation
-  FieldState,
   { placeholder?: string; options: { value: string; label?: string }[] }
 > = {
   initialValue: null,

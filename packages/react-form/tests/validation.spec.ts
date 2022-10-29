@@ -97,10 +97,7 @@ describe('Validation', () => {
     compare(result.current.state, textRequired, '', manyTextRequired);
   });
 
-  it.todo('respects global and local validation modes');
-  it.todo('uses custom plugin validation options');
-
-  it('uses a custom validation if provided', () => {
+  it('uses a custom validation function if provided', () => {
     const correct = 'Correct';
     const error = 'Error';
 
@@ -141,4 +138,7 @@ describe('Validation', () => {
     expect(result.current.state.manyText.error[0]).toBe('');
     expect(result.current.state.manyText.error[1]).toBe('');
   });
+
+  it.todo('respects global and local validation modes');
+  it.todo('uses custom plugin validation options');
 });

@@ -1,12 +1,46 @@
-import { Field, FieldMany, Fields, FieldState } from './field';
-import { FieldsBuilder, Plugins } from './plugin';
+import { Field, FieldMany, FieldOptions, Fields } from './field';
+import {
+  Plugins,
+  ManyFromPlugin,
+  OptionsFromPlugin,
+  RawValueFromPlugin,
+  ValueFromPlugin,
+} from './plugin';
 import { ManyProps, Props } from './props';
 import { MaybePromise, OutputValue, TypeFromMany } from './util';
 import { FieldValidation, ValidationMode } from './validation';
 import { UseAsyncReducerTypes } from '@saphe/react-use';
 
-// TODO defineField -esc helper functions
+// TODO defineField -esc helper functions for better code splitting
 // TODO extract props from plugin for defining components
+
+/** Type that uses the defined plugins to allow the user to define fields */
+export type FieldsBuilder<P extends Plugins> = {
+  [K in keyof P]: <
+    Many extends ManyFromPlugin<P[K]>,
+    Validation extends FieldValidation<ValueFromPlugin<P[K]>>,
+  >(
+    t: FieldOptions<
+      ValueFromPlugin<P[K]>,
+      Many,
+      Validation /* TODO & ValidationFromFieldPlugin<P['fields'][K]>*/
+    > &
+      OptionsFromPlugin<P[K]>,
+  ) => Field<
+    RawValueFromPlugin<P[K]>,
+    ValueFromPlugin<P[K]>,
+    Many,
+    Validation,
+    OptionsFromPlugin<P[K]>
+  >;
+};
+
+interface ButtonConfig {
+  /** Optional, the text displayed on the button */
+  label?: string;
+  /** Optional, the text displayed on the button while the form is performing the action */
+  loadingLabel?: string;
+}
 
 export interface FormConfig<P extends Plugins, F extends Fields> {
   /** Optional, declares the fields of the form */
@@ -19,9 +53,14 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
     // TODO This should also affect the FormStateValues typing
     // required?: (fieldName: string) => string;
   };
+  /** Optional, configures the form's submit button */
+  submitButton?: ButtonConfig;
+  /** Optional, configures the form's reset button */
+  resetButton?: ButtonConfig;
   /** Optional, synchronous function that fires on a form field change event */
   onChange?: (
     formState: FormState<F>,
+    // TODO enumerate all possible form values
     targetValue: any,
     fieldName: keyof F,
     fieldIndex?: number,
@@ -66,10 +105,9 @@ export type FormStateField<
   Value,
   Many extends FieldMany,
   Validation extends FieldValidation<Value>,
-  State extends FieldState,
   Options extends object,
 > = {
-  field: Field<RawValue, Value, Many, Validation, State, Options>;
+  field: Field<RawValue, Value, Many, Validation, Options>;
   value: OutputValue<Value, Many, Validation>;
   touched: TypeFromMany<boolean, boolean[], Many>;
   error: TypeFromMany<string, string[], Many>;
@@ -81,10 +119,9 @@ export type FormState<F extends Fields> = {
     infer Value,
     infer Many,
     infer Validation,
-    infer State,
     infer Options
   >
-    ? FormStateField<RawValue, Value, Many, Validation, State, Options>
+    ? FormStateField<RawValue, Value, Many, Validation, Options>
     : never;
 };
 
@@ -94,7 +131,6 @@ export type FormValues<F extends Fields> = {
     infer Value,
     infer Many,
     infer Validation,
-    infer _State,
     infer _Options
   >
     ? OutputValue<Value, Many, Validation>
@@ -107,7 +143,6 @@ export type FormProps<F extends Fields> = {
     infer _Value,
     infer Many,
     infer _Validation,
-    infer _State,
     infer Options
   >
     ? TypeFromMany<Props<RawValue>, ManyProps<RawValue>, Many> & Options
@@ -123,6 +158,6 @@ export type FormProps<F extends Fields> = {
     isDisabled: boolean;
     isLoading: boolean;
     type: 'submit' | 'reset' | 'button';
-    onClick: (e: { preventDefault: () => void }) => void;
+    onClick: (e?: { preventDefault: () => void }) => void;
   };
 };

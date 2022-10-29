@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Fields } from '../lib/field';
-import { FieldsBuilder, Plugins } from '../lib/plugin';
-import { FormConfig, FormState } from '../lib/types';
+import { Plugins } from '../lib/plugin';
+import { FieldsBuilder, FormConfig, FormState } from '../lib/types';
 
 export const useInitialFormState = <P extends Plugins, F extends Fields>(
   plugins: P,

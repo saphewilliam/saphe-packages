@@ -88,7 +88,7 @@ export const useFormProps = <F extends Fields>(
             // ),
             // isLoading,
             onClick: (e) => {
-              e.preventDefault();
+              e?.preventDefault();
               actions.submit();
             },
           },
