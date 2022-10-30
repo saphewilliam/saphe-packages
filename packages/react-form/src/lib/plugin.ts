@@ -1,5 +1,4 @@
-import { FieldMany } from './field';
-import { State } from './fieldState';
+import { FieldMany } from './types';
 import { FieldValidation } from './validation';
 
 /** Utility type used to define a custom field plugin */
@@ -16,7 +15,7 @@ export interface Plugin<
   /** Define how to display a single internal value in the raw input */
   serialize(value: Value | null): RawValue;
   /** Define how to validate an internal value. The string returned is the error message shown. '' is no error message */
-  validate(value: Value | null, validation: Validation, state: State): string;
+  validate(value: Value | null, validation: Validation): string;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

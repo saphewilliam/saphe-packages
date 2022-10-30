@@ -22,5 +22,5 @@ export function useForm<P extends Plugins, F extends Fields>(
 
   const props = useFormProps(state, actions, id);
 
-  return { state, props, isLoading, error };
+  return { state: state, props: props, isLoading, error };
 }

@@ -33,12 +33,9 @@ export const useFormProps = <F extends Fields>(
                     describedBy: `${id}${fieldName}Description`,
                     value: field.plugin.serialize(value),
                     error: error[index],
+                    state: stateField.state,
                     onChange: (targetValue: any) => actions.change(targetValue, fieldName, index),
                     onBlur: () => actions.blur(fieldName, index),
-
-                    // TODO
-                    isDisabled: false,
-                    isHidden: false,
                   };
                   return props;
                 }),
@@ -50,12 +47,9 @@ export const useFormProps = <F extends Fields>(
                   describedBy: `${id}${fieldName}Description`,
                   value: field.plugin.serialize(value),
                   error: error,
+                  state: stateField.state,
                   onChange: (targetValue: any) => actions.change(targetValue, fieldName),
                   onBlur: () => actions.blur(fieldName),
-
-                  // TODO
-                  isDisabled: false,
-                  isHidden: false,
                 };
                 return props;
               })();

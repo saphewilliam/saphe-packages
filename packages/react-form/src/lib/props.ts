@@ -1,3 +1,5 @@
+import { FieldState } from './types';
+
 export interface ComponentProps {
   label: string;
   description: string;
@@ -8,9 +10,9 @@ export interface FieldProps<RawValue> {
   name: string;
   value: RawValue;
   error: string;
-  isDisabled: boolean;
-  isHidden: boolean;
   describedBy: string;
+  // TODO what is better: one `state` prop, or multiple `isLoading`, `isDisabled` and `isHidden` props?
+  state: FieldState;
   onChange: (targetValue: RawValue) => void;
   onBlur: () => void;
 }

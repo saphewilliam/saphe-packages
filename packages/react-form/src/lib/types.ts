@@ -1,4 +1,4 @@
-import { Field, FieldMany, FieldOptions, Fields } from './field';
+import { Field, FieldOptions, Fields } from './field';
 import {
   Plugins,
   ManyFromPlugin,
@@ -8,22 +8,43 @@ import {
 } from './plugin';
 import { ManyProps, Props } from './props';
 import { MaybePromise, OutputValue, TypeFromMany } from './util';
-import { FieldValidation, ValidationMode } from './validation';
+import { FieldValidation } from './validation';
 import { UseAsyncReducerTypes } from '@saphe/react-use';
 
 // TODO defineField -esc helper functions for better code splitting
 // TODO extract props from plugin for defining components
+
+/** Type used for declaring if a field is many or not */
+export type FieldMany = boolean;
+
+/** Enum which shows the current state of a form field */
+export enum FieldState {
+  ENABLED = 'ENABLED',
+  LOADING = 'LOADING',
+  DISABLED = 'DISABLED',
+  HIDDEN = 'HIDDEN',
+}
+
+/** Enum which defines when a form field is validated. */
+export enum ValidationMode {
+  ON_CHANGE = 'ON_CHANGE',
+  ON_BLUR = 'ON_BLUR',
+  AFTER_BLUR = 'AFTER_BLUR',
+  ON_SUBMIT = 'ON_SUBMIT',
+}
 
 /** Type that uses the defined plugins to allow the user to define fields */
 export type FieldsBuilder<P extends Plugins> = {
   [K in keyof P]: <
     Many extends ManyFromPlugin<P[K]>,
     Validation extends FieldValidation<ValueFromPlugin<P[K]>>,
+    State extends FieldState,
   >(
     t: FieldOptions<
       ValueFromPlugin<P[K]>,
       Many,
-      Validation /* TODO & ValidationFromFieldPlugin<P['fields'][K]>*/
+      Validation /* TODO & ValidationFromFieldPlugin<P['fields'][K]>*/,
+      State
     > &
       OptionsFromPlugin<P[K]>,
   ) => Field<
@@ -31,6 +52,7 @@ export type FieldsBuilder<P extends Plugins> = {
     ValueFromPlugin<P[K]>,
     Many,
     Validation,
+    State,
     OptionsFromPlugin<P[K]>
   >;
 };
@@ -84,6 +106,9 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
     fieldName: keyof F,
     fieldIndex?: number,
   ) => MaybePromise<void>;
+  /** Optional, defines what should happen when the form state is initialized */
+  // TODO allow user to pass a promise onInit (when useAsyncReducer supports this)
+  onInit?: (initialFormState: FormState<F>) => FormState<F> | void;
   /** Optional, defines what should happen on a form reset event */
   onReset?: (formState: FormState<F>) => MaybePromise<FormState<F> | void>;
   /** Optional, defines what should happen on a form submit event */
@@ -105,12 +130,14 @@ export type FormStateField<
   Value,
   Many extends FieldMany,
   Validation extends FieldValidation<Value>,
+  State extends FieldState,
   Options extends object,
 > = {
-  field: Field<RawValue, Value, Many, Validation, Options>;
-  value: OutputValue<Value, Many, Validation>;
+  field: Field<RawValue, Value, Many, Validation, State, Options>;
+  value: OutputValue<Value, Many, Validation, State>;
   touched: TypeFromMany<boolean, boolean[], Many>;
   error: TypeFromMany<string, string[], Many>;
+  state: FieldState;
 };
 
 export type FormState<F extends Fields> = {
@@ -119,9 +146,10 @@ export type FormState<F extends Fields> = {
     infer Value,
     infer Many,
     infer Validation,
+    infer State,
     infer Options
   >
-    ? FormStateField<RawValue, Value, Many, Validation, Options>
+    ? FormStateField<RawValue, Value, Many, Validation, State, Options>
     : never;
 };
 
@@ -131,9 +159,10 @@ export type FormValues<F extends Fields> = {
     infer Value,
     infer Many,
     infer Validation,
+    infer State,
     infer _Options
   >
-    ? OutputValue<Value, Many, Validation>
+    ? OutputValue<Value, Many, Validation, State>
     : never;
 };
 
@@ -143,6 +172,7 @@ export type FormProps<F extends Fields> = {
     infer _Value,
     infer Many,
     infer _Validation,
+    infer _State,
     infer Options
   >
     ? TypeFromMany<Props<RawValue>, ManyProps<RawValue>, Many> & Options

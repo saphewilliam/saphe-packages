@@ -1,10 +1,4 @@
-/** When the field is validated. */
-export enum ValidationMode {
-  ON_CHANGE = 'ON_CHANGE',
-  ON_BLUR = 'ON_BLUR',
-  AFTER_BLUR = 'AFTER_BLUR',
-  ON_SUBMIT = 'ON_SUBMIT',
-}
+import { FieldState, ValidationMode } from './types';
 
 /** Base Field validation type */
 export type FieldValidation<Value> = {
@@ -17,8 +11,8 @@ export type FieldValidation<Value> = {
   validate?: (value: Value | null) => string /* MaybePromise<string>*/;
 };
 
-export const validateField = (field: any, value: any): string => {
-  if (!field.validation) return '';
+export const validateField = (field: any, fieldState: FieldState, value: any): string => {
+  if (!field.validation || fieldState !== FieldState.ENABLED) return '';
 
   // Required check
   if (

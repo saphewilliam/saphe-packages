@@ -1,5 +1,5 @@
-import { FieldMany } from './field';
 import { Plugin } from './plugin';
+import { FieldMany } from './types';
 import { FieldValidation } from './validation';
 
 export const textFieldPlugin: Plugin<

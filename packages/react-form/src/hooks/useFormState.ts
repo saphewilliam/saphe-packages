@@ -1,8 +1,8 @@
 import { useAsyncReducer, Util } from '@saphe/react-use';
 import { Fields } from '../lib/field';
 import { Plugins } from '../lib/plugin';
-import { FormConfig, FormState, FormValues } from '../lib/types';
-import { validateField, ValidationMode } from '../lib/validation';
+import { FormConfig, FormState, FormValues, ValidationMode } from '../lib/types';
+import { validateField } from '../lib/validation';
 
 export const useFormState = <P extends Plugins, F extends Fields>(
   config: FormConfig<P, F>,
@@ -10,9 +10,9 @@ export const useFormState = <P extends Plugins, F extends Fields>(
 ) =>
   useAsyncReducer(initialState, {
     reset: () => initialState,
-    change: (state, targetValue: any, fieldName: keyof F, fieldIndex?: number) => {
-      const stateField = state[fieldName];
-      const { field, value, touched, error } = stateField;
+    change: (formState, targetValue: any, fieldName: keyof F, fieldIndex?: number) => {
+      const stateField = formState[fieldName];
+      const { field, value, touched, error, state } = stateField;
       const newValue = field.plugin.parse(targetValue);
 
       const v = field.validation?.mode ?? config.validation?.mode ?? ValidationMode.AFTER_BLUR;
@@ -23,18 +23,20 @@ export const useFormState = <P extends Plugins, F extends Fields>(
           : touched);
 
       let newState: FormState<F> = {
-        ...state,
+        ...formState,
         [fieldName]: {
           ...stateField,
           ...(fieldIndex === undefined
             ? {
                 value: newValue,
-                error: shouldValidate ? validateField(field, newValue) : error,
+                error: shouldValidate ? validateField(field, state, newValue) : error,
               }
             : {
                 value: Object.assign([], value, { [fieldIndex]: newValue }),
                 error: shouldValidate
-                  ? Object.assign([], error, { [fieldIndex]: validateField(field, newValue) })
+                  ? Object.assign([], error, {
+                      [fieldIndex]: validateField(field, state, newValue),
+                    })
                   : error,
               }),
         },
@@ -57,34 +59,36 @@ export const useFormState = <P extends Plugins, F extends Fields>(
 
       return newState;
     },
-    blur: (state, fieldName: keyof F, fieldIndex?: number) => {
-      const stateField = state[fieldName];
-      const { field, value, touched, error } = stateField;
+    blur: (formState, fieldName: keyof F, fieldIndex?: number) => {
+      const stateField = formState[fieldName];
+      const { field, value, touched, error, state } = stateField;
       const newValue = fieldIndex === undefined ? value : (value as any)[fieldIndex];
 
       const v = field.validation?.mode ?? config.validation?.mode ?? ValidationMode.AFTER_BLUR;
       const shouldValidate = v === ValidationMode.ON_BLUR || v === ValidationMode.AFTER_BLUR;
 
       let newState: FormState<F> = {
-        ...state,
+        ...formState,
         [fieldName]: {
           ...stateField,
           ...(fieldIndex === undefined
             ? {
                 touched: true,
-                error: shouldValidate ? validateField(field, newValue) : error,
+                error: shouldValidate ? validateField(field, state, newValue) : error,
               }
             : {
                 touched: Object.assign([], touched, { [fieldIndex]: true }),
                 error: shouldValidate
-                  ? Object.assign([], error, { [fieldIndex]: validateField(field, newValue) })
+                  ? Object.assign([], error, {
+                      [fieldIndex]: validateField(field, state, newValue),
+                    })
                   : error,
               }),
         },
       };
 
       if (config.onBlur) {
-        const onChangeResult = config.onBlur(state, fieldName, fieldIndex);
+        const onChangeResult = config.onBlur(formState, fieldName, fieldIndex);
         if (typeof onChangeResult !== 'undefined') newState = onChangeResult;
       }
 
@@ -95,33 +99,36 @@ export const useFormState = <P extends Plugins, F extends Fields>(
 
       return newState;
     },
-    submit: async (state) => {
+    submit: async (formState) => {
       let canSubmit = true;
-      let newState: FormState<F> = Object.entries(state).reduce((prev, [fieldName, stateField]) => {
-        const { value, field } = stateField;
-        let touched: boolean | boolean[];
-        let error: string | string[];
+      let newState: FormState<F> = Object.entries(formState).reduce(
+        (prev, [fieldName, stateField]) => {
+          const { value, field, state } = stateField;
+          let touched: boolean | boolean[];
+          let error: string | string[];
 
-        if (Array.isArray(value)) {
-          touched = Array(value.length).fill(true);
-          error = value.map((v) => {
-            const e = validateField(field, v);
-            if (e !== '') canSubmit = false;
-            return e;
-          });
-        } else {
-          touched = true;
-          error = validateField(field, value);
-          if (error !== '') canSubmit = false;
-        }
+          if (Array.isArray(value)) {
+            touched = Array(value.length).fill(true);
+            error = value.map((v) => {
+              const e = validateField(field, state, v);
+              if (e !== '') canSubmit = false;
+              return e;
+            });
+          } else {
+            touched = true;
+            error = validateField(field, state, value);
+            if (error !== '') canSubmit = false;
+          }
 
-        return { ...prev, [fieldName]: { ...stateField, touched, error } };
-      }, {} as FormState<F>);
+          return { ...prev, [fieldName]: { ...stateField, touched, error } };
+        },
+        {} as FormState<F>,
+      );
 
       if (!canSubmit) return newState;
 
       if (config.onSubmit) {
-        const formValues = Object.entries(state).reduce<FormValues<F>>(
+        const formValues = Object.entries(formState).reduce<FormValues<F>>(
           (prev, [fieldName, stateField]) => ({ ...prev, [fieldName]: stateField.value }),
           {} as FormValues<F>,
         );

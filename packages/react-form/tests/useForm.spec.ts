@@ -1,9 +1,8 @@
 import { numberFieldPlugin, textFieldPlugin } from '../src/lib/plugins';
 import { renderHook } from '@testing-library/react';
-import useForm, { FormStateField, State } from '../src';
+import useForm, { FieldState } from '../src';
 import { act } from 'react-test-renderer';
 import { expectTypeOf } from 'expect-type';
-import { FieldValidation } from '../src/lib/validation';
 
 const plugins = {
   text: textFieldPlugin,
@@ -51,7 +50,7 @@ describe('useForm', () => {
               },
             }),
             // TODO
-            // exposeCustomValidation: t.field.text({ validation: {length} }),
+            // exposeCustomValidation: t.text({ validation: {length} }),
           };
         },
       }),
@@ -97,50 +96,42 @@ describe('useForm', () => {
             description: textDescription,
             initialValue: textInitialValue,
             placeholder: textPlaceholder,
-            state: State.DISABLED,
+            initialState: FieldState.DISABLED,
           }),
           textMany: t.text({ many: true }),
         }),
       }),
     );
 
-    expect(result.current.props.text.id).toBe(':r0:text');
-    expect(result.current.props.text.name).toBe(':r0:text');
+    expect(result.current.props.text.id).toMatch(/^:r\d:text$/gm);
+    expect(result.current.props.text.name).toMatch(/^:r\d:text$/gm);
     expect(result.current.props.text.label).toBe(textLabel);
     expect(result.current.props.text.description).toBe(textDescription);
     expect(result.current.props.text.value).toBe(textInitialValue);
     expect(result.current.props.text.placeholder).toBe(textPlaceholder);
-    // TODO
-    expect(result.current.props.text.isDisabled).toBeFalsy();
-    // TODO
-    expect(result.current.props.text.isHidden).toBeFalsy();
+    expect(result.current.props.text.state).toBe(FieldState.DISABLED);
     expect(result.current.props.text.error).toBe('');
     expect(result.current.props.text.many).toBeFalsy();
 
     expect(result.current.state.text.field.description).toBe(textDescription);
-    // TODO
-    expect(result.current.state.text.field.state).toBe(State.DISABLED);
+    expect(result.current.state.text.field.initialState).toBe(FieldState.DISABLED);
     expect(result.current.state.text.field.initialValue).toBe(textInitialValue);
     expect(result.current.state.text.field.label).toBe(textLabel);
     expect(result.current.state.text.field.many).toBeFalsy();
     expect(result.current.state.text.field.placeholder).toBe(textPlaceholder);
 
-    expect(result.current.props.textMany.fields[0]?.id).toBe(':r0:textMany0');
-    expect(result.current.props.textMany.fields[0]?.name).toBe(':r0:textMany0');
+    expect(result.current.props.textMany.fields[0]?.id).toMatch(/^:r\d:textMany0$/gm);
+    expect(result.current.props.textMany.fields[0]?.name).toMatch(/^:r\d:textMany0$/gm);
     expect(result.current.props.textMany.label).toBe('Text Many');
     expect(result.current.props.textMany.description).toBe('');
     expect(result.current.props.textMany.fields[0]?.value).toBe('');
     expect(result.current.props.textMany.placeholder).toBeUndefined();
-    // TODO
-    expect(result.current.props.textMany.fields[0]?.isDisabled).toBeFalsy();
-    // TODO
-    expect(result.current.props.textMany.fields[0]?.isHidden).toBeFalsy();
+    expect(result.current.props.textMany.fields[0]?.state).toBe(FieldState.ENABLED);
     expect(result.current.props.textMany.fields[0]?.error).toBe('');
     expect(result.current.props.textMany.many).toBeTruthy();
 
     expect(result.current.state.textMany.field.description).toBeUndefined();
-    // TODO
-    expect(result.current.state.textMany.field.state).toBe(undefined);
+    expect(result.current.state.textMany.field.initialState).toBeUndefined();
     expect(result.current.state.textMany.field.initialValue).toBeUndefined();
     expect(result.current.state.textMany.field.label).toBeUndefined();
     expect(result.current.state.textMany.field.many).toBeTruthy();
@@ -265,73 +256,72 @@ describe('useForm', () => {
     // TODO test returning new state
   });
 
-  it('handles field state on every form state update', () => {
+  it('handles field state correctly', () => {
     const correct = 'Correct';
 
     const { result } = renderHook(() =>
       useForm(plugins, {
         fields: (t) => ({
           // Possible field states are State.ENABLED, State.LOADING, State.DISABLED, State.HIDDEN
-          // FieldState also accepts a function that takes the form state and returns either of these field states
-          // A field state function fires on each form state update
           // Default state is `State.ENABLED`
+          // Enabled fields are automatically set to `State.LOADING` when the form is loading
           text: t.text({}),
-          textConditional: t.text({
-            state: (formState) => {
-              expectTypeOf(formState).not.toHaveProperty('random');
-              expectTypeOf(formState)
-                .toHaveProperty('text')
-                .toMatchTypeOf<
-                  FormStateField<
-                    string,
-                    string,
-                    false,
-                    FieldValidation<string>,
-                    { placeholder?: string | undefined }
-                  >
-                >();
-              return formState.text.value === correct ? State.ENABLED : State.HIDDEN;
-            },
-          }),
-          // If a field is not always enabled, then the type is `Value | null`, even if validation.required is supplied
+          // If a field is not enabled, then the type is `Value | null`, even if validation.required is supplied
+          // It is recommended for typing to initialize a field on a non-enabled state if you know this might occur in the future
+          textConditional: t.text({ initialState: FieldState.HIDDEN }),
+          textEnabled: t.text({ initialState: FieldState.ENABLED }),
+          textDisabled: t.text({ initialState: FieldState.DISABLED }),
           // A field is not validated if its state is not enabled
-          textEnabled: t.text({ state: State.ENABLED }),
-          textDisabled: t.text({ state: State.DISABLED }),
           textEnabledReq: t.text({
-            state: State.ENABLED,
+            initialState: FieldState.ENABLED,
             validation: { required: 'This should show' },
           }),
-          // Because this field state is never enabled, its value can only be the initial value, or the plugin's default initial value
           textDisabledReq: t.text({
-            state: State.DISABLED,
+            initialState: FieldState.DISABLED,
             validation: { required: 'This should never show' },
           }),
-          textHiddenInitialValue: t.text({
-            initialValue: 'initialValue',
-            state: State.HIDDEN,
-          }),
         }),
+        // TODO Workaround until I figure out how to do `FieldState | (formState: FormState<F>) => FieldState`
+        onChange(formState) {
+          return {
+            ...formState,
+            textConditional: {
+              ...formState.textConditional,
+              state: formState.text.value === correct ? FieldState.ENABLED : FieldState.HIDDEN,
+            },
+          };
+        },
         onSubmit(_formState, formValues) {
           expectTypeOf(formValues.text).toEqualTypeOf<string | null>();
-          expectTypeOf(formValues.textConditional).toEqualTypeOf<string | null>();
           expectTypeOf(formValues.textEnabled).toEqualTypeOf<string | null>();
-          expectTypeOf(formValues.textDisabled).toEqualTypeOf<null>();
+          expectTypeOf(formValues.textDisabled).toEqualTypeOf<string | null>();
           expectTypeOf(formValues.textEnabledReq).toEqualTypeOf<string>();
-          expectTypeOf(formValues.textDisabledReq).toEqualTypeOf<null>();
-          expectTypeOf(formValues.textHiddenInitialValue).toEqualTypeOf<'initialValue'>();
+          expectTypeOf(formValues.textDisabledReq).toEqualTypeOf<string | null>();
         },
       }),
     );
 
-    expect(result.current.props.text.state).toBe(State.ENABLED);
-    expect(result.current.props.textConditional.state).toBe(State.ENABLED);
-    expect(result.current.props.textEnabled.state).toBe(State.ENABLED);
-    expect(result.current.props.textDisabled.state).toBe(State.DISABLED);
-    expect(result.current.props.textEnabledReq.state).toBe(State.ENABLED);
+    expect(result.current.props.text.state).toBe(FieldState.ENABLED);
+    expect(result.current.props.textConditional.state).toBe(FieldState.HIDDEN);
+    expect(result.current.props.textEnabled.state).toBe(FieldState.ENABLED);
+    expect(result.current.props.textDisabled.state).toBe(FieldState.DISABLED);
+    expect(result.current.props.textEnabledReq.state).toBe(FieldState.ENABLED);
     expect(result.current.props.textEnabledReq.error).toBe('');
-    expect(result.current.props.textDisabledReq.state).toBe(State.DISABLED);
+    expect(result.current.props.textDisabledReq.state).toBe(FieldState.DISABLED);
     expect(result.current.props.textDisabledReq.error).toBe('');
-    expect(result.current.props.textHiddenInitialValue.state).toBe(State.HIDDEN);
-    expect(result.current.props.textHiddenInitialValue.value).toBe('initialValue');
+
+    act(() => result.current.props.text.onChange('random'));
+    expect(result.current.props.textConditional.state).toBe(FieldState.HIDDEN);
+    act(() => result.current.props.text.onChange(correct));
+    expect(result.current.props.textConditional.state).toBe(FieldState.ENABLED);
+    act(() => result.current.props.text.onChange('random'));
+    expect(result.current.props.textConditional.state).toBe(FieldState.HIDDEN);
+
+    act(() => {
+      result.current.props.textEnabledReq.onBlur();
+      result.current.props.textDisabledReq.onBlur();
+    });
+    expect(result.current.props.textEnabledReq.error).toBe('This should show');
+    expect(result.current.props.textDisabledReq.error).toBe('');
   });
 });
