@@ -12,6 +12,7 @@ const plugins = {
 describe('Validation', () => {
   const textRequired = 'textReq is required!';
   const manyTextRequired = 'manyTextReq is also required!';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const compare = (state: FormState<any>, textReq = '', manyTextReq0 = '', manyTextReq1 = '') => {
     expect(state.text?.error).toBe('');
     expect(state.manyText?.error[0]).toBe('');

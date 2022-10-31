@@ -5,7 +5,7 @@ export interface ComponentProps {
   description: string;
 }
 
-export interface FieldProps<RawValue> {
+export interface FieldProps<RawValue = unknown> {
   id: string;
   name: string;
   value: RawValue;

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Fields } from '../lib/field';
 import { ComponentProps, FieldProps } from '../lib/props';
-import { FormProps, FormState } from '../lib/types';
+import { FormProps, FormState, FormStateField } from '../lib/types';
 import { useFormState } from './useFormState';
 
 export const useFormProps = <F extends Fields>(
@@ -13,7 +13,7 @@ export const useFormProps = <F extends Fields>(
     () =>
       Object.entries(state).reduce(
         (prev, [fieldName, stateField]) => {
-          const { field, error, value } = stateField;
+          const { field, error, value } = stateField as FormStateField;
           const componentProps: ComponentProps = {
             label:
               field.label ??
@@ -26,29 +26,29 @@ export const useFormProps = <F extends Fields>(
 
           const fieldProps = field.many
             ? (() => ({
-                fields: value.map((value: any, index: number) => {
-                  const props: FieldProps<any> = {
+                fields: (value as unknown[]).map((value, index) => {
+                  const props: FieldProps = {
                     id: `${id}${fieldName}${index}`,
                     name: `${id}${fieldName}${index}`,
                     describedBy: `${id}${fieldName}Description`,
                     value: field.plugin.serialize(value),
-                    error: error[index],
+                    error: error[index] ?? '',
                     state: stateField.state,
-                    onChange: (targetValue: any) => actions.change(targetValue, fieldName, index),
+                    onChange: (targetValue) => actions.change(targetValue, fieldName, index),
                     onBlur: () => actions.blur(fieldName, index),
                   };
                   return props;
                 }),
               }))()
             : (() => {
-                const props: FieldProps<any> = {
+                const props: FieldProps = {
                   id: `${id}${fieldName}`,
                   name: `${id}${fieldName}`,
                   describedBy: `${id}${fieldName}Description`,
                   value: field.plugin.serialize(value),
                   error: error,
                   state: stateField.state,
-                  onChange: (targetValue: any) => actions.change(targetValue, fieldName),
+                  onChange: (targetValue) => actions.change(targetValue, fieldName),
                   onBlur: () => actions.blur(fieldName),
                 };
                 return props;

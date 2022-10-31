@@ -1,6 +1,7 @@
 import { FieldMany, FieldState } from './types';
 import { DefineValue } from './util';
 import { FieldValidation } from './validation';
+import { Plugin } from './plugin';
 
 export type Fields<
   Many extends FieldMany = false,
@@ -16,16 +17,18 @@ export type Fields<
 > = Record<string, Field<unknown, unknown, Many, Validation, State, Options>>;
 
 export type Field<
-  _RawValue,
-  Value,
-  Many extends FieldMany,
+  _RawValue = unknown,
+  Value = unknown,
+  Many extends FieldMany = false,
   // TODO aaaaaah
-  Validation extends object,
-  State extends FieldState,
-  Options extends object,
+  Validation extends object = object,
+  State extends FieldState = FieldState,
+  Options extends object = object,
   // TODO why can't I just use Many?
-  // TODO plugin: any
-> = { plugin: any; many?: boolean } & Omit<FieldOptions<Value, Many, Validation, State>, 'many'> &
+> = { plugin: Plugin<unknown, unknown, false, object, object>; many?: boolean } & Omit<
+  FieldOptions<Value, Many, Validation, State>,
+  'many'
+> &
   Options;
 
 export interface FieldOptions<

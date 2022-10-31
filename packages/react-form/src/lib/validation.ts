@@ -1,7 +1,8 @@
+import { Field } from './field';
 import { FieldState, ValidationMode } from './types';
 
 /** Base Field validation type */
-export type FieldValidation<Value> = {
+export type FieldValidation<Value = unknown> = {
   /** Optional (default: `config.validate.validationMode`), when in the form lifecycle the field is validated */
   mode?: ValidationMode;
   // TODO allow user to manually mark a field as not-required
@@ -11,24 +12,22 @@ export type FieldValidation<Value> = {
   validate?: (value: Value | null) => string /* MaybePromise<string>*/;
 };
 
-export const validateField = (field: any, fieldState: FieldState, value: any): string => {
-  if (!field.validation || fieldState !== FieldState.ENABLED) return '';
+export const validateField = (field: Field, fieldState: FieldState, value: unknown): string => {
+  const validation = field.validation as FieldValidation | undefined;
+  if (!validation || fieldState !== FieldState.ENABLED) return '';
 
   // Required check
-  if (
-    field.validation.required &&
-    JSON.stringify(value) === JSON.stringify(field.plugin.initialValue)
-  )
-    return field.validation.required;
+  if (validation.required && JSON.stringify(value) === JSON.stringify(field.plugin.initialValue))
+    return validation.required;
 
   // TODO
   // Plugin-specific validation options
-  const pluginError = field.plugin.validate(value, field.validation);
+  const pluginError = field.plugin.validate(value, validation);
   if (pluginError !== '') return pluginError;
 
   // Custom validate function
-  if (field.validation.validate) {
-    const validateResult = field.validation.validate(value);
+  if (validation.validate) {
+    const validateResult = validation.validate(value);
     if (validateResult !== '') return validateResult;
   }
 

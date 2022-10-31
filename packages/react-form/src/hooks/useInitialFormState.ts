@@ -14,7 +14,7 @@ export const useInitialFormState = <P extends Plugins, F extends Fields>(
       const fieldsBuilder: FieldsBuilder<P> = Object.entries(plugins).reduce(
         (prev, [pluginName, plugin]) => ({
           ...prev,
-          [pluginName]: (opts: any) => ({ ...opts, plugin }),
+          [pluginName]: (opts: object) => ({ ...opts, plugin }),
         }),
         {} as FieldsBuilder<P>,
       );
@@ -30,9 +30,11 @@ export const useInitialFormState = <P extends Plugins, F extends Fields>(
               field.initialValue ??
               (field.many ? [field.plugin.initialValue] : field.plugin.initialValue),
             touched: field.many
-              ? Array((field.initialValue as any)?.length ?? 1).fill(false)
+              ? Array((field.initialValue as unknown[] | undefined)?.length ?? 1).fill(false)
               : false,
-            error: field.many ? Array((field.initialValue as any)?.length ?? 1).fill('') : '',
+            error: field.many
+              ? Array((field.initialValue as unknown[] | undefined)?.length ?? 1).fill('')
+              : '',
             state: field.initialState ?? FieldState.ENABLED,
           },
         };

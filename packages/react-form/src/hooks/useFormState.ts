@@ -10,19 +10,19 @@ export const useFormState = <P extends Plugins, F extends Fields>(
 ) =>
   useAsyncReducer(initialState, {
     reset: () => initialState,
-    change: (formState, targetValue: any, fieldName: keyof F, fieldIndex?: number) => {
+    change: (formState, targetValue: unknown, fieldName: keyof F, fieldIndex?: number) => {
       const stateField = formState[fieldName];
       const { field, value, touched, error, state } = stateField;
       const newValue = field.plugin.parse(targetValue);
 
       const v =
-        (field.validation as FieldValidation<any> | undefined)?.mode ??
+        (field.validation as FieldValidation | undefined)?.mode ??
         config.validation?.mode ??
         ValidationMode.AFTER_BLUR;
       const shouldValidate =
         v === ValidationMode.ON_CHANGE ||
         (v === ValidationMode.AFTER_BLUR && fieldIndex !== undefined
-          ? (touched as any)[fieldIndex]
+          ? (touched as never as boolean[])[fieldIndex]
           : touched);
 
       let newState: FormState<F> = {
@@ -65,10 +65,10 @@ export const useFormState = <P extends Plugins, F extends Fields>(
     blur: (formState, fieldName: keyof F, fieldIndex?: number) => {
       const stateField = formState[fieldName];
       const { field, value, touched, error, state } = stateField;
-      const newValue = fieldIndex === undefined ? value : (value as any)[fieldIndex];
+      const newValue = fieldIndex === undefined ? value : (value as unknown[])[fieldIndex];
 
       const v =
-        (field.validation as FieldValidation<any> | undefined)?.mode ??
+        (field.validation as FieldValidation | undefined)?.mode ??
         config.validation?.mode ??
         ValidationMode.AFTER_BLUR;
       const shouldValidate = v === ValidationMode.ON_BLUR || v === ValidationMode.AFTER_BLUR;

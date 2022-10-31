@@ -78,7 +78,7 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
   onChange?: (
     formState: FormState<F>,
     // TODO enumerate all possible form values
-    targetValue: any,
+    targetValue: unknown,
     fieldName: keyof F,
     fieldIndex?: number,
   ) => FormState<F> | void;
@@ -91,7 +91,7 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
   /** Optional, sync or async function that fires after a form field change event */
   changeEffect?: (
     formState: FormState<F>,
-    targetValue: any,
+    targetValue: unknown,
     fieldName: keyof F,
     fieldIndex?: number,
   ) => MaybePromise<void>;
@@ -121,12 +121,12 @@ export interface Form<F extends Fields> {
 }
 
 export type FormStateField<
-  RawValue,
-  Value,
-  Many extends FieldMany,
-  Validation extends FieldValidation<Value>,
-  State extends FieldState,
-  Options extends object,
+  RawValue = unknown,
+  Value = unknown,
+  Many extends FieldMany = false,
+  Validation extends FieldValidation<Value> = object,
+  State extends FieldState = FieldState,
+  Options extends object = object,
 > = {
   field: Field<RawValue, Value, Many, Validation, State, Options>;
   value: OutputValue<Value, Many, Validation, State>;
