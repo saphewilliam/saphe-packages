@@ -19,7 +19,8 @@ export type Field<
   _RawValue,
   Value,
   Many extends FieldMany,
-  Validation extends FieldValidation<Value>,
+  // TODO aaaaaah
+  Validation extends object,
   State extends FieldState,
   Options extends object,
   // TODO why can't I just use Many?

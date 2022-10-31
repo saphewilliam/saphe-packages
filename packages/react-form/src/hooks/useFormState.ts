@@ -2,7 +2,7 @@ import { useAsyncReducer, Util } from '@saphe/react-use';
 import { Fields } from '../lib/field';
 import { Plugins } from '../lib/plugin';
 import { FormConfig, FormState, FormValues, ValidationMode } from '../lib/types';
-import { validateField } from '../lib/validation';
+import { FieldValidation, validateField } from '../lib/validation';
 
 export const useFormState = <P extends Plugins, F extends Fields>(
   config: FormConfig<P, F>,
@@ -15,7 +15,10 @@ export const useFormState = <P extends Plugins, F extends Fields>(
       const { field, value, touched, error, state } = stateField;
       const newValue = field.plugin.parse(targetValue);
 
-      const v = field.validation?.mode ?? config.validation?.mode ?? ValidationMode.AFTER_BLUR;
+      const v =
+        (field.validation as FieldValidation<any> | undefined)?.mode ??
+        config.validation?.mode ??
+        ValidationMode.AFTER_BLUR;
       const shouldValidate =
         v === ValidationMode.ON_CHANGE ||
         (v === ValidationMode.AFTER_BLUR && fieldIndex !== undefined
@@ -64,7 +67,10 @@ export const useFormState = <P extends Plugins, F extends Fields>(
       const { field, value, touched, error, state } = stateField;
       const newValue = fieldIndex === undefined ? value : (value as any)[fieldIndex];
 
-      const v = field.validation?.mode ?? config.validation?.mode ?? ValidationMode.AFTER_BLUR;
+      const v =
+        (field.validation as FieldValidation<any> | undefined)?.mode ??
+        config.validation?.mode ??
+        ValidationMode.AFTER_BLUR;
       const shouldValidate = v === ValidationMode.ON_BLUR || v === ValidationMode.AFTER_BLUR;
 
       let newState: FormState<F> = {

@@ -5,6 +5,7 @@ import {
   OptionsFromPlugin,
   RawValueFromPlugin,
   ValueFromPlugin,
+  ValidationFromPlugin,
 } from './plugin';
 import { ManyProps, Props } from './props';
 import { MaybePromise, OutputValue, TypeFromMany } from './util';
@@ -37,16 +38,10 @@ export enum ValidationMode {
 export type FieldsBuilder<P extends Plugins> = {
   [K in keyof P]: <
     Many extends ManyFromPlugin<P[K]>,
-    Validation extends FieldValidation<ValueFromPlugin<P[K]>>,
+    Validation extends ValidationFromPlugin<P[K]>,
     State extends FieldState,
   >(
-    t: FieldOptions<
-      ValueFromPlugin<P[K]>,
-      Many,
-      Validation /* TODO & ValidationFromFieldPlugin<P['fields'][K]>*/,
-      State
-    > &
-      OptionsFromPlugin<P[K]>,
+    t: FieldOptions<ValueFromPlugin<P[K]>, Many, Validation, State> & OptionsFromPlugin<P[K]>,
   ) => Field<
     RawValueFromPlugin<P[K]>,
     ValueFromPlugin<P[K]>,

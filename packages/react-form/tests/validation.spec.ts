@@ -1,10 +1,12 @@
 import { renderHook } from '@testing-library/react';
 import { act } from 'react-test-renderer';
 import useForm, { FormState } from '../src';
-import { textFieldPlugin } from '../src/lib/plugins';
+import { numberFieldPlugin, textFieldPlugin } from '../src/lib/plugins';
+import { expectTypeOf } from 'expect-type';
 
 const plugins = {
   text: textFieldPlugin,
+  number: numberFieldPlugin,
 };
 
 describe('Validation', () => {
@@ -140,5 +142,36 @@ describe('Validation', () => {
   });
 
   it.todo('respects global and local validation modes');
-  it.todo('uses custom plugin validation options');
+
+  it('uses custom plugin validation options', () => {
+    const textMatchError = 'This string should match the pattern';
+    const textLengthError = 'This string should meet the length requirements';
+    const numberValueError = 'This number should meet the value requirements';
+
+    const { result } = renderHook(() =>
+      useForm(plugins, {
+        fields: (t) => ({
+          textMatch: t.text({
+            validation: { match: { pattern: /^\d\dab$/gm, message: textMatchError } },
+          }),
+          textLength: t.text({
+            validation: { length: { exact: 10, message: textLengthError } },
+          }),
+          number: t.number({
+            validation: { value: { gte: 3, lt: 6, message: numberValueError } },
+          }),
+          textError: t.text({
+            // @ts-expect-error Number validation is not allowed on text fields
+            validation: { value: { gte: 3, lt: 6, message: numberValueError } },
+          }),
+        }),
+      }),
+    );
+
+    expectTypeOf(result.current.state.textMatch).not.toBeNever();
+    expectTypeOf(result.current.state.textLength).not.toBeNever();
+    expectTypeOf(result.current.state.number).not.toBeNever();
+
+    expectTypeOf(result.current.props.number).not.toBeNever();
+  });
 });
