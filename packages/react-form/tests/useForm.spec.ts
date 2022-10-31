@@ -256,6 +256,20 @@ describe('useForm', () => {
     // TODO test returning new state
   });
 
+  it('fires an onInit event when the form is first initialized', async () => {
+    const onInit = jest.fn();
+
+    renderHook(() => useForm(plugins, { onInit }));
+    renderHook(() =>
+      useForm(plugins, {
+        fields: (t) => ({ text: t.text({}) }),
+        onInit,
+      }),
+    );
+
+    expect(onInit).toHaveBeenCalledTimes(2);
+  });
+
   it('handles field state correctly', () => {
     const correct = 'Correct';
 

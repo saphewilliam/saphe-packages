@@ -32,16 +32,16 @@
     "dist/"
   ],
   "scripts": {
-    "dev": "jest -c ../../jest.config.js --testPathPattern react-use --watchAll",
+    "dev": "jest -c ../../jest.config.js --testPathPattern /packages/react-use/ --watchAll",
     "lint": "eslint --ext .ts,.tsx . --fix && tsc",
     "build": "vite build -c ../../vite.config.ts",
-    "test": "jest -c ../../jest.config.js --testPathPattern react-use --coverage --collectCoverageFrom packages/react-use/src/**/*.{ts,tsx} --coverageDirectory packages/react-use/.coverage",
+    "test": "jest -c ../../jest.config.js --testPathPattern /packages/react-use/ --coverage --collectCoverageFrom packages/react-use/src/**/*.{ts,tsx} --coverageDirectory packages/react-use/.coverage",
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0"
   }
 }

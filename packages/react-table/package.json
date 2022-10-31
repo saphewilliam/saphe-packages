@@ -32,10 +32,10 @@
     "dist/"
   ],
   "scripts": {
-    "dev": "jest -c ../../jest.config.js --testPathPattern react-table --watchAll",
+    "dev": "jest -c ../../jest.config.js --testPathPattern /packages/react-table/ --watchAll",
     "lint": "eslint --ext .ts,.tsx . --fix && tsc",
     "build": "vite build -c ../../vite.config.ts",
-    "test": "jest -c ../../jest.config.js --testPathPattern react-table --coverage --collectCoverageFrom packages/react-table/src/**/*.{ts,tsx} --coverageDirectory packages/react-table/.coverage",
+    "test": "jest -c ../../jest.config.js --testPathPattern /packages/react-table/ --coverage --collectCoverageFrom packages/react-table/src/**/*.{ts,tsx} --coverageDirectory packages/react-table/.coverage",
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
@@ -44,7 +44,7 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0"
   }
 }
