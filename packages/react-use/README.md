@@ -21,6 +21,7 @@ A collection of tiny, useful, type-safe React hooks.
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+  * [Install](#install)
 - [useAsyncReducer](#useasyncreducer)
   * [Actions](#actions)
   * [Queue](#queue)
@@ -31,21 +32,13 @@ A collection of tiny, useful, type-safe React hooks.
 
 ## Getting Started
 
-Install using pnpm:
+### Install
 
 ```sh
-pnpm i @saphe/react-use
-```
-
-or install using yarn:
-
-```sh
+pnpm add @saphe/react-use
+# or
 yarn add @saphe/react-use
-```
-
-or install using npm:
-
-```sh
+# or
 npm install @saphe/react-use
 ```
 

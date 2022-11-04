@@ -13,7 +13,7 @@ export const useFormState = <P extends Plugins, F extends Fields>(
     change: (formState, targetValue: unknown, fieldName: keyof F, fieldIndex?: number) => {
       const stateField = formState[fieldName];
       const { field, value, touched, error, state } = stateField;
-      const newValue = field.plugin.parse(targetValue);
+      const newValue = field.plugin.parse ? field.plugin.parse(targetValue) : targetValue;
 
       const v =
         (field.validation as FieldValidation | undefined)?.mode ??

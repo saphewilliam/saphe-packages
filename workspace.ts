@@ -2,28 +2,35 @@ import { Packages } from './scripts/generate';
 
 export const packages: Packages = {
   'react-form': {
-    description: 'A headless, declarative, lightweight, type-safe form engine for your React apps.',
-    keywords: ['typescript', 'react', 'hook', 'form', 'validation'],
+    description:
+      'A headless, declarative, lightweight form engine for React apps with first-class TypeScript support.',
+    keywords: ['typescript', 'react', 'hook', 'form', 'validation', 'headless'],
     features: [
       { icon: '✅', text: 'CommonJS and ES Modules support' },
-      // TODO
-      { icon: '⚖️', text: 'Lightweight; [minified + gzipped]()' },
+      { icon: '👍', text: 'Easy, declarative form definition with strong typescript support' },
+      {
+        icon: '😎',
+        text: 'Best HTML form practices are the default, with advanced form validation out-of-the-box',
+      },
+      {
+        icon: '⚖️',
+        text: 'Lightweight; [minified + gzipped](https://bundlephobia.com/package/@saphe/react-form) (esm, cjs, and types combined) and only 1 dependency in total',
+      },
       {
         icon: '🎨',
         text: 'Headless; you decide the form style, the hook handles the complex internal logic',
       },
       {
         icon: '🔌',
-        text: 'Easily extendable using plugins, and many officially maintained plugins available',
+        text: 'Completely and easily extendable using plugins, and many officially maintained plugins available',
       },
     ],
     roadmap: [
-      { text: 'Support dynamically hiding and disabling fields (disable on loading?)' },
       { text: '(in-place) field modifiers: transform / strip a string, round a number' },
       { text: 'Type modifiers: return form field names as snake case' },
-      { text: 'Add a set of defineForm() esc helper functions to allow for better code splitting' },
+      { text: 'Support state functions (e.g. `state: FieldState | (formState) => FieldState`)' },
       { text: 'More advanced form validation (e.g. require either one of two fields to be set)' },
-      { text: 'Some sort of localisation api?' },
+      { text: 'Some sort of i18n api' },
     ],
   },
 

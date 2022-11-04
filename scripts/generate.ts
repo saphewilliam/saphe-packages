@@ -153,6 +153,7 @@ function makeReadme(name: string, p: Package): void {
     write(`## Table of Contents`, 2);
     if (p.roadmap && p.roadmap.length > 0) write('- [Roadmap](#roadmap)');
     write('- [Getting Started](#getting-started)');
+    write('  * [Install](#install)');
     if (p.examples && p.examples.length > 0) write('- [Examples](#examples)');
     write(toc(content).content, 2);
 
@@ -168,8 +169,9 @@ function makeReadme(name: string, p: Package): void {
     // Getting Started
     const install = [n, ...(p.peerDependencies ?? [])].join(' ');
     write(`## Getting Started`, 2);
+    write(`### Install`, 2);
     write(
-      `Install using pnpm:\n\n\`\`\`sh\npnpm i ${install}\n\`\`\`\n\nor install using yarn:\n\n\`\`\`sh\nyarn add ${install}\n\`\`\`\n\nor install using npm:\n\n\`\`\`sh\nnpm install ${install}\n\`\`\``,
+      `\`\`\`sh\npnpm add ${install}\n# or\nyarn add ${install}\n# or\nnpm install ${install}\n\`\`\``,
       2,
     );
 

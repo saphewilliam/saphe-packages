@@ -1,4 +1,4 @@
-import { numberFieldPlugin, textFieldPlugin } from '../src/lib/plugins';
+import { defineFields, numberFieldPlugin, textFieldPlugin } from '../src/';
 import { renderHook } from '@testing-library/react';
 import useForm, { FieldState } from '../src';
 import { act } from 'react-test-renderer';
@@ -337,5 +337,37 @@ describe('useForm', () => {
     });
     expect(result.current.props.textEnabledReq.error).toBe('This should show');
     expect(result.current.props.textDisabledReq.error).toBe('');
+  });
+
+  it('accepts reusable subsets of fields', () => {
+    const textFields = defineFields({ text: textFieldPlugin }, (t) => ({
+      text: t.text({}),
+      textMany: t.text({ many: true }),
+      nameCollision: t.text({}),
+    }));
+
+    const numberFields = defineFields({ number: numberFieldPlugin }, (t) => ({
+      number: t.number({}),
+      numberMany: t.number({ many: true }),
+      nameCollision: t.number({}),
+    }));
+
+    renderHook(() =>
+      useForm(plugins, {
+        fields: (t) => ({
+          anotherField: t.text({}),
+          ...textFields(t),
+          ...numberFields(t),
+        }),
+        onSubmit(_formState, formValues) {
+          expectTypeOf(formValues.anotherField).toEqualTypeOf<string | null>();
+          expectTypeOf(formValues.text).toEqualTypeOf<string | null>();
+          expectTypeOf(formValues.textMany).toEqualTypeOf<(string | null)[]>();
+          expectTypeOf(formValues.number).toEqualTypeOf<number | null>();
+          expectTypeOf(formValues.numberMany).toEqualTypeOf<(number | null)[]>();
+          expectTypeOf(formValues.nameCollision).toEqualTypeOf<number | null>();
+        },
+      }),
+    );
   });
 });

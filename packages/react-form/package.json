@@ -2,13 +2,14 @@
   "name": "@saphe/react-form",
   "license": "MIT",
   "version": "0.9.4",
-  "description": "A headless, declarative, lightweight, type-safe form engine for your React apps.",
+  "description": "A headless, declarative, lightweight form engine for React apps with first-class TypeScript support.",
   "keywords": [
     "typescript",
     "react",
     "hook",
     "form",
-    "validation"
+    "validation",
+    "headless"
   ],
   "author": {
     "email": "william@saphewebdesign.com",

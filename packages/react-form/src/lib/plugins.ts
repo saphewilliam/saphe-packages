@@ -1,12 +1,13 @@
-import { Plugin } from './plugin';
+import type { Plugin } from './plugin';
 import { FieldMany } from './types';
 import {
-  FieldValidation,
   NumberValidation,
   StringValidation,
   validateNumberField,
   validateStringField,
 } from './validation';
+
+type None = Record<string, never>;
 
 export const textFieldPlugin: Plugin<
   string,
@@ -15,7 +16,6 @@ export const textFieldPlugin: Plugin<
   StringValidation,
   { placeholder?: string }
 > = {
-  initialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: validateStringField,
@@ -28,7 +28,6 @@ export const textAreaFieldPlugin: Plugin<
   StringValidation,
   { placeholder?: string; rows?: number }
 > = {
-  initialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: validateStringField,
@@ -41,7 +40,6 @@ export const numberFieldPlugin: Plugin<
   NumberValidation,
   { placeholder?: string }
 > = {
-  initialValue: null,
   parse: (value) => {
     const parsedValue = parseFloat(value);
     return !isNaN(parsedValue) ? parsedValue : null;
@@ -54,17 +52,19 @@ export const selectFieldPlugin: Plugin<
   string,
   string,
   FieldMany,
-  FieldValidation<string>,
+  None,
   { placeholder?: string; options: { value: string; label?: string }[] }
 > = {
-  initialValue: null,
   parse: (value) => value || null,
   serialize: (value) => value ?? '',
   validate: () => '',
 };
 
+export const checkFieldPlugin: Plugin<boolean | null, boolean, FieldMany, None, None> = {
+  initialValue: false,
+};
+
 // TODO test other examples
-// const checkBoxPlugin: FieldPlugin<boolean, boolean> = {};
 // const addressPlugin: FieldPlugin<{ streetName: string; houseNumber: number }> = {};
 // const recaptchaPlugin: FieldPlugin<never, string> = {};
 // const noticePlugin: FieldPlugin<never, never> = {};

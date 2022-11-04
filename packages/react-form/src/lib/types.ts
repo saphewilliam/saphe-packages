@@ -1,19 +1,17 @@
-import { Field, FieldOptions, Fields } from './field';
-import {
-  Plugins,
-  ManyFromPlugin,
-  OptionsFromPlugin,
-  RawValueFromPlugin,
-  ValueFromPlugin,
-  ValidationFromPlugin,
-} from './plugin';
+import { Field, Fields } from './field';
+import { Plugins, FieldsBuilder } from './plugin';
 import { ManyProps, Props } from './props';
 import { MaybePromise, OutputValue, TypeFromMany } from './util';
 import { FieldValidation } from './validation';
 import { UseAsyncReducerTypes } from '@saphe/react-use';
 
-// TODO defineField -esc helper functions for better code splitting
 // TODO extract props from plugin for defining components
+
+/** Helper function for defining a reusable subset of fields outside of the hook definition */
+export const defineFields = <P extends Plugins, F extends Fields>(
+  _plugins: P,
+  fields: (t: FieldsBuilder<P>) => F,
+) => fields;
 
 /** Type used for declaring if a field is many or not */
 export type FieldMany = boolean;
@@ -34,35 +32,17 @@ export enum ValidationMode {
   ON_SUBMIT = 'ON_SUBMIT',
 }
 
-/** Type that uses the defined plugins to allow the user to define fields */
-export type FieldsBuilder<P extends Plugins> = {
-  [K in keyof P]: <
-    Many extends ManyFromPlugin<P[K]>,
-    Validation extends ValidationFromPlugin<P[K]>,
-    State extends FieldState,
-  >(
-    t: FieldOptions<ValueFromPlugin<P[K]>, Many, Validation, State> & OptionsFromPlugin<P[K]>,
-  ) => Field<
-    RawValueFromPlugin<P[K]>,
-    ValueFromPlugin<P[K]>,
-    Many,
-    Validation,
-    State,
-    OptionsFromPlugin<P[K]>
-  >;
-};
-
 interface ButtonConfig {
   /** Optional, the text displayed on the button */
   label?: string;
   /** Optional, the text displayed on the button while the form is performing the action */
-  loadingLabel?: string;
+  isLoadingLabel?: string;
 }
 
 export interface FormConfig<P extends Plugins, F extends Fields> {
   /** Optional, declares the fields of the form */
   fields?: (t: FieldsBuilder<P>) => F;
-  /** Optional, supply configuration for form validation */
+  /** Optional, supply global configuration for form validation */
   validation?: {
     /** Optional (default: ValidationMode.AFTER_BLUR), the global validation mode */
     mode?: ValidationMode;
@@ -80,12 +60,14 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
     // TODO enumerate all possible form values
     targetValue: unknown,
     fieldName: keyof F,
+    /** `fieldIndex` is only supplied when the changed field has `many: true` */
     fieldIndex?: number,
   ) => FormState<F> | void;
   /** Optional, synchronous function that fires on a form field blur event */
   onBlur?: (
     formState: FormState<F>,
     fieldName: keyof F,
+    /** `fieldIndex` is only supplied when the blurred field has `many: true` */
     fieldIndex?: number,
   ) => FormState<F> | void;
   /** Optional, sync or async function that fires after a form field change event */
@@ -93,12 +75,14 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
     formState: FormState<F>,
     targetValue: unknown,
     fieldName: keyof F,
+    /** `fieldIndex` is only supplied when the changed field has `many: true` */
     fieldIndex?: number,
   ) => MaybePromise<void>;
   /** Optional, sync or async function that fires after a form field blur event */
   blurEffect?: (
     formState: FormState<F>,
     fieldName: keyof F,
+    /** `fieldIndex` is only supplied when the blurred field has `many: true` */
     fieldIndex?: number,
   ) => MaybePromise<void>;
   /** Optional, defines what should happen when the form state is initialized */
@@ -129,6 +113,7 @@ export type FormStateField<
   Options extends object = object,
 > = {
   field: Field<RawValue, Value, Many, Validation, State, Options>;
+  // TODO the current value may still be `null` actually, only on submit, you know its nullability for sure
   value: OutputValue<Value, Many, Validation, State>;
   touched: TypeFromMany<boolean, boolean[], Many>;
   error: TypeFromMany<string, string[], Many>;

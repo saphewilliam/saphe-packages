@@ -13,25 +13,18 @@ Officially maintained Bootstrap-style form fields pack for @saphe/react-form
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+  * [Install](#install)
 
 
 ## Getting Started
 
-Install using pnpm:
+### Install
 
 ```sh
-pnpm i @saphe/react-form-fields-bootstrap bootstrap
-```
-
-or install using yarn:
-
-```sh
+pnpm add @saphe/react-form-fields-bootstrap bootstrap
+# or
 yarn add @saphe/react-form-fields-bootstrap bootstrap
-```
-
-or install using npm:
-
-```sh
+# or
 npm install @saphe/react-form-fields-bootstrap bootstrap
 ```
 

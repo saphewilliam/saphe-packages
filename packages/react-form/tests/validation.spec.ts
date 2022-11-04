@@ -172,7 +172,10 @@ describe('Validation', () => {
     expectTypeOf(result.current.state.textMatch).not.toBeNever();
     expectTypeOf(result.current.state.textLength).not.toBeNever();
     expectTypeOf(result.current.state.number).not.toBeNever();
-
+    expectTypeOf(result.current.props.textMatch).not.toBeNever();
+    expectTypeOf(result.current.props.textLength).not.toBeNever();
     expectTypeOf(result.current.props.number).not.toBeNever();
+
+    // TODO test validation behavior
   });
 });

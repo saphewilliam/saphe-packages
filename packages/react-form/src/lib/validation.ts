@@ -17,13 +17,18 @@ export const validateField = (field: Field, fieldState: FieldState, value: unkno
   if (!validation || fieldState !== FieldState.ENABLED) return '';
 
   // Required check
-  if (validation.required && JSON.stringify(value) === JSON.stringify(field.plugin.initialValue))
+  if (
+    validation.required &&
+    JSON.stringify(value) === JSON.stringify(field.plugin.initialValue ?? null)
+  )
     return validation.required;
 
   // TODO
   // Plugin-specific validation options
-  const pluginError = field.plugin.validate(value, validation);
-  if (pluginError !== '') return pluginError;
+  if (field.plugin.validate) {
+    const pluginError = field.plugin.validate(value, validation);
+    if (pluginError !== '') return pluginError;
+  }
 
   // Custom validate function
   if (validation.validate) {
@@ -46,12 +51,12 @@ export type NumberValueValidation = (
   | { gt: number; lt: number }
 ) & { message: string };
 
-export interface StringValidation extends FieldValidation<string> {
+export interface StringValidation {
   length?: NumberValueValidation;
   match?: { pattern: RegExp; message: string };
 }
 
-export interface NumberValidation extends FieldValidation<number> {
+export interface NumberValidation {
   value?: NumberValueValidation;
   integer?: string;
 }
@@ -97,21 +102,12 @@ export function validateNumberField(value: number | null, validation: NumberVali
   return '';
 }
 
-// export interface EmailValidation extends ValidationBase<string> {
+// export interface EmailValidation {
 //   length?: NumberValueValidation;
 //   isValidEmail?: string;
 // }
 
-// export interface FileValidation extends ValidationBase<File> {
-//   size?: NumberValueValidation;
-// }
-
-// export interface EmailValidation extends ValidationBase<string> {
-//   length?: NumberValueValidation;
-//   isValidEmail?: string;
-// }
-
-// export interface FileValidation extends ValidationBase<File> {
+// export interface FileValidation {
 //   size?: NumberValueValidation;
 // }
 

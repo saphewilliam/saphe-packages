@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Fields } from '../lib/field';
-import { Plugins } from '../lib/plugin';
-import { FieldsBuilder, FieldState, FormConfig, FormState } from '../lib/types';
+import { FieldsBuilder, Plugins } from '../lib/plugin';
+import { FieldState, FormConfig, FormState } from '../lib/types';
 
 export const useInitialFormState = <P extends Plugins, F extends Fields>(
   plugins: P,
@@ -28,7 +28,9 @@ export const useInitialFormState = <P extends Plugins, F extends Fields>(
             field,
             value:
               field.initialValue ??
-              (field.many ? [field.plugin.initialValue] : field.plugin.initialValue),
+              (field.many
+                ? [field.plugin.initialValue ?? null]
+                : field.plugin.initialValue ?? null),
             touched: field.many
               ? Array((field.initialValue as unknown[] | undefined)?.length ?? 1).fill(false)
               : false,
