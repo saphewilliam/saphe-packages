@@ -1,5 +1,14 @@
 # @saphe/react-table
 
+## 0.7.3
+
+### Patch Changes
+
+- 4f1cff7: Remove tslib dependency
+- Updated dependencies [1ba8b20]
+- Updated dependencies [4f1cff7]
+  - @saphe/react-use@0.2.1
+
 ## 0.7.2
 
 ### Patch Changes

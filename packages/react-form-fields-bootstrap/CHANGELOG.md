@@ -1,5 +1,17 @@
 # @saphe/react-form-fields-bootstrap
 
+## 0.5.0
+
+### Minor Changes
+
+- 1ba8b20: Deprecate the package for now
+
+### Patch Changes
+
+- Updated dependencies [d3287b8]
+- Updated dependencies [4f1cff7]
+  - @saphe/react-form@1.0.0
+
 ## 0.4.4
 
 ### Patch Changes

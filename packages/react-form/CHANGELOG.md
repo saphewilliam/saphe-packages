@@ -1,5 +1,18 @@
 # @saphe/react-forms
 
+## 1.0.0
+
+### Major Changes
+
+- d3287b8: Complete rewrite of the hook's API and internal code. See docs for more details.
+
+### Patch Changes
+
+- 4f1cff7: Remove tslib dependency
+- Updated dependencies [1ba8b20]
+- Updated dependencies [4f1cff7]
+  - @saphe/react-use@0.2.1
+
 ## 0.9.4
 
 ### Patch Changes
