@@ -45,7 +45,7 @@ export const useInitialFormState = <P extends Plugins, F extends Fields>(
 
     // Fire custom onInit function if present
     if (config.onInit) {
-      const onInitResult = config.onInit(initialState);
+      const onInitResult = config.onInit({ formState: initialState });
       if (typeof onInitResult !== 'undefined') initialState = onInitResult;
     }
 

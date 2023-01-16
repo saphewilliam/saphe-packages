@@ -5,11 +5,20 @@ import { FieldValidation } from './validation';
 export type MaybePromise<T> = T | Promise<T>;
 
 /** Deduce output type based on a Many value */
-export type TypeFromMany<T, ManyT, Many extends FieldMany> = boolean extends Many
-  ? T
-  : Many extends true
-  ? ManyT
-  : T;
+export type ExplicitTypeFromMany<
+  DefaultT,
+  SingleT,
+  ManyT,
+  Many extends FieldMany,
+> = boolean extends Many ? DefaultT : Many extends false ? SingleT : ManyT;
+
+/** Deduce output type based on a Many value (assuming that the default output is the same as a single output) */
+export type TypeFromMany<SingleT, ManyT, Many extends FieldMany> = ExplicitTypeFromMany<
+  SingleT,
+  SingleT,
+  ManyT,
+  Many
+>;
 
 /** Decude output type based on Validation (required) value */
 export type TypeFromRequired<T, Validation extends FieldValidation<T>> = Validation extends {

@@ -1,7 +1,7 @@
+import { Plugin } from './plugin';
 import { FieldMany, FieldState } from './types';
 import { DefineValue } from './util';
 import { FieldValidation } from './validation';
-import { Plugin } from './plugin';
 
 export type Fields<
   Many extends FieldMany = false,

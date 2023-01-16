@@ -1,11 +1,11 @@
-import useForm, { FieldState, textAreaFieldPlugin, textFieldPlugin, ValidationMode } from '../src';
+import useForm, { FieldState, textAreaPlugin, textPlugin, ValidationMode } from '../src';
 import { renderHook } from '@testing-library/react';
 
 describe('textFieldPlugin', () => {
   it('accepts all intended options', () => {
     renderHook(() =>
       useForm(
-        { text: textFieldPlugin },
+        { text: textPlugin },
         {
           fields: (t) => ({
             text: t.text({
@@ -17,7 +17,7 @@ describe('textFieldPlugin', () => {
               placeholder: 'John Doe',
               validation: {
                 mode: ValidationMode.ON_SUBMIT,
-                length: { lt: 10, message: 'Your name is too long!' },
+                length: { lt: 10, getMessage: () => 'Your name is too long!' },
                 match: {
                   pattern: /[A-Z][a-z]*\s[A-Z][a-z]*/gm,
                   message: 'Please enter your first and last name',
@@ -36,7 +36,7 @@ describe('textFieldPlugin', () => {
 describe('textAreaFieldPlugin', () => {
   renderHook(() =>
     useForm(
-      { textArea: textAreaFieldPlugin },
+      { textArea: textAreaPlugin },
       {
         fields: (t) => ({
           textArea: t.textArea({
@@ -51,7 +51,7 @@ describe('textAreaFieldPlugin', () => {
             validation: {
               mode: ValidationMode.ON_CHANGE,
               required: 'Please enter a message',
-              length: { lte: 255, message: 'Your message is too long!' },
+              length: { lte: 255, getMessage: () => 'Your message is too long!' },
               match: {
                 pattern: /^Dear\s/gm,
                 message: 'Your message should start with "Dear"',

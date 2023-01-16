@@ -1,11 +1,47 @@
 import { Field, Fields } from './field';
-import { Plugins, FieldsBuilder } from './plugin';
-import { ManyProps, Props } from './props';
-import { MaybePromise, OutputValue, TypeFromMany } from './util';
+import { Plugin, Plugins, FieldsBuilder } from './plugin';
+import { ManyProps, SingleProps } from './props';
+import { ExplicitTypeFromMany, MaybePromise, OutputValue, TypeFromMany } from './util';
 import { FieldValidation } from './validation';
-import { UseAsyncReducerTypes } from '@saphe/react-use';
 
-// TODO extract props from plugin for defining components
+/** Extract the props type for a plugin, used for defining components */
+export type SinglePropsFromPlugin<P> = P extends Plugin<
+  infer RawValue,
+  infer _Value,
+  infer _Many,
+  infer _Validation,
+  infer Options
+>
+  ? SingleProps<RawValue> & Options
+  : never;
+
+/** Extract the props type for a plugin, used for defining components */
+export type ManyPropsFromPlugin<P> = P extends Plugin<
+  infer RawValue,
+  infer _Value,
+  infer _Many,
+  infer _Validation,
+  infer Options
+>
+  ? ManyProps<RawValue> & Options
+  : never;
+
+/** Extract the props type for a plugin, used for defining components */
+export type PropsFromPlugin<P> = P extends Plugin<
+  infer RawValue,
+  infer _Value,
+  infer Many,
+  infer _Validation,
+  infer Options
+>
+  ? ExplicitTypeFromMany<
+      SingleProps<RawValue> | ManyProps<RawValue>,
+      SingleProps<RawValue>,
+      ManyProps<RawValue>,
+      Many
+    > &
+      Options
+  : never;
 
 /** Helper function for defining a reusable subset of fields outside of the hook definition */
 export const defineFields = <P extends Plugins, F extends Fields>(
@@ -41,7 +77,7 @@ interface ButtonConfig {
 
 export interface FormConfig<P extends Plugins, F extends Fields> {
   /** Optional, declares the fields of the form */
-  fields?: (t: FieldsBuilder<P>) => F;
+  fields?: (f: FieldsBuilder<P>) => F;
   /** Optional, supply global configuration for form validation */
   validation?: {
     /** Optional (default: ValidationMode.AFTER_BLUR), the global validation mode */
@@ -55,66 +91,65 @@ export interface FormConfig<P extends Plugins, F extends Fields> {
   /** Optional, configures the form's reset button */
   resetButton?: ButtonConfig;
   /** Optional, synchronous function that fires on a form field change event */
-  onChange?: (
-    formState: FormState<F>,
+  onChange?: (opts: {
+    formState: FormState<F>;
     // TODO enumerate all possible form values
-    targetValue: unknown,
-    fieldName: keyof F,
+    targetValue: unknown;
+    fieldName: keyof F;
     /** `fieldIndex` is only supplied when the changed field has `many: true` */
-    fieldIndex?: number,
-  ) => FormState<F> | void;
+    fieldIndex?: number;
+  }) => FormState<F> | void;
   /** Optional, synchronous function that fires on a form field blur event */
-  onBlur?: (
-    formState: FormState<F>,
-    fieldName: keyof F,
+  onBlur?: (opts: {
+    formState: FormState<F>;
+    fieldName: keyof F;
     /** `fieldIndex` is only supplied when the blurred field has `many: true` */
-    fieldIndex?: number,
-  ) => FormState<F> | void;
+    fieldIndex?: number;
+  }) => FormState<F> | void;
   /** Optional, sync or async function that fires after a form field change event */
-  changeEffect?: (
-    formState: FormState<F>,
-    targetValue: unknown,
-    fieldName: keyof F,
+  changeEffect?: (opts: {
+    formState: FormState<F>;
+    targetValue: unknown;
+    fieldName: keyof F;
     /** `fieldIndex` is only supplied when the changed field has `many: true` */
-    fieldIndex?: number,
-  ) => MaybePromise<void>;
+    fieldIndex?: number;
+  }) => MaybePromise<void>;
   /** Optional, sync or async function that fires after a form field blur event */
-  blurEffect?: (
-    formState: FormState<F>,
-    fieldName: keyof F,
+  blurEffect?: (opts: {
+    formState: FormState<F>;
+    fieldName: keyof F;
     /** `fieldIndex` is only supplied when the blurred field has `many: true` */
-    fieldIndex?: number,
-  ) => MaybePromise<void>;
+    fieldIndex?: number;
+  }) => MaybePromise<void>;
   /** Optional, defines what should happen when the form state is initialized */
   // TODO allow user to pass a promise onInit (when useAsyncReducer supports this)
-  onInit?: (initialFormState: FormState<F>) => FormState<F> | void;
+  onInit?: (opts: { formState: FormState<F> }) => FormState<F> | void;
   /** Optional, defines what should happen on a form reset event */
-  onReset?: (formState: FormState<F>) => MaybePromise<FormState<F> | void>;
-  /** Optional, defines what should happen on a form submit event */
-  onSubmit?: (
-    formState: FormState<F>,
-    formValues: FormValues<F>,
-  ) => MaybePromise<FormState<F> | void>;
-}
-
-export interface Form<F extends Fields> {
-  state: FormState<F>;
-  props: FormProps<F>;
-  isLoading: boolean;
-  error: UseAsyncReducerTypes.Error<FormState<F>> | null;
+  onReset?: (opts: { formState: FormState<F> }) => MaybePromise<FormState<F> | void>;
+  /** Optional, defines what should happen on a form submit event where no errors are present in the form */
+  onSubmit?: (opts: {
+    initialFormState: FormState<F>;
+    formState: FormState<F>;
+    formValues: FormValues<F>;
+  }) => MaybePromise<FormState<F> | void>;
+  /** Optional, defines what should happen on any form submit event, even if errors are present in the form */
+  submitEffect?: (opts: {
+    initialFormState: FormState<F>;
+    formState: FormState<F>;
+    formValues: FormValues<F>;
+  }) => MaybePromise<FormState<F> | void>;
 }
 
 export type FormStateField<
   RawValue = unknown,
   Value = unknown,
   Many extends FieldMany = false,
-  Validation extends FieldValidation<Value> = object,
+  Validation extends FieldValidation<Value> = FieldValidation,
   State extends FieldState = FieldState,
   Options extends object = object,
 > = {
   field: Field<RawValue, Value, Many, Validation, State, Options>;
-  // TODO the current value may still be `null` actually, only on submit, you know its nullability for sure
-  value: OutputValue<Value, Many, Validation, State>;
+  value: TypeFromMany<Value | null, (Value | null)[], Many>;
   touched: TypeFromMany<boolean, boolean[], Many>;
   error: TypeFromMany<string, string[], Many>;
   state: FieldState;
@@ -146,6 +181,19 @@ export type FormValues<F extends Fields> = {
     : never;
 };
 
+export interface FormComponentProps {
+  onReset: (e?: { preventDefault: () => void }) => void;
+  onSubmit: (e?: { preventDefault: () => void }) => void;
+}
+
+export interface ButtonComponentProps {
+  label: string;
+  isDisabled: boolean;
+  isLoading: boolean;
+  type: 'submit' | 'reset' | 'button';
+  onClick: (e?: { preventDefault: () => void }) => void;
+}
+
 export type FormProps<F extends Fields> = {
   [I in keyof F]: F[I] extends Field<
     infer RawValue,
@@ -155,19 +203,10 @@ export type FormProps<F extends Fields> = {
     infer _State,
     infer Options
   >
-    ? TypeFromMany<Props<RawValue>, ManyProps<RawValue>, Many> & Options
+    ? TypeFromMany<SingleProps<RawValue>, ManyProps<RawValue>, Many> & Options
     : never;
 } & {
-  form: {
-    onReset: (e?: { preventDefault: () => void }) => void;
-    onSubmit: (e?: { preventDefault: () => void }) => void;
-  };
-  submitButton: {
-    key: string;
-    label: string;
-    isDisabled: boolean;
-    isLoading: boolean;
-    type: 'submit' | 'reset' | 'button';
-    onClick: (e?: { preventDefault: () => void }) => void;
-  };
+  form: FormComponentProps;
+  submitButton: ButtonComponentProps;
+  resetButton: ButtonComponentProps;
 };

@@ -1,12 +1,12 @@
 import { renderHook } from '@testing-library/react';
 import { act } from 'react-test-renderer';
 import useForm, { FormState } from '../src';
-import { numberFieldPlugin, textFieldPlugin } from '../src/lib/plugins';
+import { numberPlugin, textPlugin } from '../src/lib/plugins';
 import { expectTypeOf } from 'expect-type';
 
 const plugins = {
-  text: textFieldPlugin,
-  number: numberFieldPlugin,
+  text: textPlugin,
+  number: numberPlugin,
 };
 
 describe('Validation', () => {
@@ -156,10 +156,10 @@ describe('Validation', () => {
             validation: { match: { pattern: /^\d\dab$/gm, message: textMatchError } },
           }),
           textLength: t.text({
-            validation: { length: { exact: 10, message: textLengthError } },
+            validation: { length: { exact: 10, getMessage: () => textLengthError } },
           }),
           number: t.number({
-            validation: { value: { gte: 3, lt: 6, message: numberValueError } },
+            validation: { value: { gte: 3, lt: 6, getMessage: () => numberValueError } },
           }),
           textError: t.text({
             // @ts-expect-error Number validation is not allowed on text fields

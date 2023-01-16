@@ -1,8 +1,22 @@
 import { FieldState } from './types';
 
-export interface ComponentProps {
+export interface SingleComponentProps {
   label: string;
   description: string;
+  describedBy: string;
+  state: FieldState;
+  isEnabled: boolean;
+  isLoading: boolean;
+  isDisabled: boolean;
+  isHidden: boolean;
+  isRequired: boolean;
+}
+
+export interface ManyComponentProps<RawValue> extends SingleComponentProps {
+  /** Add a field to the fields array. It takes the new field's initial value as a parameter (if left empty, the plugin's default initial value is set) */
+  addField: (initialValue?: RawValue) => void;
+  /** Remove the field with a given index */
+  removeField: (index: number) => void;
 }
 
 export interface FieldProps<RawValue = unknown> {
@@ -11,8 +25,6 @@ export interface FieldProps<RawValue = unknown> {
   value: RawValue;
   error: string;
   describedBy: string;
-  // TODO what is better: one `state` prop, or multiple `isLoading`, `isDisabled` and `isHidden` props?
-  state: FieldState;
   onChange: (targetValue: RawValue) => void;
   onBlur: () => void;
 }
@@ -21,5 +33,7 @@ export interface FieldsProps<RawValue> {
   fields: FieldProps<RawValue>[];
 }
 
-export type Props<RawValue> = ComponentProps & { many: false } & FieldProps<RawValue>;
-export type ManyProps<RawValue> = ComponentProps & { many: true } & FieldsProps<RawValue>;
+export type SingleProps<RawValue> = SingleComponentProps & { many: false } & FieldProps<RawValue>;
+export type ManyProps<RawValue> = ManyComponentProps<RawValue> & {
+  many: true;
+} & FieldsProps<RawValue>;

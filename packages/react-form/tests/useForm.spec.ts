@@ -1,12 +1,12 @@
-import { defineFields, numberFieldPlugin, textFieldPlugin } from '../src/';
+import { defineFields, numberPlugin, textPlugin } from '../src/';
 import { renderHook } from '@testing-library/react';
 import useForm, { FieldState } from '../src';
 import { act } from 'react-test-renderer';
 import { expectTypeOf } from 'expect-type';
 
 const plugins = {
-  text: textFieldPlugin,
-  number: numberFieldPlugin,
+  text: textPlugin,
+  number: numberPlugin,
 };
 
 describe('useForm', () => {
@@ -68,15 +68,24 @@ describe('useForm', () => {
           textReqNotMany: t.text({ many: false, validation: { required: 'req' } }),
           textReqMany: t.text({ many: true, validation: { required: 'req' } }),
         }),
-        onSubmit(formState) {
+        onSubmit({ formState, formValues }) {
+          expectTypeOf(formValues).not.toBeAny();
+          expectTypeOf(formValues).not.toHaveProperty('random');
+          expectTypeOf(formValues.text).toEqualTypeOf<string | null>();
+          expectTypeOf(formValues.textNotMany).toEqualTypeOf<string | null>();
+          expectTypeOf(formValues.textMany).toEqualTypeOf<(string | null)[]>();
+          expectTypeOf(formValues.textReq).toEqualTypeOf<string>();
+          expectTypeOf(formValues.textReqNotMany).toEqualTypeOf<string>();
+          expectTypeOf(formValues.textReqMany).toEqualTypeOf<string[]>();
+
           expectTypeOf(formState).not.toBeAny();
           expectTypeOf(formState).not.toHaveProperty('random');
           expectTypeOf(formState.text.value).toEqualTypeOf<string | null>();
           expectTypeOf(formState.textNotMany.value).toEqualTypeOf<string | null>();
           expectTypeOf(formState.textMany.value).toEqualTypeOf<(string | null)[]>();
-          expectTypeOf(formState.textReq.value).toEqualTypeOf<string>();
-          expectTypeOf(formState.textReqNotMany.value).toEqualTypeOf<string>();
-          expectTypeOf(formState.textReqMany.value).toEqualTypeOf<string[]>();
+          expectTypeOf(formState.textReq.value).toEqualTypeOf<string | null>();
+          expectTypeOf(formState.textReqNotMany.value).toEqualTypeOf<string | null>();
+          expectTypeOf(formState.textReqMany.value).toEqualTypeOf<(string | null)[]>();
         },
       }),
     );
@@ -126,7 +135,7 @@ describe('useForm', () => {
     expect(result.current.props.textMany.description).toBe('');
     expect(result.current.props.textMany.fields[0]?.value).toBe('');
     expect(result.current.props.textMany.placeholder).toBeUndefined();
-    expect(result.current.props.textMany.fields[0]?.state).toBe(FieldState.ENABLED);
+    expect(result.current.props.textMany.state).toBe(FieldState.ENABLED);
     expect(result.current.props.textMany.fields[0]?.error).toBe('');
     expect(result.current.props.textMany.many).toBeTruthy();
 
@@ -296,7 +305,7 @@ describe('useForm', () => {
           }),
         }),
         // TODO Workaround until I figure out how to do `FieldState | (formState: FormState<F>) => FieldState`
-        onChange(formState) {
+        onChange({ formState }) {
           return {
             ...formState,
             textConditional: {
@@ -305,7 +314,7 @@ describe('useForm', () => {
             },
           };
         },
-        onSubmit(_formState, formValues) {
+        onSubmit({ formValues }) {
           expectTypeOf(formValues.text).toEqualTypeOf<string | null>();
           expectTypeOf(formValues.textEnabled).toEqualTypeOf<string | null>();
           expectTypeOf(formValues.textDisabled).toEqualTypeOf<string | null>();
@@ -340,13 +349,13 @@ describe('useForm', () => {
   });
 
   it('accepts reusable subsets of fields', () => {
-    const textFields = defineFields({ text: textFieldPlugin }, (t) => ({
+    const textFields = defineFields({ text: textPlugin }, (t) => ({
       text: t.text({}),
       textMany: t.text({ many: true }),
       nameCollision: t.text({}),
     }));
 
-    const numberFields = defineFields({ number: numberFieldPlugin }, (t) => ({
+    const numberFields = defineFields({ number: numberPlugin }, (t) => ({
       number: t.number({}),
       numberMany: t.number({ many: true }),
       nameCollision: t.number({}),
@@ -359,7 +368,7 @@ describe('useForm', () => {
           ...textFields(t),
           ...numberFields(t),
         }),
-        onSubmit(_formState, formValues) {
+        onSubmit({ formValues }) {
           expectTypeOf(formValues.anotherField).toEqualTypeOf<string | null>();
           expectTypeOf(formValues.text).toEqualTypeOf<string | null>();
           expectTypeOf(formValues.textMany).toEqualTypeOf<(string | null)[]>();

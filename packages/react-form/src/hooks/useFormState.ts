@@ -1,8 +1,9 @@
-import { useAsyncReducer, Util } from '@saphe/react-use';
+import { Util } from '@saphe/react-use';
 import { Fields } from '../lib/field';
 import { Plugins } from '../lib/plugin';
 import { FormConfig, FormState, FormValues, ValidationMode } from '../lib/types';
 import { FieldValidation, validateField } from '../lib/validation';
+import { useAsyncReducer } from '@saphe/react-use';
 
 export const useFormState = <P extends Plugins, F extends Fields>(
   config: FormConfig<P, F>,
@@ -10,6 +11,27 @@ export const useFormState = <P extends Plugins, F extends Fields>(
 ) =>
   useAsyncReducer(initialState, {
     reset: () => initialState,
+    addField: (formState, fieldName: keyof F, initialValue: unknown) => {
+      if (!formState[fieldName].field.many) return formState;
+      return {
+        ...formState,
+        [fieldName]: {
+          ...formState[fieldName],
+          value: [...(formState[fieldName].value as unknown[]), initialValue],
+        },
+      };
+    },
+    removeField: (formState, fieldName: keyof F, fieldIndex: number) => {
+      if (!formState[fieldName].field.many) return formState;
+      const v = formState[fieldName].value as unknown[];
+      return {
+        ...formState,
+        [fieldName]: {
+          ...formState[fieldName],
+          value: v.slice(0, fieldIndex).concat(v.slice(fieldIndex + 1)),
+        },
+      };
+    },
     change: (formState, targetValue: unknown, fieldName: keyof F, fieldIndex?: number) => {
       const stateField = formState[fieldName];
       const { field, value, touched, error, state } = stateField;
@@ -46,17 +68,22 @@ export const useFormState = <P extends Plugins, F extends Fields>(
       };
 
       if (config.onChange) {
-        const onChangeResult = config.onChange(newState, targetValue, fieldName, fieldIndex);
+        const onChangeResult = config.onChange({
+          formState: newState,
+          targetValue,
+          fieldName,
+          fieldIndex,
+        });
         if (typeof onChangeResult !== 'undefined') newState = onChangeResult;
       }
 
       if (config.changeEffect) {
-        const changeEffectResult = config.changeEffect(
-          newState,
+        const changeEffectResult = config.changeEffect({
+          formState: newState,
           targetValue,
           fieldName,
           fieldIndex,
-        );
+        });
         if (Util.isPromise(changeEffectResult)) Promise.resolve(changeEffectResult);
       }
 
@@ -94,13 +121,21 @@ export const useFormState = <P extends Plugins, F extends Fields>(
       };
 
       if (config.onBlur) {
-        const onChangeResult = config.onBlur(formState, fieldName, fieldIndex);
+        const onChangeResult = config.onBlur({
+          formState: newState,
+          fieldName,
+          fieldIndex,
+        });
         if (typeof onChangeResult !== 'undefined') newState = onChangeResult;
       }
 
       if (config.blurEffect) {
-        const changeEffectResult = config.blurEffect(newState, fieldName, fieldIndex);
-        if (Util.isPromise(changeEffectResult)) Promise.resolve(changeEffectResult);
+        const blurEffectResult = config.blurEffect({
+          formState: newState,
+          fieldName,
+          fieldIndex,
+        });
+        if (Util.isPromise(blurEffectResult)) Promise.resolve(blurEffectResult);
       }
 
       return newState;
@@ -131,16 +166,28 @@ export const useFormState = <P extends Plugins, F extends Fields>(
         {} as FormState<F>,
       );
 
-      if (!canSubmit) return newState;
+      const formValues = Object.entries(formState).reduce<FormValues<F>>(
+        (prev, [fieldName, stateField]) => ({ ...prev, [fieldName]: stateField.value }),
+        {} as FormValues<F>,
+      );
 
-      if (config.onSubmit) {
-        const formValues = Object.entries(formState).reduce<FormValues<F>>(
-          (prev, [fieldName, stateField]) => ({ ...prev, [fieldName]: stateField.value }),
-          {} as FormValues<F>,
-        );
-        let onSubmitResult = config.onSubmit(newState, formValues);
+      if (canSubmit && config.onSubmit) {
+        let onSubmitResult = config.onSubmit({
+          formState: newState,
+          initialFormState: initialState,
+          formValues,
+        });
         if (Util.isPromise(onSubmitResult)) onSubmitResult = await onSubmitResult;
         if (typeof onSubmitResult !== 'undefined') newState = onSubmitResult;
+      }
+
+      if (config.submitEffect) {
+        const submitEffectResult = config.submitEffect({
+          formState: newState,
+          initialFormState: initialState,
+          formValues,
+        });
+        if (Util.isPromise(submitEffectResult)) Promise.resolve(submitEffectResult);
       }
 
       return newState;

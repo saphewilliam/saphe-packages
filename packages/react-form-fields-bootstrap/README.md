@@ -29,3 +29,5 @@ npm install @saphe/react-form-fields-bootstrap bootstrap
 ```
 
 <!-- END AUTO-GENERATED: Add custom documentation after this comment -->
+
+NOTE: This package is deprecated for now

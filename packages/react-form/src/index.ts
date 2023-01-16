@@ -1,4 +1,5 @@
-export type { Plugin } from './lib/plugin';
+export type { Plugin, FieldsBuilder } from './lib/plugin';
+export * from './lib/validation';
 export * from './lib/plugins';
 export * from './lib/types';
 

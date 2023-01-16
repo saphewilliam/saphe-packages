@@ -1,4 +1,4 @@
-import { useUrlParams, UseUrlParamsTypes } from '../src';
+import { useUrlParams, UseUrlParams } from '../src';
 import { renderHook } from '@testing-library/react';
 import { expectTypeOf } from 'expect-type';
 
@@ -57,7 +57,7 @@ describe('useUrlParams', () => {
   });
 
   it('returns a correct object with a single param config', () => {
-    let query: UseUrlParamsTypes.Query = { singleStringParam: 'Hello world' };
+    let query: UseUrlParams.Query = { singleStringParam: 'Hello world' };
     const { result, rerender } = renderHook(() => useUrlParams('singleStringParam', query));
     expect(result.current.singleStringParam).toBe('Hello world');
     query = {};
@@ -66,7 +66,7 @@ describe('useUrlParams', () => {
   });
 
   it('returns a correct object with a multiple, mixed param config', () => {
-    let query: UseUrlParamsTypes.Query = {
+    let query: UseUrlParams.Query = {
       mixed: 'Mixed',
       default: 'Default',
       defaultArr: ['Default1', 'Default2'],
@@ -137,7 +137,7 @@ describe('useUrlParams', () => {
   });
 
   it('throws one `console.warning` per incorrect type input', () => {
-    let query: UseUrlParamsTypes.Query = { number: 'hello' };
+    let query: UseUrlParams.Query = { number: 'hello' };
     const { result, rerender } = renderHook(() =>
       useUrlParams(
         [

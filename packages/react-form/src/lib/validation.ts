@@ -19,11 +19,12 @@ export const validateField = (field: Field, fieldState: FieldState, value: unkno
   // Required check
   if (
     validation.required &&
-    JSON.stringify(value) === JSON.stringify(field.plugin.initialValue ?? null)
+    // TODO Required type should look at plugin default, not just assume "null"
+    value === null
+    // JSON.stringify(value) === JSON.stringify(field.plugin.initialValue ?? null)
   )
     return validation.required;
 
-  // TODO
   // Plugin-specific validation options
   if (field.plugin.validate) {
     const pluginError = field.plugin.validate(value, validation);
@@ -49,11 +50,16 @@ export type NumberValueValidation = (
   | { gte: number; lt: number }
   | { gt: number; lte: number }
   | { gt: number; lt: number }
-) & { message: string };
+) & { getMessage: (n: number) => string };
 
 export interface StringValidation {
   length?: NumberValueValidation;
   match?: { pattern: RegExp; message: string };
+}
+
+export interface EmailValidation {
+  length?: NumberValueValidation;
+  isValidEmail?: string;
 }
 
 export interface NumberValidation {
@@ -64,12 +70,12 @@ export interface NumberValidation {
 export function validateNumberValue(n: number, v: NumberValueValidation): string {
   if (
     ((v as { exact: number }).exact !== undefined && n !== (v as { exact: number }).exact) ||
-    ((v as { lt: number }).lt !== undefined && n < (v as { lt: number }).lt) ||
-    ((v as { lte: number }).lte !== undefined && n <= (v as { lte: number }).lte) ||
-    ((v as { gt: number }).gt !== undefined && n > (v as { gt: number }).gt) ||
-    ((v as { gte: number }).gte !== undefined && n >= (v as { gte: number }).gte)
+    ((v as { lt: number }).lt !== undefined && n >= (v as { lt: number }).lt) ||
+    ((v as { lte: number }).lte !== undefined && n > (v as { lte: number }).lte) ||
+    ((v as { gt: number }).gt !== undefined && n <= (v as { gt: number }).gt) ||
+    ((v as { gte: number }).gte !== undefined && n < (v as { gte: number }).gte)
   )
-    return v.message;
+    return v.getMessage(n);
 
   return '';
 }
@@ -88,10 +94,21 @@ export function validateStringField(value: string | null, validation: StringVali
   return '';
 }
 
+export function validateEmailField(value: string | null, validation: EmailValidation) {
+  return validateStringField(value, {
+    ...validation,
+    match: {
+      message: validation.isValidEmail ?? '',
+      pattern:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    },
+  });
+}
+
 export function validateNumberField(value: number | null, validation: NumberValidation) {
   // Value check
   if (validation.value) {
-    if (value === null) return validation.value.message;
+    if (value === null) return '';
     const message = validateNumberValue(value, validation.value);
     if (message !== '') return message;
   }
@@ -102,24 +119,8 @@ export function validateNumberField(value: number | null, validation: NumberVali
   return '';
 }
 
-// export interface EmailValidation {
-//   length?: NumberValueValidation;
-//   isValidEmail?: string;
-// }
-
 // export interface FileValidation {
 //   size?: NumberValueValidation;
-// }
-
-// function validateEmailField(value: string | null, validation: EmailValidation): string {
-//   return validateStringField(value, {
-//     ...validation,
-//     match: {
-//       message: validation.isValidEmail ?? '',
-//       regex:
-//         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-//     },
-//   });
 // }
 
 // function validateColorField(value: string | null, validation: ColorValidation): string {

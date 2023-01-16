@@ -27,9 +27,10 @@ export const packages: Packages = {
     ],
     roadmap: [
       { text: '(in-place) field modifiers: transform / strip a string, round a number' },
-      { text: 'Type modifiers: return form field names as snake case' },
+      { text: 'FormValues type modifiers: return field names as snake case or as FormData object' },
       { text: 'Support state functions (e.g. `state: FieldState | (formState) => FieldState`)' },
       { text: 'More advanced form validation (e.g. require either one of two fields to be set)' },
+      { text: 'Some sort of dirty fields api' },
       { text: 'Some sort of i18n api' },
     ],
   },
