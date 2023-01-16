@@ -1,32 +1,46 @@
-import { Util } from '@saphe/react-use';
-import { Field, FieldType } from './field';
-import { getDefaultFieldValue } from './form';
-import { FieldValue } from './util';
+import { Field } from './field';
+import { FieldState, ValidationMode } from './types';
 
-export enum ValidationMode {
-  ON_CHANGE = 'ON_CHANGE',
-  ON_BLUR = 'ON_BLUR',
-  AFTER_BLUR = 'AFTER_BLUR',
-  ON_SUBMIT = 'ON_SUBMIT',
-}
-
-export type ValidationType =
-  | StringValidation
-  | NumberValidation
-  | BooleanValidation
-  | SelectValidation
-  | EmailValidation
-  | FileValidation
-  | ColorValidation
-  | DateValidation;
-
-interface ValidationBase<T extends string | boolean | number | File | Date> {
+/** Base Field validation type */
+export type FieldValidation<Value = unknown> = {
+  /** Optional (default: `config.validate.validationMode`), when in the form lifecycle the field is validated */
   mode?: ValidationMode;
-  required?: string;
-  validate?: (value: T) => string | Promise<string>;
-}
+  // TODO allow user to manually mark a field as not-required
+  required?: string /* | false */;
+  // TODO allow the user to supply an async validate function
+  /** Optional, custom validation function */
+  validate?: (value: Value | null) => string /* MaybePromise<string>*/;
+};
 
-type NumberValueValidation = (
+export const validateField = (field: Field, fieldState: FieldState, value: unknown): string => {
+  const validation = field.validation as FieldValidation | undefined;
+  if (!validation || fieldState !== FieldState.ENABLED) return '';
+
+  // Required check
+  if (
+    validation.required &&
+    // TODO Required type should look at plugin default, not just assume "null"
+    value === null
+    // JSON.stringify(value) === JSON.stringify(field.plugin.initialValue ?? null)
+  )
+    return validation.required;
+
+  // Plugin-specific validation options
+  if (field.plugin.validate) {
+    const pluginError = field.plugin.validate(value, validation);
+    if (pluginError !== '') return pluginError;
+  }
+
+  // Custom validate function
+  if (validation.validate) {
+    const validateResult = validation.validate(value);
+    if (validateResult !== '') return validateResult;
+  }
+
+  return '';
+};
+
+export type NumberValueValidation = (
   | { exact: number }
   | { gte: number }
   | { lte: number }
@@ -36,130 +50,37 @@ type NumberValueValidation = (
   | { gte: number; lt: number }
   | { gt: number; lte: number }
   | { gt: number; lt: number }
-) & { message: string };
+) & { getMessage: (n: number) => string };
 
-export interface StringValidation extends ValidationBase<string> {
+export interface StringValidation {
   length?: NumberValueValidation;
-  match?: { regex: RegExp; message: string };
+  match?: { pattern: RegExp; message: string };
 }
 
-export interface NumberValidation extends ValidationBase<number> {
-  value?: NumberValueValidation;
-  integer?: string;
-}
-
-export type BooleanValidation = ValidationBase<boolean>;
-
-export type SelectValidation = ValidationBase<string>;
-
-export interface EmailValidation extends ValidationBase<string> {
+export interface EmailValidation {
   length?: NumberValueValidation;
   isValidEmail?: string;
 }
 
-export interface FileValidation extends ValidationBase<File> {
-  size?: NumberValueValidation;
+export interface NumberValidation {
+  value?: NumberValueValidation;
+  integer?: string;
 }
 
-export type ColorValidation = ValidationBase<string>;
-
-export type DateValidation = ValidationBase<Date>;
-
-export function validateField<T extends FieldType>(
-  field: FieldType | undefined,
-  value: FieldValue<T> | undefined,
-): string {
-  if (field === undefined || value === undefined || !field.validation) return '';
-
-  // Required check
-  if (
-    field.validation.required &&
-    JSON.stringify(value) === JSON.stringify(getDefaultFieldValue(field))
-  )
-    return field.validation.required;
-
-  // Type-specific checks
-  let error = '';
-  switch (field.type) {
-    case Field.SELECT:
-    case Field.CHECK:
-      break;
-    case Field.DATE:
-    case Field.TIME:
-    case Field.DATE_TIME:
-    case Field.MONTH:
-      break;
-    case Field.TEXT:
-    case Field.TEXT_AREA:
-    case Field.PASSWORD:
-    case Field.NEW_PASSWORD:
-      error = validateStringField(value as string | null, field.validation as StringValidation);
-      break;
-    case Field.NUMBER:
-      error = validateNumberField(value as number | null, field.validation as NumberValidation);
-      break;
-    case Field.EMAIL:
-      error = validateEmailField(value as string | null, field.validation as EmailValidation);
-      break;
-    case Field.COLOR:
-      error = validateColorField(value as string | null, field.validation as ColorValidation);
-      break;
-    case Field.FILE:
-      {
-        if ('multiple' in field && field.multiple && Array.isArray(value)) {
-          for (let i = 0; i < value.length; i++) {
-            error = validateFileField(value[i] as File | null, field.validation as FileValidation);
-            if (error) break;
-          }
-        } else error = validateFileField(value as File | null, field.validation as FileValidation);
-      }
-      break;
-  }
-  if (error) return error;
-
-  // Finally, run the custom validate function
-  if (field.validation.validate) {
-    if ('multiple' in field && Array.isArray(value) && field.multiple) {
-      for (let i = 0; i < value.length; i++) {
-        // FIXME Why is value being evaluated to never?
-        const v = field.validation.validate(value[i] as never);
-        if (!Util.isPromise(v)) error = v;
-        else {
-          Promise.resolve(v)
-            .then((e) => (error = e))
-            .catch((e) => (error = e));
-        }
-        if (error) return error;
-      }
-    } else {
-      // FIXME Why is value being evaluated to never?
-      const v = field.validation.validate(value as never);
-      if (!Util.isPromise(v)) error = v;
-      else {
-        Promise.resolve(v)
-          .then((e) => (error = e))
-          .catch((e) => (error = e));
-      }
-    }
-  }
-
-  return error;
-}
-
-function validateNumberValue(n: number, v: NumberValueValidation): string {
+export function validateNumberValue(n: number, v: NumberValueValidation): string {
   if (
     ((v as { exact: number }).exact !== undefined && n !== (v as { exact: number }).exact) ||
-    ((v as { lt: number }).lt !== undefined && n < (v as { lt: number }).lt) ||
-    ((v as { lte: number }).lte !== undefined && n <= (v as { lte: number }).lte) ||
-    ((v as { gt: number }).gt !== undefined && n > (v as { gt: number }).gt) ||
-    ((v as { gte: number }).gte !== undefined && n >= (v as { gte: number }).gte)
+    ((v as { lt: number }).lt !== undefined && n >= (v as { lt: number }).lt) ||
+    ((v as { lte: number }).lte !== undefined && n > (v as { lte: number }).lte) ||
+    ((v as { gt: number }).gt !== undefined && n <= (v as { gt: number }).gt) ||
+    ((v as { gte: number }).gte !== undefined && n < (v as { gte: number }).gte)
   )
-    return v.message;
+    return v.getMessage(n);
 
   return '';
 }
 
-function validateStringField(value: string | null, validation: StringValidation): string {
+export function validateStringField(value: string | null, validation: StringValidation) {
   // Length check
   if (validation.length) {
     const message = validateNumberValue((value ?? '').length, validation.length);
@@ -167,16 +88,27 @@ function validateStringField(value: string | null, validation: StringValidation)
   }
 
   // Regex check
-  if (validation.match && !(value ?? '').match(validation.match.regex))
+  if (validation.match && !(value ?? '').match(validation.match.pattern))
     return validation.match.message;
 
   return '';
 }
 
-function validateNumberField(value: number | null, validation: NumberValidation): string {
+export function validateEmailField(value: string | null, validation: EmailValidation) {
+  return validateStringField(value, {
+    ...validation,
+    match: {
+      message: validation.isValidEmail ?? '',
+      pattern:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    },
+  });
+}
+
+export function validateNumberField(value: number | null, validation: NumberValidation) {
   // Value check
   if (validation.value) {
-    if (value === null) return validation.value.message;
+    if (value === null) return '';
     const message = validateNumberValue(value, validation.value);
     if (message !== '') return message;
   }
@@ -187,26 +119,19 @@ function validateNumberField(value: number | null, validation: NumberValidation)
   return '';
 }
 
-function validateEmailField(value: string | null, validation: EmailValidation): string {
-  return validateStringField(value, {
-    ...validation,
-    match: {
-      message: validation.isValidEmail ?? '',
-      regex:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    },
-  });
-}
+// export interface FileValidation {
+//   size?: NumberValueValidation;
+// }
 
-function validateColorField(value: string | null, validation: ColorValidation): string {
-  if (/^#([0-9a-f]{3}){1,2}$/i.test(value ?? '') && validation.required) return validation.required;
-  return '';
-}
+// function validateColorField(value: string | null, validation: ColorValidation): string {
+//   if (/^#([0-9a-f]{3}){1,2}$/i.test(value ?? '') && validation.required) return validation.required;
+//   return '';
+// }
 
-function validateFileField(value: File | null, validation: FileValidation): string {
-  if (validation.size) {
-    if (value === null) return validation.size.message;
-    return validateNumberValue(value.size, validation.size);
-  }
-  return '';
-}
+// function validateFileField(value: File | null, validation: FileValidation): string {
+//   if (validation.size) {
+//     if (value === null) return validation.size.message;
+//     return validateNumberValue(value.size, validation.size);
+//   }
+//   return '';
+// }

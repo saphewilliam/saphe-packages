@@ -25,6 +25,7 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 - [Roadmap](#roadmap)
 - [Getting Started](#getting-started)
+  * [Install](#install)
 - [Examples](#examples)
 - [Docs](#docs)
   * [Basic Usage](#basic-usage)
@@ -54,21 +55,13 @@ A lightweight, declarative, type-safe table engine for React apps.
 
 ## Getting Started
 
-Install using pnpm:
+### Install
 
 ```sh
-pnpm i @saphe/react-table
-```
-
-or install using yarn:
-
-```sh
+pnpm add @saphe/react-table
+# or
 yarn add @saphe/react-table
-```
-
-or install using npm:
-
-```sh
+# or
 npm install @saphe/react-table
 ```
 

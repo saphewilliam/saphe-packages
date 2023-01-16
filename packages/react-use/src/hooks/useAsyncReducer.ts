@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isPromise } from '../lib/util';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,6 +43,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
 ): State<S, A> {
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState<S>(initialState);
+  const [initialStateStore, setInitialStateStore] = useState(initialState);
   const [error, setError] = useState<Error<S> | null>(null);
 
   let { current: currentState } = useRef<S>(initialState);
@@ -50,6 +51,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
   let { current: queueIsProcessing } = useRef(false);
   let { current: currentIsLoading } = useRef(false);
 
+  /** Process an item from the queue */
   const popQueue = useCallback(() => {
     const currentAction = queue.shift();
     queueIsProcessing = currentAction !== undefined;
@@ -89,8 +91,8 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
         const returnVal = currentAction.func(currentState, ...currentAction.args);
         if (isPromise(returnVal)) {
           returnVal.then(evaluateQueue).catch(abortQueue);
-          if (!currentIsLoading) {
-            currentIsLoading = true;
+          currentIsLoading = true;
+          if (!isLoading) {
             setIsLoading(currentIsLoading);
           }
         } else evaluateQueue(returnVal);
@@ -100,6 +102,7 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
     }
   }, [queue]);
 
+  /** Push an action to the queue */
   const pushQueue = useCallback(
     (action: Action<S>) => {
       queue.push(action);
@@ -118,6 +121,16 @@ export function useAsyncReducer<S, A extends InputActions<S>>(
       ),
     [inputActions, pushQueue],
   );
+
+  /** If initial state is changed, reset the hook state */
+  useEffect(() => {
+    // TODO figure out a way to test this
+    /* istanbul ignore next */
+    if (JSON.stringify(initialState) !== JSON.stringify(initialStateStore)) {
+      setInitialStateStore(initialState);
+      pushQueue({ name: 'Set initial state', args: [], func: () => initialState });
+    }
+  }, [initialState]);
 
   return { actions, isLoading, state, error };
 }

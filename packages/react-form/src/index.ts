@@ -1,9 +1,7 @@
-export { Field } from './lib/field';
-export { ValidationMode } from './lib/validation';
-export { FieldState } from './lib/fieldState';
-export * as Props from './lib/props';
-export type { FieldPack } from './lib/util';
-export type { Config, State } from './lib/hook';
+export type { Plugin, FieldsBuilder } from './lib/plugin';
+export * from './lib/validation';
+export * from './lib/plugins';
+export * from './lib/types';
 
-import useForm from './hooks/useForm';
+import { useForm } from './hooks/useForm';
 export default useForm;

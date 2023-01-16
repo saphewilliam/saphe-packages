@@ -8,79 +8,512 @@
 [![Code coverage](https://img.shields.io/codecov/c/github/saphewilliam/saphe-packages?style=flat-square&flag=react-form&logo=codecov&token=62N8FTE2CV)](https://codecov.io/gh/saphewilliam/saphe-packages)
 [![Pull requests welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/saphewilliam/saphe-packages/blob/main/CONTRIBUTING.md)
 
-A lightweight, declarative, type-safe form engine for React apps.
+A headless, declarative, lightweight form engine for React apps with first-class TypeScript support.
+
+## Features
+
+- ✅ CommonJS and ES Modules support,
+- 👍 Easy, declarative form definition with strong typescript support,
+- 😎 Best HTML form practices are the default, with advanced form validation out-of-the-box,
+- ⚖️ Lightweight; [minified + gzipped](https://bundlephobia.com/package/@saphe/react-form) (esm, cjs, and types combined) and only 1 dependency in total,
+- 🎨 Headless; you decide the form style, the hook handles the complex internal logic,
+- 🔌 Completely and easily extendable using plugins, and many officially maintained plugins available.
 
 ## Table of Contents
 
 - [Roadmap](#roadmap)
 - [Getting Started](#getting-started)
+  * [Install](#install)
+  * [Basic Usage](#basic-usage)
 - [Docs](#docs)
-  * [Field Types](#field-types)
+  * [Type-safety](#type-safety)
+  * [Plugins](#plugins)
+    + [textPlugin](#textplugin)
+    + [textAreaPlugin](#textareaplugin)
+    + [numberPlugin](#numberplugin)
+    + [selectPlugin](#selectplugin)
+    + [radioPlugin](#radioplugin)
+    + [switchPlugin](#switchplugin)
+    + [checkPlugin](#checkplugin)
+    + [emailPlugin](#emailplugin)
+    + [sliderPlugin](#sliderplugin)
+    + [filePlugin](#fileplugin)
+    + [objectPlugin](#objectplugin)
+    + [unknownPlugin](#unknownplugin)
+    + [More to come...](#more-to-come)
+  * [Config](#config)
+  * [Defining Components](#defining-components)
   * [Validation Modes](#validation-modes)
+  * [Fieldsets](#fieldsets)
   * [Kitchen Sink](#kitchen-sink)
+  * [Acknowledgement](#acknowledgement)
 
 ## Roadmap
 
-- [ ] Support dynamically hiding and disabling fields
-- [ ] Support lists of values
-- [ ] Support form layouts (advanced form field container with layout grid)
-- [ ] Field modifiers (transform a string to uppercase or round a number (floor or ceil))
-- [ ] Support localization out of the box
-- [ ] Support defining custom field types
-- [ ] Create supported field packs:
-  - [x] Bootstrap 5
-  - [ ] TailwindCSS
-  - [ ] Material UI
-  - [ ] ChackraUI
+- [ ] (in-place) field modifiers: transform / strip a string, round a number
+- [ ] FormValues type modifiers: return field names as snake case or as FormData object
+- [ ] Support state functions (e.g. `state: FieldState | (formState) => FieldState`)
+- [ ] More advanced form validation (e.g. require either one of two fields to be set)
+- [ ] Some sort of dirty fields api
+- [ ] Some sort of i18n api
 
 ## Getting Started
 
-Install using pnpm:
+### Install
 
 ```sh
-pnpm i @saphe/react-form
-```
-
-or install using yarn:
-
-```sh
+pnpm add @saphe/react-form
+# or
 yarn add @saphe/react-form
-```
-
-or install using npm:
-
-```sh
+# or
 npm install @saphe/react-form
 ```
 
 <!-- END AUTO-GENERATED: Add custom documentation after this comment -->
 
+### Basic Usage
+
+```tsx
+import { Form, SubmitButton, TextField, NumberField, CheckField } from 'my-design-system';
+import useForm, { textPlugin, numberPlugin, checkPlugin } from '@saphe/react-form';
+
+const plugins = {
+  text: textPlugin,
+  number: numberPlugin,
+  check: checkPlugin,
+};
+
+export const CreateAccountForm = () => {
+  const { props } = useForm(plugins, {
+    fields: (t) => ({
+      name: t.text({
+        many: false,
+        placeholder: 'John Doe',
+        validation: {
+          required: 'Please enter your name',
+        },
+      }),
+      age: t.number({
+        validation: {
+          required: 'Please fill out your age',
+          integer: 'Age must be a whole number',
+          value: { gte: 18, message: 'You must be an adult to submit this form' },
+        },
+      }),
+      terms: t.check({
+        label: 'I agree to the terms and conditions',
+        description: 'We need you to check this for legal reasons',
+        initialValue: true,
+        validation: {
+          required: 'Please accept the terms and conditions',
+        },
+      }),
+    }),
+    onSubmit(formState, formValues) {
+      console.log('Submit!', formState, formValues);
+    },
+  });
+
+  return (
+    <Form {...props.form}>
+      <TextField {...props.name} />
+      <NumberField {...props.age} />
+      <CheckField {...props.terms} />
+      <SubmitButton {...props.submitButton} />
+    </Form>
+  );
+};
+```
+
 ## Docs
 
-### Field Types
+### Type-safety
 
-- TEXT
-- TEXT_AREA
-- SELECT
-- CHECK
-- NUMBER
-- FILE
-- EMAIL
-- PASSWORD
-- NEW_PASSWORD
-- COLOR
-- DATE
-- TIME
-- DATE_TIME
-- MONTH
-- More to come...
-  - IMAGE
-  - RADIO
-  - RANGE
-  - PHONE
-  - RATING
-  - CRSF
-  - NOTICE
+There are various ways in which the `useForm` hook guarantees type safety. It does this by mapping certain definition factors to certain output effects.
+
+The output effects that are affected by the definition factors are:
+
+- Form State: the 'state' object literal generated by the form (aka. `formState`) describes the current internal state of the form. It is completely type-safe, with each form field being represented by a key in the object, with as value a `FormStateField`.
+- Form Props: the `props` object literal generated by the form translates the form's internal state to its React components (as shown in the basic usage example). It always contains `form`, `submitButton`, and `resetButton` keys as special parts of the form. Besides that, all fields are represented by a key in the object, with as value `Props<T> | ManyProps<T>`.
+<!-- TODO how to define components by plugin -->
+- Form Values: the `formValues` object is an object provided to the `onSubmit` function wich contains all field names and their corresponding types: `T | null`, `T`, `(T | null)[]`, or `T[]`, depending on the input factors.
+- initialValue: the initial value provided to a field may be either `T | null` or `(T | null)[]` based on if the field is defined as many or not.
+
+The definition factors that affect the output effects are:
+
+- Fields: the global configuration's `fields` object is, together with the plugin object, at the root of the hook's type system. The names of each field, as well as which plugin is associated with it has great effect on the output effets.
+- Many: all field plugins accept a `many?: boolean` option. If unset or `false`, the hook assumes the collection of a single value. If set to `true`, the hook assumes the collection of a list of values. All value types associated with this field will then turn into lists of nullable items `(T | null)[]`.
+- Validation: all field plugins accept a `validation?: { required?: string }` option. If required is set to a string (the error message), the output value will be interpreted as always required and thus non-nullable.
+- Field State: if a field is not initially set to `FieldState.ENABLED`, it is assumed that a value might never be present, which is why the output values will be forced to `T | null`, even if `validation.required` is set to a string. It is thus strongly advised, if you know you will change the field state somewhere in the lifecycle of the hook, to set the initial state to something other than `FieldState.ENABLED` and to enable it again using the global `onInit` function.
+
+Feel free to experiment with the `useForm` hook using one of the provided examples or in your own project to experience the intellisense and type-safety the hook provides! If you have any feedback or new ideas for the hook, [the GitHub repository](https://github.com/saphewilliam/saphe-packages) is always open for issues and PRs!
+
+### Plugins
+
+The usage of the hook revolves around picking which plugins to apply to your current form use case. A plugin is a bit of code that defines a field's typing and behavior. For example, this is what the built-in `numberPlugin` looks like:
+
+```ts
+import type { Plugin } from '@saphe/react-form';
+
+export const numberPlugin: Plugin<
+  string,
+  number,
+  boolean,
+  NumberValidation,
+  TextInputOptions
+> = {
+  initialValue: null,
+  parse: (value) => {
+    const parsedValue = parseFloat(value);
+    return !isNaN(parsedValue) ? parsedValue : null;
+  },
+  serialize: (value) => value?.toString() ?? '',
+  validate: validateNumberField,
+};
+```
+
+The `Plugin` type is used to hook a plugin into the typing engine of the `useForm` hook. It defines (in order):
+
+- `string`: the raw value type of the field; the type that is passed to the component through props.
+- `number`: the internal value type of the field; the type that is passed back to the hook user.
+- `boolean`: whether or not the field can collect a list of values. `true` forces a list, `false` forces single value, and `boolean` allows the hook user to pick.
+- `NumberValidation`: any additional validation options the user may want to specify. These are merged with the base validation options: `mode`, `required`, and `validate`. In this case, `type NumberValidation = { value?: NumberValueValidation; integer?: string };`
+- `TextInputOptions`: any additional input options the user may want to specify. These are merged with the base input options: `label`, `description`, `many`, `validation`, `initialValue`, and `initialState`. In this case, `type TextInputOptions = { placeholder?: string };`.
+
+Furthermore, the plugin object literal defines the behavior of the field:
+
+- `initialValue`: defines the default initial value, used unless otherwise specified by the hook user.
+- `parse`: defines how a value should be parsed from raw value type to internal value type.
+- `serialize`: defines how a value should be serialized from internal value type to raw value type.
+- `validate`: defines how the supplied extra validation options should be used to validate a field given a value.
+
+Plugins are linked to the `useForm` hook with the use of a `plugins` object literal, after which the hook user may use the plugins to declare form fields using the plugin's types and behavior.
+
+```ts
+const plugins = {
+  text: textPlugin,
+  number: numberPlugin,
+  check: checkPlugin,
+};
+
+useForm(plugins, {
+  fields: (t) => ({
+    name: t.text({ /* options */ }),
+    age: t.number({ /* options */ }),
+    terms: t.check({ /* options */ }),
+  }),
+  // Other form config
+}
+```
+
+#### textPlugin
+
+<details>
+  <summary>Minimal usage example</summary>
+
+```ts
+useForm(
+  { text: textPlugin },
+  {
+    fields: (t) => ({
+      text: t.text({}),
+    }),
+  },
+);
+```
+
+</details>
+
+<details>
+  <summary>Kitchen sink usage example</summary>
+
+```ts
+useForm(
+  { text: textPlugin },
+  {
+    fields: (t) => ({
+      text: t.text({
+        many: true,
+        label: 'Name',
+        description: 'This is a text field',
+        initialValue: ['Name 1', null],
+        initialState: FieldState.LOADING,
+        placeholder: 'John Doe',
+        validation: {
+          mode: ValidationMode.ON_SUBMIT,
+          required: 'Please enter a name',
+          length: { lt: 10, message: 'Your name is too long!' },
+          match: {
+            pattern: /[A-Z][a-z]*\s[A-Z][a-z]*/gm,
+            message: 'Please enter your first and last name',
+          },
+          validate: (value) => (value !== 'Nicolas Cage' ? 'Your name is incorrect' : ''),
+        },
+      }),
+    }),
+  },
+);
+```
+
+</details>
+
+#### textAreaPlugin
+
+<details>
+  <summary>Minimal usage example</summary>
+
+```ts
+useForm(
+  { textArea: textAreaPlugin },
+  {
+    fields: (t) => ({
+      textArea: t.textArea({}),
+    }),
+  },
+);
+```
+
+</details>
+
+<details>
+  <summary>Kitchen sink usage example</summary>
+
+```ts
+useForm(
+  { textArea: textAreaPlugin },
+  {
+    fields: (t) => ({
+      textArea: t.textArea({
+        many: false,
+        label: 'Message',
+        description: 'We will try to answer within 365 business days!',
+        initialValue: null,
+        initialState: FieldState.ENABLED,
+        placeholder: 'Your message here...',
+        rows: 10,
+        validation: {
+          mode: ValidationMode.ON_CHANGE,
+          required: 'Please enter a message',
+          length: { lte: 255, message: 'Your message is too long!' },
+          match: {
+            pattern: /^Dear\s/gm,
+            message: 'Your message should start with "Dear"',
+          },
+          validate: (value) => (value !== 'Dear Nicolas Cage' ? 'Your message is incorrect' : ''),
+        },
+      }),
+    }),
+  },
+);
+```
+
+</details>
+
+#### numberPlugin
+
+<!-- TODO -->
+
+#### selectPlugin
+
+<!-- TODO -->
+
+#### radioPlugin
+
+<!-- TODO -->
+
+#### switchPlugin
+
+<!-- TODO -->
+
+#### checkPlugin
+
+<!-- TODO -->
+
+#### emailPlugin
+
+<!-- TODO -->
+
+#### sliderPlugin
+
+<!-- TODO -->
+
+#### filePlugin
+
+<!-- TODO -->
+
+#### objectPlugin
+
+<!-- TODO -->
+
+#### unknownPlugin
+
+<!-- TODO -->
+
+#### More to come...
+
+- color
+- date
+- time
+- datetime
+- month
+- image
+- phone
+- rating
+- csrf
+- recaptcha
+- Any ideas? Leave a feature request!
+
+### Config
+
+The form hook allows for global configuration using the following options:
+
+```ts
+export interface FormConfig<P extends Plugins, F extends Fields> {
+  /** Optional, declares the fields of the form */
+  fields?: (f: FieldsBuilder<P>) => F;
+  /** Optional, supply global configuration for form validation */
+  validation?: {
+    /** Optional (default: ValidationMode.AFTER_BLUR), the global validation mode */
+    mode?: ValidationMode;
+  };
+  /** Optional, configures the form's submit button */
+  submitButton?: {
+    /** Optional, the text displayed on the button */
+    label?: string;
+    /** Optional, the text displayed on the button while the form is performing the action */
+    isLoadingLabel?: string;
+  };
+  /** Optional, configures the form's reset button */
+  resetButton?: {
+    /** Optional, the text displayed on the button */
+    label?: string;
+    /** Optional, the text displayed on the button while the form is performing the action */
+    isLoadingLabel?: string;
+  };
+  /** Optional, synchronous function that fires on a form field change event */
+  onChange?: (opts: {
+    formState: FormState<F>;
+    targetValue: unknown;
+    fieldName: keyof F;
+    /** `fieldIndex` is only supplied when the changed field has `many: true` */
+    fieldIndex?: number;
+  }) => FormState<F> | void;
+  /** Optional, synchronous function that fires on a form field blur event */
+  onBlur?: (opts: {
+    formState: FormState<F>;
+    fieldName: keyof F;
+    /** `fieldIndex` is only supplied when the blurred field has `many: true` */
+    fieldIndex?: number;
+  }) => FormState<F> | void;
+  /** Optional, sync or async function that fires after a form field change event */
+  changeEffect?: (opts: {
+    formState: FormState<F>;
+    targetValue: unknown;
+    fieldName: keyof F;
+    /** `fieldIndex` is only supplied when the changed field has `many: true` */
+    fieldIndex?: number;
+  }) => MaybePromise<void>;
+  /** Optional, sync or async function that fires after a form field blur event */
+  blurEffect?: (opts: {
+    formState: FormState<F>;
+    fieldName: keyof F;
+    /** `fieldIndex` is only supplied when the blurred field has `many: true` */
+    fieldIndex?: number;
+  }) => MaybePromise<void>;
+  /** Optional, defines what should happen when the form state is initialized */
+  onInit?: (opts: { formState: FormState<F> }) => FormState<F> | void;
+  /** Optional, defines what should happen on a form reset event */
+  onReset?: (opts: { formState: FormState<F> }) => MaybePromise<FormState<F> | void>;
+  /** Optional, defines what should happen on a form submit event where no errors are present in the form */
+  onSubmit?: (opts: {
+    initialFormState: FormState<F>;
+    formState: FormState<F>;
+    formValues: FormValues<F>;
+  }) => MaybePromise<FormState<F> | void>;
+  /** Optional, defines what should happen on any form submit event, even if errors are present in the form */
+  submitEffect?: (opts: {
+    initialFormState: FormState<F>;
+    formState: FormState<F>;
+    formValues: FormValues<F>;
+  }) => MaybePromise<FormState<F> | void>;
+}
+```
+
+### Defining Components
+
+All built-in plugins expose prop types that may be used to define React components. Because a component that handles a list of values should behave differently to a component that handles single values, there are prop types for each of these scenarios.
+
+Here is a working example of a component that collects a single string value:
+
+```tsx
+import { FC } from "react";
+import { SingleTextProps } from "@hooks/useForm";
+
+export const SingleTextField: FC<SingleTextProps> = (props) => (
+  <div>
+    <label htmlFor={props.id}>{props.label}</label>
+    <input 
+      type="text"
+      id={props.id}
+      name={props.name}
+      value={props.value}
+      placeholder={props.placeholder}
+      disabled={props.isDisabled}
+      onChange={(e) => props.onChange(e.target.value)}
+      onBlur={props.onBlur}
+      aria-describedby={props.describedBy}
+      autoComplete="off"
+    />
+    {props.error && <p>{props.error}</p>}
+    {props.description && <p id={props.describedBy}>{props.description}</p>}
+  </div>
+)<Input {...props} type="text" />;
+```
+
+Here is a working example of a component that collects many string values:
+
+```tsx
+import { FC, Fragment } from "react";
+import { ManyTextProps } from "@hooks/useForm";
+
+export const ManyTextField: FC<ManyTextProps> = (props) => (
+  <div>
+    <label htmlFor={props.id}>{props.label}</label>
+    {props.fields.map((field) => (
+      <Fragment key={field.id}>
+        <input 
+          type="text"
+          id={field.id}
+          name={field.name}
+          value={field.value}
+          placeholder={props.placeholder}
+          disabled={props.isDisabled}
+          onChange={(e) => props.onChange(e.target.value)}
+          onBlur={field.onBlur}
+          aria-describedby={field.describedBy}
+          autoComplete="off"
+        />
+        {props.error && <p>{props.error}</p>}
+      </Fragment>
+    ))}
+    {props.description && <p id={props.describedBy}>{props.description}</p>}
+  </div>
+)
+```
+
+To obtain the prop types from a custom plugin, you may use the `SinglePropsFromPlugin`, `ManyPropsFromPlugin`, or `PropsFromPlugin` helpers:
+
+```ts
+import {
+  PropsFromPlugin, 
+  SinglePropsFromPlugin, 
+  ManyPropsFromPlugin
+} from '@saphe/react-form';
+
+export type TextProps = PropsFromPlugin<typeof textPlugin>;
+export type SingleTextProps = SinglePropsFromPlugin<typeof textPlugin>;
+export type ManyTextProps = ManyPropsFromPlugin<typeof textPlugin>;
+```
 
 ### Validation Modes
 
@@ -94,20 +527,43 @@ npm install @saphe/react-form
 You can assign a global validation mode by assigning it to the config object suppied to `useForm`. You can also assign field-specific validation modes by assigning them to the field config. The local validation modes take presidence over the global ones.
 
 ```ts
-const form = useForm({
-  // ...other form config
-  validationMode: ValidationModes.ON_BLUR,
-  fields: {
-    fieldExample: {
-      // ...other field config
-      validation: {
-        mode: ValidationModes.ON_CHANGE,
-      },
+import useForm, { textPlugin, ValidationMode } from '@saphe/react-form';
+
+useForm({ text: textPlugin }, {
+  validation: { mode: ValidationMode.ON_BLUR }
+  fields: (t) => ({
+    fieldExample: t.text({
+      validation: { mode: ValidationMode.ON_CHANGE },
     },
-  },
+  }),
+  // Other form config
 });
 ```
 
+### Fieldsets
+
+To allow for better code reusability and code splitting, `useForm` accepts fieldsets created with the `defineFields` helper function as follows:
+
+```ts
+import useForm, { textPlugin, defineFields } from '@saphe/react-form';
+
+const plugins = { text: textPlugin };
+const fieldSet = defineFields(plugins, (t) => ({
+  example: t.text({
+    /* options */
+  }),
+}));
+
+useForm(plugins, {
+  fields: (t) => ({
+    anotherField: t.text({}),
+    ...fieldSet(t),
+  }),
+  // Other form config
+});
+```
+
+<!-- TODO rewrite
 ### Kitchen Sink
 
 ```ts
@@ -185,3 +641,8 @@ const { form, submitButton, formState } = useForm({
   },
 });
 ```
+-->
+
+### Acknowledgement
+
+The fields API was heavily inspired by the amazing work [Michael Hayes](https://github.com/hayes) has done in his [Pothos](https://pothos-graphql.dev/) project

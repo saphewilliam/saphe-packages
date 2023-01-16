@@ -2,13 +2,14 @@
   "name": "@saphe/react-form",
   "license": "MIT",
   "version": "0.9.4",
-  "description": "A lightweight, declarative, type-safe form engine for React apps.",
+  "description": "A headless, declarative, lightweight form engine for React apps with first-class TypeScript support.",
   "keywords": [
     "typescript",
     "react",
     "hook",
     "form",
-    "validation"
+    "validation",
+    "headless"
   ],
   "author": {
     "email": "william@saphewebdesign.com",
@@ -32,21 +33,18 @@
     "dist/"
   ],
   "scripts": {
-    "dev": "jest -c ../../jest.config.js --testPathPattern react-form --watchAll",
+    "dev": "jest -c ../../jest.config.js --testPathPattern /packages/react-form/ --watchAll",
     "lint": "eslint --ext .ts,.tsx . --fix && tsc",
     "build": "vite build -c ../../vite.config.ts",
-    "test": "jest -c ../../jest.config.js --testPathPattern react-form --coverage --collectCoverageFrom packages/react-form/src/**/*.{ts,tsx} --coverageDirectory packages/react-form/.coverage",
+    "test": "jest -c ../../jest.config.js --testPathPattern /packages/react-form/ --coverage --collectCoverageFrom packages/react-form/src/**/*.{ts,tsx} --coverageDirectory packages/react-form/.coverage",
     "clean": "rimraf node_modules .turbo dist .coverage"
   },
   "dependencies": {
-    "@saphe/react-use": "workspace:*",
-    "react-google-recaptcha": "2.1.0"
+    "@saphe/react-use": "workspace:*"
   },
-  "devDependencies": {
-    "@types/react-google-recaptcha": "2.1.5"
-  },
+  "devDependencies": {},
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0"
   }
 }

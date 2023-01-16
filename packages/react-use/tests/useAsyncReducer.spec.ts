@@ -11,8 +11,8 @@ describe('useAsyncReducer', () => {
           // @ts-expect-error Missing return type
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           missingReturn: () => {},
-          // @ts-expect-error Incorrect return key
-          incorrectReturnKey: () => ({}),
+          // @ts-expect-error Missing return key
+          missingReturnKey: () => ({}),
           // @ts-expect-error Incorrect return key
           incorrectReturnKey: () => ({ hey: 'mom' }),
           // @ts-expect-error Incorrect return value

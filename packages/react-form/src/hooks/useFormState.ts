@@ -1,162 +1,195 @@
-import { useMemo } from 'react';
-import { useAsyncReducer, Util } from '@saphe/react-use';
-import { Config, ValidationMode } from '..';
-import { FieldType } from '../lib/field';
-import {
-  getInitialFormErrorsState,
-  getInitialFormTouchedState,
-  getInitialFormValuesState,
-} from '../lib/form';
-import { Fields, FieldValue, FormErrors, FormTouched, FormValues } from '../lib/util';
-import { validateField } from '../lib/validation';
+import { Util } from '@saphe/react-use';
+import { Fields } from '../lib/field';
+import { Plugins } from '../lib/plugin';
+import { FormConfig, FormState, FormValues, ValidationMode } from '../lib/types';
+import { FieldValidation, validateField } from '../lib/validation';
+import { useAsyncReducer } from '@saphe/react-use';
 
-export interface FormState<T extends Fields> {
-  fields: T;
-  touched: FormTouched<T>;
-  errors: FormErrors<T>;
-  values: FormValues<T>;
-}
-
-function handleBlur<T extends Fields>(
-  prevState: FormState<T>,
-  fieldName: string,
-  validationMode: ValidationMode,
-): FormState<T> {
-  const field = prevState.fields[fieldName];
-  if (!field) return prevState;
-
-  const fieldValidationMode = field.validation?.mode;
-  const targetValue = prevState.values[fieldName as keyof typeof prevState.values];
-  const error = validateField(field, targetValue);
-
-  const shouldValidate =
-    // Either the local or global validation mode is ON_BLUR
-    fieldValidationMode === ValidationMode.ON_BLUR ||
-    (fieldValidationMode === undefined && validationMode === ValidationMode.ON_BLUR) ||
-    // Or either the local or global validation mode is AFTER_BLUR
-    fieldValidationMode === ValidationMode.AFTER_BLUR ||
-    (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR);
-
-  return {
-    ...prevState,
-    errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
-    touched: { ...prevState.touched, [fieldName]: true },
-  };
-}
-
-function handleChange<T extends Fields>(
-  prevState: FormState<T>,
-  fieldName: string,
-  targetValue: FieldValue<FieldType>,
-  validationMode: ValidationMode,
-): FormState<T> {
-  const field = prevState.fields[fieldName];
-  if (!field) return prevState;
-
-  const values = {
-    ...prevState.values,
-    [fieldName]:
-      'multiple' in field && field.multiple && targetValue === null
-        ? []
-        : 'multiple' in field && field.multiple && !(targetValue && Array.isArray(targetValue))
-        ? [targetValue]
-        : targetValue,
-  };
-
-  const error = validateField(field, targetValue);
-  const fieldValidationMode = field.validation?.mode;
-  const shouldValidate =
-    // Either the local or global validation mode is ON_CHANGE
-    fieldValidationMode === ValidationMode.ON_CHANGE ||
-    (fieldValidationMode === undefined && validationMode === ValidationMode.ON_CHANGE) ||
-    // Or either the local or global validation mode is AFTER_BLUR and a field has been touched
-    ((fieldValidationMode === ValidationMode.AFTER_BLUR ||
-      (fieldValidationMode === undefined && validationMode === ValidationMode.AFTER_BLUR)) &&
-      prevState.touched[fieldName]);
-
-  return {
-    ...prevState,
-    values,
-    errors: { ...prevState.errors, [fieldName]: shouldValidate ? error : '' },
-  };
-}
-
-export default function useFormState<T extends Fields>(
-  config: Config<T>,
-  recaptchaToken: string | undefined,
-) {
-  const initialState: FormState<T> = useMemo(
-    () => ({
-      fields: config.fields,
-      touched: getInitialFormTouchedState(config.fields),
-      errors: getInitialFormErrorsState(config.fields),
-      values: getInitialFormValuesState(config.fields),
-    }),
-    [config.fields],
-  );
-
-  const {
-    recaptcha,
-    onChange,
-    onBlur,
-    onSubmit,
-    validationMode = ValidationMode.AFTER_BLUR,
-  } = config;
-
-  return useAsyncReducer(initialState, {
+export const useFormState = <P extends Plugins, F extends Fields>(
+  config: FormConfig<P, F>,
+  initialState: FormState<F>,
+) =>
+  useAsyncReducer(initialState, {
     reset: () => initialState,
-    blurSync: (prevState, fieldName: string) => handleBlur(prevState, fieldName, validationMode),
-    blur: async (prevState, fieldName: string) => {
-      if (onBlur) {
-        const onBlurResult = onBlur(prevState.values, fieldName);
-        if (Util.isPromise(onBlurResult)) await onBlurResult;
-      }
-      return prevState;
+    addField: (formState, fieldName: keyof F, initialValue: unknown) => {
+      if (!formState[fieldName].field.many) return formState;
+      return {
+        ...formState,
+        [fieldName]: {
+          ...formState[fieldName],
+          value: [...(formState[fieldName].value as unknown[]), initialValue],
+        },
+      };
     },
-    changeSync: (prevState, fieldName: string, targetValue: FieldValue<FieldType>) =>
-      handleChange(prevState, fieldName, targetValue, validationMode),
-    change: async (prevState, fieldName: string) => {
-      if (onChange) {
-        const onChangeResult = onChange(prevState.values, fieldName);
-        if (Util.isPromise(onChangeResult)) await onChangeResult;
-      }
-      return prevState;
+    removeField: (formState, fieldName: keyof F, fieldIndex: number) => {
+      if (!formState[fieldName].field.many) return formState;
+      const v = formState[fieldName].value as unknown[];
+      return {
+        ...formState,
+        [fieldName]: {
+          ...formState[fieldName],
+          value: v.slice(0, fieldIndex).concat(v.slice(fieldIndex + 1)),
+        },
+      };
     },
-    submit: async (prevState) => {
-      // Form validation
+    change: (formState, targetValue: unknown, fieldName: keyof F, fieldIndex?: number) => {
+      const stateField = formState[fieldName];
+      const { field, value, touched, error, state } = stateField;
+      const newValue = field.plugin.parse ? field.plugin.parse(targetValue) : targetValue;
+
+      const v =
+        (field.validation as FieldValidation | undefined)?.mode ??
+        config.validation?.mode ??
+        ValidationMode.AFTER_BLUR;
+      const shouldValidate =
+        v === ValidationMode.ON_CHANGE ||
+        (v === ValidationMode.AFTER_BLUR && fieldIndex !== undefined
+          ? (touched as never as boolean[])[fieldIndex]
+          : touched);
+
+      let newState: FormState<F> = {
+        ...formState,
+        [fieldName]: {
+          ...stateField,
+          ...(fieldIndex === undefined
+            ? {
+                value: newValue,
+                error: shouldValidate ? validateField(field, state, newValue) : error,
+              }
+            : {
+                value: Object.assign([], value, { [fieldIndex]: newValue }),
+                error: shouldValidate
+                  ? Object.assign([], error, {
+                      [fieldIndex]: validateField(field, state, newValue),
+                    })
+                  : error,
+              }),
+        },
+      };
+
+      if (config.onChange) {
+        const onChangeResult = config.onChange({
+          formState: newState,
+          targetValue,
+          fieldName,
+          fieldIndex,
+        });
+        if (typeof onChangeResult !== 'undefined') newState = onChangeResult;
+      }
+
+      if (config.changeEffect) {
+        const changeEffectResult = config.changeEffect({
+          formState: newState,
+          targetValue,
+          fieldName,
+          fieldIndex,
+        });
+        if (Util.isPromise(changeEffectResult)) Promise.resolve(changeEffectResult);
+      }
+
+      return newState;
+    },
+    blur: (formState, fieldName: keyof F, fieldIndex?: number) => {
+      const stateField = formState[fieldName];
+      const { field, value, touched, error, state } = stateField;
+      const newValue = fieldIndex === undefined ? value : (value as unknown[])[fieldIndex];
+
+      const v =
+        (field.validation as FieldValidation | undefined)?.mode ??
+        config.validation?.mode ??
+        ValidationMode.AFTER_BLUR;
+      const shouldValidate = v === ValidationMode.ON_BLUR || v === ValidationMode.AFTER_BLUR;
+
+      let newState: FormState<F> = {
+        ...formState,
+        [fieldName]: {
+          ...stateField,
+          ...(fieldIndex === undefined
+            ? {
+                touched: true,
+                error: shouldValidate ? validateField(field, state, newValue) : error,
+              }
+            : {
+                touched: Object.assign([], touched, { [fieldIndex]: true }),
+                error: shouldValidate
+                  ? Object.assign([], error, {
+                      [fieldIndex]: validateField(field, state, newValue),
+                    })
+                  : error,
+              }),
+        },
+      };
+
+      if (config.onBlur) {
+        const onChangeResult = config.onBlur({
+          formState: newState,
+          fieldName,
+          fieldIndex,
+        });
+        if (typeof onChangeResult !== 'undefined') newState = onChangeResult;
+      }
+
+      if (config.blurEffect) {
+        const blurEffectResult = config.blurEffect({
+          formState: newState,
+          fieldName,
+          fieldIndex,
+        });
+        if (Util.isPromise(blurEffectResult)) Promise.resolve(blurEffectResult);
+      }
+
+      return newState;
+    },
+    submit: async (formState) => {
       let canSubmit = true;
-      const newErrors: Record<string, string> = {};
-      const newTouched: Record<string, boolean> = {};
-      for (const [fieldName, field] of Object.entries(prevState.fields)) {
-        const error = validateField(
-          field,
-          prevState.values[fieldName as keyof typeof prevState.values],
-        );
-        if (error !== '') canSubmit = false;
-        newErrors[fieldName] = error;
-        newTouched[fieldName] = true;
+      let newState: FormState<F> = Object.entries(formState).reduce(
+        (prev, [fieldName, stateField]) => {
+          const { value, field, state } = stateField;
+          let touched: boolean | boolean[];
+          let error: string | string[];
+
+          if (Array.isArray(value)) {
+            touched = Array(value.length).fill(true);
+            error = value.map((v) => {
+              const e = validateField(field, state, v);
+              if (e !== '') canSubmit = false;
+              return e;
+            });
+          } else {
+            touched = true;
+            error = validateField(field, state, value);
+            if (error !== '') canSubmit = false;
+          }
+
+          return { ...prev, [fieldName]: { ...stateField, touched, error } };
+        },
+        {} as FormState<F>,
+      );
+
+      const formValues = Object.entries(formState).reduce<FormValues<F>>(
+        (prev, [fieldName, stateField]) => ({ ...prev, [fieldName]: stateField.value }),
+        {} as FormValues<F>,
+      );
+
+      if (canSubmit && config.onSubmit) {
+        let onSubmitResult = config.onSubmit({
+          formState: newState,
+          initialFormState: initialState,
+          formValues,
+        });
+        if (Util.isPromise(onSubmitResult)) onSubmitResult = await onSubmitResult;
+        if (typeof onSubmitResult !== 'undefined') newState = onSubmitResult;
       }
 
-      if (!canSubmit)
-        return {
-          ...prevState,
-          errors: newErrors as FormErrors<T>,
-          touched: newTouched as FormTouched<T>,
-        };
-
-      // Catch recaptcha errors
-      if (recaptcha && !recaptchaToken) {
-        recaptcha.onError();
-        return prevState;
+      if (config.submitEffect) {
+        const submitEffectResult = config.submitEffect({
+          formState: newState,
+          initialFormState: initialState,
+          formValues,
+        });
+        if (Util.isPromise(submitEffectResult)) Promise.resolve(submitEffectResult);
       }
 
-      // Fire custom submit function
-      if (onSubmit) {
-        const onSubmitResult = onSubmit(prevState.values, { recaptchaToken });
-        if (Util.isPromise(onSubmitResult)) await onSubmitResult;
-      }
-
-      return prevState;
+      return newState;
     },
   });
-}
