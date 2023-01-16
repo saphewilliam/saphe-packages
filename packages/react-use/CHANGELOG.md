@@ -1,5 +1,12 @@
 # @saphe/react-use
 
+## 0.2.1
+
+### Patch Changes
+
+- 1ba8b20: Reset state when initial state is changed
+- 4f1cff7: Remove tslib dependency
+
 ## 0.2.0
 
 ### Minor Changes
