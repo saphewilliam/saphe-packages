@@ -1,7 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import toc from 'markdown-toc';
-import { createWriteStream, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  createWriteStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  openSync,
+  unlinkSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import { packages } from '../workspace';
 
@@ -45,54 +53,61 @@ function makeTsConfig(n: string): void {
 function makePackageJson(n: string, p: Package): void {
   const path = join(process.cwd(), 'packages', n, 'package.json');
 
-  let oldPackageJson;
-  if (existsSync(path)) oldPackageJson = JSON.parse(readFileSync(path, { encoding: 'utf-8' }));
+  const writeJson = (oldPackageJson?: any) =>
+    writeFileSync(
+      path,
+      JSON.stringify(
+        {
+          name: `@saphe/${n}`,
+          license: 'MIT',
+          version: oldPackageJson?.version ?? '0.0.0',
+          description: p.description,
+          keywords: p.keywords,
+          author: {
+            email: 'william@saphewebdesign.com',
+            name: 'William Ford',
+          },
+          repository: {
+            type: 'git',
+            url: 'https://github.com/saphewilliam/saphe-packages.git',
+            directory: `packages/${n}`,
+          },
+          homepage: `https://github.com/saphewilliam/saphe-packages/tree/main/packages/${n}#readme`,
+          bugs: `https://github.com/saphewilliam/saphe-packages/labels/@saphe%2F${n}`,
+          sideEffects: false,
+          publishConfig: { access: 'public' },
+          main: 'dist/index.cjs.js',
+          module: 'dist/index.es.js',
+          types: 'dist/index.d.ts',
+          files: ['dist/'],
+          scripts: {
+            dev: `jest -c ../../jest.config.js --testPathPattern /packages/${n}/ --watchAll`,
+            lint: 'eslint --ext .ts,.tsx . --fix && tsc',
+            build: 'vite build -c ../../vite.config.ts',
+            test: `jest -c ../../jest.config.js --testPathPattern /packages/${n}/ --coverage --collectCoverageFrom packages/${n}/src/**/*.{ts,tsx} --coverageDirectory packages/${n}/.coverage`,
+            clean: 'rimraf node_modules .turbo dist .coverage',
+          },
+          dependencies: { ...oldPackageJson?.dependencies },
+          devDependencies: { ...oldPackageJson?.devDependencies },
+          peerDependencies: {
+            ...oldPackageJson?.peerDependencies,
+            'react': '>=18.2.0',
+            'react-dom': '>=18.2.0',
+          },
+        },
+        null,
+        2,
+      ) + '\n',
+    );
 
-  writeFileSync(
-    path,
-    JSON.stringify(
-      {
-        name: `@saphe/${n}`,
-        license: 'MIT',
-        version: oldPackageJson?.version ?? '0.0.0',
-        description: p.description,
-        keywords: p.keywords,
-        author: {
-          email: 'william@saphewebdesign.com',
-          name: 'William Ford',
-        },
-        repository: {
-          type: 'git',
-          url: 'https://github.com/saphewilliam/saphe-packages.git',
-          directory: `packages/${n}`,
-        },
-        homepage: `https://github.com/saphewilliam/saphe-packages/tree/main/packages/${n}#readme`,
-        bugs: `https://github.com/saphewilliam/saphe-packages/labels/@saphe%2F${n}`,
-        sideEffects: false,
-        publishConfig: { access: 'public' },
-        main: 'dist/index.cjs.js',
-        module: 'dist/index.es.js',
-        types: 'dist/index.d.ts',
-        files: ['dist/'],
-        scripts: {
-          dev: `jest -c ../../jest.config.js --testPathPattern /packages/${n}/ --watchAll`,
-          lint: 'eslint --ext .ts,.tsx . --fix && tsc',
-          build: 'vite build -c ../../vite.config.ts',
-          test: `jest -c ../../jest.config.js --testPathPattern /packages/${n}/ --coverage --collectCoverageFrom packages/${n}/src/**/*.{ts,tsx} --coverageDirectory packages/${n}/.coverage`,
-          clean: 'rimraf node_modules .turbo dist .coverage',
-        },
-        dependencies: { ...oldPackageJson?.dependencies },
-        devDependencies: { ...oldPackageJson?.devDependencies },
-        peerDependencies: {
-          ...oldPackageJson?.peerDependencies,
-          'react': '>=18.2.0',
-          'react-dom': '>=18.2.0',
-        },
-      },
-      null,
-      2,
-    ) + '\n',
-  );
+  try {
+    const fd = openSync(path, 'r+');
+    const oldPackageJson = JSON.parse(readFileSync(fd, { encoding: 'utf-8' }));
+    unlinkSync(path);
+    writeJson(oldPackageJson);
+  } catch {
+    writeJson();
+  }
 }
 
 function makeReadme(name: string, p: Package): void {

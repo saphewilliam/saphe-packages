@@ -51,4 +51,6 @@
 //   });
 // });
 
+export const hello = 'world';
+
 it.todo('TODO');
