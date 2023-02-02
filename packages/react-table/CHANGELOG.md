@@ -1,5 +1,11 @@
 # @saphe/react-table
 
+## 0.7.4
+
+### Patch Changes
+
+- 71aa6af: Fix sorting nullability bug
+
 ## 0.7.3
 
 ### Patch Changes
