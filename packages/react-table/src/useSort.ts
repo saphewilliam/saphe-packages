@@ -33,15 +33,21 @@ function sortWrapper<T extends ColumnTypes, U>(
   return (invert ? -1 : 1) * sort(aValue, bValue);
 }
 
-function sortNumbers(a: number, b: number): number {
+function sortNumbers(a: number | null, b: number | null): number {
+  if (a !== null && b === null) return -1;
+  if (b !== null && a === null) return 1;
+  if (a === null || b === null) return 0;
   return a - b;
 }
 
-function sortStrings(a: string, b: string): number {
+function sortStrings(a: string | null, b: string | null): number {
+  if (a !== null && b === null) return -1;
+  if (b !== null && a === null) return 1;
+  if (a === null || b === null) return 0;
   return a.localeCompare(b);
 }
 
-function sortBooleans(a: boolean, b: boolean): number {
+function sortBooleans(a: boolean | null, b: boolean | null): number {
   if (a && !b) return 1;
   if (b && !a) return -1;
   return 0;

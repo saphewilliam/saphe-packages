@@ -94,7 +94,11 @@ function makeRow<T extends ColumnTypes, U>(
   for (const [columnName, columnArgs] of Object.entries<Column<T>>(columns)) {
     if (!columnArgs.hidden) {
       const value = getRowValue(row, columnName);
-      const stringValue = columnArgs.stringify ? columnArgs.stringify(value, row) : String(value);
+      const stringValue = columnArgs.stringify
+        ? columnArgs.stringify(value, row)
+        : value === null
+        ? ''
+        : String(value);
       const matched = highlight(stringValue);
       const cell = callback(row, value, stringValue, matched, columnArgs, columnName);
       if (cell) cells.push(cell);
