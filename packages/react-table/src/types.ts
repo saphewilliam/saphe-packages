@@ -61,9 +61,9 @@ export interface Column<T extends ColumnTypes, U = Any> {
   /** Optional (default = `false`): user is not able to search this column */
   unsearchable?: boolean;
   /** Optional: overrides how the header cell of this column renders */
-  renderHead?: (props: RenderHeadProps) => ReactElement;
+  renderHead?: (props: RenderHeadProps) => ReactElement | null;
   /** Optional: overrides how the cells in this column render */
-  renderCell?: (props: RenderCellProps<T, U>) => ReactElement;
+  renderCell?: (props: RenderCellProps<T, U>) => ReactElement | null;
 }
 
 /** User input object for options configuration */
@@ -90,9 +90,9 @@ export interface Options<T extends ColumnTypes> {
   /** Optional: set default styling for the table elements */
   style?: {
     /** Optional: specifies how the header cells of the columns render by default */
-    renderHead?: (props: RenderHeadProps) => ReactElement;
+    renderHead?: (props: RenderHeadProps) => ReactElement | null;
     /** Optional: specifies how the cells in the columns render by default */
-    renderCell?: (props: RenderCellProps<T>) => ReactElement;
+    renderCell?: (props: RenderCellProps<T>) => ReactElement | null;
   };
 }
 
@@ -140,7 +140,7 @@ export interface SearchHelpers {
 
 /** Processed headers, used for displaying in the table */
 export interface Header extends RenderHeadProps {
-  render: () => ReactElement;
+  render: () => ReactElement | null;
 }
 
 /** Original headers, used for external data manipulation */
@@ -148,7 +148,7 @@ export type OriginalHeader = RenderHeadProps;
 
 /** Processed rows, used for displaying in the table */
 export interface Row<T extends ColumnTypes> {
-  cells: (RenderCellProps<T> & { render: () => ReactElement })[];
+  cells: (RenderCellProps<T> & { render: () => ReactElement | null })[];
 }
 
 /** Original rows, used for external data analysis and aggregation */

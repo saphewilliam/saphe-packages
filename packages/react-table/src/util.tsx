@@ -138,7 +138,7 @@ export function makeRows<T extends ColumnTypes>(
   const rows: Row<T>[] = [];
 
   for (const row of data) {
-    const cells = makeRow<T, RenderCellProps<T> & { render: () => ReactElement }>(
+    const cells = makeRow<T, RenderCellProps<T> & { render: () => ReactElement | null }>(
       (row, value, stringValue, matched, columnArgs, columnName) => {
         if (!visibility[columnName]) return null;
         else {
