@@ -1,7 +1,7 @@
 {
   "name": "@saphe/react-table",
   "license": "MIT",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "A lightweight, declarative, type-safe table engine for React apps.",
   "keywords": [
     "typescript",

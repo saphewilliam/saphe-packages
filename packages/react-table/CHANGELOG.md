@@ -1,5 +1,11 @@
 # @saphe/react-table
 
+## 0.7.5
+
+### Patch Changes
+
+- a1f2d2e: Accept null for element input
+
 ## 0.7.4
 
 ### Patch Changes
